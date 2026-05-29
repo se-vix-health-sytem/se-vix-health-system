@@ -1,0 +1,4 @@
+package com.nvivx.vixhealthsystem.controllers;
+
+public class TechnicianController {
+}
