@@ -1,0 +1,1198 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title th:text="${siteName} ?: 'VIX Health System'">VIX Health System</title>
+
+    <!-- Bootstrap 5 -->
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"/>
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"/>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous"/>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@300;400;500;600&display=swap"
+          rel="stylesheet"/>
+
+    <style>
+        /* ── Design Tokens ───────────────────────────────────────────── */
+        :root {
+            --vix-navy:      #0d2b4e;
+            --vix-blue:      #1558a8;
+            --vix-teal:      #0a9396;
+            --vix-teal-lt:   #94d2bd;
+            --vix-cream:     #f8f9fb;
+            --vix-white:     #ffffff;
+            --vix-text:      #1e2d40;
+            --vix-muted:     #64748b;
+            --vix-border:    #e2e8f0;
+            --vix-red:       #e63946;
+            --radius-lg:     1rem;
+            --radius-pill:   50px;
+            --shadow-sm:     0 2px 8px rgba(13,43,78,.08);
+            --shadow-md:     0 6px 24px rgba(13,43,78,.12);
+            --shadow-lg:     0 16px 48px rgba(13,43,78,.15);
+        }
+
+        /* ── Base ───────────────────────────────────────────────────── */
+        *  { box-sizing: border-box; }
+        body {
+            font-family: 'DM Sans', sans-serif;
+            color: var(--vix-text);
+            background: var(--vix-white);
+            overflow-x: hidden;
+        }
+        h1, h2, h3, .font-display { font-family: 'DM Serif Display', serif; }
+
+        /* ── Navbar ─────────────────────────────────────────────────── */
+        .vix-navbar {
+            background: var(--vix-white);
+            border-bottom: 1px solid var(--vix-border);
+            padding: .9rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: var(--shadow-sm);
+        }
+        .vix-brand {
+            display: flex;
+            align-items: center;
+            gap: .6rem;
+            text-decoration: none;
+        }
+        .vix-brand-icon {
+            width: 40px; height: 40px;
+            background: var(--vix-teal);
+            border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            color: #fff;
+            font-size: 1.25rem;
+        }
+        .vix-brand-text { line-height: 1.1; }
+        .vix-brand-text strong {
+            display: block;
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.1rem;
+            color: var(--vix-navy);
+        }
+        .vix-brand-text span {
+            font-size: .7rem;
+            color: var(--vix-teal);
+            text-transform: uppercase;
+            letter-spacing: .05em;
+        }
+        .vix-nav-link {
+            color: var(--vix-text) !important;
+            font-weight: 500;
+            font-size: .92rem;
+            padding: .4rem .75rem !important;
+            border-radius: 6px;
+            transition: background .2s, color .2s;
+        }
+        .vix-nav-link:hover,
+        .vix-nav-link.active { background: var(--vix-cream); color: var(--vix-teal) !important; }
+        .btn-login {
+            border: 1.5px solid var(--vix-blue);
+            color: var(--vix-blue);
+            border-radius: var(--radius-pill);
+            font-weight: 600;
+            font-size: .88rem;
+            padding: .4rem 1.1rem;
+            transition: all .2s;
+        }
+        .btn-login:hover { background: var(--vix-blue); color: #fff; }
+        .btn-book-nav {
+            background: var(--vix-teal);
+            color: #fff !important;
+            border-radius: var(--radius-pill);
+            font-weight: 600;
+            font-size: .88rem;
+            padding: .4rem 1.2rem;
+            transition: background .2s;
+        }
+        .btn-book-nav:hover { background: var(--vix-navy); }
+
+        /* Emergency bar */
+        .emergency-bar {
+            background: var(--vix-navy);
+            color: rgba(255,255,255,.85);
+            font-size: .8rem;
+            padding: .35rem 0;
+        }
+        .emergency-bar a { color: var(--vix-teal-lt); text-decoration: none; }
+        .emergency-bar a:hover { color: #fff; }
+
+        /* ── Hero ───────────────────────────────────────────────────── */
+        .vix-hero {
+            background: linear-gradient(135deg, var(--vix-navy) 0%, #1558a8 55%, #0a9396 100%);
+            color: #fff;
+            padding: 7rem 0 5rem;
+            position: relative;
+            overflow: hidden;
+        }
+        .vix-hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+        .hero-eyebrow {
+            display: inline-block;
+            background: rgba(255,255,255,.15);
+            border: 1px solid rgba(255,255,255,.3);
+            border-radius: var(--radius-pill);
+            font-size: .8rem;
+            font-weight: 600;
+            letter-spacing: .06em;
+            text-transform: uppercase;
+            padding: .3rem 1rem;
+            margin-bottom: 1.25rem;
+        }
+        .vix-hero h1 { font-size: clamp(2.2rem, 5vw, 3.6rem); line-height: 1.12; margin-bottom: 1.2rem; }
+        .vix-hero p.lead { font-size: 1.1rem; opacity: .88; max-width: 540px; line-height: 1.7; }
+        .btn-hero-primary {
+            background: var(--vix-teal);
+            color: #fff;
+            border-radius: var(--radius-pill);
+            font-weight: 600;
+            font-size: 1rem;
+            padding: .85rem 2rem;
+            border: none;
+            transition: background .2s, transform .2s;
+            text-decoration: none;
+        }
+        .btn-hero-primary:hover { background: #fff; color: var(--vix-teal); transform: translateY(-2px); }
+        .btn-hero-secondary {
+            background: transparent;
+            color: #fff;
+            border: 1.5px solid rgba(255,255,255,.55);
+            border-radius: var(--radius-pill);
+            font-weight: 500;
+            font-size: 1rem;
+            padding: .85rem 2rem;
+            transition: border-color .2s, background .2s;
+            text-decoration: none;
+        }
+        .btn-hero-secondary:hover { border-color: #fff; background: rgba(255,255,255,.1); color: #fff; }
+
+        /* Hero floating card */
+        .hero-card {
+            background: var(--vix-white);
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            box-shadow: var(--shadow-lg);
+            color: var(--vix-text);
+        }
+        .hero-card-title { font-size: .8rem; font-weight: 600; text-transform: uppercase; letter-spacing: .06em; color: var(--vix-muted); margin-bottom: 1rem; }
+        .quick-link-item {
+            display: flex;
+            align-items: center;
+            gap: .75rem;
+            padding: .75rem .85rem;
+            border-radius: 10px;
+            margin-bottom: .5rem;
+            background: var(--vix-cream);
+            text-decoration: none;
+            color: var(--vix-text);
+            font-weight: 500;
+            font-size: .9rem;
+            transition: background .2s, transform .2s;
+        }
+        .quick-link-item:hover { background: var(--vix-teal-lt); color: var(--vix-navy); transform: translateX(4px); }
+        .quick-link-icon { width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 1rem; flex-shrink: 0; }
+
+        /* ── Stats ──────────────────────────────────────────────────── */
+        .stats-strip {
+            background: var(--vix-navy);
+            color: #fff;
+            padding: 2.5rem 0;
+        }
+        .stat-item { text-align: center; }
+        .stat-number {
+            font-family: 'DM Serif Display', serif;
+            font-size: 2.4rem;
+            color: var(--vix-teal-lt);
+            line-height: 1;
+        }
+        .stat-label { font-size: .82rem; opacity: .72; margin-top: .3rem; }
+
+        /* ── Section Commons ────────────────────────────────────────── */
+        .section-eyebrow {
+            font-size: .75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: .1em;
+            color: var(--vix-teal);
+            margin-bottom: .5rem;
+        }
+        .section-title { font-size: clamp(1.7rem, 3vw, 2.4rem); color: var(--vix-navy); margin-bottom: .75rem; }
+        .section-lead { color: var(--vix-muted); max-width: 560px; line-height: 1.7; }
+        .section-divider { width: 48px; height: 3px; background: var(--vix-teal); border-radius: 2px; margin: 1rem 0 1.5rem; }
+
+        /* ── Departments ────────────────────────────────────────────── */
+        .dept-card {
+            background: var(--vix-white);
+            border: 1px solid var(--vix-border);
+            border-radius: var(--radius-lg);
+            padding: 1.75rem 1.5rem;
+            text-decoration: none;
+            color: var(--vix-text);
+            display: block;
+            height: 100%;
+            transition: border-color .25s, box-shadow .25s, transform .25s;
+            position: relative;
+            overflow: hidden;
+        }
+        .dept-card::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            height: 3px;
+            background: var(--vix-teal);
+            transform: scaleX(0);
+            transition: transform .25s;
+        }
+        .dept-card:hover { border-color: var(--vix-teal); box-shadow: var(--shadow-md); transform: translateY(-4px); color: var(--vix-text); }
+        .dept-card:hover::after { transform: scaleX(1); }
+        .dept-icon {
+            width: 56px; height: 56px;
+            background: var(--vix-cream);
+            border-radius: 14px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.5rem;
+            color: var(--vix-teal);
+            margin-bottom: 1rem;
+            transition: background .25s, color .25s;
+        }
+        .dept-card:hover .dept-icon { background: var(--vix-teal); color: #fff; }
+        .dept-name { font-weight: 600; font-size: 1rem; margin-bottom: .4rem; }
+        .dept-desc { font-size: .85rem; color: var(--vix-muted); line-height: 1.6; }
+        .dept-arrow { position: absolute; top: 1.5rem; right: 1.5rem; color: var(--vix-border); font-size: 1.1rem; transition: color .25s; }
+        .dept-card:hover .dept-arrow { color: var(--vix-teal); }
+
+        /* ── Book Appointment ───────────────────────────────────────── */
+        .book-section {
+            background: linear-gradient(135deg, var(--vix-teal) 0%, var(--vix-blue) 100%);
+            color: #fff;
+            padding: 5rem 0;
+        }
+        .book-form-card {
+            background: var(--vix-white);
+            border-radius: var(--radius-lg);
+            padding: 2.5rem;
+            box-shadow: var(--shadow-lg);
+        }
+        .form-label { font-weight: 600; font-size: .85rem; color: var(--vix-navy); }
+        .form-control, .form-select {
+            border: 1.5px solid var(--vix-border);
+            border-radius: 10px;
+            font-size: .92rem;
+            padding: .6rem .9rem;
+        }
+        .form-control:focus, .form-select:focus { border-color: var(--vix-teal); box-shadow: 0 0 0 3px rgba(10,147,150,.12); }
+        .btn-book-primary {
+            background: var(--vix-teal);
+            color: #fff;
+            border: none;
+            border-radius: var(--radius-pill);
+            font-weight: 600;
+            font-size: .95rem;
+            padding: .75rem 2rem;
+            width: 100%;
+            transition: background .2s;
+            text-decoration: none;
+            display: block;
+            text-align: center;
+        }
+        .btn-book-primary:hover { background: var(--vix-navy); color: #fff; }
+
+        /* ── Doctors ────────────────────────────────────────────────── */
+        .doctor-card {
+            background: var(--vix-white);
+            border: 1px solid var(--vix-border);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            transition: box-shadow .25s, transform .25s;
+        }
+        .doctor-card:hover { box-shadow: var(--shadow-md); transform: translateY(-4px); }
+        .doctor-avatar {
+            height: 220px;
+            background: var(--vix-cream);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 4rem;
+            color: var(--vix-teal);
+        }
+        .doctor-info { padding: 1.25rem 1.5rem; }
+        .doctor-name { font-weight: 700; font-size: 1rem; margin-bottom: .2rem; }
+        .doctor-spec { font-size: .83rem; color: var(--vix-teal); font-weight: 600; margin-bottom: .6rem; }
+        .doctor-dept { font-size: .8rem; color: var(--vix-muted); }
+        .btn-doc-profile {
+            display: block;
+            text-align: center;
+            border: 1.5px solid var(--vix-border);
+            border-radius: var(--radius-pill);
+            font-size: .82rem;
+            font-weight: 600;
+            color: var(--vix-blue);
+            padding: .5rem;
+            margin: 1rem 1.5rem 1.5rem;
+            text-decoration: none;
+            transition: all .2s;
+        }
+        .btn-doc-profile:hover { background: var(--vix-blue); color: #fff; border-color: var(--vix-blue); }
+
+        /* ── Questionnaire Banner ───────────────────────────────────── */
+        .quiz-banner {
+            background: var(--vix-cream);
+            border: 1px solid var(--vix-border);
+            border-radius: var(--radius-lg);
+            padding: 2rem 2.5rem;
+        }
+        .quiz-banner h3 { font-size: 1.4rem; color: var(--vix-navy); margin-bottom: .5rem; }
+
+        /* ── Map Section ────────────────────────────────────────────── */
+        .map-section { background: var(--vix-cream); padding: 5rem 0; }
+        .map-placeholder {
+            background: var(--vix-navy);
+            border-radius: var(--radius-lg);
+            height: 380px;
+            display: flex; align-items: center; justify-content: center;
+            flex-direction: column;
+            color: #fff;
+            gap: 1rem;
+            position: relative;
+            overflow: hidden;
+        }
+        .map-placeholder::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: repeating-linear-gradient(
+                    0deg, transparent, transparent 39px,
+                    rgba(255,255,255,.04) 40px
+            ),
+            repeating-linear-gradient(
+                    90deg, transparent, transparent 39px,
+                    rgba(255,255,255,.04) 40px
+            );
+        }
+        .map-placeholder i { font-size: 3.5rem; opacity: .6; }
+        .map-placeholder p { opacity: .7; font-size: .95rem; }
+        .location-card {
+            background: var(--vix-white);
+            border: 1px solid var(--vix-border);
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            transition: box-shadow .2s;
+        }
+        .location-card:hover { box-shadow: var(--shadow-sm); }
+        .location-type-badge {
+            display: inline-block;
+            font-size: .7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: .06em;
+            padding: .25rem .65rem;
+            border-radius: var(--radius-pill);
+            margin-bottom: .6rem;
+        }
+        .badge-hospital { background: rgba(21,88,168,.1); color: var(--vix-blue); }
+        .badge-center { background: rgba(10,147,150,.1); color: var(--vix-teal); }
+
+        /* ── Contact ────────────────────────────────────────────────── */
+        .contact-section { background: var(--vix-white); padding: 5rem 0; }
+        .contact-card {
+            text-align: center;
+            padding: 2rem 1.5rem;
+            border: 1px solid var(--vix-border);
+            border-radius: var(--radius-lg);
+            height: 100%;
+            transition: box-shadow .2s;
+        }
+        .contact-card:hover { box-shadow: var(--shadow-sm); }
+        .contact-card-icon {
+            width: 60px; height: 60px;
+            background: var(--vix-cream);
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.5rem;
+            color: var(--vix-teal);
+            margin: 0 auto 1rem;
+        }
+        .contact-card h6 { font-weight: 700; color: var(--vix-navy); margin-bottom: .4rem; }
+        .contact-card p { font-size: .88rem; color: var(--vix-muted); margin: 0; }
+        .contact-card a { color: var(--vix-teal); text-decoration: none; font-weight: 500; }
+
+        /* ── Footer ─────────────────────────────────────────────────── */
+        .vix-footer {
+            background: var(--vix-navy);
+            color: rgba(255,255,255,.75);
+            padding: 4rem 0 2rem;
+        }
+        .footer-brand strong { color: #fff; font-family: 'DM Serif Display', serif; font-size: 1.2rem; }
+        .footer-desc { font-size: .85rem; line-height: 1.7; margin-top: .5rem; max-width: 280px; }
+        .footer-heading { color: #fff; font-weight: 700; font-size: .85rem; letter-spacing: .05em; text-transform: uppercase; margin-bottom: 1.1rem; }
+        .footer-link { display: block; color: rgba(255,255,255,.65); font-size: .85rem; text-decoration: none; margin-bottom: .45rem; transition: color .2s; }
+        .footer-link:hover { color: var(--vix-teal-lt); }
+        .footer-divider { border-color: rgba(255,255,255,.12); margin: 2.5rem 0 1.5rem; }
+        .footer-bottom { font-size: .8rem; }
+        .footer-badge {
+            display: inline-flex; align-items: center; gap: .5rem;
+            background: rgba(10,147,150,.2);
+            border: 1px solid rgba(10,147,150,.35);
+            border-radius: var(--radius-pill);
+            font-size: .75rem;
+            color: var(--vix-teal-lt);
+            padding: .3rem .85rem;
+        }
+
+        /* ── Auth Alert ─────────────────────────────────────────────── */
+        .auth-required-note {
+            font-size: .78rem;
+            color: var(--vix-muted);
+            text-align: center;
+            margin-top: .75rem;
+        }
+        .auth-required-note a { color: var(--vix-teal); }
+    </style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════════
+     EMERGENCY TOP BAR
+     ══════════════════════════════════════════════════════════ -->
+<div class="emergency-bar">
+    <div class="container d-flex justify-content-between align-items-center flex-wrap gap-2">
+        <span><i class="bi bi-telephone-fill me-1"></i> Emergency: <a href="tel:+390461000001">+39 0461 000 001</a></span>
+        <span class="d-flex gap-3">
+            <span><i class="bi bi-clock me-1"></i> Mon–Fri: 08:00–20:00 &nbsp;|&nbsp; Sat: 08:00–14:00</span>
+            <a th:href="@{/staff/login}"><i class="bi bi-person-badge me-1"></i> Staff Portal</a>
+        </span>
+    </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     NAVBAR
+     ══════════════════════════════════════════════════════════ -->
+<nav class="vix-navbar">
+    <div class="container d-flex align-items-center gap-3">
+        <!-- Brand -->
+        <a class="vix-brand me-auto" th:href="@{/}">
+            <div class="vix-brand-icon"><i class="bi bi-heart-pulse-fill"></i></div>
+            <div class="vix-brand-text">
+                <strong>VIX Health System</strong>
+                <span>Hospital Network · Trento</span>
+            </div>
+        </a>
+
+        <!-- Nav links (desktop) -->
+        <ul class="nav d-none d-lg-flex align-items-center gap-1">
+            <li class="nav-item">
+                <a class="nav-link vix-nav-link active" th:href="@{/}">Home</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link vix-nav-link" th:href="@{/departments}">Departments</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link vix-nav-link" th:href="@{/doctors}">Doctors</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link vix-nav-link" th:href="@{/about}">About Us</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link vix-nav-link" th:href="@{/contact}">Contact</a>
+            </li>
+        </ul>
+
+        <!-- Auth controls -->
+        <div class="d-none d-lg-flex align-items-center gap-2 ms-3">
+            <!-- Shown when NOT authenticated -->
+            <div th:if="${!#authorization.expression('isAuthenticated()')}"
+                 class="d-flex gap-2">
+                <a th:href="@{/login}" class="btn btn-login">
+                    <i class="bi bi-person me-1"></i> Patient Login
+                </a>
+                <a th:href="@{/appointments/book}" class="btn-book-nav">
+                    <i class="bi bi-calendar-plus me-1"></i> Book Appointment
+                </a>
+            </div>
+            <!-- Shown when authenticated -->
+            <div th:if="${#authorization.expression('isAuthenticated()')}"
+                 class="d-flex gap-2 align-items-center">
+                <a th:href="@{/patient/appointments}" class="btn-book-nav">
+                    <i class="bi bi-calendar-check me-1"></i> My Appointments
+                </a>
+                <a th:href="@{/logout}" class="btn btn-login">Logout</a>
+            </div>
+        </div>
+
+        <!-- Mobile toggler -->
+        <button class="navbar-toggler d-lg-none border-0 p-1" type="button"
+                data-bs-toggle="offcanvas" data-bs-target="#mobileMenu">
+            <i class="bi bi-list fs-4"></i>
+        </button>
+    </div>
+</nav>
+
+<!-- Mobile offcanvas -->
+<div class="offcanvas offcanvas-end d-lg-none" tabindex="-1" id="mobileMenu">
+    <div class="offcanvas-header border-bottom">
+        <span class="fw-bold" style="font-family:'DM Serif Display',serif; color:var(--vix-navy)">VIX Health System</span>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+    </div>
+    <div class="offcanvas-body">
+        <ul class="nav flex-column gap-1">
+            <li><a class="nav-link vix-nav-link" th:href="@{/}">Home</a></li>
+            <li><a class="nav-link vix-nav-link" th:href="@{/departments}">Departments</a></li>
+            <li><a class="nav-link vix-nav-link" th:href="@{/doctors}">Doctors</a></li>
+            <li><a class="nav-link vix-nav-link" th:href="@{/about}">About Us</a></li>
+            <li><a class="nav-link vix-nav-link" th:href="@{/contact}">Contact</a></li>
+        </ul>
+        <hr/>
+        <a th:href="@{/login}" class="btn btn-login w-100 mb-2">Patient Login</a>
+        <a th:href="@{/appointments/book}" class="btn-book-nav d-block text-center w-100">Book Appointment</a>
+    </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════════
+     HERO
+     ══════════════════════════════════════════════════════════ -->
+<section class="vix-hero">
+    <div class="container">
+        <div class="row align-items-center g-5">
+            <!-- Text column -->
+            <div class="col-lg-6">
+                <div class="hero-eyebrow">
+                    <i class="bi bi-shield-check me-1"></i>
+                    GDPR Compliant · Private Hospital Network
+                </div>
+                <h1>Your Health,<br/>Our Priority</h1>
+                <p class="lead">
+                    VIX Health System brings together one full-service hospital and two day-healthcare
+                    centres in Trento — offering seamless online booking, secure medical records,
+                    and real-time care coordination.
+                </p>
+                <div class="d-flex flex-wrap gap-3 mt-4">
+                    <a th:href="@{/appointments/book}" class="btn-hero-primary">
+                        <i class="bi bi-calendar-plus me-2"></i>Book an Appointment
+                    </a>
+                    <a th:href="@{/departments}" class="btn-hero-secondary">
+                        <i class="bi bi-grid-3x3-gap me-2"></i>Our Departments
+                    </a>
+                </div>
+            </div>
+
+            <!-- Quick-access card -->
+            <div class="col-lg-5 offset-lg-1">
+                <div class="hero-card">
+                    <div class="hero-card-title">Quick Access</div>
+
+                    <a th:href="@{/appointments/book}" class="quick-link-item">
+                        <div class="quick-link-icon" style="background:rgba(10,147,150,.12)">
+                            <i class="bi bi-calendar-plus" style="color:var(--vix-teal)"></i>
+                        </div>
+                        Book an Appointment
+                    </a>
+
+                    <a th:href="@{/patient/records}" class="quick-link-item">
+                        <div class="quick-link-icon" style="background:rgba(21,88,168,.12)">
+                            <i class="bi bi-file-medical" style="color:var(--vix-blue)"></i>
+                        </div>
+                        My Medical Records
+                    </a>
+
+                    <a th:href="@{/patient/appointments}" class="quick-link-item">
+                        <div class="quick-link-icon" style="background:rgba(10,147,150,.12)">
+                            <i class="bi bi-calendar-check" style="color:var(--vix-teal)"></i>
+                        </div>
+                        My Appointments
+                    </a>
+
+                    <a th:href="@{/questionnaire}" class="quick-link-item">
+                        <div class="quick-link-icon" style="background:rgba(230,57,70,.10)">
+                            <i class="bi bi-question-circle" style="color:var(--vix-red)"></i>
+                        </div>
+                        Find the Right Specialist
+                    </a>
+
+                    <a th:href="@{/hospitals}" class="quick-link-item">
+                        <div class="quick-link-icon" style="background:rgba(13,43,78,.08)">
+                            <i class="bi bi-geo-alt" style="color:var(--vix-navy)"></i>
+                        </div>
+                        Find Nearby Structures
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════════
+     STATS STRIP
+     ══════════════════════════════════════════════════════════ -->
+<section class="stats-strip">
+    <div class="container">
+        <div class="row text-center g-4">
+            <div class="col-6 col-md-3">
+                <div class="stat-item">
+                    <div class="stat-number">3</div>
+                    <div class="stat-label">Hospital Structures</div>
+                </div>
+            </div>
+            <div class="col-6 col-md-3">
+                <div class="stat-item">
+                    <div class="stat-number" th:text="${stats?.departments ?: '12'}">12</div>
+                    <div class="stat-label">Medical Departments</div>
+                </div>
+            </div>
+            <div class="col-6 col-md-3">
+                <div class="stat-item">
+                    <div class="stat-number" th:text="${stats?.doctors ?: '60+'}">60+</div>
+                    <div class="stat-label">Specialist Doctors</div>
+                </div>
+            </div>
+            <div class="col-6 col-md-3">
+                <div class="stat-item">
+                    <div class="stat-number">24/7</div>
+                    <div class="stat-label">Online Access</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════════
+     DEPARTMENTS SECTION  (UC8 – Browse Hospital Information)
+     ══════════════════════════════════════════════════════════ -->
+<section class="py-5 bg-white" id="departments">
+    <div class="container py-3">
+        <div class="row mb-5 align-items-end">
+            <div class="col-lg-7">
+                <div class="section-eyebrow">Our Specialties</div>
+                <h2 class="section-title">Medical Departments</h2>
+                <div class="section-divider"></div>
+                <p class="section-lead">
+                    Explore our full range of specialties. Each department provides targeted care,
+                    experienced doctors, and cutting-edge diagnostics.
+                </p>
+            </div>
+            <div class="col-lg-5 text-lg-end">
+                <a th:href="@{/departments}" class="btn btn-outline-secondary rounded-pill">
+                    View All Departments <i class="bi bi-arrow-right ms-1"></i>
+                </a>
+            </div>
+        </div>
+
+        <!-- Dynamic from model (Thymeleaf loop) -->
+        <div class="row g-4" th:if="${departments != null and !departments.isEmpty()}">
+            <div class="col-md-6 col-lg-4 col-xl-3"
+                 th:each="dept : ${departments}">
+                <a th:href="@{/departments/{id}(id=${dept.id})}" class="dept-card h-100">
+                    <i class="bi bi-arrow-right dept-arrow"></i>
+                    <div class="dept-icon">
+                        <i class="bi" th:classappend="${dept.icon ?: 'bi-hospital'}"></i>
+                    </div>
+                    <div class="dept-name" th:text="${dept.name}">Department Name</div>
+                    <p class="dept-desc" th:text="${dept.shortDescription}">
+                        Brief description of this department's medical focus.
+                    </p>
+                </a>
+            </div>
+        </div>
+
+        <!-- Static fallback / placeholder (shows when no data in model) -->
+        <div class="row g-4" th:if="${departments == null or departments.isEmpty()}">
+            <div class="col-md-6 col-lg-4 col-xl-3">
+                <a th:href="@{/departments/cardiology}" class="dept-card h-100">
+                    <i class="bi bi-arrow-right dept-arrow"></i>
+                    <div class="dept-icon"><i class="bi bi-heart-pulse"></i></div>
+                    <div class="dept-name">Cardiology</div>
+                    <p class="dept-desc">Diagnosis and treatment of heart and cardiovascular diseases.</p>
+                </a>
+            </div>
+            <div class="col-md-6 col-lg-4 col-xl-3">
+                <a th:href="@{/departments/orthopaedics}" class="dept-card h-100">
+                    <i class="bi bi-arrow-right dept-arrow"></i>
+                    <div class="dept-icon"><i class="bi bi-person-walking"></i></div>
+                    <div class="dept-name">Orthopaedics</div>
+                    <p class="dept-desc">Surgical and non-surgical treatment of musculoskeletal disorders.</p>
+                </a>
+            </div>
+            <div class="col-md-6 col-lg-4 col-xl-3">
+                <a th:href="@{/departments/neurology}" class="dept-card h-100">
+                    <i class="bi bi-arrow-right dept-arrow"></i>
+                    <div class="dept-icon"><i class="bi bi-activity"></i></div>
+                    <div class="dept-name">Neurology</div>
+                    <p class="dept-desc">Specialist care for disorders of the brain, spine and nervous system.</p>
+                </a>
+            </div>
+            <div class="col-md-6 col-lg-4 col-xl-3">
+                <a th:href="@{/departments/oncology}" class="dept-card h-100">
+                    <i class="bi bi-arrow-right dept-arrow"></i>
+                    <div class="dept-icon"><i class="bi bi-capsule"></i></div>
+                    <div class="dept-name">Oncology</div>
+                    <p class="dept-desc">Comprehensive cancer prevention, diagnosis and treatment pathways.</p>
+                </a>
+            </div>
+            <div class="col-md-6 col-lg-4 col-xl-3">
+                <a th:href="@{/departments/radiology}" class="dept-card h-100">
+                    <i class="bi bi-arrow-right dept-arrow"></i>
+                    <div class="dept-icon"><i class="bi bi-image"></i></div>
+                    <div class="dept-name">Radiology</div>
+                    <p class="dept-desc">Advanced imaging — MRI, CT, ultrasound, and X-ray diagnostics.</p>
+                </a>
+            </div>
+            <div class="col-md-6 col-lg-4 col-xl-3">
+                <a th:href="@{/departments/gynaecology}" class="dept-card h-100">
+                    <i class="bi bi-arrow-right dept-arrow"></i>
+                    <div class="dept-icon"><i class="bi bi-gender-female"></i></div>
+                    <div class="dept-name">Gynaecology</div>
+                    <p class="dept-desc">Women's health including prenatal, obstetric and gynaecological care.</p>
+                </a>
+            </div>
+            <div class="col-md-6 col-lg-4 col-xl-3">
+                <a th:href="@{/departments/paediatrics}" class="dept-card h-100">
+                    <i class="bi bi-arrow-right dept-arrow"></i>
+                    <div class="dept-icon"><i class="bi bi-emoji-smile"></i></div>
+                    <div class="dept-name">Paediatrics</div>
+                    <p class="dept-desc">Expert medical care for newborns, infants, children and teenagers.</p>
+                </a>
+            </div>
+            <div class="col-md-6 col-lg-4 col-xl-3">
+                <a th:href="@{/departments/laboratory}" class="dept-card h-100">
+                    <i class="bi bi-arrow-right dept-arrow"></i>
+                    <div class="dept-icon"><i class="bi bi-droplet"></i></div>
+                    <div class="dept-name">Laboratory</div>
+                    <p class="dept-desc">Clinical lab analyses — blood tests, urinalysis, microbiological cultures.</p>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════════
+     QUESTIONNAIRE BANNER  (FR2.7 – Aid Questionnaire)
+     ══════════════════════════════════════════════════════════ -->
+<section class="py-4" style="background:var(--vix-cream)">
+    <div class="container">
+        <div class="quiz-banner d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3">
+            <div>
+                <div class="section-eyebrow mb-1">Not Sure Where to Start?</div>
+                <h3 class="mb-1">Find the Right Specialist</h3>
+                <p class="text-muted mb-0" style="font-size:.9rem">
+                    Answer a few short questions and we'll point you to the right department and doctor.
+                </p>
+            </div>
+            <a th:href="@{/questionnaire}"
+               class="btn btn-primary rounded-pill px-4 flex-shrink-0"
+               style="background:var(--vix-teal);border-color:var(--vix-teal)">
+                <i class="bi bi-clipboard2-pulse me-2"></i>Start Questionnaire
+            </a>
+        </div>
+    </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════════
+     BOOK APPOINTMENT SECTION  (UC10 – Book an Appointment)
+     ══════════════════════════════════════════════════════════ -->
+<section class="book-section" id="book-appointment">
+    <div class="container">
+        <div class="row align-items-center g-5">
+            <!-- Left: text -->
+            <div class="col-lg-5 text-white">
+                <div class="section-eyebrow" style="color:var(--vix-teal-lt)">Online Booking</div>
+                <h2 class="section-title" style="color:#fff;font-size:2.2rem">
+                    Book Your Appointment in Minutes
+                </h2>
+                <div class="section-divider" style="background:var(--vix-teal-lt)"></div>
+                <p style="opacity:.85;line-height:1.75;font-size:.95rem">
+                    Choose your department, doctor, and preferred time slot — all from home.
+                    Receive instant email confirmation and a reminder 48 hours before your visit.
+                </p>
+                <ul class="list-unstyled mt-3" style="font-size:.88rem;opacity:.85">
+                    <li class="mb-2"><i class="bi bi-check-circle-fill me-2" style="color:var(--vix-teal-lt)"></i>Real-time availability from our calendar system</li>
+                    <li class="mb-2"><i class="bi bi-check-circle-fill me-2" style="color:var(--vix-teal-lt)"></i>Secure online payment via PagoPa</li>
+                    <li class="mb-2"><i class="bi bi-check-circle-fill me-2" style="color:var(--vix-teal-lt)"></i>Reschedule or cancel anytime online</li>
+                    <li><i class="bi bi-check-circle-fill me-2" style="color:var(--vix-teal-lt)"></i>Email &amp; SMS appointment reminders</li>
+                </ul>
+            </div>
+
+            <!-- Right: booking quick-form -->
+            <div class="col-lg-6 offset-lg-1">
+                <div class="book-form-card">
+                    <h5 class="fw-bold mb-1" style="color:var(--vix-navy)">Quick Appointment Request</h5>
+                    <p class="text-muted mb-3" style="font-size:.84rem">
+                        Select your preferences below — login required to confirm.
+                    </p>
+
+                    <!-- NOTE: form action posts to /appointments/book -->
+                    <form th:action="@{/appointments/book}" method="get">
+                        <div class="row g-3">
+                            <div class="col-12">
+                                <label class="form-label">Department</label>
+                                <select class="form-select" name="departmentId" required>
+                                    <option value="">— Select a department —</option>
+                                    <option th:each="dept : ${departments}"
+                                            th:value="${dept.id}"
+                                            th:text="${dept.name}">
+                                        Department
+                                    </option>
+                                    <!-- Static fallbacks -->
+                                    <option th:if="${departments == null or departments.isEmpty()}" value="cardiology">Cardiology</option>
+                                    <option th:if="${departments == null or departments.isEmpty()}" value="orthopaedics">Orthopaedics</option>
+                                    <option th:if="${departments == null or departments.isEmpty()}" value="neurology">Neurology</option>
+                                    <option th:if="${departments == null or departments.isEmpty()}" value="radiology">Radiology</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Preferred Date</label>
+                                <input type="date" class="form-control" name="preferredDate"
+                                       th:min="${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}"/>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Preferred Time</label>
+                                <select class="form-select" name="preferredTime">
+                                    <option value="">Any time</option>
+                                    <option value="morning">Morning (08:00–12:00)</option>
+                                    <option value="afternoon">Afternoon (12:00–18:00)</option>
+                                    <option value="evening">Evening (18:00–20:00)</option>
+                                </select>
+                            </div>
+                            <div class="col-12">
+                                <button type="submit" class="btn-book-primary">
+                                    <i class="bi bi-search me-2"></i>Search Available Slots
+                                </button>
+                                <p class="auth-required-note">
+                                    <i class="bi bi-lock me-1"></i>You will be asked to
+                                    <a th:href="@{/login}">log in via SPID/CIE</a>
+                                    to confirm your booking.
+                                </p>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════════
+     FEATURED DOCTORS  (FR2.3 / FR2.4)
+     ══════════════════════════════════════════════════════════ -->
+<section class="py-5 bg-white" id="doctors">
+    <div class="container py-3">
+        <div class="row mb-4 align-items-end">
+            <div class="col-lg-7">
+                <div class="section-eyebrow">Our Team</div>
+                <h2 class="section-title">Meet Our Specialists</h2>
+                <div class="section-divider"></div>
+                <p class="section-lead">
+                    Our doctors bring deep expertise across all specialties.
+                    Browse profiles and find the right consultant for your needs.
+                </p>
+            </div>
+            <div class="col-lg-5 text-lg-end">
+                <a th:href="@{/doctors}" class="btn btn-outline-secondary rounded-pill">
+                    All Doctors <i class="bi bi-arrow-right ms-1"></i>
+                </a>
+            </div>
+        </div>
+
+        <!-- Dynamic doctors list -->
+        <div class="row g-4" th:if="${featuredDoctors != null and !featuredDoctors.isEmpty()}">
+            <div class="col-md-6 col-lg-3"
+                 th:each="doc : ${featuredDoctors}">
+                <div class="doctor-card">
+                    <div class="doctor-avatar">
+                        <i class="bi bi-person-circle"></i>
+                    </div>
+                    <div class="doctor-info">
+                        <div class="doctor-name"
+                             th:text="${doc.title + ' ' + doc.firstName + ' ' + doc.lastName}">
+                            Dr. First Last
+                        </div>
+                        <div class="doctor-spec" th:text="${doc.specialization}">Specialization</div>
+                        <div class="doctor-dept" th:text="${doc.department?.name}">Department</div>
+                    </div>
+                    <a th:href="@{/doctors/{id}(id=${doc.id})}" class="btn-doc-profile">
+                        View Profile
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Static placeholders -->
+        <div class="row g-4" th:if="${featuredDoctors == null or featuredDoctors.isEmpty()}">
+            <div class="col-md-6 col-lg-3" th:each="i : ${#numbers.sequence(1,4)}">
+                <div class="doctor-card">
+                    <div class="doctor-avatar"><i class="bi bi-person-circle"></i></div>
+                    <div class="doctor-info">
+                        <div class="doctor-name">Dr. Specialist Name</div>
+                        <div class="doctor-spec">Specialization</div>
+                        <div class="doctor-dept">Department</div>
+                    </div>
+                    <a th:href="@{/doctors}" class="btn-doc-profile">View Profile</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════════
+     FIND NEARBY STRUCTURES  (UC9 – Locate Nearby Hospital Structures)
+     ══════════════════════════════════════════════════════════ -->
+<section class="map-section" id="find-hospitals">
+    <div class="container">
+        <div class="row mb-5 align-items-end">
+            <div class="col-lg-7">
+                <div class="section-eyebrow">Hospital Network</div>
+                <h2 class="section-title">Find a Nearby Structure</h2>
+                <div class="section-divider"></div>
+                <p class="section-lead">
+                    VIX Health System operates across three facilities in the Trento area.
+                    Use the map to find the closest centre to you.
+                </p>
+            </div>
+            <div class="col-lg-5 text-lg-end">
+                <a th:href="@{/hospitals}" class="btn btn-outline-secondary rounded-pill">
+                    <i class="bi bi-geo-alt me-1"></i> Find Nearby Hospitals
+                </a>
+            </div>
+        </div>
+
+        <div class="row g-4 align-items-start">
+            <!-- Location cards -->
+            <div class="col-lg-5">
+                <!-- Dynamic -->
+                <div th:if="${hospitals != null and !hospitals.isEmpty()}">
+                    <div class="location-card"
+                         th:each="h : ${hospitals}">
+                        <span class="location-type-badge"
+                              th:classappend="${h.type == 'HOSPITAL'} ? 'badge-hospital' : 'badge-center'"
+                              th:text="${h.type == 'HOSPITAL'} ? 'Main Hospital' : 'Day-Healthcare Centre'">
+                            Type
+                        </span>
+                        <h6 class="fw-bold mb-1" th:text="${h.name}">Hospital Name</h6>
+                        <p class="text-muted mb-2" style="font-size:.84rem">
+                            <i class="bi bi-geo-alt me-1"></i>
+                            <span th:text="${h.address}">Address</span>
+                        </p>
+                        <p class="text-muted mb-0" style="font-size:.82rem">
+                            <i class="bi bi-telephone me-1"></i>
+                            <a th:href="'tel:' + ${h.phone}" th:text="${h.phone}"
+                               style="color:var(--vix-teal);text-decoration:none">Phone</a>
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Static fallback -->
+                <div th:if="${hospitals == null or hospitals.isEmpty()}">
+                    <div class="location-card">
+                        <span class="location-type-badge badge-hospital">Main Hospital</span>
+                        <h6 class="fw-bold mb-1">VIX Central Hospital</h6>
+                        <p class="text-muted mb-2" style="font-size:.84rem">
+                            <i class="bi bi-geo-alt me-1"></i> Via San Camillo 1, 38122 Trento TN
+                        </p>
+                        <p class="text-muted mb-0" style="font-size:.82rem">
+                            <i class="bi bi-telephone me-1"></i>
+                            <a href="tel:+390461000001" style="color:var(--vix-teal);text-decoration:none">+39 0461 000 001</a>
+                        </p>
+                    </div>
+                    <div class="location-card">
+                        <span class="location-type-badge badge-center">Day-Healthcare Centre</span>
+                        <h6 class="fw-bold mb-1">VIX Tecnomed Nord</h6>
+                        <p class="text-muted mb-2" style="font-size:.84rem">
+                            <i class="bi bi-geo-alt me-1"></i> Via Brennero 45, 38100 Trento TN
+                        </p>
+                        <p class="text-muted mb-0" style="font-size:.82rem">
+                            <i class="bi bi-telephone me-1"></i>
+                            <a href="tel:+390461000002" style="color:var(--vix-teal);text-decoration:none">+39 0461 000 002</a>
+                        </p>
+                    </div>
+                    <div class="location-card">
+                        <span class="location-type-badge badge-center">Day-Healthcare Centre</span>
+                        <h6 class="fw-bold mb-1">VIX Tecnomed Sud</h6>
+                        <p class="text-muted mb-2" style="font-size:.84rem">
+                            <i class="bi bi-geo-alt me-1"></i> Via Malpensa 12, 38068 Rovereto TN
+                        </p>
+                        <p class="text-muted mb-0" style="font-size:.82rem">
+                            <i class="bi bi-telephone me-1"></i>
+                            <a href="tel:+390461000003" style="color:var(--vix-teal);text-decoration:none">+39 0461 000 003</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Map placeholder (replace with Google Maps embed or Leaflet) -->
+            <div class="col-lg-7">
+                <div class="map-placeholder" id="mapContainer">
+                    <i class="bi bi-map"></i>
+                    <p>Interactive map loads here</p>
+                    <small style="opacity:.5">Powered by Google Maps API (FR2.6)</small>
+                    <!-- TODO: inject Google Maps JS here via Maps API key -->
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════════
+     CONTACT SECTION  (FR2.5 – Display of Hospital Contacts)
+     ══════════════════════════════════════════════════════════ -->
+<section class="contact-section" id="contact">
+    <div class="container">
+        <div class="text-center mb-5">
+            <div class="section-eyebrow">Get in Touch</div>
+            <h2 class="section-title mx-auto">Contact Us</h2>
+            <div class="section-divider mx-auto"></div>
+        </div>
+        <div class="row g-4">
+            <div class="col-md-6 col-lg-3">
+                <div class="contact-card">
+                    <div class="contact-card-icon"><i class="bi bi-telephone-fill"></i></div>
+                    <h6>Phone</h6>
+                    <p><a href="tel:+390461000001">+39 0461 000 001</a></p>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3">
+                <div class="contact-card">
+                    <div class="contact-card-icon"><i class="bi bi-envelope-fill"></i></div>
+                    <h6>Email</h6>
+                    <p><a href="mailto:info@vixhealth.it">info@vixhealth.it</a></p>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3">
+                <div class="contact-card">
+                    <div class="contact-card-icon"><i class="bi bi-clock-fill"></i></div>
+                    <h6>Opening Hours</h6>
+                    <p>Mon–Fri 08:00–20:00<br/>Sat 08:00–14:00</p>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3">
+                <div class="contact-card">
+                    <div class="contact-card-icon"><i class="bi bi-geo-alt-fill"></i></div>
+                    <h6>Main Address</h6>
+                    <p>Via San Camillo 1,<br/>38122 Trento TN</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════════
+     FOOTER
+     ══════════════════════════════════════════════════════════ -->
+<footer class="vix-footer">
+    <div class="container">
+        <div class="row g-5">
+            <!-- Brand col -->
+            <div class="col-lg-4">
+                <div class="footer-brand d-flex align-items-center gap-2 mb-3">
+                    <div class="vix-brand-icon">
+                        <i class="bi bi-heart-pulse-fill"></i>
+                    </div>
+                    <strong>VIX Health System</strong>
+                </div>
+                <p class="footer-desc">
+                    A network of one main hospital and two day-healthcare centres in Trento,
+                    providing integrated, patient-centred care since 2015.
+                </p>
+                <div class="footer-badge mt-3">
+                    <i class="bi bi-shield-lock"></i> GDPR · HL7 · FHIR Compliant
+                </div>
+            </div>
+            <!-- Quick links -->
+            <div class="col-6 col-lg-2">
+                <div class="footer-heading">Services</div>
+                <a class="footer-link" th:href="@{/departments}">Departments</a>
+                <a class="footer-link" th:href="@{/doctors}">Our Doctors</a>
+                <a class="footer-link" th:href="@{/appointments/book}">Book Appointment</a>
+                <a class="footer-link" th:href="@{/questionnaire}">Find a Specialist</a>
+                <a class="footer-link" th:href="@{/hospitals}">Our Structures</a>
+            </div>
+            <!-- Patient -->
+            <div class="col-6 col-lg-2">
+                <div class="footer-heading">Patients</div>
+                <a class="footer-link" th:href="@{/login}">Patient Login</a>
+                <a class="footer-link" th:href="@{/patient/appointments}">My Appointments</a>
+                <a class="footer-link" th:href="@{/patient/records}">Medical Records</a>
+                <a class="footer-link" th:href="@{/patient/profile}">My Profile</a>
+            </div>
+            <!-- Staff -->
+            <div class="col-6 col-lg-2">
+                <div class="footer-heading">Staff</div>
+                <a class="footer-link" th:href="@{/staff/login}">Staff Login</a>
+                <a class="footer-link" th:href="@{/staff/calendar}">My Calendar</a>
+                <a class="footer-link" th:href="@{/staff/patients}">Patient Records</a>
+            </div>
+            <!-- Legal -->
+            <div class="col-6 col-lg-2">
+                <div class="footer-heading">Legal</div>
+                <a class="footer-link" th:href="@{/privacy}">Privacy Policy</a>
+                <a class="footer-link" th:href="@{/gdpr}">GDPR Information</a>
+                <a class="footer-link" th:href="@{/terms}">Terms of Use</a>
+                <a class="footer-link" th:href="@{/accessibility}">Accessibility</a>
+            </div>
+        </div>
+        <hr class="footer-divider"/>
+        <div class="footer-bottom d-flex flex-column flex-md-row justify-content-between align-items-center gap-2">
+            <span>© <span th:text="${#dates.year(#dates.createNow())}">2026</span> VIX Health System · All rights reserved.</span>
+            <span>Built with Spring MVC · Thymeleaf · Bootstrap 5</span>
+        </div>
+    </div>
+</footer>
+
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    // ── Smooth scroll for anchor links ──────────────────────────
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                e.preventDefault();
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        });
+    });
+
+    // ── Google Maps placeholder (swap for real API call) ────────
+    // Replace this block with your Maps API integration (FR2.6 / UC9)
+    // Example:
+    // function initMap() {
+    //   const map = new google.maps.Map(document.getElementById("mapContainer"), {
+    //     center: { lat: 46.066, lng: 11.117 },  // Trento
+    //     zoom: 12,
+    //   });
+    //   // Add markers for each hospital structure from Thymeleaf model
+    // }
+
+    // ── Active nav link highlight ────────────────────────────────
+    const currentPath = window.location.pathname;
+    document.querySelectorAll('.vix-nav-link').forEach(link => {
+        if (link.getAttribute('href') === currentPath) {
+            link.classList.add('active');
+        }
+    });
+    /*]]>*/
+</script>
+
+</body>
+</html>

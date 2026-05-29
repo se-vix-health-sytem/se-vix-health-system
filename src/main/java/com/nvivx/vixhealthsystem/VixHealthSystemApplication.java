@@ -6,8 +6,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class VixHealthSystemApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(VixHealthSystemApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(VixHealthSystemApplication.class, args);
+    }
 
 }
