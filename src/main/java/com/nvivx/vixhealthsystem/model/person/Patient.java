@@ -12,11 +12,21 @@ import java.util.Optional;
 
 import static java.util.spi.ToolProvider.findFirst;
 
+/**
+ * Represents a patient in the VIX Health System.
+ *
+ * Extends Person with a unique fiscal code (used as primary key in DB),
+ * a medical record (composition — one patient, one record), and a list
+ * of appointments. All appointment-management logic lives here.
+ *
+ * @see Person
+ * @see MedicalRecord
+ * @see Appointment
+ */
 
 
 public class Patient extends Person{
 
-    //primary key in the database
     private String fiscalCode;
     private MedicalRecord medicalRecord;
     private List<Appointment> appointments;
