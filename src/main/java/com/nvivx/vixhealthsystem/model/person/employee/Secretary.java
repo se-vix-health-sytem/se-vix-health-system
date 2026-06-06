@@ -1,6 +1,6 @@
 package com.nvivx.vixhealthsystem.model.person.employee;
 import com.nvivx.vixhealthsystem.model.person.Patient;
-import com.nvivx.vixhealthsystem.model.facility.InternationRoom;
+import com.nvivx.vixhealthsystem.model.facility.InterationRoom;
 import java.time.LocalDateTime;
 
 /**
@@ -96,7 +96,7 @@ public class Secretary extends Employee {
      * @param p the patient being admitted
      */
 
-    public void setPatientInRoom(InternationRoom ir, Patient p) {
+    public void setPatientInRoom(InterationRoom ir, Patient p) {
 
         // Will update the database to mark the bed/room as occupied by this patient
         // Also updates the patient's admission status
