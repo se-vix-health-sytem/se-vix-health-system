@@ -15,27 +15,32 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com"/>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous"/>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@300;400;500;600&display=swap"
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;600&display=swap"
           rel="stylesheet"/>
 
     <style>
         /* ── Design Tokens ───────────────────────────────────────────── */
         :root {
-            --vix-navy:      #0d2b4e;
-            --vix-blue:      #1558a8;
-            --vix-teal:      #0a9396;
-            --vix-teal-lt:   #94d2bd;
-            --vix-cream:     #f8f9fb;
+            --vix-crimson:   #7a1428;
+            --vix-crimson-dk:#5a0e1e;
+            --vix-crimson-lt:#9e1a34;
+            --vix-gold:      #b8952a;
+            --vix-gold-lt:   #d4ae4a;
+            --vix-gold-pale: #f5edd8;
+            --vix-cream:     #faf7f2;
             --vix-white:     #ffffff;
-            --vix-text:      #1e2d40;
-            --vix-muted:     #64748b;
-            --vix-border:    #e2e8f0;
-            --vix-red:       #e63946;
+            --vix-text:      #2a1518;
+            --vix-muted:     #7a6068;
+            --vix-border:    #e8ddd5;
+            --vix-navy:      #7a1428;   /* alias kept for legacy refs */
+            --vix-blue:      #9e1a34;
+            --vix-teal:      #b8952a;
+            --vix-teal-lt:   #d4ae4a;
             --radius-lg:     1rem;
             --radius-pill:   50px;
-            --shadow-sm:     0 2px 8px rgba(13,43,78,.08);
-            --shadow-md:     0 6px 24px rgba(13,43,78,.12);
-            --shadow-lg:     0 16px 48px rgba(13,43,78,.15);
+            --shadow-sm:     0 2px 8px rgba(122,20,40,.08);
+            --shadow-md:     0 6px 24px rgba(122,20,40,.14);
+            --shadow-lg:     0 16px 48px rgba(122,20,40,.18);
         }
 
         /* ── Base ───────────────────────────────────────────────────── */
@@ -46,13 +51,13 @@
             background: var(--vix-white);
             overflow-x: hidden;
         }
-        h1, h2, h3, .font-display { font-family: 'DM Serif Display', serif; }
+        h1, h2, h3, .font-display { font-family: 'Cormorant Garamond', serif; }
 
         /* ── Navbar ─────────────────────────────────────────────────── */
         .vix-navbar {
             background: var(--vix-white);
             border-bottom: 1px solid var(--vix-border);
-            padding: .9rem 0;
+            padding: .75rem 0;
             position: sticky;
             top: 0;
             z-index: 1000;
@@ -61,74 +66,77 @@
         .vix-brand {
             display: flex;
             align-items: center;
-            gap: .6rem;
+            gap: .65rem;
             text-decoration: none;
         }
-        .vix-brand-icon {
-            width: 40px; height: 40px;
-            background: var(--vix-teal);
-            border-radius: 10px;
-            display: flex; align-items: center; justify-content: center;
-            color: #fff;
-            font-size: 1.25rem;
+        .vix-brand-logo {
+            width: 44px;
+            height: 44px;
+            flex-shrink: 0;
         }
         .vix-brand-text { line-height: 1.1; }
         .vix-brand-text strong {
             display: block;
-            font-family: 'DM Serif Display', serif;
-            font-size: 1.1rem;
-            color: var(--vix-navy);
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--vix-crimson);
+            letter-spacing: .02em;
         }
         .vix-brand-text span {
-            font-size: .7rem;
-            color: var(--vix-teal);
+            font-size: .68rem;
+            color: var(--vix-gold);
             text-transform: uppercase;
-            letter-spacing: .05em;
+            letter-spacing: .07em;
         }
         .vix-nav-link {
             color: var(--vix-text) !important;
             font-weight: 500;
-            font-size: .92rem;
-            padding: .4rem .75rem !important;
+            font-size: .9rem;
+            padding: .4rem .8rem !important;
             border-radius: 6px;
             transition: background .2s, color .2s;
+            letter-spacing: .01em;
         }
         .vix-nav-link:hover,
-        .vix-nav-link.active { background: var(--vix-cream); color: var(--vix-teal) !important; }
+        .vix-nav-link.active { background: var(--vix-gold-pale); color: var(--vix-crimson) !important; }
         .btn-login {
-            border: 1.5px solid var(--vix-blue);
-            color: var(--vix-blue);
+            border: 1.5px solid var(--vix-crimson);
+            color: var(--vix-crimson);
             border-radius: var(--radius-pill);
             font-weight: 600;
-            font-size: .88rem;
+            font-size: .86rem;
             padding: .4rem 1.1rem;
             transition: all .2s;
+            background: transparent;
         }
-        .btn-login:hover { background: var(--vix-blue); color: #fff; }
+        .btn-login:hover { background: var(--vix-crimson); color: #fff; }
         .btn-book-nav {
-            background: var(--vix-teal);
+            background: var(--vix-crimson);
             color: #fff !important;
             border-radius: var(--radius-pill);
             font-weight: 600;
-            font-size: .88rem;
+            font-size: .86rem;
             padding: .4rem 1.2rem;
             transition: background .2s;
+            text-decoration: none;
         }
-        .btn-book-nav:hover { background: var(--vix-navy); }
+        .btn-book-nav:hover { background: var(--vix-crimson-dk); }
 
         /* Emergency bar */
         .emergency-bar {
-            background: var(--vix-navy);
+            background: var(--vix-crimson-dk);
             color: rgba(255,255,255,.85);
-            font-size: .8rem;
-            padding: .35rem 0;
+            font-size: .78rem;
+            padding: .3rem 0;
+            border-bottom: 1px solid rgba(184,149,42,.3);
         }
-        .emergency-bar a { color: var(--vix-teal-lt); text-decoration: none; }
+        .emergency-bar a { color: var(--vix-gold-lt); text-decoration: none; }
         .emergency-bar a:hover { color: #fff; }
 
         /* ── Hero ───────────────────────────────────────────────────── */
         .vix-hero {
-            background: linear-gradient(135deg, var(--vix-navy) 0%, #1558a8 55%, #0a9396 100%);
+            background: linear-gradient(135deg, var(--vix-crimson-dk) 0%, var(--vix-crimson) 55%, #a01830 100%);
             color: #fff;
             padding: 7rem 0 5rem;
             position: relative;
@@ -138,46 +146,55 @@
             content: '';
             position: absolute;
             inset: 0;
-            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+        /* Gold decorative line at bottom of hero */
+        .vix-hero::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--vix-gold), transparent);
         }
         .hero-eyebrow {
             display: inline-block;
-            background: rgba(255,255,255,.15);
-            border: 1px solid rgba(255,255,255,.3);
+            background: rgba(184,149,42,.18);
+            border: 1px solid rgba(184,149,42,.45);
             border-radius: var(--radius-pill);
-            font-size: .8rem;
+            font-size: .76rem;
             font-weight: 600;
-            letter-spacing: .06em;
+            letter-spacing: .07em;
             text-transform: uppercase;
             padding: .3rem 1rem;
             margin-bottom: 1.25rem;
+            color: var(--vix-gold-lt);
         }
-        .vix-hero h1 { font-size: clamp(2.2rem, 5vw, 3.6rem); line-height: 1.12; margin-bottom: 1.2rem; }
-        .vix-hero p.lead { font-size: 1.1rem; opacity: .88; max-width: 540px; line-height: 1.7; }
+        .vix-hero h1 { font-size: clamp(2.4rem, 5vw, 3.8rem); line-height: 1.1; margin-bottom: 1.2rem; font-weight: 600; }
+        .vix-hero p.lead { font-size: 1.05rem; opacity: .88; max-width: 540px; line-height: 1.75; }
         .btn-hero-primary {
-            background: var(--vix-teal);
+            background: var(--vix-gold);
             color: #fff;
             border-radius: var(--radius-pill);
             font-weight: 600;
-            font-size: 1rem;
+            font-size: .98rem;
             padding: .85rem 2rem;
             border: none;
             transition: background .2s, transform .2s;
             text-decoration: none;
         }
-        .btn-hero-primary:hover { background: #fff; color: var(--vix-teal); transform: translateY(-2px); }
+        .btn-hero-primary:hover { background: var(--vix-gold-lt); color: #fff; transform: translateY(-2px); }
         .btn-hero-secondary {
             background: transparent;
             color: #fff;
-            border: 1.5px solid rgba(255,255,255,.55);
+            border: 1.5px solid rgba(255,255,255,.45);
             border-radius: var(--radius-pill);
             font-weight: 500;
-            font-size: 1rem;
+            font-size: .98rem;
             padding: .85rem 2rem;
             transition: border-color .2s, background .2s;
             text-decoration: none;
         }
-        .btn-hero-secondary:hover { border-color: #fff; background: rgba(255,255,255,.1); color: #fff; }
+        .btn-hero-secondary:hover { border-color: var(--vix-gold-lt); background: rgba(184,149,42,.1); color: #fff; }
 
         /* Hero floating card */
         .hero-card {
@@ -186,52 +203,58 @@
             padding: 2rem;
             box-shadow: var(--shadow-lg);
             color: var(--vix-text);
+            border-top: 3px solid var(--vix-gold);
         }
-        .hero-card-title { font-size: .8rem; font-weight: 600; text-transform: uppercase; letter-spacing: .06em; color: var(--vix-muted); margin-bottom: 1rem; }
+        .hero-card-title { font-size: .75rem; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--vix-gold); margin-bottom: 1rem; }
         .quick-link-item {
             display: flex;
             align-items: center;
             gap: .75rem;
-            padding: .75rem .85rem;
+            padding: .7rem .85rem;
             border-radius: 10px;
-            margin-bottom: .5rem;
+            margin-bottom: .45rem;
             background: var(--vix-cream);
             text-decoration: none;
             color: var(--vix-text);
             font-weight: 500;
-            font-size: .9rem;
+            font-size: .88rem;
             transition: background .2s, transform .2s;
+            border: 1px solid transparent;
         }
-        .quick-link-item:hover { background: var(--vix-teal-lt); color: var(--vix-navy); transform: translateX(4px); }
-        .quick-link-icon { width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 1rem; flex-shrink: 0; }
+        .quick-link-item:hover { background: var(--vix-gold-pale); color: var(--vix-crimson); transform: translateX(4px); border-color: var(--vix-border); }
+        .quick-link-icon { width: 34px; height: 34px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: .95rem; flex-shrink: 0; }
+
 
         /* ── Stats ──────────────────────────────────────────────────── */
         .stats-strip {
-            background: var(--vix-navy);
+            background: var(--vix-crimson-dk);
             color: #fff;
             padding: 2.5rem 0;
+            border-top: 1px solid rgba(184,149,42,.25);
+            border-bottom: 1px solid rgba(184,149,42,.25);
         }
         .stat-item { text-align: center; }
         .stat-number {
-            font-family: 'DM Serif Display', serif;
-            font-size: 2.4rem;
-            color: var(--vix-teal-lt);
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.6rem;
+            font-weight: 700;
+            color: var(--vix-gold-lt);
             line-height: 1;
         }
-        .stat-label { font-size: .82rem; opacity: .72; margin-top: .3rem; }
+        .stat-label { font-size: .8rem; opacity: .72; margin-top: .3rem; }
 
         /* ── Section Commons ────────────────────────────────────────── */
         .section-eyebrow {
-            font-size: .75rem;
+            font-size: .72rem;
             font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: .1em;
-            color: var(--vix-teal);
+            letter-spacing: .12em;
+            color: var(--vix-gold);
             margin-bottom: .5rem;
         }
-        .section-title { font-size: clamp(1.7rem, 3vw, 2.4rem); color: var(--vix-navy); margin-bottom: .75rem; }
-        .section-lead { color: var(--vix-muted); max-width: 560px; line-height: 1.7; }
-        .section-divider { width: 48px; height: 3px; background: var(--vix-teal); border-radius: 2px; margin: 1rem 0 1.5rem; }
+        .section-title { font-size: clamp(1.8rem, 3vw, 2.5rem); color: var(--vix-crimson); margin-bottom: .75rem; font-weight: 600; }
+        .section-lead { color: var(--vix-muted); max-width: 560px; line-height: 1.75; }
+        .section-divider { width: 48px; height: 2px; background: linear-gradient(90deg, var(--vix-gold), var(--vix-gold-lt)); border-radius: 2px; margin: 1rem 0 1.5rem; }
 
         /* ── Departments ────────────────────────────────────────────── */
         .dept-card {
@@ -252,11 +275,11 @@
             position: absolute;
             bottom: 0; left: 0; right: 0;
             height: 3px;
-            background: var(--vix-teal);
+            background: linear-gradient(90deg, var(--vix-crimson), var(--vix-gold));
             transform: scaleX(0);
             transition: transform .25s;
         }
-        .dept-card:hover { border-color: var(--vix-teal); box-shadow: var(--shadow-md); transform: translateY(-4px); color: var(--vix-text); }
+        .dept-card:hover { border-color: var(--vix-gold); box-shadow: var(--shadow-md); transform: translateY(-4px); color: var(--vix-text); }
         .dept-card:hover::after { transform: scaleX(1); }
         .dept-icon {
             width: 56px; height: 56px;
@@ -264,38 +287,50 @@
             border-radius: 14px;
             display: flex; align-items: center; justify-content: center;
             font-size: 1.5rem;
-            color: var(--vix-teal);
+            color: var(--vix-crimson);
             margin-bottom: 1rem;
             transition: background .25s, color .25s;
+            border: 1px solid var(--vix-border);
         }
-        .dept-card:hover .dept-icon { background: var(--vix-teal); color: #fff; }
-        .dept-name { font-weight: 600; font-size: 1rem; margin-bottom: .4rem; }
-        .dept-desc { font-size: .85rem; color: var(--vix-muted); line-height: 1.6; }
+        .dept-card:hover .dept-icon { background: var(--vix-crimson); color: #fff; border-color: var(--vix-crimson); }
+        .dept-name { font-weight: 600; font-size: 1rem; margin-bottom: .4rem; color: var(--vix-crimson); }
+        .dept-desc { font-size: .84rem; color: var(--vix-muted); line-height: 1.6; }
         .dept-arrow { position: absolute; top: 1.5rem; right: 1.5rem; color: var(--vix-border); font-size: 1.1rem; transition: color .25s; }
-        .dept-card:hover .dept-arrow { color: var(--vix-teal); }
+        .dept-card:hover .dept-arrow { color: var(--vix-gold); }
 
         /* ── Book Appointment ───────────────────────────────────────── */
         .book-section {
-            background: linear-gradient(135deg, var(--vix-teal) 0%, var(--vix-blue) 100%);
+            background: linear-gradient(135deg, var(--vix-crimson) 0%, var(--vix-crimson-dk) 100%);
             color: #fff;
             padding: 5rem 0;
+            position: relative;
+        }
+        .book-section::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23b8952a' fill-opacity='0.04'%3E%3Ccircle cx='40' cy='40' r='30'/%3E%3C/g%3E%3C/svg%3E");
         }
         .book-form-card {
             background: var(--vix-white);
             border-radius: var(--radius-lg);
             padding: 2.5rem;
             box-shadow: var(--shadow-lg);
+            border-top: 3px solid var(--vix-gold);
+            position: relative;
+            z-index: 1;
         }
-        .form-label { font-weight: 600; font-size: .85rem; color: var(--vix-navy); }
+        .form-label { font-weight: 600; font-size: .83rem; color: var(--vix-crimson); letter-spacing: .02em; }
         .form-control, .form-select {
             border: 1.5px solid var(--vix-border);
             border-radius: 10px;
-            font-size: .92rem;
+            font-size: .9rem;
             padding: .6rem .9rem;
+            background: var(--vix-cream);
         }
-        .form-control:focus, .form-select:focus { border-color: var(--vix-teal); box-shadow: 0 0 0 3px rgba(10,147,150,.12); }
+        .form-control:focus, .form-select:focus { border-color: var(--vix-gold); box-shadow: 0 0 0 3px rgba(184,149,42,.12); background: #fff; }
         .btn-book-primary {
-            background: var(--vix-teal);
+            background: var(--vix-crimson);
             color: #fff;
             border: none;
             border-radius: var(--radius-pill);
@@ -308,7 +343,7 @@
             display: block;
             text-align: center;
         }
-        .btn-book-primary:hover { background: var(--vix-navy); color: #fff; }
+        .btn-book-primary:hover { background: var(--vix-crimson-dk); color: #fff; }
 
         /* ── Doctors ────────────────────────────────────────────────── */
         .doctor-card {
@@ -321,15 +356,16 @@
         .doctor-card:hover { box-shadow: var(--shadow-md); transform: translateY(-4px); }
         .doctor-avatar {
             height: 220px;
-            background: var(--vix-cream);
+            background: linear-gradient(135deg, var(--vix-cream) 0%, var(--vix-gold-pale) 100%);
             display: flex; align-items: center; justify-content: center;
             font-size: 4rem;
-            color: var(--vix-teal);
+            color: var(--vix-crimson);
+            border-bottom: 2px solid var(--vix-border);
         }
         .doctor-info { padding: 1.25rem 1.5rem; }
-        .doctor-name { font-weight: 700; font-size: 1rem; margin-bottom: .2rem; }
-        .doctor-spec { font-size: .83rem; color: var(--vix-teal); font-weight: 600; margin-bottom: .6rem; }
-        .doctor-dept { font-size: .8rem; color: var(--vix-muted); }
+        .doctor-name { font-weight: 700; font-size: 1rem; margin-bottom: .2rem; color: var(--vix-crimson); }
+        .doctor-spec { font-size: .82rem; color: var(--vix-gold); font-weight: 600; margin-bottom: .6rem; }
+        .doctor-dept { font-size: .79rem; color: var(--vix-muted); }
         .btn-doc-profile {
             display: block;
             text-align: center;
@@ -337,27 +373,29 @@
             border-radius: var(--radius-pill);
             font-size: .82rem;
             font-weight: 600;
-            color: var(--vix-blue);
+            color: var(--vix-crimson);
             padding: .5rem;
             margin: 1rem 1.5rem 1.5rem;
             text-decoration: none;
             transition: all .2s;
         }
-        .btn-doc-profile:hover { background: var(--vix-blue); color: #fff; border-color: var(--vix-blue); }
+        .btn-doc-profile:hover { background: var(--vix-crimson); color: #fff; border-color: var(--vix-crimson); }
 
         /* ── Questionnaire Banner ───────────────────────────────────── */
         .quiz-banner {
-            background: var(--vix-cream);
+            background: var(--vix-white);
             border: 1px solid var(--vix-border);
+            border-left: 4px solid var(--vix-gold);
             border-radius: var(--radius-lg);
             padding: 2rem 2.5rem;
+            box-shadow: var(--shadow-sm);
         }
-        .quiz-banner h3 { font-size: 1.4rem; color: var(--vix-navy); margin-bottom: .5rem; }
+        .quiz-banner h3 { font-size: 1.5rem; color: var(--vix-crimson); margin-bottom: .5rem; }
 
         /* ── Map Section ────────────────────────────────────────────── */
         .map-section { background: var(--vix-cream); padding: 5rem 0; }
         .map-placeholder {
-            background: var(--vix-navy);
+            background: var(--vix-crimson-dk);
             border-radius: var(--radius-lg);
             height: 380px;
             display: flex; align-items: center; justify-content: center;
@@ -366,6 +404,7 @@
             gap: 1rem;
             position: relative;
             overflow: hidden;
+            border: 1px solid rgba(184,149,42,.2);
         }
         .map-placeholder::before {
             content: '';
@@ -373,14 +412,14 @@
             inset: 0;
             background: repeating-linear-gradient(
                     0deg, transparent, transparent 39px,
-                    rgba(255,255,255,.04) 40px
+                    rgba(255,255,255,.03) 40px
             ),
             repeating-linear-gradient(
                     90deg, transparent, transparent 39px,
-                    rgba(255,255,255,.04) 40px
+                    rgba(255,255,255,.03) 40px
             );
         }
-        .map-placeholder i { font-size: 3.5rem; opacity: .6; }
+        .map-placeholder i { font-size: 3.5rem; opacity: .5; color: var(--vix-gold-lt); }
         .map-placeholder p { opacity: .7; font-size: .95rem; }
         .location-card {
             background: var(--vix-white);
@@ -393,16 +432,16 @@
         .location-card:hover { box-shadow: var(--shadow-sm); }
         .location-type-badge {
             display: inline-block;
-            font-size: .7rem;
+            font-size: .68rem;
             font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: .06em;
+            letter-spacing: .07em;
             padding: .25rem .65rem;
             border-radius: var(--radius-pill);
             margin-bottom: .6rem;
         }
-        .badge-hospital { background: rgba(21,88,168,.1); color: var(--vix-blue); }
-        .badge-center { background: rgba(10,147,150,.1); color: var(--vix-teal); }
+        .badge-hospital { background: rgba(122,20,40,.1); color: var(--vix-crimson); }
+        .badge-center { background: rgba(184,149,42,.12); color: var(--vix-gold); }
 
         /* ── Contact ────────────────────────────────────────────────── */
         .contact-section { background: var(--vix-white); padding: 5rem 0; }
@@ -412,53 +451,76 @@
             border: 1px solid var(--vix-border);
             border-radius: var(--radius-lg);
             height: 100%;
-            transition: box-shadow .2s;
+            transition: box-shadow .2s, border-color .2s;
         }
-        .contact-card:hover { box-shadow: var(--shadow-sm); }
+        .contact-card:hover { box-shadow: var(--shadow-sm); border-color: var(--vix-gold); }
         .contact-card-icon {
             width: 60px; height: 60px;
-            background: var(--vix-cream);
+            background: var(--vix-gold-pale);
             border-radius: 50%;
             display: flex; align-items: center; justify-content: center;
-            font-size: 1.5rem;
-            color: var(--vix-teal);
+            font-size: 1.4rem;
+            color: var(--vix-crimson);
             margin: 0 auto 1rem;
+            border: 1px solid rgba(184,149,42,.2);
         }
-        .contact-card h6 { font-weight: 700; color: var(--vix-navy); margin-bottom: .4rem; }
-        .contact-card p { font-size: .88rem; color: var(--vix-muted); margin: 0; }
-        .contact-card a { color: var(--vix-teal); text-decoration: none; font-weight: 500; }
+        .contact-card h6 { font-weight: 700; color: var(--vix-crimson); margin-bottom: .4rem; font-family: 'Cormorant Garamond', serif; font-size: 1.05rem; }
+        .contact-card p { font-size: .87rem; color: var(--vix-muted); margin: 0; }
+        .contact-card a { color: var(--vix-gold); text-decoration: none; font-weight: 500; }
 
         /* ── Footer ─────────────────────────────────────────────────── */
         .vix-footer {
-            background: var(--vix-navy);
-            color: rgba(255,255,255,.75);
+            background: var(--vix-crimson-dk);
+            color: rgba(255,255,255,.72);
             padding: 4rem 0 2rem;
+            border-top: 2px solid rgba(184,149,42,.3);
         }
-        .footer-brand strong { color: #fff; font-family: 'DM Serif Display', serif; font-size: 1.2rem; }
-        .footer-desc { font-size: .85rem; line-height: 1.7; margin-top: .5rem; max-width: 280px; }
-        .footer-heading { color: #fff; font-weight: 700; font-size: .85rem; letter-spacing: .05em; text-transform: uppercase; margin-bottom: 1.1rem; }
-        .footer-link { display: block; color: rgba(255,255,255,.65); font-size: .85rem; text-decoration: none; margin-bottom: .45rem; transition: color .2s; }
-        .footer-link:hover { color: var(--vix-teal-lt); }
-        .footer-divider { border-color: rgba(255,255,255,.12); margin: 2.5rem 0 1.5rem; }
-        .footer-bottom { font-size: .8rem; }
+        .footer-brand strong { color: #fff; font-family: 'Cormorant Garamond', serif; font-size: 1.25rem; font-weight: 700; }
+        .footer-desc { font-size: .84rem; line-height: 1.75; margin-top: .5rem; max-width: 280px; }
+        .footer-heading { color: var(--vix-gold-lt); font-weight: 700; font-size: .78rem; letter-spacing: .08em; text-transform: uppercase; margin-bottom: 1.1rem; }
+        .footer-link { display: block; color: rgba(255,255,255,.6); font-size: .84rem; text-decoration: none; margin-bottom: .45rem; transition: color .2s; }
+        .footer-link:hover { color: var(--vix-gold-lt); }
+        .footer-divider { border-color: rgba(184,149,42,.2); margin: 2.5rem 0 1.5rem; }
+        .footer-bottom { font-size: .78rem; }
         .footer-badge {
             display: inline-flex; align-items: center; gap: .5rem;
-            background: rgba(10,147,150,.2);
-            border: 1px solid rgba(10,147,150,.35);
+            background: rgba(184,149,42,.15);
+            border: 1px solid rgba(184,149,42,.3);
             border-radius: var(--radius-pill);
-            font-size: .75rem;
-            color: var(--vix-teal-lt);
+            font-size: .73rem;
+            color: var(--vix-gold-lt);
             padding: .3rem .85rem;
         }
 
         /* ── Auth Alert ─────────────────────────────────────────────── */
         .auth-required-note {
-            font-size: .78rem;
+            font-size: .76rem;
             color: var(--vix-muted);
             text-align: center;
             margin-top: .75rem;
         }
-        .auth-required-note a { color: var(--vix-teal); }
+        .auth-required-note a { color: var(--vix-gold); }
+
+        /* ── Outline buttons override ───────────────────────────────── */
+        .btn-outline-secondary {
+            border-color: var(--vix-border) !important;
+            color: var(--vix-crimson) !important;
+        }
+        .btn-outline-secondary:hover {
+            background: var(--vix-crimson) !important;
+            border-color: var(--vix-crimson) !important;
+            color: #fff !important;
+        }
+
+        /* ── Questionnaire CTA button ───────────────────────────────── */
+        .btn-primary.rounded-pill {
+            background: var(--vix-crimson) !important;
+            border-color: var(--vix-crimson) !important;
+        }
+        .btn-primary.rounded-pill:hover {
+            background: var(--vix-crimson-dk) !important;
+            border-color: var(--vix-crimson-dk) !important;
+        }
     </style>
 </head>
 <body>
@@ -481,9 +543,10 @@
      ══════════════════════════════════════════════════════════ -->
 <nav class="vix-navbar">
     <div class="container d-flex align-items-center gap-3">
-        <!-- Brand -->
+        <!-- Brand with inline logo -->
         <a class="vix-brand me-auto" th:href="@{/}">
-            <div class="vix-brand-icon"><i class="bi bi-heart-pulse-fill"></i></div>
+            <!-- VIX Logo  -->
+            <img src="/images/vix-logo.png" alt="VIX Logo" class="vix-brand-logo"/>
             <div class="vix-brand-text">
                 <strong>VIX Health System</strong>
                 <span>Hospital Network · Trento</span>
@@ -542,7 +605,7 @@
 <!-- Mobile offcanvas -->
 <div class="offcanvas offcanvas-end d-lg-none" tabindex="-1" id="mobileMenu">
     <div class="offcanvas-header border-bottom">
-        <span class="fw-bold" style="font-family:'DM Serif Display',serif; color:var(--vix-navy)">VIX Health System</span>
+        <span class="fw-bold" style="font-family:'Cormorant Garamond',serif; color:var(--vix-crimson); font-size:1.1rem">VIX Health System</span>
         <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
     </div>
     <div class="offcanvas-body">
@@ -558,6 +621,27 @@
         <a th:href="@{/appointments/book}" class="btn-book-nav d-block text-center w-100">Book Appointment</a>
     </div>
 </div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     DEVELOPMENT QUICK ACCESS  (Temporary - Remove in production)
+     ══════════════════════════════════════════════════════════ -->
+<section class="py-4" style="background: var(--vix-cream); border-bottom: 1px solid var(--vix-border);">
+    <div class="container">
+        <div class="d-flex align-items-center justify-content-center gap-3 flex-wrap">
+            <span style="color: var(--vix-muted); font-size: 0.85rem;">
+                <i class="bi bi-shield-lock me-1"></i>Staff Portal:
+            </span>
+            <a href="/login" class="btn btn-sm"
+               style="background: var(--vix-crimson); color: white; border-radius: 50px; padding: 0.5rem 1.5rem;">
+                <i class="bi bi-person-badge me-2"></i>Access Staff Dashboard
+            </a>
+            <span style="color: var(--vix-muted); font-size: 0.75rem;">
+                <i class="bi bi-info-circle me-1"></i>Development access - no authentication required
+            </span>
+        </div>
+    </div>
+</section>
+<!-- END TEMPORARY SECTION -->
 
 
 <!-- ═══════════════════════════════════════════════════════════
@@ -594,36 +678,36 @@
                     <div class="hero-card-title">Quick Access</div>
 
                     <a th:href="@{/appointments/book}" class="quick-link-item">
-                        <div class="quick-link-icon" style="background:rgba(10,147,150,.12)">
-                            <i class="bi bi-calendar-plus" style="color:var(--vix-teal)"></i>
+                        <div class="quick-link-icon" style="background:rgba(184,149,42,.12)">
+                            <i class="bi bi-calendar-plus" style="color:var(--vix-gold)"></i>
                         </div>
                         Book an Appointment
                     </a>
 
                     <a th:href="@{/patient/records}" class="quick-link-item">
-                        <div class="quick-link-icon" style="background:rgba(21,88,168,.12)">
-                            <i class="bi bi-file-medical" style="color:var(--vix-blue)"></i>
+                        <div class="quick-link-icon" style="background:rgba(122,20,40,.08)">
+                            <i class="bi bi-file-medical" style="color:var(--vix-crimson)"></i>
                         </div>
                         My Medical Records
                     </a>
 
                     <a th:href="@{/patient/appointments}" class="quick-link-item">
-                        <div class="quick-link-icon" style="background:rgba(10,147,150,.12)">
-                            <i class="bi bi-calendar-check" style="color:var(--vix-teal)"></i>
+                        <div class="quick-link-icon" style="background:rgba(184,149,42,.12)">
+                            <i class="bi bi-calendar-check" style="color:var(--vix-gold)"></i>
                         </div>
                         My Appointments
                     </a>
 
                     <a th:href="@{/questionnaire}" class="quick-link-item">
-                        <div class="quick-link-icon" style="background:rgba(230,57,70,.10)">
-                            <i class="bi bi-question-circle" style="color:var(--vix-red)"></i>
+                        <div class="quick-link-icon" style="background:rgba(122,20,40,.08)">
+                            <i class="bi bi-question-circle" style="color:var(--vix-crimson)"></i>
                         </div>
                         Find the Right Specialist
                     </a>
 
                     <a th:href="@{/hospitals}" class="quick-link-item">
-                        <div class="quick-link-icon" style="background:rgba(13,43,78,.08)">
-                            <i class="bi bi-geo-alt" style="color:var(--vix-navy)"></i>
+                        <div class="quick-link-icon" style="background:rgba(184,149,42,.1)">
+                            <i class="bi bi-geo-alt" style="color:var(--vix-gold)"></i>
                         </div>
                         Find Nearby Structures
                     </a>
@@ -794,7 +878,7 @@
             </div>
             <a th:href="@{/questionnaire}"
                class="btn btn-primary rounded-pill px-4 flex-shrink-0"
-               style="background:var(--vix-teal);border-color:var(--vix-teal)">
+               style="background:var(--vix-crimson);border-color:var(--vix-crimson)">
                 <i class="bi bi-clipboard2-pulse me-2"></i>Start Questionnaire
             </a>
         </div>
@@ -809,28 +893,28 @@
     <div class="container">
         <div class="row align-items-center g-5">
             <!-- Left: text -->
-            <div class="col-lg-5 text-white">
-                <div class="section-eyebrow" style="color:var(--vix-teal-lt)">Online Booking</div>
+            <div class="col-lg-5 text-white" style="position:relative;z-index:1">
+                <div class="section-eyebrow" style="color:var(--vix-gold-lt)">Online Booking</div>
                 <h2 class="section-title" style="color:#fff;font-size:2.2rem">
                     Book Your Appointment in Minutes
                 </h2>
-                <div class="section-divider" style="background:var(--vix-teal-lt)"></div>
+                <div class="section-divider" style="background:linear-gradient(90deg,var(--vix-gold-lt),transparent)"></div>
                 <p style="opacity:.85;line-height:1.75;font-size:.95rem">
                     Choose your department, doctor, and preferred time slot — all from home.
                     Receive instant email confirmation and a reminder 48 hours before your visit.
                 </p>
                 <ul class="list-unstyled mt-3" style="font-size:.88rem;opacity:.85">
-                    <li class="mb-2"><i class="bi bi-check-circle-fill me-2" style="color:var(--vix-teal-lt)"></i>Real-time availability from our calendar system</li>
-                    <li class="mb-2"><i class="bi bi-check-circle-fill me-2" style="color:var(--vix-teal-lt)"></i>Secure online payment via PagoPa</li>
-                    <li class="mb-2"><i class="bi bi-check-circle-fill me-2" style="color:var(--vix-teal-lt)"></i>Reschedule or cancel anytime online</li>
-                    <li><i class="bi bi-check-circle-fill me-2" style="color:var(--vix-teal-lt)"></i>Email &amp; SMS appointment reminders</li>
+                    <li class="mb-2"><i class="bi bi-check-circle-fill me-2" style="color:var(--vix-gold-lt)"></i>Real-time availability from our calendar system</li>
+                    <li class="mb-2"><i class="bi bi-check-circle-fill me-2" style="color:var(--vix-gold-lt)"></i>Secure online payment via PagoPa</li>
+                    <li class="mb-2"><i class="bi bi-check-circle-fill me-2" style="color:var(--vix-gold-lt)"></i>Reschedule or cancel anytime online</li>
+                    <li><i class="bi bi-check-circle-fill me-2" style="color:var(--vix-gold-lt)"></i>Email &amp; SMS appointment reminders</li>
                 </ul>
             </div>
 
             <!-- Right: booking quick-form -->
             <div class="col-lg-6 offset-lg-1">
                 <div class="book-form-card">
-                    <h5 class="fw-bold mb-1" style="color:var(--vix-navy)">Quick Appointment Request</h5>
+                    <h5 class="fw-bold mb-1" style="color:var(--vix-crimson);font-family:'Cormorant Garamond',serif;font-size:1.4rem">Quick Appointment Request</h5>
                     <p class="text-muted mb-3" style="font-size:.84rem">
                         Select your preferences below — login required to confirm.
                     </p>
@@ -992,7 +1076,7 @@
                         <p class="text-muted mb-0" style="font-size:.82rem">
                             <i class="bi bi-telephone me-1"></i>
                             <a th:href="'tel:' + ${h.phone}" th:text="${h.phone}"
-                               style="color:var(--vix-teal);text-decoration:none">Phone</a>
+                               style="color:var(--vix-gold);text-decoration:none">Phone</a>
                         </p>
                     </div>
                 </div>
@@ -1007,7 +1091,7 @@
                         </p>
                         <p class="text-muted mb-0" style="font-size:.82rem">
                             <i class="bi bi-telephone me-1"></i>
-                            <a href="tel:+390461000001" style="color:var(--vix-teal);text-decoration:none">+39 0461 000 001</a>
+                            <a href="tel:+390461000001" style="color:var(--vix-gold);text-decoration:none">+39 0461 000 001</a>
                         </p>
                     </div>
                     <div class="location-card">
@@ -1018,7 +1102,7 @@
                         </p>
                         <p class="text-muted mb-0" style="font-size:.82rem">
                             <i class="bi bi-telephone me-1"></i>
-                            <a href="tel:+390461000002" style="color:var(--vix-teal);text-decoration:none">+39 0461 000 002</a>
+                            <a href="tel:+390461000002" style="color:var(--vix-gold);text-decoration:none">+39 0461 000 002</a>
                         </p>
                     </div>
                     <div class="location-card">
@@ -1029,7 +1113,7 @@
                         </p>
                         <p class="text-muted mb-0" style="font-size:.82rem">
                             <i class="bi bi-telephone me-1"></i>
-                            <a href="tel:+390461000003" style="color:var(--vix-teal);text-decoration:none">+39 0461 000 003</a>
+                            <a href="tel:+390461000003" style="color:var(--vix-gold);text-decoration:none">+39 0461 000 003</a>
                         </p>
                     </div>
                 </div>
@@ -1102,9 +1186,8 @@
             <!-- Brand col -->
             <div class="col-lg-4">
                 <div class="footer-brand d-flex align-items-center gap-2 mb-3">
-                    <div class="vix-brand-icon">
-                        <i class="bi bi-heart-pulse-fill"></i>
-                    </div>
+                    <!-- Small footer logo -->
+                    <img src="/images/vix-logo.png" alt="VIX Logo" width="38" height="38" style="object-fit:contain"/>
                     <strong>VIX Health System</strong>
                 </div>
                 <p class="footer-desc">
