@@ -1,7 +1,5 @@
 package com.nvivx.vixhealthsystem.config;
 
-// src/main/java/com/yourpackage/config/SecurityConfig.java
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -14,32 +12,19 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http
-                .authorizeHttpRequests(auth -> auth
-                        // Public pages — no login needed
-                        .requestMatchers("/", "/departments/**", "/doctors/**",
-                                "/hospitals", "/questionnaire",
-                                "/about", "/contact",
-                                "/css/**", "/js/**", "/images/**",
-                                "/webjars/**").permitAll()
+                        http
+                                .authorizeHttpRequests(auth -> auth
+                                        // Allow ALL requests without authentication FOR now
+                                        .anyRequest().permitAll()
+                                )
+                                // Disable CSRF for development
+                                .csrf(csrf -> csrf.disable())
 
-                        // Patient login
-                        .requestMatchers("/login").permitAll()
+                                // Disable form login
+                                .formLogin(form -> form.disable())
 
-                        // Staff login
-                        .requestMatchers("/staff/login").permitAll()
-
-                        // Everything else requires authentication
-                        .anyRequest().authenticated()
-                )
-                .formLogin(form -> form
-                        .loginPage("/login")
-                        .permitAll()
-                )
-                .logout(logout -> logout
-                        .logoutSuccessUrl("/")
-                        .permitAll()
-                );
+                                // Disable HTTP Basic
+                                .httpBasic(basic -> basic.disable());
 
         return http.build();
     }
