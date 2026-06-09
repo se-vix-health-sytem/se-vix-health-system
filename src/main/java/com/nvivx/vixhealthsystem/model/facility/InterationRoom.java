@@ -2,7 +2,6 @@ package com.nvivx.vixhealthsystem.model.facility;
 
 import com.nvivx.vixhealthsystem.model.person.Patient;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class InternationRoom extends Room{
