@@ -1,37 +1,90 @@
 package com.nvivx.vixhealthsystem.model.facility;
 
 import com.nvivx.vixhealthsystem.model.resource.Machinery;
+import jakarta.persistence.*;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class SpecializedRoom extends Room{
-    private String type;
-    private ArrayList<Machinery> machineries;
+/**
+ * Represents a specialized room containing medical equipment.
+ *
+ * Specialized rooms are dedicated to specific medical activities,
+ * such as radiology, MRI, CT scanning or surgery.
+ *
+ * Each specialized room may contain multiple machines.
+ *
+ * @see Room
+ * @see Machinery
+ */
+@Entity
+@DiscriminatorValue("SPECIALIZED_ROOM")
+public class SpecializedRoom extends Room {
 
-    public SpecializedRoom(String number, String type) {
+    /**
+     * Specialization of the room.
+     * Examples: Radiology, MRI, CT Scan, Surgery.
+     */
+    @Column(name = "specialization")
+    private String specialization;
+
+    /**
+     * Machines installed inside the room.
+     */
+    @OneToMany(mappedBy = "specializedRoom")
+    private List<Machinery> machineries = new ArrayList<>();
+
+    // =====================================================
+    // CONSTRUCTORS
+    // =====================================================
+
+    public SpecializedRoom() {
+    }
+
+    public SpecializedRoom(
+            String number,
+            String specialization
+    ) {
         super(number);
-        this.type = type;
+        this.specialization = specialization;
     }
 
-    public String getType() {
-        return type;
+    // =====================================================
+    // GETTERS & SETTERS
+    // =====================================================
+
+    public String getSpecialization() {
+        return specialization;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setSpecialization(String specialization) {
+        this.specialization = specialization;
     }
 
-    protected ArrayList<Machinery> getMachineries() {
+    protected List<Machinery> getMachineries() {
         return machineries;
     }
 
-    protected ArrayList<Machinery> getFaultyMachines() {
-        ArrayList<Machinery> out = new ArrayList<>();
-        for (int i = 0; i < machineries.size(); i++) {
-            if (machineries.get(i).isFaulty()) {
-                out.add(machineries.get(i));
+    // =====================================================
+    // MACHINE MANAGEMENT METHODS
+    // =====================================================
+
+    /**
+     * Returns all machines currently marked as faulty.
+     *
+     * @return faulty machine list
+     */
+    protected List<Machinery> getFaultyMachines() {
+
+        List<Machinery> out = new ArrayList<>();
+
+        for (Machinery machinery : machineries) {
+
+            if (machinery.isFaulty()) {
+                out.add(machinery);
             }
         }
+
         return out;
     }
 }

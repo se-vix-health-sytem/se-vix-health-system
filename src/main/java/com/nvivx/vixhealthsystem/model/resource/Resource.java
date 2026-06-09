@@ -1,36 +1,109 @@
 package com.nvivx.vixhealthsystem.model.resource;
 
-public class Resource {
-    private int id;
-    private String name;
-    private String description;
-    private float price;
+import jakarta.persistence.*;
 
-    public Resource(int id, String name, String description, int quantity, float price) {
-        this.id = id;
+import java.math.BigDecimal;
+
+/**
+ * Represents a resource stored and managed by a medical facility.
+ *
+ * Resources may include medical supplies, medications,
+ * disposable equipment and other inventory items.
+ *
+ * Quantities are managed through the StorageResources table.
+ *
+ * @see Storage
+ */
+@Entity
+@Table(name = "Resources")
+public class Resource {
+
+    /**
+     * Unique resource identifier.
+     */
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    /**
+     * Resource name.
+     */
+    @Column(name = "name", nullable = false)
+    private String name;
+
+    /**
+     * Resource description.
+     */
+    @Column(name = "description")
+    private String description;
+
+    /**
+     * Unit price of the resource.
+     */
+    @Column(name = "price", nullable = false)
+    private BigDecimal price;
+
+    // =====================================================
+    // CONSTRUCTORS
+    // =====================================================
+
+    /**
+     * Default constructor required by JPA.
+     */
+    public Resource() {
+    }
+
+    /**
+     * Creates a resource.
+     *
+     * @param name resource name
+     * @param description resource description
+     * @param price unit price
+     */
+    public Resource(
+            String name,
+            String description,
+            BigDecimal price
+    ) {
         this.name = name;
         this.description = description;
         this.price = price;
     }
 
+    // =====================================================
+    // EQUALS & HASHCODE
+    // =====================================================
+
     @Override
-    public boolean equals(Object r) {
-        if (r instanceof Resource other ) {
-            return this.id ==other.id;
+    public boolean equals(Object obj) {
+
+        if (this == obj) {
+            return true;
         }
-        return false;
+
+        if (!(obj instanceof Resource other)) {
+            return false;
+        }
+
+        return id != null && id.equals(other.id);
     }
 
     @Override
     public int hashCode() {
-        return Integer.hashCode(id);
+        return id != null
+                ? id.hashCode()
+                : 0;
     }
 
-    public int getId() {
+    // =====================================================
+    // GETTERS & SETTERS
+    // =====================================================
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -50,11 +123,11 @@ public class Resource {
         this.description = description;
     }
 
-    public float getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(float price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 }

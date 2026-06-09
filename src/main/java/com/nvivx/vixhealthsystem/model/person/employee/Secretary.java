@@ -1,120 +1,125 @@
 package com.nvivx.vixhealthsystem.model.person.employee;
+
+import com.nvivx.vixhealthsystem.model.facility.InternationRoom;
 import com.nvivx.vixhealthsystem.model.person.Patient;
-import com.nvivx.vixhealthsystem.model.facility.InterationRoom;
+import jakarta.persistence.Column;
+import jakarta.persistence.DiscriminatorValue;
+import jakarta.persistence.Entity;
+
 import java.time.LocalDateTime;
 
 /**
- * Handles administrative tasks like appointment scheduling and patient admissions.
+ * Handles administrative tasks such as appointment scheduling,
+ * patient admissions and discharges.
  *
- * The 'role' attribute differentiates different kinds of secretaries:
- * - "front office" (greets patients, general inquiries)
- * - "admissions" (handles patient check-in and room assignment)
- * - "billing" (handles payments and insurance)
+ * The secretary type identifies the secretary's specialization:
+ * - Front Office
+ * - Admissions
+ * - Billing
  *
  * @see Employee
  */
-
+@Entity
+@DiscriminatorValue("SECRETARY")
 public class Secretary extends Employee {
+
+    /**
+     * Secretary specialization type.
+     */
+    @Column(name = "secretary_type")
     private String role;
 
-    // ========== Getters and Setters ==========
-
-    public void setRole(String role) {
-        this.role = role;
-    }
+    // =====================================================
+    // GETTERS & SETTERS
+    // =====================================================
 
     public String getRole() {
         return role;
     }
 
-    // ========== Appointment Management Methods ==========
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    // =====================================================
+    // APPOINTMENT MANAGEMENT
+    // =====================================================
 
     /**
-     * Books a new appointment for a patient with a medical specialist.
-     * Checks availability before creating the appointment.
+     * Books an appointment for a patient.
      *
-     * @param p the patient who needs the appointment
-     * @param m the medical specialist to see
-     * @param dt the desired date and time
+     * @param p patient
+     * @param m medical specialist
+     * @param dt appointment date and time
      */
-
-    public void makeAppointmentForPatient(Patient p, MedicalSpecialist m, LocalDateTime dt) {
-
-        // Will check if specialist is available at dt
-        // Then insert a new appointment record into the database
+    public void makeAppointmentForPatient(
+            Patient p,
+            MedicalSpecialist m,
+            LocalDateTime dt
+    ) {
 
     }
 
     /**
-     * Changes the date/time of an existing patient appointment.
+     * Reschedules an appointment.
      *
-     * @param p the patient whose appointment needs rescheduling
-     * @param dtOld the current appointment date/time
-     * @param dtNew the new desired date/time
+     * @param p patient
+     * @param dtOld current appointment date
+     * @param dtNew new appointment date
      */
-
-    public void rescheduleAppointmentForPatient(Patient p, LocalDateTime dtOld, LocalDateTime dtNew) {
-
-        // Will find the appointment by patient and old datetime
-        // Then update its datetime to dtNew (after checking availability)
+    public void rescheduleAppointmentForPatient(
+            Patient p,
+            LocalDateTime dtOld,
+            LocalDateTime dtNew
+    ) {
 
     }
 
     /**
-     * Cancels an existing appointment.
-     * Frees up the specialist's time slot for other patients.
+     * Cancels an appointment.
      *
-     * @param p the patient whose appointment is being canceled
-     * @param dt the date and time of the appointment to cancel
+     * @param p patient
+     * @param dt appointment date
      */
-
-    public void cancelAppointmentForPatient(Patient p, LocalDateTime dt) {
-
-        // Will find the appointment and delete it or mark as canceled in the database
+    public void cancelAppointmentForPatient(
+            Patient p,
+            LocalDateTime dt
+    ) {
 
     }
 
-    // ========== Room Management Methods ==========
+    // =====================================================
+    // ROOM MANAGEMENT
+    // =====================================================
 
     /**
-     * Checks which internal rooms are available for patient admission.
-     * Displays rooms with free beds.
+     * Displays room availability.
      */
-
     public void getRoomAvailability() {
 
-        // Will query the database for InternRoom entries where status = available
-        // Or where number of occupied beds < total beds
+    }
+
+    /**
+     * Assigns a patient to a room.
+     *
+     * @param ir room
+     * @param p patient
+     */
+    public void setPatientInRoom(
+            InternationRoom ir,
+            Patient p
+    ) {
 
     }
 
     /**
-     * Assigns a patient to a specific internal room.
-     * Called during patient admission.
+     * Discharges a patient.
      *
-     * @param ir the internal room to assign
-     * @param p the patient being admitted
+     * @param p patient to dismiss
      */
-
-    public void setPatientInRoom(InterationRoom ir, Patient p) {
-
-        // Will update the database to mark the bed/room as occupied by this patient
-        // Also updates the patient's admission status
-
-    }
-
-    /**
-     * Handles patient discharge.
-     * Frees up the bed and room for the next patient.
-     *
-     * @param p the patient being discharged
-     */
-
-    public void dismissPatient(Patient p) {
-
-        // Will find which room the patient is in
-        // Then update the database to mark that bed as free
-        // Also updates patient record with discharge date
+    public void dismissPatient(
+            Patient p
+    ) {
 
     }
 }
