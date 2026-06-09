@@ -10,6 +10,7 @@ import java.util.List;
  *
  * @see Employee
  * @see Machinery
+ *
  */
 
 public class Technician extends Employee {
