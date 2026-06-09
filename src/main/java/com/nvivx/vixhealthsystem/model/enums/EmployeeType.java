@@ -1,4 +1,4 @@
-package com.nvivx.vixhealthsystem.repository;
+package com.nvivx.vixhealthsystem.model.enums;
 
 public enum EmployeeType {
     MEDICAL_SPECIALIST,

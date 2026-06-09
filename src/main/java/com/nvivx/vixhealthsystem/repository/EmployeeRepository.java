@@ -9,11 +9,11 @@ import java.util.List;
 @Repository
 public interface EmployeeRepository extends JpaRepository<Employee, Long> {
 
-    List<Employee> findByType(String type);
-
     List<Employee> findBySurname(String surname);
 
     List<Employee> findByNameAndSurname(String name, String surname);
 
     Employee findByEmail(String email);
+
+    List<Employee> findByDepartmentId(Long departmentId);
 }
