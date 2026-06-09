@@ -1,6 +1,7 @@
-package com.nvivx.vixhealthsystem.service;
+package com.nvivx.vixhealthsystem.service.scheduling;
 
 import com.nvivx.vixhealthsystem.exception.VacationNotFoundException;
+import com.nvivx.vixhealthsystem.model.staff.VacationRequest;
 import com.nvivx.vixhealthsystem.repository.JsonVacationRepository;
 import org.springframework.stereotype.Service;
 
@@ -16,11 +17,28 @@ public class VacationService {
         this.repository = repository;
     }
 
+    public List<VacationRequest> getPendingRequests() {
+        return findAll().stream()
+                .filter(v -> "PENDING".equals(v.getStatus()))
+                .collect(Collectors.toList());
+    }
+
+    public VacationRequest requestVacation(VacationRequest request) {
+        List<VacationRequest> list = findAll();
+        request.setId((long) (list.size() + 1));
+        request.setStatus("PENDING");
+        list.add(request);
+        saveAll(list);
+        return request;
+    }
+
     public VacationRequest requestVacation(
             int employeeId,
             LocalDate startDate,
             LocalDate endDate,
             String reason) {
+
+
 
         List<VacationRequest> vacations =
                 repository.findAll();
