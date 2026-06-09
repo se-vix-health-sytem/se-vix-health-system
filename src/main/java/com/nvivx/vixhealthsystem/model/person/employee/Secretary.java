@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 /**
  * Handles administrative tasks like appointment scheduling and patient admissions.
  *
- * The 'type' attribute differentiates different kinds of secretaries:
+ * The 'role' attribute differentiates different kinds of secretaries:
  * - "front office" (greets patients, general inquiries)
  * - "admissions" (handles patient check-in and room assignment)
  * - "billing" (handles payments and insurance)
@@ -15,16 +15,16 @@ import java.time.LocalDateTime;
  */
 
 public class Secretary extends Employee {
-    private String type;
+    private String role;
 
     // ========== Getters and Setters ==========
 
-    public void setType(String type) {
-        this.type = type;
+    public void setRole(String role) {
+        this.role = role;
     }
 
-    public String getType() {
-        return type;
+    public String getRole() {
+        return role;
     }
 
     // ========== Appointment Management Methods ==========

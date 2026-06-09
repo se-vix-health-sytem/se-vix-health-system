@@ -1,7 +1,11 @@
 package com.nvivx.vixhealthsystem.model.person.employee;
+import com.nvivx.vixhealthsystem.model.facility.Department;
+import com.nvivx.vixhealthsystem.model.facility.MedicalFacility;
 import com.nvivx.vixhealthsystem.model.person.Person;
 import com.nvivx.vixhealthsystem.model.resource.Resource;
 import java.time.LocalDate;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Represents a generic employee in the system.
@@ -9,8 +13,9 @@ import java.time.LocalDate;
  */
 
 public class Employee extends Person {
-    private int id;
+    private long id;
     private LocalDate hireDate;
+    private Department department;
 
     /**
      * Gets the employee's unique ID.
@@ -19,7 +24,7 @@ public class Employee extends Person {
      * @return the employee's ID
      */
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
@@ -29,7 +34,7 @@ public class Employee extends Person {
      * @param id the ID to assign
      */
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -60,10 +65,7 @@ public class Employee extends Person {
      * @return array of available resources, or null if none
      */
 
-    protected Resource[] viewResources() {
-
-        // Will query the database for resources assigned to this employee
-
+    protected List<Resource> viewResources() {
         return null;
     }
 
@@ -74,9 +76,7 @@ public class Employee extends Person {
      * @param r the resource to take
      */
 
-    protected void takeResource(Resource r){
-
-        // Will update database to mark this resource as taken by the employee
+    protected void takeResource(Resource r, int q) throws Exception {
 
     }
 }

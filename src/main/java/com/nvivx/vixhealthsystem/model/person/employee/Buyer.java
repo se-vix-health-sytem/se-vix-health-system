@@ -23,10 +23,5 @@ public class Buyer extends Employee {
 
     public void addResource(Resource r) {
 
-        // Will check if the resource already exists in the database
-        // If yes: update the quantity
-        // If no: insert a new Resource record
-        // Also may trigger a notification to Storage to update totalQuantity
-
     }
 }
