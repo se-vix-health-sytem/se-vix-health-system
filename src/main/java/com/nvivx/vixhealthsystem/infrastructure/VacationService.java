@@ -1,6 +1,6 @@
-package com.nvivx.vixhealthsystem.service;
+package com.nvivx.vixhealthsystem.infrastructure;
 
-import com.nvivx.vixhealthsystem.exception.VacationNotFoundException;
+import com.nvivx.vixhealthsystem.model.staff.Vacation;
 import com.nvivx.vixhealthsystem.repository.JsonVacationRepository;
 import org.springframework.stereotype.Service;
 
@@ -16,105 +16,38 @@ public class VacationService {
         this.repository = repository;
     }
 
-    public VacationRequest requestVacation(
-            int employeeId,
-            LocalDate startDate,
-            LocalDate endDate,
-            String reason) {
+    public Vacation addVacation(long employeeId, LocalDate startDate, LocalDate endDate, String notes) {
 
-        List<VacationRequest> vacations =
-                repository.findAll();
+        List<Vacation> vacations = repository.findAll();
 
-        VacationRequest request =
-                new VacationRequest(
-                        vacations.size() + 1,
-                        employeeId,
-                        startDate,
-                        endDate,
-                        reason,
-                        "PENDING"
-                );
+        long nextId = vacations.stream()
+                .mapToLong(Vacation::getId)
+                .max()
+                .orElse(0L) + 1;
 
-        vacations.add(request);
+        Vacation vacation = new Vacation(nextId, employeeId, startDate, endDate, notes);
+
+        vacations.add(vacation);
 
         repository.saveAll(vacations);
 
-        return request;
+        return vacation;
     }
 
-    public VacationRequest approveVacation(int id) {
+    public void deleteVacation(long id) {
 
-        List<VacationRequest> vacations =
-                repository.findAll();
+        List<Vacation> vacations = repository.findAll();
 
-        for (VacationRequest request : vacations) {
+        vacations.removeIf(v -> v.getId() == id);
 
-            if (request.getId() == id) {
-
-                request.setStatus("APPROVED");
-
-                repository.saveAll(vacations);
-
-                return request;
-            }
-        }
-
-        throw new VacationNotFoundException(
-                "Vacation request not found"
-        );
+        repository.saveAll(vacations);
     }
 
-    public VacationRequest rejectVacation(int id) {
+    public List<Vacation> getEmployeeVacations(long employeeId) {
 
-        List<VacationRequest> vacations =
-                repository.findAll();
-
-        for (VacationRequest request : vacations) {
-
-            if (request.getId() == id) {
-
-                request.setStatus("REJECTED");
-
-                repository.saveAll(vacations);
-
-                return request;
-            }
-        }
-
-        throw new VacationNotFoundException(
-                "Vacation request not found"
-        );
-    }
-
-    public List<VacationRequest> getAllRequests() {
-
-        return repository.findAll();
-    }
-
-    public VacationRequest approve(int id) {
-        List<VacationRequest> list = repository.findAll();
-
-        for (VacationRequest v : list) {
-            if (v.getId() == id) {
-                v.setStatus("APPROVED");
-                repository.saveAll(list);
-                return v;
-            }
-        }
-
-        throw new VacationNotFoundException("Vacation not found");
-    }
-    public VacationRequest reject(int id) {
-        List<VacationRequest> list = repository.findAll();
-
-        for (VacationRequest v : list) {
-            if (v.getId() == id) {
-                v.setStatus("REJECTED");
-                repository.saveAll(list);
-                return v;
-            }
-        }
-
-        throw new VacationNotFoundException("Vacation not found");
+        return repository.findAll()
+                .stream()
+                .filter(v -> v.getEmployeeId() == employeeId)
+                .toList();
     }
 }
