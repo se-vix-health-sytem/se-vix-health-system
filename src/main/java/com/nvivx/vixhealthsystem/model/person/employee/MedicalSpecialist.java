@@ -1,4 +1,6 @@
 package com.nvivx.vixhealthsystem.model.person.employee;
+import com.nvivx.vixhealthsystem.model.facility.Department;
+import com.nvivx.vixhealthsystem.model.facility.Office;
 import com.nvivx.vixhealthsystem.model.person.Patient;
 import com.nvivx.vixhealthsystem.model.medical.Prescription;
 
@@ -6,7 +8,7 @@ import com.nvivx.vixhealthsystem.model.medical.Prescription;
  * Represents medical staff like Doctors, nurses, etc.
  *
  * The 'specialty' attribute indicates the medical field (e.g., "Cardiology").
- * The 'type' attribute distinguishes levels (e.g., nurse level N1 vs N10 have different tasks).
+ * The 'role' attribute distinguishes levels (e.g., nurse level N1 vs N10 have different tasks).
  * The 'licenseNumber' is the professional license identifier.
  *
  * @see Employee
@@ -14,8 +16,10 @@ import com.nvivx.vixhealthsystem.model.medical.Prescription;
 
 public class MedicalSpecialist extends Employee {
     private String specialty;
-    private String type;
+    private String role;
     private String licenseNumber;
+    private Department department;
+    private Office office;
 
     // ========== Getters and Setters ==========
 
@@ -27,12 +31,12 @@ public class MedicalSpecialist extends Employee {
         return specialty;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setRole(String role) {
+        this.role = role;
     }
 
-    public String getType() {
-        return type;
+    public String getRole() {
+        return role;
     }
 
     public void setLicenseNumber(String licenseNumber) {

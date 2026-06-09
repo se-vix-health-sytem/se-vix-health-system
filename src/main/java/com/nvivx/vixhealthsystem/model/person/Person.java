@@ -5,8 +5,8 @@ import java.time.Period;
 public class Person {
     private String name;
     private String surname;
-    private LocalDate dateOfBirth;
-    private String placeOfBirth;
+    private LocalDate birthDate;
+    private String birthPlace;
     private char gender;
     private String email;
     private String phoneNumber;
@@ -27,20 +27,20 @@ public class Person {
         this.surname = surname;
     }
 
-    public LocalDate getDateOfBirth() {
-        return dateOfBirth;
+    public LocalDate getBirthDate() {
+        return birthDate;
     }
 
-    public void setDateOfBirth(LocalDate dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
+    public void setBirthDate(LocalDate birthDate) {
+        this.birthDate = birthDate;
     }
 
-    public String getPlaceOfBirth() {
-        return placeOfBirth;
+    public String getBirthPlace() {
+        return birthPlace;
     }
 
-    public void setPlaceOfBirth(String placeOfBirth) {
-        this.placeOfBirth = placeOfBirth;
+    public void setBirthPlace(String birthPlace) {
+        this.birthPlace = birthPlace;
     }
 
     public char getGender() {
@@ -67,7 +67,7 @@ public class Person {
         this.phoneNumber = phoneNumber;
     }
     public int getAge() {
-        return Period.between(dateOfBirth,LocalDate.now()).getYears();
+        return Period.between(birthDate,LocalDate.now()).getYears();
     }
 
 }

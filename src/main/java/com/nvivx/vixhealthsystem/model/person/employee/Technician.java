@@ -2,6 +2,8 @@ package com.nvivx.vixhealthsystem.model.person.employee;
 
 import com.nvivx.vixhealthsystem.model.resource.Machinery;
 
+import java.util.List;
+
 /**
  * Responsible for managing and maintaining medical machinery.
  * Technicians can view all machines, identify faulty ones, and help employees with credentials.
@@ -21,10 +23,10 @@ public class Technician extends Employee {
      * @return an array of all Machine objects in the system
      */
 
-    public Machinery[] getMachineList() {
+    public List<Machinery> getMachineList() {
         // Will query the database for all Machine records
         // Returns empty array if no machines exist
-        return new Machinery[0];
+        return null;
     }
 
     /**
@@ -34,12 +36,12 @@ public class Technician extends Employee {
      * @return an array of Machine objects where status = false or "faulty"
      */
 
-    public Machinery[] getFaultyMachineList() {
+    public List<Machinery> getFaultyMachineList() {
 
         // Will query the database for Machine records where status = 'faulty'
         // Returns empty array if no faulty machines exist
 
-        return new Machinery[0];
+        return null;
     }
 
     /**

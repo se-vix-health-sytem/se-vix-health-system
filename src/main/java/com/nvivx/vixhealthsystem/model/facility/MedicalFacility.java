@@ -13,6 +13,7 @@ public class MedicalFacility {
     private String phoneNumber;
     private Storage storage;
     private ArrayList<Room> rooms;
+    private ArrayList<Department> departments;
 
     public MedicalFacility(String name, Location location, String email, String phoneNumber, Storage storage, ArrayList<Room> rooms) {
         this.name = name;
@@ -59,9 +60,9 @@ public class MedicalFacility {
         return storage.getResources();
     }
 
-    public void removeResources(Resource r, int q) throws Exception {
+    /*public void removeResources(Resource r, int q) throws Exception {
         storage.removeResource(r, q);
-    }
+    }*/
 
     public ArrayList<Room> getRooms() {
         return rooms;

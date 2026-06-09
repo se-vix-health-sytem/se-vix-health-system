@@ -5,11 +5,11 @@ import com.nvivx.vixhealthsystem.model.person.Patient;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
-public class InterationRoom extends Room{
+public class InternationRoom extends Room{
     private int nBeds;
     private ArrayList<Patient> patients;
 
-    public InterationRoom(String number, int nBeds) {
+    public InternationRoom(String number, int nBeds) {
         super(number);
         this.nBeds = nBeds;
         patients = new ArrayList<>();
