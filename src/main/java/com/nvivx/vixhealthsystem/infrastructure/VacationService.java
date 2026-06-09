@@ -1,7 +1,6 @@
 package com.nvivx.vixhealthsystem.service;
 
 import com.nvivx.vixhealthsystem.exception.VacationNotFoundException;
-import com.nvivx.vixhealthsystem.model.staff.VacationRequest;
 import com.nvivx.vixhealthsystem.repository.JsonVacationRepository;
 import org.springframework.stereotype.Service;
 

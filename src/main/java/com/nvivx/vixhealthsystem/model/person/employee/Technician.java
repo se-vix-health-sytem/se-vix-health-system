@@ -1,60 +1,53 @@
 package com.nvivx.vixhealthsystem.model.person.employee;
 
 import com.nvivx.vixhealthsystem.model.resource.Machinery;
+import jakarta.persistence.DiscriminatorValue;
+import jakarta.persistence.Entity;
 
 import java.util.List;
 
 /**
  * Responsible for managing and maintaining medical machinery.
- * Technicians can view all machines, identify faulty ones, and help employees with credentials.
+ * Technicians can monitor equipment, identify faulty machines
+ * and assist employees with credential recovery.
  *
  * @see Employee
  * @see Machinery
  */
-
+@Entity
+@DiscriminatorValue("TECHNICIAN")
 public class Technician extends Employee {
 
-    // ========== Machine Management Methods ==========
+    // =====================================================
+    // MACHINE MANAGEMENT METHODS
+    // =====================================================
 
     /**
-     * Returns the full list of all machines in the medical facility.
-     * Used by technicians to get an overview of all equipment.
+     * Returns all machines available in the facility.
      *
-     * @return an array of all Machine objects in the system
+     * @return list of machines
      */
-
     public List<Machinery> getMachineList() {
-        // Will query the database for all Machine records
-        // Returns empty array if no machines exist
+
         return null;
     }
 
     /**
-     * Returns only the machines that are currently marked as faulty.
-     * Used to prioritize repairs and maintenance.
+     * Returns only machines currently marked as faulty.
      *
-     * @return an array of Machine objects where status = false or "faulty"
+     * @return list of faulty machines
      */
-
     public List<Machinery> getFaultyMachineList() {
 
-        // Will query the database for Machine records where status = 'faulty'
-        // Returns empty array if no faulty machines exist
-
         return null;
     }
 
     /**
-     * Assists an employee with recovering their login credentials.
-     * Same functionality as StaffManager.credentialsRecovery().
+     * Assists an employee with credential recovery.
      *
-     * @param e the employee who needs credential recovery
+     * @param e employee requiring credential recovery
      */
-
     public void credentialsRecovery(Employee e) {
-
-        // Will look up the employee's email from the database
-        // Send a password reset link or temporary credentials
 
     }
 }

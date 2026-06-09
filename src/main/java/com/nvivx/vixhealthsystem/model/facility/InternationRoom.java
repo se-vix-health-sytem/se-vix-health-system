@@ -1,45 +1,158 @@
 package com.nvivx.vixhealthsystem.model.facility;
 
 import com.nvivx.vixhealthsystem.model.person.Patient;
+import jakarta.persistence.*;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class InternationRoom extends Room{
-    private int nBeds;
-    private ArrayList<Patient> patients;
+/**
+ * Represents an inpatient room used for patient hospitalization.
+ *
+ * An inpatient room contains a fixed number of beds and can host
+ * multiple patients simultaneously.
+ *
+ * Patients are linked through the RoomPatients table.
+ *
+ * @see Room
+ * @see Patient
+ */
+@Entity
+@DiscriminatorValue("INTERNATION_ROOM")
+public class InternationRoom extends Room {
 
+    /**
+     * Total number of beds available in the room.
+     */
+    @Column(name = "beds_count")
+    private Integer nBeds;
+
+    /**
+     * Patients currently admitted to the room.
+     */
+    @ManyToMany
+    @JoinTable(
+            name = "RoomPatients",
+            joinColumns = @JoinColumn(name = "room_id"),
+            inverseJoinColumns = @JoinColumn(name = "patient_id")
+    )
+    private List<Patient> patients = new ArrayList<>();
+
+    // =====================================================
+    // CONSTRUCTORS
+    // =====================================================
+
+    /**
+     * Default constructor required by JPA.
+     */
+    public InternationRoom() {
+    }
+
+    /**
+     * Creates an inpatient room with a specified number of beds.
+     *
+     * @param number room number
+     * @param nBeds total number of beds
+     */
     public InternationRoom(String number, int nBeds) {
         super(number);
         this.nBeds = nBeds;
-        patients = new ArrayList<>();
     }
 
+    // =====================================================
+    // GETTERS & SETTERS
+    // =====================================================
+
+    /**
+     * Returns the total number of beds in the room.
+     *
+     * @return total bed count
+     */
     public int getTotalNBeds() {
         return nBeds;
     }
 
+    /**
+     * Sets the total number of beds.
+     *
+     * @param nBeds bed count
+     */
+    public void setNBeds(int nBeds) {
+        this.nBeds = nBeds;
+    }
+
+    /**
+     * Returns the number of currently available beds.
+     *
+     * @return free bed count
+     */
     public int getNFreeBeds() {
-        return patients.size();
+        return nBeds - patients.size();
     }
 
+    /**
+     * Returns all patients currently admitted.
+     *
+     * @return patient list
+     */
+    public List<Patient> getPatients() {
+        return patients;
+    }
+
+    /**
+     * Sets the patient list.
+     *
+     * @param patients admitted patients
+     */
+    public void setPatients(List<Patient> patients) {
+        this.patients = patients;
+    }
+
+    // =====================================================
+    // PATIENT MANAGEMENT METHODS
+    // =====================================================
+
+    /**
+     * Admits a patient to the room.
+     *
+     * @param p patient to admit
+     * @throws Exception if the room is already full
+     */
     public void addPatient(Patient p) throws Exception {
+
         if (patients.size() >= nBeds) {
-            throw new Exception("Patient limit reached for this room");
-        } else {
-            patients.add(p);
+            throw new Exception(
+                    "Patient limit reached for this room"
+            );
         }
+
+        patients.add(p);
     }
 
+    /**
+     * Checks whether a patient is currently admitted.
+     *
+     * @param p patient to search
+     * @return true if the patient is present
+     */
     public boolean hasPatient(Patient p) {
-       return  patients.contains(p);
+        return patients.contains(p);
     }
 
+    /**
+     * Removes a patient from the room.
+     *
+     * @param p patient to remove
+     * @throws Exception if the patient is not present
+     */
     public void removePatient(Patient p) throws Exception {
-        if (hasPatient(p)) {
-            patients.remove(p);
-        } else {
-            throw new Exception("No patient " + p + " in this room");
-        }
-    }
 
+        if (!hasPatient(p)) {
+            throw new Exception(
+                    "No patient " + p + " in this room"
+            );
+        }
+
+        patients.remove(p);
+    }
 }

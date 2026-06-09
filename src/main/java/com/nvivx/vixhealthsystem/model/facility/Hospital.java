@@ -1,52 +1,124 @@
 package com.nvivx.vixhealthsystem.model.facility;
 
 import com.nvivx.vixhealthsystem.model.person.Patient;
-import com.nvivx.vixhealthsystem.model.resource.Storage;
+import jakarta.persistence.DiscriminatorValue;
+import jakarta.persistence.Entity;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class Hospital extends MedicalFacility{
-    private ArrayList<InternationRoom> roomsForPatients;
+/**
+ * Represents a hospital.
+ *
+ * A hospital is a medical facility capable of admitting patients
+ * for short-term or long-term stays.
+ *
+ * Hospitals contain inpatient rooms and provide admission and
+ * discharge services.
+ *
+ * @see MedicalFacility
+ * @see InternationRoom
+ * @see Patient
+ */
+@Entity
+@DiscriminatorValue("HOSPITAL")
+public class Hospital extends MedicalFacility {
+    /**
+     * Returns all inpatient rooms available in the hospital.
+     *
+     * An inpatient room is a room designed to accommodate
+     * admitted patients for short-term or long-term stays.
+     *
+     * The method filters the facility room list and returns
+     * only rooms of type InternationRoom.
+     *
+     * @return list of all inpatient rooms
+     */
+    public List<InternationRoom> getRoomsForPatients() {
 
-    public Hospital(String name, Location location, String email, String phoneNumber, Storage storage, ArrayList<Room> rooms, ArrayList<InternationRoom> roomsForPatients) {
-        super(name, location, email, phoneNumber, storage, rooms);
-        this.roomsForPatients = roomsForPatients;
-    }
+        List<InternationRoom> out = new ArrayList<>();
 
-    public ArrayList<InternationRoom> getRoomsForPatients() {
-        return roomsForPatients;
-    }
+        for (Room room : getRooms()) {
 
-    public void setRoomsForPatients(ArrayList<InternationRoom> roomsForPatients) {
-        this.roomsForPatients = roomsForPatients;
-    }
-
-    public ArrayList<InternationRoom> getFreeRoomsForPatients() {
-        ArrayList<InternationRoom> out = new ArrayList<>();
-        for (int i = 0; i < roomsForPatients.size(); i++) {
-            InternationRoom room = roomsForPatients.get(i);
-            if (room.getNFreeBeds() > 0) {
-                out.add(room);
+            if (room instanceof InternationRoom internRoom) {
+                out.add(internRoom);
             }
         }
+
         return out;
     }
 
-    public InternationRoom findPatientInRoom(Patient p) throws Exception {
-        for (int i = 0; i < roomsForPatients.size(); i++) {
-            InternationRoom room = roomsForPatients.get(i);
-            if (room.hasPatient(p)) {
-                return room;
+    /**
+     * Returns all inpatient rooms that still have at least one
+     * free bed available.
+     *
+     * @return list of available inpatient rooms
+     */
+    public List<InternationRoom> getFreeRoomsForPatients() {
+
+        List<InternationRoom> out = new ArrayList<>();
+
+        for (Room room : getRooms()) {
+
+            if (room instanceof InternationRoom internRoom &&
+                    internRoom.getNFreeBeds() > 0) {
+
+                out.add(internRoom);
             }
         }
-        throw new Exception("No patient " + p + " in the hospital");
+
+        return out;
     }
 
-    public void internPatient(Patient p, InternationRoom r) throws Exception {
+    /**
+     * Finds the room currently hosting a patient.
+     *
+     * @param p patient to search
+     * @return patient's room
+     * @throws Exception if the patient is not admitted
+     */
+    public InternationRoom findPatientInRoom(Patient p)
+            throws Exception {
+
+        for (Room room : getRooms()) {
+
+            if (room instanceof InternationRoom internRoom &&
+                    internRoom.hasPatient(p)) {
+
+                return internRoom;
+            }
+        }
+
+        throw new Exception(
+                "No patient " + p + " is currently admitted."
+        );
+    }
+
+    /**
+     * Admits a patient to an inpatient room.
+     *
+     * @param p patient
+     * @param r destination room
+     * @throws Exception if admission fails
+     */
+    public void internPatient(
+            Patient p,
+            InternationRoom r
+    ) throws Exception {
+
         r.addPatient(p);
     }
 
-    public void dismissPatient(Patient p) throws Exception {
+    /**
+     * Discharges a patient from the hospital.
+     *
+     * @param p patient to discharge
+     * @throws Exception if the patient is not admitted
+     */
+    public void dismissPatient(
+            Patient p
+    ) throws Exception {
+
         findPatientInRoom(p).removePatient(p);
     }
 }

@@ -1,53 +1,68 @@
 package com.nvivx.vixhealthsystem.model.person;
 
-
 import com.nvivx.vixhealthsystem.model.medical.Appointment;
 import com.nvivx.vixhealthsystem.model.medical.MedicalRecord;
 import com.nvivx.vixhealthsystem.model.person.employee.MedicalSpecialist;
+import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-
-import static java.util.spi.ToolProvider.findFirst;
 
 /**
  * Represents a patient in the VIX Health System.
  *
- * Extends Person with a unique fiscal code (used as primary key in DB),
- * a medical record (composition — one patient, one record), and a list
- * of appointments. All appointment-management logic lives here.
+ * A patient has a unique fiscal code, personal information inherited
+ * from Person, one medical record and a list of appointments.
+ *
+ * Appointment-management logic is kept inside this class.
  *
  * @see Person
  * @see MedicalRecord
  * @see Appointment
  */
+@Entity
+@Table(name = "Patients")
+public class Patient extends Person {
 
+    /**
+     * Patient unique identifier.
+     */
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-public class Patient extends Person{
-
+    /**
+     * Italian fiscal code.
+     * Must be unique for every patient.
+     */
+    @Column(name = "fiscal_code", nullable = false, unique = true, length = 16)
     private String fiscalCode;
+
+    /**
+     * Patient medical record.
+     * One patient has one medical record.
+     */
+    @OneToOne(mappedBy = "patient", cascade = CascadeType.ALL, orphanRemoval = true)
     private MedicalRecord medicalRecord;
-    private List<Appointment> appointments;
 
-
-    //-------------- Constructors -------------------
-
+    /**
+     * Patient appointments.
+     */
+    @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Appointment> appointments = new ArrayList<>();
 
     public Patient() {
-        this.appointments = new ArrayList<>();
     }
 
     public Patient(String fiscalCode, MedicalRecord medicalRecord) {
         this.fiscalCode = fiscalCode;
         this.medicalRecord = medicalRecord;
-        this.appointments = new ArrayList<>();
     }
 
-
-    //-------------- Getters and Setters -------------------
-
+    public Long getId() {
+        return id;
+    }
 
     public String getFiscalCode() {
         return fiscalCode;
@@ -73,30 +88,17 @@ public class Patient extends Person{
         this.appointments = appointments;
     }
 
-
-    //-------------- Methods -------------------
-
-
-    /**
-     * Books a new appointment with a given specialist at the given date/time interval.
-     * ID is set to 0 as a placeholde - the DB will assign the real ID on persist.
-     *
-     * @param m the medical specialist to book with
-     * @param dt the requested date and time
-     * @return the newly created appointment
-     */
     public Appointment makeAppointment(MedicalSpecialist m, LocalDateTime dt) {
         Appointment appointment = new Appointment(0, dt, 0, "");
+
+        appointment.setPatient(this);
+        appointment.setMedicalSpecialist(m);
+
         appointments.add(appointment);
+
         return appointment;
     }
 
-    /**
-     * Reschedules an existing appointment identified by its old date/time.
-     *
-     * @param dtOld current date/time of the appointment
-     * @param dtNew the new date and time to assign
-     */
     public void rescheduleAppointment(LocalDateTime dtOld, LocalDateTime dtNew) {
         for (Appointment a : appointments) {
             if (a.getDateTime().equals(dtOld)) {
@@ -106,24 +108,12 @@ public class Patient extends Person{
         }
     }
 
-    /**
-     * Cancels the appointment at the given date/time, removing it from the list.
-     *
-     * @param dt the date/time of the appointment to cancel
-     */
     public void cancelAppointment(LocalDateTime dt) {
         appointments.removeIf(a -> a.getDateTime().equals(dt));
     }
 
-    /**
-     * Clears all appointments and detaches the medical record.
-     * Called when the patient deletes their account.
-     */
     public void deleteAccount() {
-        this.appointments.clear();
-        this.medicalRecord = null;
+        appointments.clear();
+        medicalRecord = null;
     }
-
-
-
 }

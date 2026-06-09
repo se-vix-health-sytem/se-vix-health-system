@@ -1,73 +1,76 @@
 package com.nvivx.vixhealthsystem.model.person.employee;
-import com.nvivx.vixhealthsystem.model.facility.Department;
-import com.nvivx.vixhealthsystem.model.facility.Office;
-import com.nvivx.vixhealthsystem.model.person.Patient;
+
 import com.nvivx.vixhealthsystem.model.medical.Prescription;
+import com.nvivx.vixhealthsystem.model.person.Patient;
+import jakarta.persistence.Column;
+import jakarta.persistence.DiscriminatorValue;
+import jakarta.persistence.Entity;
 
 /**
- * Represents medical staff like Doctors, nurses, etc.
+ * Represents medical personnel such as doctors, surgeons,
+ * specialists and nurses.
  *
- * The 'specialty' attribute indicates the medical field (e.g., "Cardiology").
- * The 'role' attribute distinguishes levels (e.g., nurse level N1 vs N10 have different tasks).
- * The 'licenseNumber' is the professional license identifier.
+ * The specialty identifies the medical field
+ * (e.g. Cardiology, Neurology, Orthopedics).
+ *
+ * The license number uniquely identifies the professional
+ * medical license issued by the appropriate authority.
  *
  * @see Employee
+ * @see Prescription
  */
-
+@Entity
+@DiscriminatorValue("MEDICAL_SPECIALIST")
 public class MedicalSpecialist extends Employee {
+
+    /**
+     * Medical specialization field.
+     */
+    @Column(name = "specialty")
     private String specialty;
-    private String role;
+
+    /**
+     * Professional license identifier.
+     */
+    @Column(name = "license_number")
     private String licenseNumber;
-    private Department department;
-    private Office office;
 
-    // ========== Getters and Setters ==========
-
-    public void setSpecialty(String specialty) {
-        this.specialty = specialty;
-    }
+    // =====================================================
+    // GETTERS & SETTERS
+    // =====================================================
 
     public String getSpecialty() {
         return specialty;
     }
 
-    public void setRole(String role) {
-        this.role = role;
+    public void setSpecialty(String specialty) {
+        this.specialty = specialty;
     }
 
-    public String getRole() {
-        return role;
+    public String getLicenseNumber() {
+        return licenseNumber;
     }
 
     public void setLicenseNumber(String licenseNumber) {
         this.licenseNumber = licenseNumber;
     }
 
-    /**
-     * Returns the specialist's unique professional license number.
-     * Used for verification and legal purposes.
-     *
-     * @return the license number as a String
-     */
-
-    public String getLicenseNumber() {
-        return licenseNumber;
-    }
-
-    // ========== Business Methods ==========
+    // =====================================================
+    // DOMAIN METHODS
+    // =====================================================
 
     /**
-     * Issues a prescription for a specific patient.
-     * This creates a record linking the patient to the prescribed medication/treatment.
+     * Issues a prescription for a patient.
      *
-     * @param p the patient receiving the prescription
-     * @param pr the prescription details (medication, dosage, notes, etc.)
+     * The actual persistence is handled by the service layer.
+     *
+     * @param p patient receiving the prescription
+     * @param pr prescription details
      */
-
-    public void appPrescriptionForPatient(Patient p, Prescription pr) {
-
-        // Will insert into the database: links patient, medical specialist, and prescription
-        // Also updates the patient's medical record
+    public void appPrescriptionForPatient(
+            Patient p,
+            Prescription pr
+    ) {
 
     }
 }

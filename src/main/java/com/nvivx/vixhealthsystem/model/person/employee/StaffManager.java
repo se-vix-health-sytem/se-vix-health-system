@@ -1,51 +1,51 @@
 package com.nvivx.vixhealthsystem.model.person.employee;
 
+import jakarta.persistence.DiscriminatorValue;
+import jakarta.persistence.Entity;
+
 /**
  * Manages employee accounts in the system.
- * This includes creating new accounts, deleting old ones, and helping with lost credentials.
+ * Responsible for creating, deleting and recovering employee accounts.
+ *
+ * This role is typically assigned to human resources
+ * or administrative personnel with account management privileges.
  *
  * @see Employee
  */
-
+@Entity
+@DiscriminatorValue("STAFF_MANAGER")
 public class StaffManager extends Employee {
 
-    // ========== Account Management Methods ==========
+    // =====================================================
+    // ACCOUNT MANAGEMENT METHODS
+    // =====================================================
 
     /**
-     * Creates an employee account for any type of employee.
+     * Creates a new employee account.
      *
-    */
-
+     * The actual persistence is handled by the service layer.
+     *
+     * @return newly created employee
+     */
     public Employee createAccountForEmployee() {
-        // TODO: Replace with methods for each employee type?
         return null;
     }
 
     /**
-     * Permanently removes an employee's account from the system.
-     * This action cannot be undone (or can be soft-deleted with an 'active' flag).
+     * Removes an employee account from the system.
      *
-     * @param e the employee whose account should be deleted
+     * @param e employee to remove
      */
-
     public void deleteEmployeeAccount(Employee e) {
-
-        // Will delete the employee record from the database
-        // Or set an 'active = false' flag for soft deletion
 
     }
 
     /**
-     * Helps an employee regain access to their account.
-     * Typically, sends a password reset email or generates a temporary password.
+     * Starts the credential recovery process for an employee.
      *
-     * @param e the employee who needs credential recovery
+     * @param e employee requiring credential recovery
      */
-
     public void credentialsRecovery(Employee e) {
-
-        // Will look up the employee's email from the database
-        // Send a password reset link or temporary credentials
 
     }
 }
