@@ -2,21 +2,21 @@ package com.nvivx.vixhealthsystem.model.staff;
 
 import java.time.LocalDate;
 
-public class Shift {
+public class Vacation {
 
     private long id;
     private long employeeId;
-    private LocalDate date;
-    private String shiftType;
+    private LocalDate startDate;
+    private LocalDate endDate;
     private String notes;
 
-    public Shift() {}
+    public Vacation() {}
 
-    public Shift(long id, long employeeId, LocalDate date, String shiftType, String notes) {
+    public Vacation(long id, long employeeId, LocalDate startDate, LocalDate endDate, String notes) {
         this.id = id;
         this.employeeId = employeeId;
-        this.date = date;
-        this.shiftType = shiftType;
+        this.startDate = startDate;
+        this.endDate = endDate;
         this.notes = notes;
     }
 
@@ -34,18 +34,18 @@ public class Shift {
         this.employeeId = employeeId;
     }
 
-    public LocalDate getDate() {
-        return date;
+    public LocalDate getStartDate() {
+        return startDate;
     }
-    public void setDate(LocalDate date) {
-        this.date = date;
+    public void setStartDate(LocalDate startDate) {
+        this.startDate = startDate;
     }
 
-    public String getShiftType() {
-        return shiftType;
+    public LocalDate getEndDate() {
+        return endDate;
     }
-    public void setShiftType(String shiftType) {
-        this.shiftType = shiftType;
+    public void setEndDate(LocalDate endDate) {
+        this.endDate = endDate;
     }
 
     public String getNotes() {
