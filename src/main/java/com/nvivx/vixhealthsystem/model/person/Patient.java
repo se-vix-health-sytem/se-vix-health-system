@@ -49,9 +49,8 @@ public class Patient extends Person {
     /**
      * Patient appointments.
      */
-    @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Transient
     private List<Appointment> appointments = new ArrayList<>();
-
     public Patient() {
     }
 
