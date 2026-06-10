@@ -1,10 +1,15 @@
 package com.nvivx.vixhealthsystem.model.person.employee;
 
+import com.nvivx.vixhealthsystem.model.medical.Appointment;
 import com.nvivx.vixhealthsystem.model.medical.Prescription;
 import com.nvivx.vixhealthsystem.model.person.Patient;
 import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Transient;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Represents medical personnel such as doctors, surgeons,
@@ -34,6 +39,14 @@ public class MedicalSpecialist extends Employee {
      */
     @Column(name = "license_number")
     private String licenseNumber;
+
+    /**
+     * Medical Specialist appointments.
+     */
+    @Transient
+    private List<Appointment> appointments = new ArrayList<>();
+    public MedicalSpecialist() {
+    }
 
     // =====================================================
     // GETTERS & SETTERS
