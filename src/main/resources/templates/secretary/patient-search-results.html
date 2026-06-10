@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${pageTitle}">Patient Search Results</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-header bg-info text-white">
+            <h2><i class="bi bi-search"></i> <span th:text="${pageTitle}">Search Results</span></h2>
+        </div>
+        <div class="card-body">
+            <p>Search results for: <strong th:text="${query}"></strong></p>
+
+            <div th:if="${not #lists.isEmpty(patients)}">
+                <table class="table table-striped">
+                    <thead>
+                    <tr><th>ID</th><th>Name</th><th>Fiscal Code</th><th>Email</th><th>Phone</th><th>Actions</th></tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="patient : ${patients}">
+                        <td th:text="${patient.id}">1</td>
+                        <td th:text="${patient.name} + ' ' + ${patient.surname}">Patient Name</td>
+                        <td th:text="${patient.fiscalCode}">FC123</td>
+                        <td th:text="${patient.email}">email@example.com</td>
+                        <td th:text="${patient.phoneNumber}">+39...</td>
+                        <td>
+                            <button class="btn btn-sm btn-primary" onclick="selectPatient(${patient.id}, '${patient.name} ${patient.surname}')">
+                                <i class="bi bi-check"></i> Select
+                            </button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div th:unless="${not #lists.isEmpty(patients)}">
+                <div class="alert alert-warning">
+                    <i class="bi bi-exclamation-triangle"></i> No patients found matching "<span th:text="${query}"></span>".
+                </div>
+            </div>
+
+            <a href="/secretary/patients/search" class="btn btn-secondary">
+                <i class="bi bi-search"></i> New Search
+            </a>
+            <a href="/secretary/dashboard" class="btn btn-primary">
+                <i class="bi bi-speedometer2"></i> Back to Dashboard
+            </a>
+        </div>
+    </div>
+</div>
+
+<script>
+    function selectPatient(patientId, patientName) {
+        // This could populate a form or redirect to admission page
+        if(confirm('Admit patient ' + patientName + '?')) {
+            window.location.href = '/secretary/rooms?admitPatientId=' + patientId;
+        }
+    }
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
