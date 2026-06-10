@@ -47,6 +47,7 @@ public class MedicalSpecialistController {
         model.addAttribute("pageTitle", "Medical Record - " + patient.getName() + " " + patient.getSurname());
         model.addAttribute("patient", patient);
         model.addAttribute("medicalRecord", patient.getMedicalRecord());
+        model.addAttribute("patientId", patientId);
         return "medical-specialist/medical-record";
     }
 
@@ -73,9 +74,10 @@ public class MedicalSpecialistController {
                                   @RequestParam String dosage,
                                   Model model) {
         try {
-            // You need to get the current medical specialist ID from SecurityContext
-            Long currentSpecialistId = 1L; // TODO: Get from authentication
-            medicalRecordService.addPrescription(patientId, currentSpecialistId, medication + " - " + dosage);
+            // TODO: Get current medical specialist ID from authentication
+            Long currentSpecialistId = 1L; // Placeholder until auth is implemented
+            String fullMedication = medication + " - " + dosage;
+            medicalRecordService.addPrescription(patientId, currentSpecialistId, fullMedication);
             model.addAttribute("pageTitle", "Prescription Added");
             model.addAttribute("message", "✅ Prescription added successfully!");
         } catch (Exception e) {
@@ -105,7 +107,7 @@ public class MedicalSpecialistController {
     @GetMapping("/appointments")
     public String viewAppointments(Model model) {
         model.addAttribute("pageTitle", "My Appointments");
-        // TODO: Implement appointment listing
+        // TODO: Implement appointment listing from JSON repository
         return "medical-specialist/appointments";
     }
 
@@ -115,11 +117,9 @@ public class MedicalSpecialistController {
         return "medical-specialist/calendar";
     }
 
-    // UC30 - View Personal Calendar (already has appointment view)
     @GetMapping("/my-schedule")
     public String viewMySchedule(Model model) {
         model.addAttribute("pageTitle", "My Schedule");
-        // TODO: Combine shifts, appointments, and surgeries
         return "medical-specialist/schedule";
     }
 }

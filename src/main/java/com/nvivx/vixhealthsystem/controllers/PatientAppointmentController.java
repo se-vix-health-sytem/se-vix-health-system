@@ -1,20 +1,18 @@
-// src/main/java/com/nvivx/vixhealthsystem/controllers/PatientAppointmentController.java
 package com.nvivx.vixhealthsystem.controllers;
 
-import com.nvivx.vixhealthsystem.mock.MockDatabase;
 import com.nvivx.vixhealthsystem.model.medical.Appointment;
 import com.nvivx.vixhealthsystem.model.person.Patient;
 import com.nvivx.vixhealthsystem.model.person.employee.MedicalSpecialist;
-import com.nvivx.vixhealthsystem.service.PatientAppointmentService;
+import com.nvivx.vixhealthsystem.repository.JsonAppointmentRepository;
+import com.nvivx.vixhealthsystem.service.core.EmployeeService;
+import com.nvivx.vixhealthsystem.service.core.PatientService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import jakarta.servlet.http.HttpSession;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -23,16 +21,19 @@ import java.util.stream.Collectors;
 @RequestMapping("/patient")
 public class PatientAppointmentController {
 
-    private final PatientAppointmentService appointmentService;
-    private final MockDatabase mockDatabase;
+    private final JsonAppointmentRepository appointmentRepository;
+    private final PatientService patientService;
+    private final EmployeeService employeeService;
 
-    public PatientAppointmentController(PatientAppointmentService appointmentService,
-                                        MockDatabase mockDatabase) {
-        this.appointmentService = appointmentService;
-        this.mockDatabase = mockDatabase;
+    public PatientAppointmentController(JsonAppointmentRepository appointmentRepository,
+                                        PatientService patientService,
+                                        EmployeeService employeeService) {
+        this.appointmentRepository = appointmentRepository;
+        this.patientService = patientService;
+        this.employeeService = employeeService;
     }
 
-    // GET /patient/appointments - show all appointments
+    // GET /patient/appointments - show all appointments for logged-in patient
     @GetMapping("/appointments")
     public String viewAppointments(HttpSession session, Model model) {
         Patient patient = getLoggedInPatient(session);
@@ -40,16 +41,23 @@ public class PatientAppointmentController {
             return "redirect:/patient/login";
         }
 
-        List<Appointment> allAppointments = appointmentService.getPatientAppointments(patient.getId());
+        List<Appointment> allAppointments = appointmentRepository.findAll().stream()
+                .filter(a -> a.getPatient() != null && a.getPatient().getId().equals(patient.getId()))
+                .collect(Collectors.toList());
 
         LocalDateTime now = LocalDateTime.now();
+
         List<Appointment> upcoming = allAppointments.stream()
-                .filter(a -> a.getDateTime().isAfter(now) && !"CANCELLED".equals(a.getStatus()))
+                .filter(a -> a.getDateTime().isAfter(now) &&
+                        !"CANCELLED".equals(a.getStatus()) &&
+                        !"COMPLETED".equals(a.getStatus()))
                 .sorted((a, b) -> a.getDateTime().compareTo(b.getDateTime()))
                 .collect(Collectors.toList());
 
         List<Appointment> past = allAppointments.stream()
-                .filter(a -> a.getDateTime().isBefore(now) || "CANCELLED".equals(a.getStatus()))
+                .filter(a -> a.getDateTime().isBefore(now) ||
+                        "CANCELLED".equals(a.getStatus()) ||
+                        "COMPLETED".equals(a.getStatus()))
                 .sorted((a, b) -> b.getDateTime().compareTo(a.getDateTime()))
                 .collect(Collectors.toList());
 
@@ -60,7 +68,7 @@ public class PatientAppointmentController {
         return "patient/appointments";
     }
 
-    // GET /patient/appointments/book - show booking form with doctors
+    // GET /patient/appointments/book - show booking form with specialists
     @GetMapping("/appointments/book")
     public String showBookingForm(Model model, HttpSession session) {
         Patient patient = getLoggedInPatient(session);
@@ -68,39 +76,47 @@ public class PatientAppointmentController {
             return "redirect:/patient/login";
         }
 
-        List<MedicalSpecialist> specialists = appointmentService.getAvailableSpecialists();
+        List<MedicalSpecialist> specialists = employeeService.findAllMedicalSpecialists();
         model.addAttribute("specialists", specialists);
         model.addAttribute("patient", patient);
         model.addAttribute("pageTitle", "Book Appointment");
         return "patient/book-appointment";
     }
 
-
-    // GET /patient/appointments/book/{doctorId} - show available time slots for a specific doctor
-    @GetMapping("/appointments/book/{doctorId}")
-    public String showTimeSlots(@PathVariable int doctorId, Model model, HttpSession session) {
+    // GET /patient/appointments/book/{specialistId} - show available time slots
+    @GetMapping("/appointments/book/{specialistId}")
+    public String showTimeSlots(@PathVariable Long specialistId, Model model, HttpSession session) {
         Patient patient = getLoggedInPatient(session);
         if (patient == null) {
             return "redirect:/patient/login";
         }
 
-        MedicalSpecialist doctor = mockDatabase.findMedicalSpecialistById(doctorId);
-        if (doctor == null) {
+        MedicalSpecialist specialist = null;
+        try {
+            var employee = employeeService.findById(specialistId);
+            if (employee instanceof MedicalSpecialist ms) {
+                specialist = ms;
+            }
+        } catch (Exception e) {
             return "redirect:/patient/appointments/book";
         }
 
-        List<LocalDateTime> availableSlots = appointmentService.getAvailableSlots(doctorId, LocalDate.now(), LocalDate.now().plusDays(14));
+        if (specialist == null) {
+            return "redirect:/patient/appointments/book";
+        }
 
-        model.addAttribute("doctor", doctor);
+        List<LocalDateTime> availableSlots = getAvailableSlots(specialistId);
+
+        model.addAttribute("specialist", specialist);
         model.addAttribute("availableSlots", availableSlots);
         model.addAttribute("patient", patient);
-        model.addAttribute("pageTitle", "Select Time Slot - Dr. " + doctor.getName());
+        model.addAttribute("pageTitle", "Select Time Slot - Dr. " + specialist.getName() + " " + specialist.getSurname());
         return "patient/select-slot";
     }
 
     // POST /patient/appointments/book - save new appointment
     @PostMapping("/appointments/book")
-    public String bookAppointment(@RequestParam int doctorId,
+    public String bookAppointment(@RequestParam Long specialistId,
                                   @RequestParam String dateTime,
                                   HttpSession session,
                                   RedirectAttributes redirectAttributes) {
@@ -112,12 +128,37 @@ public class PatientAppointmentController {
         LocalDateTime appointmentTime = LocalDateTime.parse(dateTime, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
 
         try {
-            Appointment appointment = appointmentService.bookAppointment(patient.getId(), doctorId, appointmentTime);
+            // Get the specialist
+            var employee = employeeService.findById(specialistId);
+            if (!(employee instanceof MedicalSpecialist specialist)) {
+                throw new RuntimeException("Medical specialist not found");
+            }
+
+            // Check if slot is available
+            if (!isSlotAvailable(specialistId, appointmentTime)) {
+                throw new RuntimeException("Selected time slot is no longer available");
+            }
+
+            // Create new appointment
+            Appointment appointment = new Appointment(
+                    0, // ID will be generated
+                    appointmentTime,
+                    30, // default 30 minutes
+                    "Booked via patient portal"
+            );
+            appointment.setPatient(patient);
+            appointment.setMedicalSpecialist(specialist);
+            appointment.setPaymentStatus(false);
+            appointment.setStatus("CONFIRMED");
+
+            Appointment saved = appointmentRepository.save(appointment);
+
             redirectAttributes.addFlashAttribute("message",
                     "✅ Appointment booked successfully!\n\n" +
                             "Date: " + appointmentTime.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")) + "\n" +
-                            "Doctor: Dr. " + appointmentService.getDoctorName(doctorId) + "\n" +
-                            "Appointment ID: " + appointment.getId());
+                            "Specialist: Dr. " + specialist.getName() + " " + specialist.getSurname() + "\n" +
+                            "Appointment ID: " + saved.getId());
+
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("error", "❌ " + e.getMessage());
         }
@@ -139,10 +180,31 @@ public class PatientAppointmentController {
         LocalDateTime newTime = LocalDateTime.parse(newDateTime, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
 
         try {
-            appointmentService.rescheduleAppointment(apptId, patient.getId(), newTime);
+            Appointment appointment = appointmentRepository.findById(apptId);
+            if (appointment == null) {
+                throw new RuntimeException("Appointment not found");
+            }
+
+            if (!appointment.getPatient().getId().equals(patient.getId())) {
+                throw new RuntimeException("You don't have permission to modify this appointment");
+            }
+
+            // Check if new slot is available
+            Long specialistId = appointment.getMedicalSpecialist().getId();
+            if (!isSlotAvailable(specialistId, newTime)) {
+                throw new RuntimeException("New time slot is not available");
+            }
+
+            LocalDateTime oldTime = appointment.getDateTime();
+            appointment.setDateTime(newTime);
+            appointment.setStatus("RESCHEDULED");
+            appointmentRepository.save(appointment);
+
             redirectAttributes.addFlashAttribute("message",
                     "✅ Appointment rescheduled successfully!\n\n" +
+                            "Old Date/Time: " + oldTime.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")) + "\n" +
                             "New Date/Time: " + newTime.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")));
+
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("error", "❌ " + e.getMessage());
         }
@@ -161,8 +223,20 @@ public class PatientAppointmentController {
         }
 
         try {
-            appointmentService.cancelAppointment(apptId, patient.getId());
+            Appointment appointment = appointmentRepository.findById(apptId);
+            if (appointment == null) {
+                throw new RuntimeException("Appointment not found");
+            }
+
+            if (!appointment.getPatient().getId().equals(patient.getId())) {
+                throw new RuntimeException("You don't have permission to cancel this appointment");
+            }
+
+            appointment.setStatus("CANCELLED");
+            appointmentRepository.save(appointment);
+
             redirectAttributes.addFlashAttribute("message", "✅ Appointment cancelled successfully!");
+
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("error", "❌ " + e.getMessage());
         }
@@ -170,7 +244,70 @@ public class PatientAppointmentController {
         return "redirect:/patient/appointments";
     }
 
+    // Helper method to get logged-in patient from session
     private Patient getLoggedInPatient(HttpSession session) {
         return (Patient) session.getAttribute("patient");
+    }
+
+    // Helper method to check if a time slot is available for a specialist
+    private boolean isSlotAvailable(Long specialistId, LocalDateTime dateTime) {
+        List<Appointment> existingAppointments = appointmentRepository.findAll().stream()
+                .filter(a -> a.getMedicalSpecialist() != null &&
+                        a.getMedicalSpecialist().getId().equals(specialistId))
+                .filter(a -> !"CANCELLED".equals(a.getStatus()))
+                .collect(Collectors.toList());
+
+        return existingAppointments.stream()
+                .noneMatch(a -> a.getDateTime().equals(dateTime));
+    }
+
+    // Helper method to get available slots for a specialist (next 14 days, 9am-5pm, weekdays only)
+    private List<LocalDateTime> getAvailableSlots(Long specialistId) {
+        List<LocalDateTime> availableSlots = new java.util.ArrayList<>();
+
+        List<Appointment> existingAppointments = appointmentRepository.findAll().stream()
+                .filter(a -> a.getMedicalSpecialist() != null &&
+                        a.getMedicalSpecialist().getId().equals(specialistId))
+                .filter(a -> !"CANCELLED".equals(a.getStatus()))
+                .collect(Collectors.toList());
+
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime endDate = now.plusDays(14);
+        LocalDateTime current = now.withHour(9).withMinute(0).withSecond(0).withNano(0);
+
+        // If current time is past 9am, start from next hour
+        if (now.getHour() >= 17) {
+            current = current.plusDays(1).withHour(9);
+        } else if (now.getHour() >= 9) {
+            current = current.withHour(now.getHour() + 1);
+        }
+
+        while (current.isBefore(endDate)) {
+            // Only weekdays (Monday=1 to Friday=5)
+            int dayOfWeek = current.getDayOfWeek().getValue();
+            if (dayOfWeek >= 1 && dayOfWeek <= 5) {
+                // Working hours 9am to 5pm
+                if (current.getHour() >= 9 && current.getHour() < 17) {
+                    // Fix the lambda warning by using a effectively final variable
+                    final LocalDateTime slotToCheck = current;
+                    boolean isBooked = existingAppointments.stream()
+                            .anyMatch(a -> a.getDateTime().equals(slotToCheck));
+
+                    if (!isBooked) {
+                        availableSlots.add(current);
+                    }
+                }
+            }
+
+            // Move to next hour
+            current = current.plusHours(1);
+
+            // If we've passed 5pm, move to next day 9am
+            if (current.getHour() >= 17) {
+                current = current.plusDays(1).withHour(9);
+            }
+        }
+
+        return availableSlots;
     }
 }

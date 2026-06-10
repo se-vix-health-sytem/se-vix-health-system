@@ -132,7 +132,6 @@ public class AuthController {
 ===== src/main/java/com/nvivx/vixhealthsystem/controllers/BuyerController.java =====
 package com.nvivx.vixhealthsystem.controllers;
 
-import com.nvivx.vixhealthsystem.service.BuyerService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -969,7 +968,6 @@ import com.nvivx.vixhealthsystem.model.facility.Room;
 import com.nvivx.vixhealthsystem.model.medical.Appointment;
 import com.nvivx.vixhealthsystem.model.person.Patient;
 import com.nvivx.vixhealthsystem.model.person.employee.MedicalSpecialist;
-import com.nvivx.vixhealthsystem.service.SecretaryService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -1119,52 +1117,6 @@ public class SecretaryController {
         model.addAttribute("query", query);
         model.addAttribute("pageTitle", "Search Results");
         return "secretary/patient-search-results";
-    }
-}
-
-===== src/main/java/com/nvivx/vixhealthsystem/controllers/ShiftController.java =====
-package com.nvivx.vixhealthsystem.controllers;
-
-import com.nvivx.vixhealthsystem.infrastructure.ShiftService;
-import com.nvivx.vixhealthsystem.model.staff.Shift;
-import org.springframework.web.bind.annotation.*;
-
-import java.time.LocalDate;
-import java.util.List;
-
-@RestController
-@RequestMapping("/shifts")
-public class ShiftController {
-
-    private final ShiftService service;
-
-    public ShiftController(ShiftService service) {
-        this.service = service;
-    }
-
-    @PostMapping
-    public Shift createShift(
-            @RequestParam long employeeId,
-            @RequestParam String date,
-            @RequestParam String shiftType,
-            @RequestParam String notes) {
-
-        return service.assignShift(
-                employeeId,
-                LocalDate.parse(date),
-                shiftType,
-                notes
-        );
-    }
-
-    @DeleteMapping("/{id}")
-    public void deleteShift(@PathVariable long id) {
-        service.deleteShift(id);
-    }
-
-    @GetMapping("/{employeeId}")
-    public List<Shift> getEmployeeShifts(@PathVariable long employeeId) {
-        return service.getEmployeeShifts(employeeId);
     }
 }
 
@@ -1487,52 +1439,6 @@ public class TechnicianController {
 }
 
 
-===== src/main/java/com/nvivx/vixhealthsystem/controllers/VacationController.java =====
-package com.nvivx.vixhealthsystem.controllers;
-
-import com.nvivx.vixhealthsystem.infrastructure.VacationService;
-import com.nvivx.vixhealthsystem.model.staff.Vacation;
-import org.springframework.web.bind.annotation.*;
-
-import java.time.LocalDate;
-import java.util.List;
-
-@RestController
-@RequestMapping("/vacations")
-public class VacationController {
-
-    private final VacationService service;
-
-    public VacationController(VacationService service) {
-        this.service = service;
-    }
-
-    @PostMapping
-    public Vacation createVacation(
-            @RequestParam long employeeId,
-            @RequestParam String startDate,
-            @RequestParam String endDate,
-            @RequestParam String notes) {
-
-        return service.addVacation(
-                employeeId,
-                LocalDate.parse(startDate),
-                LocalDate.parse(endDate),
-                notes
-        );
-    }
-
-    @DeleteMapping("/{id}")
-    public void deleteVacation(@PathVariable long id) {
-        service.deleteVacation(id);
-    }
-
-    @GetMapping("/{employeeId}")
-    public List<Vacation> getEmployeeVacations(@PathVariable long employeeId) {
-        return service.getEmployeeVacations(employeeId);
-    }
-}
-
 ===== src/main/java/com/nvivx/vixhealthsystem/database/DBManager.java =====
 package com.nvivx.vixhealthsystem.database;
 
@@ -1716,80 +1622,6 @@ package com.nvivx.vixhealthsystem.exception;
 public class VacationNotFoundException extends RuntimeException {
     public VacationNotFoundException(String message) {
         super(message);
-    }
-}
-
-===== src/main/java/com/nvivx/vixhealthsystem/infrastructure/CalendarService.java =====
-package com.nvivx.vixhealthsystem.infrastructure;
-
-public class CalendarService {
-}
-
-
-===== src/main/java/com/nvivx/vixhealthsystem/infrastructure/NotificationService.java =====
-package com.nvivx.vixhealthsystem.infrastructure;
-
-public class NotificationService {
-}
-
-
-===== src/main/java/com/nvivx/vixhealthsystem/infrastructure/PaymentService.java =====
-package com.nvivx.vixhealthsystem.infrastructure;
-
-public class PaymentService {
-}
-
-
-===== src/main/java/com/nvivx/vixhealthsystem/infrastructure/ShiftService.java =====
-package com.nvivx.vixhealthsystem.infrastructure;
-
-import com.nvivx.vixhealthsystem.model.staff.Shift;
-import com.nvivx.vixhealthsystem.repository.JsonShiftRepository;
-import org.springframework.stereotype.Service;
-
-import java.time.LocalDate;
-import java.util.List;
-
-@Service
-public class ShiftService {
-
-    private final JsonShiftRepository repository;
-
-    public ShiftService(JsonShiftRepository repository) {
-        this.repository = repository;
-    }
-
-    public Shift assignShift(long employeeId, LocalDate date, String shiftType, String notes) {
-
-        List<Shift> shifts = repository.findAll();
-
-        long nextId = shifts.stream()
-                .mapToLong(Shift::getId)
-                .max()
-                .orElse(0L) + 1;
-
-        Shift shift = new Shift(nextId, employeeId, date, shiftType, notes);
-
-        shifts.add(shift);
-
-        repository.saveAll(shifts);
-
-        return shift;
-    }
-
-    public void deleteShift(long id) {
-        List<Shift> shifts = repository.findAll();
-
-        shifts.removeIf(s -> s.getId() == id);
-
-        repository.saveAll(shifts);
-    }
-
-    public List<Shift> getEmployeeShifts(long employeeId) {
-        return repository.findAll()
-                .stream()
-                .filter(s -> s.getEmployeeId() == employeeId)
-                .toList();
     }
 }
 
@@ -2398,6 +2230,11 @@ import java.util.Map;
  */
 @Entity
 @Table(name = "MedicalFacilities")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(
+        name = "type",
+        discriminatorType = DiscriminatorType.STRING
+)
 public class MedicalFacility {
 
     /**
@@ -2412,13 +2249,6 @@ public class MedicalFacility {
      */
     @Column(name = "name", nullable = false)
     private String name;
-
-    /**
-     * Facility type.
-     * Examples: Hospital, Clinic, Emergency Center.
-     */
-    @Column(name = "type", nullable = false)
-    private String type;
 
     /**
      * Geographic location of the facility.
@@ -2465,13 +2295,11 @@ public class MedicalFacility {
 
     public MedicalFacility(
             String name,
-            String type,
             Location location,
             String email,
             String phoneNumber
     ) {
         this.name = name;
-        this.type = type;
         this.location = location;
         this.email = email;
         this.phoneNumber = phoneNumber;
@@ -2492,15 +2320,6 @@ public class MedicalFacility {
     public void setName(String name) {
         this.name = name;
     }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
 
     public Location getLocation() {
         return location;
@@ -4712,75 +4531,16 @@ public class Shift {
 ===== src/main/java/com/nvivx/vixhealthsystem/model/staff/Vacation.java =====
 package com.nvivx.vixhealthsystem.model.staff;
 
-import java.time.LocalDate;
-
-public class Vacation {
-
-    private long id;
-    private long employeeId;
-    private LocalDate startDate;
-    private LocalDate endDate;
-    private String notes;
-
-    public Vacation() {}
-
-    public Vacation(long id, long employeeId, LocalDate startDate, LocalDate endDate, String notes) {
-        this.id = id;
-        this.employeeId = employeeId;
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.notes = notes;
-    }
-
-    public long getId() {
-        return id;
-    }
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public long getEmployeeId() {
-        return employeeId;
-    }
-    public void setEmployeeId(long employeeId) {
-        this.employeeId = employeeId;
-    }
-
-    public LocalDate getStartDate() {
-        return startDate;
-    }
-    public void setStartDate(LocalDate startDate) {
-        this.startDate = startDate;
-    }
-
-    public LocalDate getEndDate() {
-        return endDate;
-    }
-    public void setEndDate(LocalDate endDate) {
-        this.endDate = endDate;
-    }
-
-    public String getNotes() {
-        return notes;
-    }
-    public void setNotes(String notes) {
-        this.notes = notes;
-    }
-}
-
-===== src/main/java/com/nvivx/vixhealthsystem/model/staff/VacationRequest.java =====
-package com.nvivx.vixhealthsystem.model.staff;
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.time.LocalDate;
 
 /**
- * Represents a vacation request from an employee.
+ * Represents a vacation from an employee.
  * Stored as JSON (vacations.json), not in the SQL database.
  * The staff manager adds/approves these manually.
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class VacationRequest {
+public class Vacation {
 
     private int id;
     private int employeeId;
@@ -4794,9 +4554,9 @@ public class VacationRequest {
     // CONSTRUCTORS
     // =====================================================
 
-    public VacationRequest() {}
+    public Vacation() {}
 
-    public VacationRequest(int id, int employeeId, String employeeName,
+    public Vacation(int id, int employeeId, String employeeName,
                            LocalDate startDate, LocalDate endDate,
                            String reason, String status) {
         this.id = id;
@@ -5401,13 +5161,6 @@ public interface SurgeryRepository
     List<Surgery> findByName(String name);
 }
 
-===== src/main/java/com/nvivx/vixhealthsystem/service/AdminService.java =====
-package com.nvivx.vixhealthsystem.service;
-
-public class AdminService {
-}
-
-
 ===== src/main/java/com/nvivx/vixhealthsystem/service/AuditService.java =====
 package com.nvivx.vixhealthsystem.service;
 
@@ -5449,234 +5202,6 @@ public class AuditService {
 
     public List<AuditLog> getAllLogs() {
         return mockDatabase.getAuditLogs();
-    }
-}
-
-===== src/main/java/com/nvivx/vixhealthsystem/service/AuthService.java =====
-package com.nvivx.vixhealthsystem.service;
-
-public class AuthService {
-}
-
-
-===== src/main/java/com/nvivx/vixhealthsystem/service/BuyerService.java =====
-package com.nvivx.vixhealthsystem.service;
-
-import com.nvivx.vixhealthsystem.mock.MockDatabase;
-import com.nvivx.vixhealthsystem.model.resource.Resource;
-import org.springframework.stereotype.Service;
-
-import java.util.List;
-
-@Service
-public class BuyerService {
-
-    private final MockDatabase mockDatabase;
-
-    public BuyerService(MockDatabase mockDatabase) {
-        this.mockDatabase = mockDatabase;
-    }
-
-    // UC26: View all resources in inventory
-    public List<Resource> getAllResources() {
-        return mockDatabase.findAllResources();
-    }
-
-    // UC26: View only low stock resources
-    public List<Resource> getLowStockResources() {
-        return mockDatabase.findLowStockResources();
-    }
-
-    // UC27: Add new resource to inventory
-    public Resource addResource(String name, String description, int quantity, float price, String unit) {
-        // Check if resource already exists (by name)
-        Resource existing = mockDatabase.findAllResources().stream()
-                .filter(r -> r.getName().equalsIgnoreCase(name))
-                .findFirst()
-                .orElse(null);
-
-        if (existing != null) {
-            // If exists, increase quantity
-            existing.setQuantity(existing.getQuantity() + quantity);
-            return mockDatabase.saveResource(existing);
-        } else {
-            // Create new resource
-            Resource newResource = new Resource(name, description, quantity, price, unit);
-            return mockDatabase.saveResource(newResource);
-        }
-    }
-
-    // Update resource quantity (when items are used or restocked)
-    public void updateQuantity(int resourceId, int newQuantity) {
-        Resource resource = mockDatabase.findResourceById(resourceId);
-        if (resource == null) {
-            throw new IllegalArgumentException("Resource not found with id: " + resourceId);
-        }
-        resource.setQuantity(newQuantity);
-        mockDatabase.saveResource(resource);
-    }
-
-    // Get a single resource by ID
-    public Resource getResourceById(int resourceId) {
-        return mockDatabase.findResourceById(resourceId);
-    }
-}
-
-===== src/main/java/com/nvivx/vixhealthsystem/service/MedicalSpecialistService.java =====
-package com.nvivx.vixhealthsystem.service;
-
-import com.nvivx.vixhealthsystem.mock.MockDatabase;
-import com.nvivx.vixhealthsystem.model.medical.MedicalCondition;
-import com.nvivx.vixhealthsystem.model.medical.MedicalRecord;
-import com.nvivx.vixhealthsystem.model.medical.Prescription;
-import com.nvivx.vixhealthsystem.model.person.Patient;
-import org.springframework.stereotype.Service;
-
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
-
-@Service
-public class MedicalSpecialistService {
-
-    private final MockDatabase mockDatabase;
-
-    // MOCK_ONLY: In-memory storage for patients
-    private final List<Patient> patients = new ArrayList<>();
-    private final AtomicInteger patientIdCounter = new AtomicInteger(1);
-
-    public MedicalSpecialistService(MockDatabase mockDatabase) {
-        this.mockDatabase = mockDatabase;
-        loadSamplePatients();
-    }
-
-    private void loadSamplePatients() {
-        // Sample Patient 1 - Using CORRECT constructor for MedicalRecord
-        Patient patient1 = new Patient();
-        patient1.setId(patientIdCounter.getAndIncrement());
-        patient1.setName("Maria");
-        patient1.setSurname("Rossi");
-        patient1.setEmail("maria.rossi@example.com");
-        patient1.setFiscalCode("RSSMRA85M01F205X");
-
-        // MedicalRecord constructor: (height, weight, bloodType, allergies, vaccines)
-        MedicalRecord record1 = new MedicalRecord(165f, 60f, "A+", new String[]{}, new String[]{});
-        patient1.setMedicalRecord(record1);
-        patients.add(patient1);
-
-        // Sample Patient 2
-        Patient patient2 = new Patient();
-        patient2.setId(patientIdCounter.getAndIncrement());
-        patient2.setName("Marco");
-        patient2.setSurname("Bianchi");
-        patient2.setEmail("marco.bianchi@example.com");
-        patient2.setFiscalCode("BNCMRC90E15F205X");
-
-        MedicalRecord record2 = new MedicalRecord(175f, 75f, "O-", new String[]{}, new String[]{});
-        patient2.setMedicalRecord(record2);
-        patients.add(patient2);
-
-        // Sample Patient 3
-        Patient patient3 = new Patient();
-        patient3.setId(patientIdCounter.getAndIncrement());
-        patient3.setName("Giulia");
-        patient3.setSurname("Verdi");
-        patient3.setEmail("giulia.verdi@example.com");
-        patient3.setFiscalCode("VRDGLI95L41F205X");
-
-        // Empty medical record (no data yet)
-        MedicalRecord record3 = new MedicalRecord(0f, 0f, "Unknown", new String[]{}, new String[]{});
-        patient3.setMedicalRecord(record3);
-        patients.add(patient3);
-    }
-
-    // ========== UC19: VIEW PATIENT MEDICAL RECORD ==========
-    public Patient getPatientWithMedicalRecord(int patientId) {
-        return patients.stream()
-                .filter(p -> p.getId() == patientId)
-                .findFirst()
-                .orElse(null);
-    }
-
-    // Search patients by name or fiscal code
-    public List<Patient> searchPatients(String query) {
-        String lowerQuery = query.toLowerCase();
-        return patients.stream()
-                .filter(p -> p.getName().toLowerCase().contains(lowerQuery) ||
-                        p.getSurname().toLowerCase().contains(lowerQuery) ||
-                        (p.getFiscalCode() != null && p.getFiscalCode().toLowerCase().contains(lowerQuery)))
-                .toList();
-    }
-
-    // Get all patients
-    public List<Patient> getAllPatients() {
-        return new ArrayList<>(patients);
-    }
-
-    // ========== UC20: ADD DIAGNOSIS ==========
-    public void addDiagnosis(int patientId, String diagnosisName, String description, String severity) {
-        Patient patient = getPatientWithMedicalRecord(patientId);
-        if (patient == null) {
-            throw new IllegalArgumentException("Patient not found with id: " + patientId);
-        }
-
-        MedicalRecord record = patient.getMedicalRecord();
-        if (record == null) {
-            // Create a new record if it doesn't exist
-            record = new MedicalRecord(0f, 0f, "Unknown", new String[]{}, new String[]{});
-            patient.setMedicalRecord(record);
-        }
-
-        // Use the 5-parameter constructor, then set severity separately
-        MedicalCondition condition = new MedicalCondition(
-                diagnosisName,
-                LocalDate.now(),
-                "DIAGNOSIS",  // type/category of the condition
-                description,
-                ""  // treatment - can be updated later
-        );
-        condition.setSeverity(severity);  // Set severity after construction
-
-        // Add to record
-        if (record.getConditions() == null) {
-            record.setConditions(new ArrayList<>());
-        }
-        record.getConditions().add(condition);
-    }
-
-    // ========== UC20: ADD PRESCRIPTION ==========
-    public void addPrescription(int patientId, String medication, String dosage) {
-        Patient patient = getPatientWithMedicalRecord(patientId);
-        if (patient == null) {
-            throw new IllegalArgumentException("Patient not found with id: " + patientId);
-        }
-
-        MedicalRecord record = patient.getMedicalRecord();
-        if (record == null) {
-            record = new MedicalRecord(0f, 0f, "Unknown", new String[]{}, new String[]{});
-            patient.setMedicalRecord(record);
-        }
-
-        // Prescription constructor: (dateTime, medication)
-        Prescription prescription = new Prescription(
-                LocalDateTime.now(),
-                medication + " - " + dosage
-        );
-
-        // TODO: You need to add prescriptions list to MedicalRecord class
-    }
-
-    // ========== UC20: ADD EXAM RESULT ==========
-    public void addExamResult(int patientId, String examType, String result, String notes) {
-        // For now, just validate patient exists
-        Patient patient = getPatientWithMedicalRecord(patientId);
-        if (patient == null) {
-            throw new IllegalArgumentException("Patient not found with id: " + patientId);
-        }
-
-        // TODO: Store exam results as medical conditions or a separate entity
     }
 }
 
@@ -5857,308 +5382,6 @@ public class QuestionnaireService {
         urgency.put("headache", "MEDIUM - Schedule an appointment soon");
         urgency.put("joint_pain", "LOW - Can schedule regular appointment");
         return urgency.getOrDefault(symptom, "MEDIUM - Consultation recommended");
-    }
-}
-
-===== src/main/java/com/nvivx/vixhealthsystem/service/ResourceService.java =====
-package com.nvivx.vixhealthsystem.service;
-
-public class ResourceService {
-}
-
-
-===== src/main/java/com/nvivx/vixhealthsystem/service/SecretaryAppointmentService.java =====
-package com.nvivx.vixhealthsystem.service;
-
-public class SecretaryAppointmentService {
-}
-
-
-===== src/main/java/com/nvivx/vixhealthsystem/service/SecretaryService.java =====
-package com.nvivx.vixhealthsystem.service;
-
-import com.nvivx.vixhealthsystem.mock.MockDatabase;
-import com.nvivx.vixhealthsystem.model.facility.Room;
-import com.nvivx.vixhealthsystem.model.medical.Appointment;
-import com.nvivx.vixhealthsystem.model.person.Patient;
-import com.nvivx.vixhealthsystem.model.person.employee.MedicalSpecialist;
-import org.springframework.stereotype.Service;
-
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.stream.Collectors;
-
-@Service
-public class SecretaryService {
-
-    private final MockDatabase mockDatabase;
-    private final AuditService auditService;
-
-
-    public SecretaryService(MockDatabase mockDatabase, AuditService auditService) {
-        this.mockDatabase = mockDatabase;
-        this.auditService = auditService;
-    }
-
-    // ========== UC21: Check Bed and Room Availability ==========
-    public List<Room> getAllRooms() {
-        return mockDatabase.findAllRooms();
-    }
-
-    public List<Room> getAvailableRooms() {
-        return mockDatabase.findAllRooms().stream()
-                .filter(Room::hasAvailableBeds)
-                .toList();
-    }
-
-    // ========== UC22: Admit Patient (Assign bed/room) ==========
-    public Room admitPatient(int patientId, int roomId) {
-        Patient patient = mockDatabase.findPatientById(patientId);
-        Room room = mockDatabase.findRoomById(roomId);
-
-        if (patient == null) throw new IllegalArgumentException("Patient not found");
-        if (room == null) throw new IllegalArgumentException("Room not found");
-        if (!room.hasAvailableBeds()) throw new IllegalArgumentException("No available beds in this room");
-
-        room.setOccupiedBeds(room.getOccupiedBeds() + 1);
-        mockDatabase.saveRoom(room);
-
-        if (auditService != null) {
-            auditService.log("ADMIT_PATIENT", "Patient", String.valueOf(patientId),
-                    "Admitted to room " + room.getRoomNumber());
-        }
-
-        return room;
-    }
-
-    // ========== UC23: Dismiss Patient ==========
-    public Room dismissPatient(int patientId, int roomId) {
-        Room room = mockDatabase.findRoomById(roomId);
-        if (room == null) throw new IllegalArgumentException("Room not found");
-        if (room.getOccupiedBeds() <= 0) throw new IllegalArgumentException("No patients in this room");
-
-        room.setOccupiedBeds(room.getOccupiedBeds() - 1);
-        mockDatabase.saveRoom(room);
-
-        if (auditService != null) {
-            auditService.log("DISMISS_PATIENT", "Patient", String.valueOf(patientId),
-                    "Dismissed from room " + room.getRoomNumber());
-        }
-
-        return room;
-    }
-
-    // ========== UC14: Book Appointment (simplified) ==========
-    public Appointment bookAppointment(int patientId, int doctorId, LocalDateTime dateTime, String notes) {
-        Patient patient = mockDatabase.findPatientById(patientId);
-        MedicalSpecialist doctor = mockDatabase.findMedicalSpecialistById(doctorId);
-
-        if (patient == null) throw new IllegalArgumentException("Patient not found");
-        if (doctor == null) throw new IllegalArgumentException("Doctor not found");
-
-        Appointment appointment = new Appointment(dateTime, 30, notes, patient, doctor);
-        appointment.setStatus("CONFIRMED");
-
-        Appointment saved = mockDatabase.saveAppointment(appointment);
-
-        if (auditService != null) {
-            auditService.log("BOOK_APPOINTMENT", "Appointment", String.valueOf(saved.getId()),
-                    "Booked for patient " + patientId + " with doctor " + doctorId);
-        }
-
-        return saved;
-    }
-
-    // Add this method to SecretaryService
-    public List<Patient> searchPatients(String query) {
-        String lowerQuery = query.toLowerCase();
-        return mockDatabase.findAllPatients().stream()
-                .filter(p -> p.getName().toLowerCase().contains(lowerQuery) ||
-                        p.getSurname().toLowerCase().contains(lowerQuery) ||
-                        (p.getFiscalCode() != null && p.getFiscalCode().toLowerCase().contains(lowerQuery)))
-                .collect(Collectors.toList());
-    }
-
-    // ========== NEW METHODS FOR APPOINTMENT MANAGEMENT ==========
-
-    public List<Appointment> getAllAppointments() {
-        // In MockDatabase, we need to add this method
-        return mockDatabase.findAllAppointments();
-    }
-
-    public List<Patient> getAllPatients() {
-        return mockDatabase.findAllPatients();
-    }
-
-    public List<MedicalSpecialist> getAllMedicalSpecialists() {
-        return mockDatabase.findAllEmployees().stream()
-                .filter(e -> e instanceof MedicalSpecialist && e.isActive())
-                .map(e -> (MedicalSpecialist) e)
-                .collect(Collectors.toList());
-    }
-
-    public Appointment bookAppointmentForPatient(int patientId, int specialistId, LocalDateTime dateTime) {
-        Patient patient = mockDatabase.findPatientById(patientId);
-        MedicalSpecialist specialist = mockDatabase.findMedicalSpecialistById(specialistId);
-
-        if (patient == null) throw new IllegalArgumentException("Patient not found");
-        if (specialist == null) throw new IllegalArgumentException("Specialist not found");
-
-        // Check if slot is available
-        boolean slotAvailable = mockDatabase.findAllAppointments().stream()
-                .noneMatch(a -> a.getDoctor() != null &&
-                        a.getDoctor().getId() == specialistId &&
-                        a.getDateTime().equals(dateTime));
-
-        if (!slotAvailable) {
-            throw new IllegalArgumentException("Time slot not available");
-        }
-
-        Appointment appointment = new Appointment(dateTime, 30, "Booked by secretary", patient, specialist);
-        appointment.setStatus("CONFIRMED");
-
-        Appointment saved = mockDatabase.saveAppointment(appointment);
-
-        auditService.log("BOOK_APPOINTMENT_BY_SECRETARY", "Appointment", String.valueOf(saved.getId()),
-                "Secretary booked for patient " + patientId + " with doctor " + specialistId);
-
-        return saved;
-    }
-
-    public void cancelAppointment(int appointmentId) {
-        Appointment appointment = mockDatabase.findAppointmentById(appointmentId);
-        if (appointment == null) {
-            throw new IllegalArgumentException("Appointment not found");
-        }
-        appointment.setStatus("CANCELLED");
-        mockDatabase.saveAppointment(appointment);
-
-        auditService.log("CANCEL_APPOINTMENT_BY_SECRETARY", "Appointment", String.valueOf(appointmentId),
-                "Cancelled by secretary");
-    }
-
-    public List<Appointment> getPatientAppointments(int patientId) {
-        return mockDatabase.findAllAppointments().stream()
-                .filter(a -> a.getPatient() != null && a.getPatient().getId() == patientId)
-                .collect(Collectors.toList());
-    }
-
-    public void rescheduleAppointment(int appointmentId, LocalDateTime newDateTime) {
-        Appointment appointment = mockDatabase.findAppointmentById(appointmentId);
-        if (appointment == null) {
-            throw new IllegalArgumentException("Appointment not found");
-        }
-
-        // Check if new slot is available
-        boolean slotAvailable = mockDatabase.findAllAppointments().stream()
-                .noneMatch(a -> a.getDoctor() != null &&
-                        a.getDoctor().getId() == appointment.getDoctor().getId() &&
-                        a.getDateTime().equals(newDateTime) &&
-                        a.getId() != appointmentId);
-
-        if (!slotAvailable) {
-            throw new IllegalArgumentException("Selected time slot is not available");
-        }
-
-        LocalDateTime oldDateTime = appointment.getDateTime();
-        appointment.setDateTime(newDateTime);
-        appointment.setStatus("RESCHEDULED");
-        mockDatabase.saveAppointment(appointment);
-
-        auditService.log("RESCHEDULE_APPOINTMENT_BY_SECRETARY", "Appointment", String.valueOf(appointmentId),
-                "Rescheduled from " + oldDateTime + " to " + newDateTime);
-    }
-
-
-}
-
-
-
-
-===== src/main/java/com/nvivx/vixhealthsystem/service/StaffScheduleService.java =====
-package com.nvivx.vixhealthsystem.service;
-
-public class StaffScheduleService {
-}
-
-
-===== src/main/java/com/nvivx/vixhealthsystem/service/TechnicianService.java =====
-// Update TechnicianService.java - fix machine counting
-package com.nvivx.vixhealthsystem.service;
-
-import com.nvivx.vixhealthsystem.mock.MockDatabase;
-import com.nvivx.vixhealthsystem.model.enums.MachineStatus;
-import com.nvivx.vixhealthsystem.model.resource.Machinery;
-import org.springframework.stereotype.Service;
-
-import java.util.List;
-
-@Service
-public class TechnicianService {
-
-    private final MockDatabase mockDatabase;
-
-    public TechnicianService(MockDatabase mockDatabase) {
-        this.mockDatabase = mockDatabase;
-    }
-
-    public List<Machinery> getAllMachines() {
-        return mockDatabase.findAllMachinery();
-    }
-
-    public long getTotalMachineCount() {
-        return mockDatabase.findAllMachinery().size();
-    }
-
-    public long getFaultyMachineCount() {
-        return mockDatabase.findAllMachinery().stream()
-                .filter(m -> m.getStatus() == MachineStatus.FAULTY)
-                .count();
-    }
-
-    public long getUnderMaintenanceCount() {
-        return mockDatabase.findAllMachinery().stream()
-                .filter(m -> m.getStatus() == MachineStatus.UNDER_MAINTENANCE)
-                .count();
-    }
-
-    public long getWorkingMachineCount() {
-        return mockDatabase.findAllMachinery().stream()
-                .filter(m -> m.getStatus() == MachineStatus.WORKING)
-                .count();
-    }
-
-    public List<Machinery> getFaultyMachines() {
-        return mockDatabase.findFaultyMachineries();
-    }
-
-    public void updateMachineStatus(int machineId, String newStatus) {
-        Machinery machine = mockDatabase.findMachineryById(machineId);
-        if (machine == null) {
-            throw new IllegalArgumentException("Machine not found with id: " + machineId);
-        }
-
-        MachineStatus status;
-        switch (newStatus.toUpperCase()) {
-            case "WORKING":
-                status = MachineStatus.WORKING;
-                break;
-            case "FAULTY":
-                status = MachineStatus.FAULTY;
-                break;
-            case "UNDER_MAINTENANCE":
-                status = MachineStatus.UNDER_MAINTENANCE;
-                break;
-            default:
-                throw new IllegalArgumentException("Invalid status: " + newStatus);
-        }
-
-        machine.setStatus(status);
-        mockDatabase.saveMachinery(machine);
-    }
-
-    public Machinery getMachineById(int machineId) {
-        return mockDatabase.findMachineryById(machineId);
     }
 }
 
@@ -7166,12 +6389,14 @@ spring.application.name=vix-health-system
 spring.datasource.url=jdbc:postgresql://localhost:5432/VIX-health-system
 spring.datasource.username=postgres
 spring.datasource.password=1234
-
 spring.datasource.driver-class-name=org.postgresql.Driver
 
 spring.jpa.hibernate.ddl-auto=validate
 spring.jpa.show-sql=true
 spring.jpa.properties.hibernate.format_sql=true
+
+spring.jpa.hibernate.naming.physical-strategy=org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+spring.jpa.hibernate.naming.implicit-strategy=org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl
 
 server.port=8080
 

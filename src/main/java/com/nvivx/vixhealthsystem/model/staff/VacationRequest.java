@@ -9,7 +9,7 @@ import java.time.LocalDate;
  * The staff manager adds/approves these manually.
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Vacation {
+public class VacationRequest {
 
     private int id;
     private int employeeId;
@@ -23,9 +23,9 @@ public class Vacation {
     // CONSTRUCTORS
     // =====================================================
 
-    public Vacation() {}
+    public VacationRequest() {}
 
-    public Vacation(int id, int employeeId, String employeeName,
+    public VacationRequest(int id, int employeeId, String employeeName,
                            LocalDate startDate, LocalDate endDate,
                            String reason, String status) {
         this.id = id;

@@ -3,6 +3,7 @@ package com.nvivx.vixhealthsystem.service.scheduling;
 import com.nvivx.vixhealthsystem.exception.VacationNotFoundException;
 import com.nvivx.vixhealthsystem.model.staff.VacationRequest;
 import com.nvivx.vixhealthsystem.repository.JsonVacationRepository;
+import com.nvivx.vixhealthsystem.service.AuditService;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -18,9 +19,11 @@ import java.util.stream.Collectors;
 public class VacationService {
 
     private final JsonVacationRepository repository;
+    private final AuditService auditService;
 
-    public VacationService(JsonVacationRepository repository) {
+    public VacationService(JsonVacationRepository repository, AuditService auditService) {
         this.repository = repository;
+        this.auditService = auditService;
     }
 
     /**
@@ -39,7 +42,12 @@ public class VacationService {
                 reason,
                 "PENDING"
         );
-        return repository.save(request);
+        VacationRequest saved = repository.save(request);
+
+        auditService.log("CREATE_VACATION_REQUEST", "VacationRequest", String.valueOf(saved.getId()),
+                "Created vacation request for employee: " + employeeName + " (" + startDate + " to " + endDate + ")");
+
+        return saved;
     }
 
     /**
@@ -49,7 +57,12 @@ public class VacationService {
         VacationRequest request = repository.findById(id)
                 .orElseThrow(() -> new VacationNotFoundException("Vacation request not found: " + id));
         request.setStatus("APPROVED");
-        return repository.save(request);
+        VacationRequest saved = repository.save(request);
+
+        auditService.log("APPROVE_VACATION", "VacationRequest", String.valueOf(id),
+                "Approved vacation for employee: " + request.getEmployeeName());
+
+        return saved;
     }
 
     /**
@@ -59,30 +72,80 @@ public class VacationService {
         VacationRequest request = repository.findById(id)
                 .orElseThrow(() -> new VacationNotFoundException("Vacation request not found: " + id));
         request.setStatus("DENIED");
-        return repository.save(request);
+        VacationRequest saved = repository.save(request);
+
+        auditService.log("DENY_VACATION", "VacationRequest", String.valueOf(id),
+                "Denied vacation for employee: " + request.getEmployeeName());
+
+        return saved;
     }
 
-    /** Returns all vacation requests. */
+    /**
+     * Returns all vacation requests.
+     */
     public List<VacationRequest> getAllRequests() {
         return repository.findAll();
     }
 
-    /** Returns only pending requests. */
+    /**
+     * Returns only pending requests.
+     */
     public List<VacationRequest> getPendingRequests() {
         return repository.findAll().stream()
                 .filter(v -> "PENDING".equals(v.getStatus()))
                 .collect(Collectors.toList());
     }
 
-    /** Returns all requests for a specific employee. */
+    /**
+     * Returns all requests for a specific employee.
+     */
     public List<VacationRequest> getRequestsForEmployee(int employeeId) {
         return repository.findAll().stream()
                 .filter(v -> v.getEmployeeId() == employeeId)
                 .collect(Collectors.toList());
     }
 
-    /** Deletes a vacation request. */
+    /**
+     * Returns approved requests for a specific employee.
+     */
+    public List<VacationRequest> getApprovedRequestsForEmployee(int employeeId) {
+        return repository.findAll().stream()
+                .filter(v -> v.getEmployeeId() == employeeId && "APPROVED".equals(v.getStatus()))
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * Deletes a vacation request.
+     */
     public void deleteRequest(int id) {
+        VacationRequest request = repository.findById(id).orElse(null);
         repository.deleteById(id);
+
+        if (request != null) {
+            auditService.log("DELETE_VACATION_REQUEST", "VacationRequest", String.valueOf(id),
+                    "Deleted vacation request for employee: " + request.getEmployeeName());
+        }
+    }
+
+    /**
+     * Check if an employee has overlapping vacation requests
+     */
+    public boolean hasOverlappingVacation(int employeeId, LocalDate startDate, LocalDate endDate) {
+        return getRequestsForEmployee(employeeId).stream()
+                .filter(v -> "APPROVED".equals(v.getStatus()) || "PENDING".equals(v.getStatus()))
+                .anyMatch(v ->
+                        !(v.getEndDate().isBefore(startDate) || v.getStartDate().isAfter(endDate))
+                );
+    }
+
+    /**
+     * Get total vacation days taken by an employee in a year (approved only)
+     */
+    public long getTotalVacationDaysInYear(int employeeId, int year) {
+        return getRequestsForEmployee(employeeId).stream()
+                .filter(v -> "APPROVED".equals(v.getStatus()))
+                .filter(v -> v.getStartDate().getYear() == year)
+                .mapToLong(VacationRequest::getDaysRequested)
+                .sum();
     }
 }

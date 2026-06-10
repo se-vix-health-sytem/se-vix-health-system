@@ -170,15 +170,41 @@ public class MedicalRecord {
         this.vaccines = vaccines;
     }
 
+    public void setConditions(List<MedicalCondition> conditions) {
+        this.conditions = conditions;
+    }
     public List<MedicalCondition> getConditions() {
         return conditions;
+    }
+
+    // Helper method to add a single condition (useful for services)
+    public void addCondition(MedicalCondition condition) {
+        this.conditions.add(condition);
+        condition.setMedicalRecord(this);
+    }
+
+    // Helper method to add a prescription
+    public void addPrescription(Prescription prescription) {
+        this.prescriptions.add(prescription);
+        prescription.setMedicalRecord(this);
     }
 
     public List<Prescription> getPrescriptions() {
         return prescriptions;
     }
 
+    public void setSurgeries(List<Surgery> surgeries) {
+        this.surgeries = surgeries;
+    }
+
     public List<Surgery> getSurgeries() {
         return surgeries;
     }
+
+    // Helper method to add a surgery
+    public void addSurgery(Surgery surgery) {
+        this.surgeries.add(surgery);
+        surgery.setMedicalRecord(this);
+    }
+
 }

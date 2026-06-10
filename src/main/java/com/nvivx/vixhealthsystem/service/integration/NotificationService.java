@@ -69,7 +69,7 @@ public class NotificationService {
                 """,
                 patient.getName(), patient.getSurname(),
                 appointment.getDateTime(),
-                appointment.getDoctor().getName(), appointment.getDoctor().getSurname()
+                appointment.getMedicalSpecialist().getName(), appointment.getMedicalSpecialist().getSurname()
         );
 
         sendEmail(patient.getEmail(), subject, body);

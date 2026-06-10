@@ -1,29 +1,55 @@
 package com.nvivx.vixhealthsystem.controllers;
+
+import com.nvivx.vixhealthsystem.model.enums.MachineStatus;
+import com.nvivx.vixhealthsystem.service.resources.MachineryService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/technician")
-
 public class TechnicianController {
+
+    private final MachineryService machineryService;
+
+    public TechnicianController(MachineryService machineryService) {
+        this.machineryService = machineryService;
+    }
+
     @GetMapping("/dashboard")
     public String dashboard(Model model) {
         model.addAttribute("pageTitle", "Technician Dashboard");
+        model.addAttribute("totalMachines", machineryService.getTotalMachineCount());
+        model.addAttribute("faultyCount", machineryService.getFaultyMachineCount());
+        model.addAttribute("maintenanceCount", machineryService.getMaintenanceMachineCount());
+        model.addAttribute("alertCount", machineryService.getFaultyMachineCount());
+        model.addAttribute("activeAlerts", machineryService.getActiveAlerts());
         return "technician/dashboard";
     }
 
     @GetMapping("/machines")
     public String viewAllMachines(Model model) {
+        var machines = machineryService.getAllMachines();
         model.addAttribute("pageTitle", "All Machines");
-        model.addAttribute("message", "Machine list will be displayed here");
+        model.addAttribute("machines", machines);
+        model.addAttribute("isFaultyView", false);
         return "technician/machines";
     }
 
     @GetMapping("/machines/faulty")
     public String viewFaultyMachines(Model model) {
+        var faultyMachines = machineryService.getFaultyMachines();
         model.addAttribute("pageTitle", "Faulty Machines");
-        model.addAttribute("message", "Faulty machines will be displayed here");
+        model.addAttribute("machines", faultyMachines);
+        model.addAttribute("isFaultyView", true);
+        return "technician/machines";
+    }
+
+    @GetMapping("/machines/maintenance")
+    public String viewMaintenanceMachines(Model model) {
+        var maintenanceMachines = machineryService.getMachinesUnderMaintenance();
+        model.addAttribute("pageTitle", "Machines Under Maintenance");
+        model.addAttribute("machines", maintenanceMachines);
         return "technician/machines";
     }
 
@@ -31,65 +57,75 @@ public class TechnicianController {
     public String updateMachineStatus(@RequestParam Long machineId,
                                       @RequestParam String status,
                                       Model model) {
-        String statusEmoji = status.equals("WORKING") ? "🟢" :
-                status.equals("FAULTY") ? "🔴" : "🟡";
+        try {
+            MachineStatus newStatus = MachineStatus.valueOf(status);
+            var machine = machineryService.updateMachineStatus(machineId, newStatus);
 
-        model.addAttribute("pageTitle", "Machine Status Updated");
-        model.addAttribute("message",
-                "✅ Machine Status Updated!\n\n" +
-                        "Machine ID: " + machineId + "\n" +
-                        "New Status: " + statusEmoji + " " + status + "\n\n" +
-                        "Frontend → Backend communication successful!");
+            String statusEmoji = newStatus == MachineStatus.WORKING ? "🟢" :
+                    newStatus == MachineStatus.FAULTY ? "🔴" : "🟡";
+
+            String alertMsg = newStatus == MachineStatus.FAULTY ?
+                    "\n\n⚠️ ALERT: Maintenance team has been notified!" : "";
+
+            model.addAttribute("pageTitle", "Machine Status Updated");
+            model.addAttribute("message",
+                    "✅ Machine Status Updated!\n\n" +
+                            "Machine: " + machine.getName() + " (ID: " + machineId + ")\n" +
+                            "New Status: " + statusEmoji + " " + newStatus + alertMsg);
+        } catch (Exception e) {
+            model.addAttribute("pageTitle", "Error");
+            model.addAttribute("message", "❌ Error: " + e.getMessage());
+        }
         return "technician/result";
     }
 
-
-    // FR5.4 - View Machine Alerts
     @GetMapping("/alerts")
     public String viewAlerts(Model model) {
-        // TODO: TEMPORARY - Testing frontend-backend communication
-        // FUTURE: Will call machineryService.getActiveAlerts()
-        //         Machinery has status field, alerts are generated when status changes to FAULTY
+        var activeAlerts = machineryService.getActiveAlerts();
         model.addAttribute("pageTitle", "Machine Alerts");
-        model.addAttribute("message",
-                "BACKEND RECEIVED: Viewing active machine malfunction alerts");
-        return "technician/result";
+        model.addAttribute("alerts", activeAlerts);
+        model.addAttribute("alertCount", activeAlerts.size());
+        return "technician/alerts";
     }
 
-    // UC24 - View Maintenance History
     @GetMapping("/machines/maintenance-history")
     public String viewMaintenanceHistory(Model model) {
-        // TODO: TEMPORARY - Testing frontend-backend communication
-        // FUTURE: Will call machineryService.getMaintenanceHistory(machineId)
-        //         Machinery will have List<MaintenanceRecord> tracking all repairs
+        // This would require a MaintenanceRecord entity
+        // For now, show all machines with maintenance status
+        var maintenanceMachines = machineryService.getMachinesUnderMaintenance();
         model.addAttribute("pageTitle", "Maintenance History");
-        model.addAttribute("message",
-                "BACKEND RECEIVED: Viewing machine maintenance history");
-        return "technician/result";
+        model.addAttribute("machines", maintenanceMachines);
+        model.addAttribute("message", "Showing machines currently under maintenance");
+        return "technician/maintenance-history";
     }
 
-    // UC6 - Credential Recovery (Technicians can also do this)
-    @PostMapping("/recover-credentials")
-    public String recoverCredentials(@RequestParam Long employeeId, Model model) {
-        model.addAttribute("pageTitle", "Credentials Recovery Initiated");
-        model.addAttribute("message",
-                "✅ Credentials Recovery!\n\n" +
-                        "Employee ID: " + employeeId + "\n" +
-                        "A temporary password has been generated.\n" +
-                        "The employee will be forced to change it on next login.\n\n" +
-                        "Backend received the request successfully!");
-        return "technician/result";
-    }
-
-    // FR5.3 - View Machine Details
     @GetMapping("/machines/{machineId}")
     public String viewMachineDetails(@PathVariable Long machineId, Model model) {
-        // TODO: TEMPORARY - Testing frontend-backend communication
-        // FUTURE: Will call machineryService.getMachineDetails(machineId)
-        //         Returns Machinery entity with all details, status, location
-        model.addAttribute("pageTitle", "Machine Details");
-        model.addAttribute("message",
-                "BACKEND RECEIVED: Viewing details for machine #" + machineId);
+        try {
+            var machine = machineryService.getMachineById(machineId);
+            model.addAttribute("pageTitle", "Machine Details - " + machine.getName());
+            model.addAttribute("machine", machine);
+            return "technician/machine-details";
+        } catch (Exception e) {
+            model.addAttribute("pageTitle", "Machine Not Found");
+            model.addAttribute("message", "Machine with ID " + machineId + " not found");
+            return "technician/result";
+        }
+    }
+
+    @PostMapping("/repair/{machineId}")
+    public String repairMachine(@PathVariable Long machineId, Model model) {
+        try {
+            var machine = machineryService.repairMachine(machineId);
+            model.addAttribute("pageTitle", "Machine Repaired");
+            model.addAttribute("message",
+                    "✅ Machine repaired successfully!\n\n" +
+                            "Machine: " + machine.getName() + "\n" +
+                            "Status: 🟢 WORKING");
+        } catch (Exception e) {
+            model.addAttribute("pageTitle", "Error");
+            model.addAttribute("message", "❌ Error: " + e.getMessage());
+        }
         return "technician/result";
     }
 }

@@ -22,72 +22,138 @@ public class DepartmentService {
         this.employeeRepository = employeeRepository;
     }
 
+    /**
+     * Get all departments from database
+     */
     public List<Department> getAllDepartments() {
         return departmentRepository.findAll();
     }
 
+    /**
+     * Get department by ID from database
+     */
+    public Department getDepartmentById(Long id) {
+        return departmentRepository.findById(id).orElse(null);
+    }
+
+    /**
+     * Get department by ID (String version for controllers)
+     */
     public Department getDepartmentById(String id) {
         try {
             Long departmentId = Long.parseLong(id);
-            return departmentRepository.findById(departmentId).orElse(null);
+            return getDepartmentById(departmentId);
         } catch (NumberFormatException e) {
-            // If ID is not a number (e.g., "cardiology"), return null to trigger fallback
             return null;
         }
     }
 
+    /**
+     * Get doctors (MedicalSpecialists) by department from database
+     */
+    public List<MedicalSpecialist> getDoctorsByDepartment(Long departmentId) {
+        return employeeRepository.findAll().stream()
+                .filter(e -> e instanceof MedicalSpecialist)
+                .map(e -> (MedicalSpecialist) e)
+                .filter(doc -> doc.getDepartment() != null &&
+                        doc.getDepartment().getId().equals(departmentId))
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * Get doctors by department (String version)
+     */
     public List<MedicalSpecialist> getDoctorsByDepartment(String departmentId) {
         try {
             Long id = Long.parseLong(departmentId);
-            Department department = departmentRepository.findById(id).orElse(null);
-            if (department != null) {
-                return department.getEmployees().stream()
-                        .filter(e -> e instanceof MedicalSpecialist)
-                        .map(e -> (MedicalSpecialist) e)
-                        .collect(Collectors.toList());
-            }
+            return getDoctorsByDepartment(id);
         } catch (NumberFormatException e) {
-            // Handle case where departmentId is a name string
+            return List.of();
         }
-        return List.of(); // Return empty list if no doctors found
     }
 
+    /**
+     * Get services offered by department.
+     *
+     * Services are hardcoded based on department name since there is no
+     * DepartmentServices table in the database yet.
+     *
+     * Departments in database: Cardiology, Neurology, Radiology, Administration
+     */
+    public List<String> getServicesByDepartment(Long departmentId) {
+        Department department = getDepartmentById(departmentId);
+        if (department == null) {
+            return List.of();
+        }
+        return getServicesByDepartmentName(department.getName());
+    }
+
+    /**
+     * Get services by department (String version)
+     */
     public List<String> getServicesByDepartment(String departmentId) {
-        // This would typically come from a database table
-        // For now, return department-specific services
         try {
             Long id = Long.parseLong(departmentId);
-            Department department = departmentRepository.findById(id).orElse(null);
-            if (department != null) {
-                return getServicesForDepartment(department.getName());
-            }
+            return getServicesByDepartment(id);
         } catch (NumberFormatException e) {
-            // Handle name-based lookup
-            return getServicesForDepartment(departmentId);
+            // If ID is a name string (e.g., "cardiology" from URL)
+            return getServicesByDepartmentName(departmentId);
         }
-        return Arrays.asList("Consultation", "Diagnostic Tests", "Follow-up Care");
     }
 
-    private List<String> getServicesForDepartment(String deptName) {
+    /**
+     * Hardcoded services based on department name.
+     * These match the departments actually present in the database.
+     */
+    private List<String> getServicesByDepartmentName(String deptName) {
         if (deptName == null) return List.of();
 
         String name = deptName.toLowerCase();
+
+        // Match departments from database seed data
         if (name.contains("cardio")) {
-            return Arrays.asList("ECG/EKG", "Echocardiogram", "Stress Test", "Holter Monitoring", "Cardiac Consultation");
-        } else if (name.contains("neuro")) {
-            return Arrays.asList("EEG", "EMG", "Neurological Examination", "Stroke Management", "Memory Clinic");
-        } else if (name.contains("ortho")) {
-            return Arrays.asList("Joint Replacement", "Fracture Care", "Sports Medicine", "Arthroscopy", "Physical Therapy");
-        } else if (name.contains("oncol")) {
-            return Arrays.asList("Chemotherapy", "Radiation Therapy", "Immunotherapy", "Palliative Care", "Screening");
-        } else if (name.contains("radio")) {
-            return Arrays.asList("X-Ray", "MRI", "CT Scan", "Ultrasound", "Mammography");
-        } else if (name.contains("gyn")) {
-            return Arrays.asList("Prenatal Care", "Obstetrics", "Gynecological Surgery", "Fertility Services", "Menopause Management");
-        } else if (name.contains("paed") || name.contains("ped")) {
-            return Arrays.asList("Well-child Visits", "Vaccinations", "Developmental Screening", "Pediatric Surgery", "Adolescent Medicine");
-        } else {
-            return Arrays.asList("General Consultation", "Preventive Care", "Health Screening", "Follow-up Visits");
+            return Arrays.asList(
+                    "ECG/EKG - Electrocardiogram",
+                    "Echocardiogram - Heart Ultrasound",
+                    "Stress Test - Cardiac Exercise Test",
+                    "Holter Monitoring - 24h Heart Monitor",
+                    "Cardiac Consultation"
+            );
+        }
+        else if (name.contains("neuro")) {
+            return Arrays.asList(
+                    "EEG - Electroencephalogram",
+                    "EMG - Electromyography",
+                    "Neurological Examination",
+                    "Stroke Management",
+                    "Memory Clinic"
+            );
+        }
+        else if (name.contains("radio")) {
+            return Arrays.asList(
+                    "X-Ray - Digital Radiography",
+                    "MRI - Magnetic Resonance Imaging",
+                    "CT Scan - Computed Tomography",
+                    "Ultrasound - Sonography",
+                    "Mammography - Breast Imaging"
+            );
+        }
+        else if (name.contains("admin")) {
+            return Arrays.asList(
+                    "Patient Registration",
+                    "Medical Records Request",
+                    "Billing & Insurance",
+                    "Appointment Scheduling"
+            );
+        }
+        else {
+            // Default for any other departments
+            return Arrays.asList(
+                    "General Consultation",
+                    "Preventive Care",
+                    "Health Screening",
+                    "Follow-up Visits"
+            );
         }
     }
 }

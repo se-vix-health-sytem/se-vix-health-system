@@ -1,6 +1,6 @@
-// src/main/java/com/nvivx/vixhealthsystem/service/QuestionnaireService.java
-package com.nvivx.vixhealthsystem.service;
+package com.nvivx.vixhealthsystem.service.integration;
 
+import org.jspecify.annotations.NonNull;
 import org.springframework.stereotype.Service;
 import java.util.HashMap;
 import java.util.Map;
@@ -11,6 +11,17 @@ public class QuestionnaireService {
     public Map<String, Object> analyzeSymptoms(String symptomArea) {
         Map<String, Object> result = new HashMap<>();
 
+        Map<String, String> symptomToSpecialist = getStringStringMap();
+
+        String specialist = symptomToSpecialist.getOrDefault(symptomArea, "General Medicine");
+        result.put("specialist", specialist);
+        result.put("message", "Based on your symptoms, we recommend consulting a " + specialist + " specialist.");
+        result.put("urgency", determineUrgency(symptomArea));
+
+        return result;
+    }
+
+    private static @NonNull Map<String, String> getStringStringMap() {
         Map<String, String> symptomToSpecialist = new HashMap<>();
         symptomToSpecialist.put("chest_pain", "Cardiology");
         symptomToSpecialist.put("shortness_breath", "Cardiology");
@@ -19,13 +30,7 @@ public class QuestionnaireService {
         symptomToSpecialist.put("abdominal_pain", "Gynaecology/General Medicine");
         symptomToSpecialist.put("fever", "General Medicine");
         symptomToSpecialist.put("skin_rash", "Dermatology");
-
-        String specialist = symptomToSpecialist.getOrDefault(symptomArea, "General Medicine");
-        result.put("specialist", specialist);
-        result.put("message", "Based on your symptoms, we recommend consulting a " + specialist + " specialist.");
-        result.put("urgency", determineUrgency(symptomArea));
-
-        return result;
+        return symptomToSpecialist;
     }
 
     private String determineUrgency(String symptom) {

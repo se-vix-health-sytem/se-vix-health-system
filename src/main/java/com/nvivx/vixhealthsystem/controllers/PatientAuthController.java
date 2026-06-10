@@ -1,6 +1,7 @@
 package com.nvivx.vixhealthsystem.controllers;
 
 import com.nvivx.vixhealthsystem.model.person.Patient;
+import com.nvivx.vixhealthsystem.service.core.PatientService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -11,10 +12,10 @@ import jakarta.servlet.http.HttpSession;
 @RequestMapping("/patient")
 public class PatientAuthController {
 
-    private final MockDatabase mockDatabase;
+    private final PatientService patientService;
 
-    public PatientAuthController(MockDatabase mockDatabase) {
-        this.mockDatabase = mockDatabase;
+    public PatientAuthController(PatientService patientService) {
+        this.patientService = patientService;
     }
 
     @GetMapping("/login")
@@ -28,13 +29,14 @@ public class PatientAuthController {
                                @RequestParam(required = false) String redirectUrl,
                                HttpSession session,
                                Model model) {
-        Patient patient = mockDatabase.findPatientByFiscalCode(fiscalCode);
+        var patientOpt = patientService.findByFiscalCode(fiscalCode);
 
-        if (patient == null) {
+        if (patientOpt.isEmpty()) {
             model.addAttribute("error", "Invalid fiscal code. Please try again.");
             return "patient/login";
         }
 
+        Patient patient = patientOpt.get();
         session.setAttribute("patient", patient);
 
         if (redirectUrl != null && !redirectUrl.isEmpty()) {
@@ -45,7 +47,7 @@ public class PatientAuthController {
 
     @GetMapping("/dashboard")
     public String dashboard(HttpSession session, Model model) {
-        Patient patient = (Patient) session.getAttribute("patient");
+        Patient patient = getLoggedInPatient(session);
         if (patient == null) {
             return "redirect:/patient/login";
         }
@@ -62,7 +64,7 @@ public class PatientAuthController {
 
     @GetMapping("/profile")
     public String profile(HttpSession session, Model model) {
-        Patient patient = (Patient) session.getAttribute("patient");
+        Patient patient = getLoggedInPatient(session);
         if (patient == null) {
             return "redirect:/patient/login";
         }
@@ -73,7 +75,7 @@ public class PatientAuthController {
 
     @GetMapping("/records")
     public String records(HttpSession session, Model model) {
-        Patient patient = (Patient) session.getAttribute("patient");
+        Patient patient = getLoggedInPatient(session);
         if (patient == null) {
             return "redirect:/patient/login";
         }
@@ -86,7 +88,7 @@ public class PatientAuthController {
     public String deleteAccount(@RequestParam(required = false) String confirm,
                                 HttpSession session,
                                 Model model) {
-        Patient patient = (Patient) session.getAttribute("patient");
+        Patient patient = getLoggedInPatient(session);
         if (patient == null) {
             return "redirect:/patient/login";
         }
@@ -100,8 +102,11 @@ public class PatientAuthController {
         patientService.deletePatient(patient.getId());
         session.invalidate();
 
-        model.addAttribute("message", "Your account has been successfully deleted.");
+        model.addAttribute("message", "Your account has been successfully anonymized and deleted.");
         return "redirect:/";
     }
 
+    private Patient getLoggedInPatient(HttpSession session) {
+        return (Patient) session.getAttribute("patient");
+    }
 }

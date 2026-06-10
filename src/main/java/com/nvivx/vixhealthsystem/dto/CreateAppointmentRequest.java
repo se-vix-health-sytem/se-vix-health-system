@@ -10,4 +10,6 @@ public class CreateAppointmentRequest {
     private LocalDateTime dateTime;
     private int duration;
     private String notes;
+    private Long patientId;
+    private Long specialistId;
 }
