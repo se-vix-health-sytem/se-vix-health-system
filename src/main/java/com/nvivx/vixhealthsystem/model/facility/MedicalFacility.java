@@ -21,6 +21,11 @@ import java.util.Map;
  */
 @Entity
 @Table(name = "MedicalFacilities")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(
+        name = "type",
+        discriminatorType = DiscriminatorType.STRING
+)
 public class MedicalFacility {
 
     /**
@@ -35,13 +40,6 @@ public class MedicalFacility {
      */
     @Column(name = "name", nullable = false)
     private String name;
-
-    /**
-     * Facility type.
-     * Examples: Hospital, Clinic, Emergency Center.
-     */
-    @Column(name = "type", nullable = false)
-    private String type;
 
     /**
      * Geographic location of the facility.
@@ -88,13 +86,11 @@ public class MedicalFacility {
 
     public MedicalFacility(
             String name,
-            String type,
             Location location,
             String email,
             String phoneNumber
     ) {
         this.name = name;
-        this.type = type;
         this.location = location;
         this.email = email;
         this.phoneNumber = phoneNumber;
@@ -115,15 +111,6 @@ public class MedicalFacility {
     public void setName(String name) {
         this.name = name;
     }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
 
     public Location getLocation() {
         return location;
