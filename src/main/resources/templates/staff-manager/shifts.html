@@ -1,0 +1,123 @@
+<!-- src/main/resources/templates/staff-manager/shifts.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${pageTitle}">Shift Management</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js"></script>
+</head>
+<div>
+<div class="container-fluid">
+    <div class="row">
+        <!-- Sidebar -->
+        <div class="col-md-2 bg-light p-0" style="min-height: 100vh;">
+            <div class="p-3 bg-white border-bottom">
+                <h5><i class="bi bi-people-fill"></i> Staff Manager</h5>
+                <small class="text-muted">Administration Portal</small>
+            </div>
+            <nav class="nav flex-column p-2">
+                <a class="nav-link" href="/staff-manager/dashboard"><i class="bi bi-speedometer2"></i> Dashboard</a>
+                <a class="nav-link" href="/staff-manager/employees"><i class="bi bi-person-badge"></i> Employees</a>
+                <a class="nav-link active" href="/staff-manager/shifts"><i class="bi bi-calendar-week"></i> Shifts</a>
+                <a class="nav-link" href="/staff-manager/vacations"><i class="bi bi-umbrella"></i> Vacations</a>
+                <a class="nav-link" href="/staff-manager/availability"><i class="bi bi-clock-history"></i> Availability</a>
+                <a class="nav-link" href="/staff-manager/transfers"><i class="bi bi-arrow-left-right"></i> Transfers</a>
+                <a class="nav-link" href="/staff-manager/resources"><i class="bi bi-box-seam"></i> Resources</a>
+                <a class="nav-link" href="/staff-manager/audit-logs"><i class="bi bi-file-text"></i> Audit Logs</a>
+                <hr>
+                <a class="nav-link" href="/logout"><i class="bi bi-box-arrow-right"></i> Logout</a>
+            </nav>
+        </div>
+
+        <!-- Main Content -->
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Shift Schedule</h5>
+                    <div class="btn-group">
+                        <button class="btn btn-sm btn-outline-primary" onclick="changeWeek(-1)">← Previous</button>
+                        <span class="btn btn-sm btn-secondary" id="weekRange">Loading...</span>
+                        <button class="btn btn-sm btn-outline-primary" onclick="changeWeek(1)">Next →</button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div id="shiftTableContainer">
+                        <table class="table table-bordered" id="shiftTable">
+                            <thead id="shiftTableHead"></thead>
+                            <tbody id="shiftTableBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            let currentWeekStart = new Date();
+            currentWeekStart.setDate(currentWeekStart.getDate() - currentWeekStart.getDay());
+
+            function formatDate(date) {
+                return date.toISOString().split('T')[0];
+            }
+
+            function getWeekDates(startDate) {
+                let dates = [];
+                for (let i = 0; i < 7; i++) {
+                    let date = new Date(startDate);
+                    date.setDate(startDate.getDate() + i);
+                    dates.push(date);
+                }
+                return dates;
+            }
+
+            function loadShifts() {
+                fetch('/staff-manager/api/shifts/data')
+                    .then(response => response.json())
+                    .then(shifts => {
+                        const weekDates = getWeekDates(currentWeekStart);
+                        const weekRange = weekDates[0].toLocaleDateString() + ' - ' + weekDates[6].toLocaleDateString();
+                        document.getElementById('weekRange').innerText = weekRange;
+
+                        // Build table
+                        let theadHtml = '<tr><th>Employee</th>';
+                        weekDates.forEach(date => {
+                            theadHtml += `<th>${date.toLocaleDateString('en-US', {weekday:'short', month:'short', day:'numeric'})}</th>`;
+                        });
+                        theadHtml += '</tr>';
+                        document.getElementById('shiftTableHead').innerHTML = theadHtml;
+
+                        // Get unique employees from shifts
+                        let employees = [...new Set(shifts.map(s => s.title.split(' - ')[0]))];
+
+                        let tbodyHtml = '';
+                        employees.forEach(emp => {
+                            tbodyHtml += '<tr>';
+                            tbodyHtml += `<td><strong>${emp}</strong></td>`;
+                            weekDates.forEach(date => {
+                                let dayShifts = shifts.filter(s =>
+                                    s.title.split(' - ')[0] === emp &&
+                                    s.start.split('T')[0] === formatDate(date)
+                                );
+                                let cellContent = dayShifts.map(s => `<div class="badge bg-${s.color === '#28a745' ? 'success' : s.color === '#17a2b8' ? 'info' : 'secondary'}">${s.title.split(' - ')[1]}</div>`).join('<br>');
+                                tbodyHtml += `<td>${cellContent || '-'}</td>`;
+                            });
+                            tbodyHtml += '</tr>';
+                        });
+                        document.getElementById('shiftTableBody').innerHTML = tbodyHtml;
+                    });
+            }
+
+            function changeWeek(delta) {
+                currentWeekStart.setDate(currentWeekStart.getDate() + (delta * 7));
+                loadShifts();
+            }
+
+            loadShifts();
+        </script>
+    </div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</div>
+</div>
+</html>

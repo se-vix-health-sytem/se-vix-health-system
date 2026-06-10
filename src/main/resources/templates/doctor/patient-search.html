@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${pageTitle}">Search Patients</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .container { max-width: 600px; margin: 0 auto; }
+        h1 { color: #007bff; }
+        .btn {
+            padding: 10px 20px;
+            background: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            border-radius: 4px;
+        }
+        input {
+            width: 70%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Search Patients</h1>
+
+    <form action="/doctor/patients/search" method="post">
+        <input type="text" name="query" placeholder="Enter patient name or fiscal code..." required>
+        <button type="submit" class="btn">Search</button>
+    </form>
+
+    <a href="/doctor/dashboard" class="btn" style="margin-top: 20px;">← Back to Dashboard</a>
+</div>
+</body>
+</html>

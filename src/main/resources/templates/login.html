@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - VIX Health System</title>
+
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --vix-crimson: #7a1428;
+            --vix-crimson-dk: #5a0e1e;
+            --vix-crimson-lt: #9e1a34;
+            --vix-gold: #b8952a;
+            --vix-gold-lt: #d4ae4a;
+            --vix-gold-pale: #f5edd8;
+            --vix-cream: #faf7f2;
+            --vix-white: #ffffff;
+            --vix-text: #2a1518;
+            --vix-muted: #7a6068;
+            --vix-border: #e8ddd5;
+        }
+
+        * { box-sizing: border-box; }
+        body {
+            font-family: 'DM Sans', sans-serif;
+            color: var(--vix-text);
+            background: linear-gradient(135deg, var(--vix-crimson-dk) 0%, var(--vix-crimson) 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Decorative background pattern */
+        body::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            pointer-events: none;
+        }
+
+        /* Login container */
+        .login-container {
+            background: var(--vix-white);
+            border-radius: 1.5rem;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+            width: 100%;
+            max-width: 500px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Header */
+        .login-header {
+            background: linear-gradient(135deg, var(--vix-crimson) 0%, var(--vix-crimson-dk) 100%);
+            color: white;
+            padding: 2.5rem 2rem;
+            text-align: center;
+            position: relative;
+        }
+
+        .login-header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--vix-gold), transparent);
+        }
+
+        .login-logo {
+            width: 70px;
+            height: 70px;
+            margin-bottom: 1rem;
+            object-fit: contain;
+            background: white;           /* White background */
+            border-radius: 50%;          /* Makes it circular */
+            padding: 5px;                /* Space between logo and circle edge */
+            border: 2px solid rgba(255,255,255,0.3);  /* Subtle white border */
+        }
+
+        .login-header h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+
+        .login-header p {
+            opacity: 0.85;
+            font-size: 0.9rem;
+            margin: 0;
+        }
+
+        /* Body */
+        .login-body {
+            padding: 2rem;
+        }
+
+        .development-notice {
+            background: var(--vix-gold-pale);
+            border: 1px solid rgba(184,149,42,0.3);
+            border-radius: 0.75rem;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .development-notice i {
+            color: var(--vix-gold);
+            font-size: 1.2rem;
+        }
+
+        .development-notice p {
+            margin: 0.25rem 0 0;
+            font-size: 0.82rem;
+            color: var(--vix-muted);
+        }
+
+        /* Role cards */
+        .role-card {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem 1.25rem;
+            margin-bottom: 0.75rem;
+            background: var(--vix-cream);
+            border: 1.5px solid var(--vix-border);
+            border-radius: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: left;
+            width: 100%;
+        }
+
+        .role-card:hover {
+            background: var(--vix-gold-pale);
+            border-color: var(--vix-gold);
+            transform: translateX(5px);
+            box-shadow: 0 4px 15px rgba(122,20,40,0.1);
+        }
+
+        .role-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        .icon-medical_specialist {
+            background: rgba(122,20,40,0.12);
+            color: var(--vix-crimson);
+        }
+
+        .icon-technician {
+            background: rgba(184,149,42,0.12);
+            color: var(--vix-gold);
+        }
+
+        .icon-manager {
+            background: rgba(90,14,30,0.12);
+            color: var(--vix-crimson-dk);
+        }
+
+        .role-info {
+            flex: 1;
+        }
+
+        .role-name {
+            font-weight: 600;
+            color: var(--vix-crimson);
+            margin-bottom: 0.15rem;
+            font-size: 1rem;
+        }
+
+        .role-desc {
+            font-size: 0.8rem;
+            color: var(--vix-muted);
+            margin: 0;
+        }
+
+        .role-arrow {
+            color: var(--vix-gold);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .role-card:hover .role-arrow {
+            opacity: 1;
+        }
+
+        /* Footer */
+        .login-footer {
+            text-align: center;
+            padding: 1.5rem;
+            border-top: 1px solid var(--vix-border);
+            background: var(--vix-cream);
+        }
+
+        .back-link {
+            color: var(--vix-muted);
+            text-decoration: none;
+            font-size: 0.85rem;
+            transition: color 0.2s;
+        }
+
+        .back-link:hover {
+            color: var(--vix-crimson);
+        }
+
+        /* Use case badges */
+        .use-case-badge {
+            display: inline-block;
+            background: rgba(122,20,40,0.08);
+            color: var(--vix-crimson);
+            border: 1px solid rgba(122,20,40,0.15);
+            border-radius: 50px;
+            padding: 0.2rem 0.6rem;
+            font-size: 0.7rem;
+            font-weight: 600;
+            margin-top: 0.25rem;
+        }
+    </style>
+</head>
+<body>
+<div class="login-container">
+    <!-- Header -->
+    <div class="login-header">
+        <img src="/images/vix-logo.png" alt="VIX Logo" class="login-logo">
+        <h2>VIX Health System</h2>
+        <p>Staff Portal Access</p>
+    </div>
+
+    <!-- Body -->
+    <div class="login-body">
+        <!-- Development Notice -->
+        <div class="development-notice">
+            <i class="bi bi-cone-striped"></i>
+            <p><strong>Development Mode</strong><br>
+                No real authentication yet. Select a role to test dashboard functionality.</p>
+        </div>
+
+        <!-- Replace the old role selection form with this real login form -->
+
+        <div class="login-body">
+            <!-- Development Notice -->
+            <div class="development-notice">
+                <i class="bi bi-info-circle-fill"></i>
+                <p><strong>Test Credentials</strong><br>
+                    Username: staffmanager / medical / technician / buyer / secretary<br>
+                    Password: password (for all accounts)</p>
+            </div>
+
+            <!-- Real Login Form -->
+            <form th:action="@{/authenticate}" method="post">
+                <div class="mb-3">
+                    <label for="username" class="form-label">Username</label>
+                    <input type="text" class="form-control" id="username" name="username" required autofocus>
+                </div>
+
+                <div class="mb-3">
+                    <label for="password" class="form-label">Password</label>
+                    <input type="password" class="form-control" id="password" name="password" required>
+                </div>
+
+                <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+                <div th:if="${message}" class="alert alert-success" th:text="${message}"></div>
+
+                <button type="submit" class="btn btn-primary w-100 py-2" style="background: var(--vix-crimson); border: none;">
+                    <i class="bi bi-box-arrow-in-right me-2"></i>Login
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="login-footer">
+        <a href="/" class="back-link">
+            <i class="bi bi-arrow-left me-1"></i>Back to Home Page
+        </a>
+    </div>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

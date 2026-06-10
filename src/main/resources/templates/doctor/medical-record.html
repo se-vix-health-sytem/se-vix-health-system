@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${pageTitle}">Medical Record</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        h1 { color: #007bff; }
+        h2 { color: #333; margin-top: 30px; }
+        .patient-info {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        .section {
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 5px;
+            background: #007bff;
+            color: white;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            border-radius: 4px;
+        }
+        .btn:hover { background: #0056b3; }
+        .btn-success { background: #28a745; }
+        .btn-success:hover { background: #218838; }
+        .btn-warning { background: #ffc107; color: black; }
+        .btn-warning:hover { background: #e0a800; }
+        .btn-secondary { background: #6c757d; }
+        .btn-secondary:hover { background: #545b62; }
+        input, textarea, select {
+            padding: 8px;
+            margin: 5px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            width: 300px;
+        }
+        textarea {
+            height: 80px;
+        }
+        label {
+            font-weight: bold;
+            display: block;
+            margin-top: 10px;
+        }
+        .form-group {
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>📋 Medical Record</h1>
+
+    <div class="patient-info">
+        <h2>Patient Information</h2>
+        <p><strong>Patient ID:</strong> <span th:text="${patientId}">1</span></p>
+        <p><strong>Name:</strong> <span th:text="${patient?.name}">Patient Name</span></p>
+        <p><strong>Fiscal Code:</strong> <span th:text="${patient?.fiscalCode}">FC123456</span></p>
+    </div>
+
+    <div class="section">
+        <h2>Medical Conditions</h2>
+        <p><i>No conditions recorded yet. Add one below:</i></p>
+
+        <form th:action="@{/doctor/patients/{id}/add-condition(id=${patientId})}" method="post">
+            <div class="form-group">
+                <label>Condition Name:</label>
+                <input type="text" name="conditionName" placeholder="e.g., Hypertension" required>
+            </div>
+            <div class="form-group">
+                <label>Date of Diagnosis:</label>
+                <input type="date" name="dateOfDiagnosis" required>
+            </div>
+            <div class="form-group">
+                <label>Type:</label>
+                <select name="type" required>
+                    <option value="">Select type...</option>
+                    <option value="CHRONIC">Chronic</option>
+                    <option value="ACUTE">Acute</option>
+                    <option value="CONGENITAL">Congenital</option>
+                    <option value="INFECTIOUS">Infectious</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Description:</label>
+                <textarea name="description" placeholder="Describe the condition..." required></textarea>
+            </div>
+            <div class="form-group">
+                <label>Treatment:</label>
+                <input type="text" name="treatment" placeholder="e.g., Medication, Therapy">
+            </div>
+            <button type="submit" class="btn btn-success">Add Condition</button>
+        </form>
+    </div>
+
+    <div class="section">
+        <h2>Prescriptions</h2>
+        <p><i>No prescriptions recorded yet. Add one below:</i></p>
+
+        <form th:action="@{/doctor/patients/{id}/add-prescription(id=${patientId})}" method="post">
+            <div class="form-group">
+                <label>Medication Name:</label>
+                <input type="text" name="medication" placeholder="e.g., Amoxicillin" required>
+            </div>
+            <div class="form-group">
+                <label>Dosage:</label>
+                <input type="text" name="dosage" placeholder="e.g., 500mg twice daily" required>
+            </div>
+            <div class="form-group">
+                <label>Duration (days):</label>
+                <input type="number" name="duration" placeholder="e.g., 7" required>
+            </div>
+            <button type="submit" class="btn btn-warning">Add Prescription</button>
+        </form>
+    </div>
+
+    <div class="section">
+        <h2>Surgeries</h2>
+        <p><i>No surgeries recorded yet.</i></p>
+        <!-- Surgery form will be added later -->
+    </div>
+
+    <br>
+    <a href="/doctor/dashboard" class="btn btn-secondary">← Back to Dashboard</a>
+    <a href="/doctor/patients/search" class="btn">Search Another Patient</a>
+</div>
+</body>
+</html>

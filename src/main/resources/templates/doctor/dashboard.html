@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${pageTitle} ?: 'Doctor Dashboard'">Doctor Dashboard - VIX Health System</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <div class="user-section">
+    <span class="user-badge">
+        <i class="bi bi-person-circle me-2"></i>
+        Staff Manager
+    </span>
+        <a href="/logout" class="btn-logout">
+            <i class="bi bi-box-arrow-right me-1"></i> Logout
+        </a>
+    </div>
+
+    <style>
+        :root {
+            --vix-crimson: #7a1428;
+            --vix-crimson-dk: #5a0e1e;
+            --vix-crimson-lt: #9e1a34;
+            --vix-gold: #b8952a;
+            --vix-gold-lt: #d4ae4a;
+            --vix-gold-pale: #f5edd8;
+            --vix-cream: #faf7f2;
+            --vix-white: #ffffff;
+            --vix-text: #2a1518;
+            --vix-muted: #7a6068;
+            --vix-border: #e8ddd5;
+        }
+
+        * { box-sizing: border-box; }
+        body {
+            font-family: 'DM Sans', sans-serif;
+            color: var(--vix-text);
+            background: var(--vix-cream);
+        }
+
+        /* Header */
+        .vix-header {
+            background: linear-gradient(135deg, var(--vix-crimson-dk) 0%, var(--vix-crimson) 100%);
+            color: white;
+            padding: 1.2rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 20px rgba(122,20,40,0.2);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .brand-section {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .brand-logo {
+            width: 40px;
+            height: 40px;
+            background: white;           /* White background */
+            border-radius: 50%;          /* Makes it circular */
+            padding: 5px;                /* Space between logo and circle edge */
+            border: 2px solid rgba(255,255,255,0.3);  /* Subtle white border */
+        }
+
+        .brand-text h5 {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 700;
+            margin: 0;
+            font-size: 1.3rem;
+        }
+
+        .brand-text small {
+            opacity: 0.8;
+            font-size: 0.75rem;
+        }
+
+        .user-section {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .user-badge {
+            background: rgba(255,255,255,0.15);
+            border: 1px solid rgba(255,255,255,0.25);
+            border-radius: 50px;
+            padding: 0.5rem 1.2rem;
+            font-size: 0.9rem;
+        }
+
+        .btn-logout {
+            background: rgba(255,255,255,0.1);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.3);
+            border-radius: 50px;
+            padding: 0.5rem 1.2rem;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+            text-decoration: none;
+        }
+
+        .btn-logout:hover {
+            background: rgba(255,255,255,0.2);
+            color: white;
+        }
+
+        /* Main Content */
+        .dashboard-content {
+            padding: 2rem 0;
+        }
+
+        /* Cards */
+        .feature-card {
+            background: var(--vix-white);
+            border: 1px solid var(--vix-border);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            height: 100%;
+            transition: all 0.3s;
+        }
+
+        .feature-card:hover {
+            box-shadow: 0 8px 30px rgba(122,20,40,0.1);
+            transform: translateY(-2px);
+        }
+
+        .card-header-icon {
+            width: 55px;
+            height: 55px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 1.2rem;
+        }
+
+        .icon-medical { background: rgba(122,20,40,0.1); color: var(--vix-crimson); border: 1px solid rgba(122,20,40,0.15); }
+        .icon-appointment { background: rgba(184,149,42,0.1); color: var(--vix-gold); border: 1px solid rgba(184,149,42,0.15); }
+        .icon-surgery { background: rgba(90,14,30,0.1); color: var(--vix-crimson-dk); border: 1px solid rgba(90,14,30,0.15); }
+
+        .card-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 600;
+            color: var(--vix-crimson);
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .card-description {
+            font-size: 0.85rem;
+            color: var(--vix-muted);
+            margin-bottom: 1.2rem;
+        }
+
+        /* Action Buttons */
+        .action-btn {
+            display: block;
+            width: 100%;
+            padding: 0.7rem 1rem;
+            margin-bottom: 0.5rem;
+            text-align: left;
+            border: 1px solid var(--vix-border);
+            border-radius: 0.75rem;
+            background: var(--vix-white);
+            color: var(--vix-text);
+            font-size: 0.88rem;
+            font-weight: 500;
+            transition: all 0.2s;
+            text-decoration: none;
+        }
+
+        .action-btn:hover {
+            background: var(--vix-gold-pale);
+            border-color: var(--vix-gold);
+            color: var(--vix-crimson);
+            transform: translateX(4px);
+        }
+
+        .action-btn i {
+            margin-right: 0.6rem;
+            color: var(--vix-gold);
+            width: 20px;
+            text-align: center;
+        }
+
+        /* Inline Forms */
+        .quick-form {
+            background: var(--vix-cream);
+            border-radius: 0.75rem;
+            padding: 1rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .quick-form label {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--vix-crimson);
+            margin-bottom: 0.3rem;
+        }
+
+        .quick-form input,
+        .quick-form textarea,
+        .quick-form select {
+            border: 1px solid var(--vix-border);
+            border-radius: 0.5rem;
+            padding: 0.5rem 0.75rem;
+            font-size: 0.85rem;
+            width: 100%;
+            background: white;
+            margin-bottom: 0.5rem;
+        }
+
+        .quick-form input:focus,
+        .quick-form textarea:focus,
+        .quick-form select:focus {
+            border-color: var(--vix-gold);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(184,149,42,0.1);
+        }
+
+        .btn-vix-sm {
+            background: var(--vix-crimson);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 0.5rem 1.2rem;
+            font-size: 0.82rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-vix-sm:hover {
+            background: var(--vix-crimson-dk);
+        }
+
+        .btn-gold-sm {
+            background: var(--vix-gold);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 0.5rem 1.2rem;
+            font-size: 0.82rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-gold-sm:hover {
+            background: var(--vix-gold-lt);
+        }
+
+        /* UC Badge */
+        .uc-badge {
+            display: inline-block;
+            background: rgba(122,20,40,0.08);
+            color: var(--vix-crimson);
+            border: 1px solid rgba(122,20,40,0.2);
+            border-radius: 50px;
+            padding: 0.2rem 0.7rem;
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+        }
+
+        /* Stats Row */
+        .stat-mini {
+            text-align: center;
+            padding: 1rem;
+            background: var(--vix-white);
+            border-radius: 0.75rem;
+            border: 1px solid var(--vix-border);
+        }
+
+        .stat-mini-number {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--vix-crimson);
+            line-height: 1;
+        }
+
+        .stat-mini-label {
+            font-size: 0.78rem;
+            color: var(--vix-muted);
+            margin-top: 0.3rem;
+        }
+
+        /* Footer */
+        .dashboard-footer {
+            background: var(--vix-white);
+            border-top: 1px solid var(--vix-border);
+            padding: 1.5rem 0;
+            margin-top: 3rem;
+        }
+    </style>
+</head>
+<body>
+<!-- Header -->
+<header class="vix-header">
+    <div class="container">
+        <div class="header-content">
+            <div class="brand-section">
+                <img src="/images/vix-logo.png" alt="VIX" class="brand-logo">
+                <div class="brand-text">
+                    <h5>Doctor Dashboard</h5>
+                    <small>Medical Staff Portal</small>
+                </div>
+            </div>
+            <div class="user-section">
+                    <span class="user-badge">
+                        <i class="bi bi-person-circle me-2"></i>
+                        Dr. Medical Specialist
+                    </span>
+                <a href="/login" class="btn-logout">
+                    <i class="bi bi-box-arrow-right me-1"></i> Logout
+                </a>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Main Content -->
+<div class="dashboard-content">
+    <div class="container">
+
+        <!-- Quick Stats -->
+        <div class="row g-3 mb-4">
+            <div class="col-6 col-md-3">
+                <div class="stat-mini">
+                    <div class="stat-mini-number">0</div>
+                    <div class="stat-mini-label">Today's Appointments</div>
+                </div>
+            </div>
+            <div class="col-6 col-md-3">
+                <div class="stat-mini">
+                    <div class="stat-mini-number">0</div>
+                    <div class="stat-mini-label">Total Patients</div>
+                </div>
+            </div>
+            <div class="col-6 col-md-3">
+                <div class="stat-mini">
+                    <div class="stat-mini-number">0</div>
+                    <div class="stat-mini-label">Pending Records</div>
+                </div>
+            </div>
+            <div class="col-6 col-md-3">
+                <div class="stat-mini">
+                    <div class="stat-mini-number">0</div>
+                    <div class="stat-mini-label">Surgeries Today</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Feature Cards Grid -->
+        <div class="row g-4">
+
+            <!-- Card 1: Patient Records (UC19, UC20) -->
+            <div class="col-lg-6">
+                <div class="feature-card">
+                    <div class="card-header-icon icon-medical">
+                        <i class="bi bi-file-medical"></i>
+                    </div>
+                    <h3 class="card-title">Patient Medical Records</h3>
+                    <p class="card-description">
+                        <span class="uc-badge me-2">UC19</span>
+                        <span class="uc-badge me-2">UC20</span>
+                        <span class="uc-badge">FR4.3</span>
+                    </p>
+
+                    <!-- Quick Search -->
+                    <div class="mb-3">
+                        <form th:action="@{/doctor/patients/search}" method="post" class="d-flex gap-2">
+                            <input type="text" name="query" class="form-control"
+                                   placeholder="Search patient by name or fiscal code..."
+                                   style="flex: 1;">
+                            <button type="submit" class="btn-vix-sm">
+                                <i class="bi bi-search"></i> Search
+                            </button>
+                        </form>
+                    </div>
+
+                    <a th:href="@{/doctor/patients/search}" class="action-btn">
+                        <i class="bi bi-person-lines-fill"></i> Advanced Patient Search
+                    </a>
+
+                    <a th:href="@{/doctor/patients/1/record}" class="action-btn">
+                        <i class="bi bi-folder2-open"></i> View Patient #1 Record
+                    </a>
+
+                    <a th:href="@{/doctor/patients/1/family-history}" class="action-btn">
+                        <i class="bi bi-diagram-3"></i> View Family History (FR4.6)
+                    </a>
+                </div>
+            </div>
+
+            <!-- Card 2: Appointments (UC30) -->
+            <div class="col-lg-6">
+                <div class="feature-card">
+                    <div class="card-header-icon icon-appointment">
+                        <i class="bi bi-calendar-check"></i>
+                    </div>
+                    <h3 class="card-title">My Appointments & Calendar</h3>
+                    <p class="card-description">
+                        <span class="uc-badge">UC30</span>
+                    </p>
+
+                    <a href="/doctor/appointments" class="action-btn">
+                        <i class="bi bi-calendar-week"></i> View Today's Appointments
+                    </a>
+
+                    <a href="/doctor/calendar" class="action-btn">
+                        <i class="bi bi-calendar3"></i> Full Calendar View
+                    </a>
+
+                    <a href="/doctor/surgeries" class="action-btn">
+                        <i class="bi bi-scissors"></i> View Scheduled Surgeries
+                    </a>
+                </div>
+            </div>
+
+            <!-- Card 3: Add Medical Data (UC20) -->
+            <div class="col-lg-6">
+                <div class="feature-card">
+                    <div class="card-header-icon icon-medical">
+                        <i class="bi bi-clipboard2-pulse"></i>
+                    </div>
+                    <h3 class="card-title">Add Medical Information</h3>
+                    <p class="card-description">
+                        <span class="uc-badge me-2">UC20</span>
+                        <span class="uc-badge">FR4.3</span>
+                    </p>
+
+                    <!-- Add Condition -->
+                    <div class="quick-form">
+                        <label>Add Medical Condition (Patient #1)</label>
+                        <form th:action="@{/doctor/patients/1/add-condition}" method="post">
+                            <input type="text" name="conditionName" placeholder="Condition (e.g., Hypertension)" required>
+                            <textarea name="description" placeholder="Description..." rows="2" required></textarea>
+                            <button type="submit" class="btn-vix-sm">
+                                <i class="bi bi-plus-circle me-1"></i> Add Condition
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- Add Prescription -->
+                    <div class="quick-form">
+                        <label>Add Prescription (Patient #1)</label>
+                        <form th:action="@{/doctor/patients/1/add-prescription}" method="post">
+                            <div class="row g-2">
+                                <div class="col-6">
+                                    <input type="text" name="medication" placeholder="Medication" required>
+                                </div>
+                                <div class="col-6">
+                                    <input type="text" name="dosage" placeholder="Dosage" required>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn-vix-sm">
+                                <i class="bi bi-pen me-1"></i> Add Prescription
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 4: Diagnosis & Results (UC20, FR4.5) -->
+            <div class="col-lg-6">
+                <div class="feature-card">
+                    <div class="card-header-icon icon-surgery">
+                        <i class="bi bi-clipboard2-check"></i>
+                    </div>
+                    <h3 class="card-title">Diagnosis & Exam Results</h3>
+                    <p class="card-description">
+                        <span class="uc-badge me-2">UC20</span>
+                        <span class="uc-badge me-2">FR4.5</span>
+                        <span class="uc-badge">FR4.7</span>
+                    </p>
+
+                    <!-- Add Diagnosis -->
+                    <div class="quick-form">
+                        <label>Add Diagnosis (Patient #1)</label>
+                        <form th:action="@{/doctor/patients/1/add-diagnosis}" method="post">
+                            <input type="text" name="diagnosisName" placeholder="Diagnosis name" required>
+                            <select name="severity" required>
+                                <option value="">Select severity...</option>
+                                <option value="MILD">Mild</option>
+                                <option value="MODERATE">Moderate</option>
+                                <option value="SEVERE">Severe</option>
+                                <option value="CRITICAL">Critical</option>
+                            </select>
+                            <textarea name="description" placeholder="Diagnosis description..." rows="2" required></textarea>
+                            <button type="submit" class="btn-gold-sm">
+                                <i class="bi bi-plus-circle me-1"></i> Add Diagnosis
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- Add Exam Result -->
+                    <div class="quick-form">
+                        <label>Add Exam Result (Patient #1)</label>
+                        <form th:action="@{/doctor/patients/1/add-exam-result}" method="post">
+                            <select name="examType" required>
+                                <option value="">Select exam type...</option>
+                                <option value="BLOOD_TEST">Blood Test</option>
+                                <option value="XRAY">X-Ray</option>
+                                <option value="MRI">MRI</option>
+                                <option value="CT_SCAN">CT Scan</option>
+                                <option value="ULTRASOUND">Ultrasound</option>
+                            </select>
+                            <textarea name="result" placeholder="Exam results..." rows="2" required></textarea>
+                            <input type="text" name="notes" placeholder="Additional notes (optional)">
+                            <button type="submit" class="btn-gold-sm">
+                                <i class="bi bi-clipboard-check me-1"></i> Add Exam Result
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Footer -->
+<footer class="dashboard-footer">
+    <div class="container text-center">
+        <p class="text-muted mb-2" style="font-size: 0.85rem;">
+            <i class="bi bi-info-circle me-1"></i>
+            All buttons currently test frontend-backend communication
+        </p>
+        <a href="/login" class="btn btn-outline-secondary btn-sm rounded-pill">
+            <i class="bi bi-arrow-left me-1"></i> Back to Role Selection
+        </a>
+    </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
