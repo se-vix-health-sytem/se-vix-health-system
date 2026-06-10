@@ -4,8 +4,8 @@
 
 INSERT INTO MedicalFacilities (id, name, type, latitude, longitude, email, phone) VALUES
                                                                                       (1, 'VIX Central Hospital', 'HOSPITAL', 45.4642, 9.1900, 'central@vixhealth.com', '+390200000001'),
-                                                                                      (2, 'VIX North Clinic', 'CLINIC', 45.5000, 9.2100, 'north@vixhealth.com', '+390200000002'),
-                                                                                      (3, 'VIX Diagnostic Center', 'DIAGNOSTIC_CENTER', 45.4300, 9.1700, 'diagnostic@vixhealth.com', '+390200000003');
+                                                                                      (2, 'VIX North Clinic', 'MEDICAL_FACILITY', 45.5000, 9.2100, 'north@vixhealth.com', '+390200000002'),
+                                                                                      (3, 'VIX Diagnostic Center', 'MEDICAL_FACILITY', 45.4300, 9.1700, 'diagnostic@vixhealth.com', '+390200000003');
 
 INSERT INTO Storages (id, facility_id) VALUES
                                            (1, 1),

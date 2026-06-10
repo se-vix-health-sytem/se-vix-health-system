@@ -30,6 +30,7 @@ import java.util.Map;
         name = "type",
         discriminatorType = DiscriminatorType.STRING
 )
+@DiscriminatorValue("MEDICAL_FACILITY")
 public class MedicalFacility {
 
     /**
