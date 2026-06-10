@@ -4,7 +4,6 @@ import com.nvivx.vixhealthsystem.model.facility.Room;
 import com.nvivx.vixhealthsystem.model.medical.Appointment;
 import com.nvivx.vixhealthsystem.model.person.Patient;
 import com.nvivx.vixhealthsystem.model.person.employee.MedicalSpecialist;
-import com.nvivx.vixhealthsystem.service.SecretaryService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;

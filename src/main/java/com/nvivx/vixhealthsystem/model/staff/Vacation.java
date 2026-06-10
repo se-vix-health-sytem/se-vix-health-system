@@ -1,57 +1,76 @@
 package com.nvivx.vixhealthsystem.model.staff;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.time.LocalDate;
 
+/**
+ * Represents a vacation from an employee.
+ * Stored as JSON (vacations.json), not in the SQL database.
+ * The staff manager adds/approves these manually.
+ */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Vacation {
 
-    private long id;
-    private long employeeId;
+    private int id;
+    private int employeeId;
+    private String employeeName;  // denormalized for display
     private LocalDate startDate;
     private LocalDate endDate;
-    private String notes;
+    private String reason;
+    private String status;        // PENDING, APPROVED, DENIED
+
+    // =====================================================
+    // CONSTRUCTORS
+    // =====================================================
 
     public Vacation() {}
 
-    public Vacation(long id, long employeeId, LocalDate startDate, LocalDate endDate, String notes) {
+    public Vacation(int id, int employeeId, String employeeName,
+                           LocalDate startDate, LocalDate endDate,
+                           String reason, String status) {
         this.id = id;
         this.employeeId = employeeId;
+        this.employeeName = employeeName;
         this.startDate = startDate;
         this.endDate = endDate;
-        this.notes = notes;
+        this.reason = reason;
+        this.status = status;
     }
 
-    public long getId() {
-        return id;
-    }
-    public void setId(long id) {
-        this.id = id;
+    // =====================================================
+    // COMPUTED FIELDS
+    // =====================================================
+
+    /**
+     * Returns the number of days requested (inclusive).
+     */
+    public long getDaysRequested() {
+        if (startDate == null || endDate == null) return 0;
+        return startDate.until(endDate).getDays() + 1;
     }
 
-    public long getEmployeeId() {
-        return employeeId;
-    }
-    public void setEmployeeId(long employeeId) {
-        this.employeeId = employeeId;
-    }
+    // =====================================================
+    // GETTERS & SETTERS
+    // =====================================================
 
-    public LocalDate getStartDate() {
-        return startDate;
-    }
-    public void setStartDate(LocalDate startDate) {
-        this.startDate = startDate;
-    }
+    public int getId() { return id; }
+    public void setId(int id) { this.id = id; }
 
-    public LocalDate getEndDate() {
-        return endDate;
-    }
-    public void setEndDate(LocalDate endDate) {
-        this.endDate = endDate;
-    }
+    public int getEmployeeId() { return employeeId; }
+    public void setEmployeeId(int employeeId) { this.employeeId = employeeId; }
 
-    public String getNotes() {
-        return notes;
-    }
-    public void setNotes(String notes) {
-        this.notes = notes;
-    }
+    public String getEmployeeName() { return employeeName; }
+    public void setEmployeeName(String employeeName) { this.employeeName = employeeName; }
+
+    public LocalDate getStartDate() { return startDate; }
+    public void setStartDate(LocalDate startDate) { this.startDate = startDate; }
+
+    public LocalDate getEndDate() { return endDate; }
+    public void setEndDate(LocalDate endDate) { this.endDate = endDate; }
+
+    public String getReason() { return reason; }
+    public void setReason(String reason) { this.reason = reason; }
+
+    public String getStatus() { return status; }
+    public void setStatus(String status) { this.status = status; }
 }

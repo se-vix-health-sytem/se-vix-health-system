@@ -1,6 +1,5 @@
 package com.nvivx.vixhealthsystem.controllers;
 
-import com.nvivx.vixhealthsystem.service.BuyerService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
