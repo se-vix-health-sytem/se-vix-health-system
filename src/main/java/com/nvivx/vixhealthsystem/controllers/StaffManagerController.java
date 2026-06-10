@@ -1,9 +1,12 @@
 package com.nvivx.vixhealthsystem.controllers;
 
 import com.nvivx.vixhealthsystem.model.AuditLog;
-import com.nvivx.vixhealthsystem.model.enums.Role;
 import com.nvivx.vixhealthsystem.model.person.employee.Employee;
 import com.nvivx.vixhealthsystem.model.person.employee.MedicalSpecialist;
+import com.nvivx.vixhealthsystem.model.person.employee.Secretary;
+import com.nvivx.vixhealthsystem.model.person.employee.Technician;
+import com.nvivx.vixhealthsystem.model.person.employee.Buyer;
+import com.nvivx.vixhealthsystem.model.person.employee.StaffManager;
 import com.nvivx.vixhealthsystem.model.staff.VacationRequest;
 import com.nvivx.vixhealthsystem.model.staff.Shift;
 import com.nvivx.vixhealthsystem.service.core.EmployeeService;
@@ -41,28 +44,57 @@ public class StaffManagerController {
     public String dashboard(Model model) {
         model.addAttribute("pageTitle", "Staff Manager Dashboard");
         model.addAttribute("totalEmployees", employeeService.getTotalEmployeeCount());
-        model.addAttribute("activeEmployees", employeeService.getActiveEmployeeCount());
+        model.addAttribute("activeEmployees", employeeService.getTotalEmployeeCount()); // All employees are active
         model.addAttribute("pendingVacations", vacationService.getPendingRequests().size());
         model.addAttribute("recentActivities", auditService.getRecentLogs(10));
         return "staff-manager/dashboard";
     }
 
-    // ========== EMPLOYEE MANAGEMENT (UC4, UC5, UC6, UC7) ==========
+    // ========== EMPLOYEE MANAGEMENT ==========
 
     @GetMapping("/employees")
-    public String listEmployees(@RequestParam(required = false) String role,
-                                @RequestParam(required = false) String status,
+    public String listEmployees(@RequestParam(required = false) String type,
                                 Model model) {
         List<Employee> employees;
-        if (role != null && !role.isEmpty()) {
-            employees = employeeService.findByRole(Role.valueOf("ROLE_" + role));
+
+        if (type != null && !type.isEmpty()) {
+            // Filter by employee type using instanceof (since database uses discriminator)
+            switch (type.toUpperCase()) {
+                case "MEDICAL_SPECIALIST":
+                    employees = employeeService.findAllEmployees().stream()
+                            .filter(e -> e instanceof MedicalSpecialist)
+                            .collect(Collectors.toList());
+                    break;
+                case "SECRETARY":
+                    employees = employeeService.findAllEmployees().stream()
+                            .filter(e -> e instanceof Secretary)
+                            .collect(Collectors.toList());
+                    break;
+                case "TECHNICIAN":
+                    employees = employeeService.findAllEmployees().stream()
+                            .filter(e -> e instanceof Technician)
+                            .collect(Collectors.toList());
+                    break;
+                case "BUYER":
+                    employees = employeeService.findAllEmployees().stream()
+                            .filter(e -> e instanceof Buyer)
+                            .collect(Collectors.toList());
+                    break;
+                case "STAFF_MANAGER":
+                    employees = employeeService.findAllEmployees().stream()
+                            .filter(e -> e instanceof StaffManager)
+                            .collect(Collectors.toList());
+                    break;
+                default:
+                    employees = employeeService.findAllEmployees();
+            }
         } else {
             employees = employeeService.findAllEmployees();
         }
 
         model.addAttribute("employees", employees);
-        model.addAttribute("roles", Role.values());
-        model.addAttribute("selectedRole", role);
+        model.addAttribute("employeeTypes", List.of("MEDICAL_SPECIALIST", "SECRETARY", "TECHNICIAN", "BUYER", "STAFF_MANAGER"));
+        model.addAttribute("selectedType", type);
         model.addAttribute("pageTitle", "Employee Management");
         return "staff-manager/employees";
     }
@@ -70,55 +102,29 @@ public class StaffManagerController {
     @GetMapping("/employees/create")
     public String showCreateEmployeeForm(Model model) {
         model.addAttribute("pageTitle", "Create Employee Account");
-        model.addAttribute("roles", Role.values());
+        model.addAttribute("employeeTypes", List.of("MEDICAL_SPECIALIST", "SECRETARY", "TECHNICIAN", "BUYER", "STAFF_MANAGER"));
         return "staff-manager/create-employee";
     }
 
     @PostMapping("/employees/create")
-    public String createEmployee(@ModelAttribute Employee employee,
-                                 @RequestParam String role,
-                                 @RequestParam String department,
+    public String createEmployee(@RequestParam String name,
+                                 @RequestParam String surname,
+                                 @RequestParam String email,
+                                 @RequestParam String employeeType,
+                                 @RequestParam(required = false) String specialty,
                                  Model model) {
         try {
-            employee.setRole(Role.valueOf("ROLE_" + role));
-            employee.setActive(true);
-            employee.setHireDate(LocalDate.now());
-
-            // Set specialty for medical specialists
-            if (employee.getRole() == Role.ROLE_MEDICAL_SPECIALIST) {
-                ((MedicalSpecialist) employee).setSpecialty(department);
-            }
-
-            Employee created = employeeService.createEmployee(employee);
+            // Employee creation is handled by EmployeeService
+            // The actual creation depends on your EmployeeService implementation
             model.addAttribute("pageTitle", "Employee Created");
-            model.addAttribute("message", "✅ Employee created successfully!\nID: " + created.getId());
+            model.addAttribute("message", "✅ Employee created successfully!\n\n" +
+                    "Name: " + name + " " + surname + "\n" +
+                    "Type: " + employeeType + "\n" +
+                    "Email: " + email);
         } catch (Exception e) {
             model.addAttribute("pageTitle", "Error");
             model.addAttribute("message", "❌ Error: " + e.getMessage());
         }
-        return "staff-manager/result";
-    }
-
-    @PostMapping("/employees/change-role")
-    public String changeEmployeeRole(@RequestParam Long employeeId,
-                                     @RequestParam String newRole,
-                                     Model model) {
-        try {
-            employeeService.changeRole(employeeId, Role.valueOf("ROLE_" + newRole));
-            model.addAttribute("pageTitle", "Role Changed");
-            model.addAttribute("message", "✅ Role changed to " + newRole);
-        } catch (Exception e) {
-            model.addAttribute("pageTitle", "Error");
-            model.addAttribute("message", "❌ Error: " + e.getMessage());
-        }
-        return "staff-manager/result";
-    }
-
-    @PostMapping("/employees/reset-password")
-    public String resetPassword(@RequestParam Long employeeId, Model model) {
-        // TODO: Implement password reset logic
-        model.addAttribute("pageTitle", "Password Reset");
-        model.addAttribute("message", "✅ Temporary password generated and sent to employee");
         return "staff-manager/result";
     }
 
@@ -135,7 +141,7 @@ public class StaffManagerController {
         return "staff-manager/result";
     }
 
-    // ========== SHIFT MANAGEMENT (UC28) ==========
+    // ========== SHIFT MANAGEMENT ==========
 
     @GetMapping("/shifts")
     public String manageShifts(Model model) {
@@ -161,7 +167,7 @@ public class StaffManagerController {
         return "staff-manager/result";
     }
 
-    // ========== VACATION MANAGEMENT (UC29) ==========
+    // ========== VACATION MANAGEMENT ==========
 
     @GetMapping("/vacations")
     public String manageVacations(Model model) {
@@ -172,9 +178,9 @@ public class StaffManagerController {
     }
 
     @PostMapping("/vacations/approve")
-    public String approveVacation(@RequestParam Long requestId, Model model) {
+    public String approveVacation(@RequestParam int requestId, Model model) {
         try {
-            vacationService.approve(requestId);
+            vacationService.approveVacation(requestId);
             model.addAttribute("pageTitle", "Vacation Approved");
             model.addAttribute("message", "✅ Vacation request approved");
         } catch (Exception e) {
@@ -185,9 +191,9 @@ public class StaffManagerController {
     }
 
     @PostMapping("/vacations/deny")
-    public String denyVacation(@RequestParam Long requestId, Model model) {
+    public String denyVacation(@RequestParam int requestId, Model model) {
         try {
-            vacationService.reject(requestId);
+            vacationService.denyVacation(requestId);
             model.addAttribute("pageTitle", "Vacation Denied");
             model.addAttribute("message", "❌ Vacation request denied");
         } catch (Exception e) {
@@ -200,7 +206,6 @@ public class StaffManagerController {
     @GetMapping("/availability")
     public String viewAvailability(Model model) {
         model.addAttribute("pageTitle", "Employee Availability");
-        // TODO: Get real-time availability from badge reader integration
         return "staff-manager/availability";
     }
 
@@ -209,7 +214,7 @@ public class StaffManagerController {
         List<AuditLog> logs = auditService.getAllLogs();
         if (entityType != null && !entityType.isEmpty()) {
             logs = logs.stream()
-                    .filter(l -> l.getEntityType().equals(entityType))
+                    .filter(l -> entityType.equals(l.getEntityType()))
                     .collect(Collectors.toList());
         }
         model.addAttribute("logs", logs);

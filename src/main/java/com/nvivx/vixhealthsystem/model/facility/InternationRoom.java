@@ -2,21 +2,26 @@ package com.nvivx.vixhealthsystem.model.facility;
 
 import com.nvivx.vixhealthsystem.model.person.Patient;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Represents an inpatient room used for patient hospitalization.
- *
+ * <p>
  * An inpatient room contains a fixed number of beds and can host
  * multiple patients simultaneously.
- *
+ * <p>
  * Patients are linked through the RoomPatients table.
  *
  * @see Room
  * @see Patient
  */
+
+@Getter
+@Setter
 @Entity
 @DiscriminatorValue("INTERNATION_ROOM")
 public class InternationRoom extends Room {
@@ -27,9 +32,7 @@ public class InternationRoom extends Room {
     @Column(name = "beds_count")
     private Integer nBeds;
 
-    /**
-     * Patients currently admitted to the room.
-     */
+
     @ManyToMany
     @JoinTable(
             name = "RoomPatients",
@@ -88,24 +91,6 @@ public class InternationRoom extends Room {
      */
     public int getNFreeBeds() {
         return nBeds - patients.size();
-    }
-
-    /**
-     * Returns all patients currently admitted.
-     *
-     * @return patient list
-     */
-    public List<Patient> getPatients() {
-        return patients;
-    }
-
-    /**
-     * Sets the patient list.
-     *
-     * @param patients admitted patients
-     */
-    public void setPatients(List<Patient> patients) {
-        this.patients = patients;
     }
 
     // =====================================================

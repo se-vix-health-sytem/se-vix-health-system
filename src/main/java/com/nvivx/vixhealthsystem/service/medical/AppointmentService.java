@@ -43,7 +43,7 @@ public class AppointmentService {
         }
 
         Appointment appt = new Appointment(
-                System.currentTimeMillis(),
+                (int) System.currentTimeMillis(),
                 req.getDateTime(),
                 req.getDuration(),
                 req.getNotes()

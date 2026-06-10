@@ -9,10 +9,10 @@ import java.util.List;
 
 /**
  * Represents a hospital.
- *
+ * <p>
  * A hospital is a medical facility capable of admitting patients
  * for short-term or long-term stays.
- *
+ * <p>
  * Hospitals contain inpatient rooms and provide admission and
  * discharge services.
  *
@@ -25,10 +25,10 @@ import java.util.List;
 public class Hospital extends MedicalFacility {
     /**
      * Returns all inpatient rooms available in the hospital.
-     *
+     * <p>
      * An inpatient room is a room designed to accommodate
      * admitted patients for short-term or long-term stays.
-     *
+     * <p>
      * The method filters the facility room list and returns
      * only rooms of type InternationRoom.
      *

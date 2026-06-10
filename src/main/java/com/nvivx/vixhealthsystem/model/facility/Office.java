@@ -2,25 +2,27 @@ package com.nvivx.vixhealthsystem.model.facility;
 
 import com.nvivx.vixhealthsystem.model.person.employee.Employee;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * Represents an office assigned to an employee.
- *
+ * <p>
  * Offices are rooms used by employees to perform
  * administrative, managerial or medical activities.
- *
+ * <p>
  * Each office can be assigned to at most one employee.
  *
  * @see Room
  * @see Employee
  */
+@Getter
+@Setter
 @Entity
 @DiscriminatorValue("OFFICE")
 public class Office extends Room {
 
-    /**
-     * Employee assigned to this office.
-     */
+
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "employee_id")
     private Employee employee;
@@ -59,22 +61,4 @@ public class Office extends Room {
         this.employee = e;
     }
 
-    /**
-     * Returns the employee currently assigned
-     * to the office.
-     *
-     * @return assigned employee
-     */
-    public Employee getEmployee() {
-        return employee;
-    }
-
-    /**
-     * Sets the employee assigned to the office.
-     *
-     * @param employee assigned employee
-     */
-    public void setEmployee(Employee employee) {
-        this.employee = employee;
-    }
 }

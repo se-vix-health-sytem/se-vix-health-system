@@ -2,9 +2,14 @@ package com.nvivx.vixhealthsystem.model.medical;
 
 import com.nvivx.vixhealthsystem.model.facility.SpecializedRoom;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 
+
+@Getter
+@Setter
 @Entity
 @Table(name = "Surgeries")
 public class Surgery {
@@ -40,47 +45,4 @@ public class Surgery {
         this.specializedRoom = specializedRoom;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public MedicalRecord getMedicalRecord() {
-        return medicalRecord;
-    }
-
-    public void setMedicalRecord(MedicalRecord medicalRecord) {
-        this.medicalRecord = medicalRecord;
-    }
-
-    public SpecializedRoom getSpecializedRoom() {
-        return specializedRoom;
-    }
-
-    public void setSpecializedRoom(SpecializedRoom specializedRoom) {
-        this.specializedRoom = specializedRoom;
-    }
-
-    public LocalDateTime getDateTime() {
-        return dateTime;
-    }
-
-    public void setDateTime(LocalDateTime dateTime) {
-        this.dateTime = dateTime;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
 }

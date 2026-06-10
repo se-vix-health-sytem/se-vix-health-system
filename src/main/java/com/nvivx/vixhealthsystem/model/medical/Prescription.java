@@ -2,18 +2,22 @@ package com.nvivx.vixhealthsystem.model.medical;
 
 import com.nvivx.vixhealthsystem.model.person.employee.MedicalSpecialist;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 
 /**
  * Represents a medical prescription issued by a medical specialist.
- *
+ * <p>
  * A prescription belongs to a medical record and identifies
  * the medication prescribed to the patient.
  *
  * @see MedicalRecord
  * @see MedicalSpecialist
  */
+@Getter
+@Setter
 @Entity
 @Table(name = "Prescriptions")
 public class Prescription {
@@ -63,46 +67,6 @@ public class Prescription {
             String medication
     ) {
         this.dateTime = dateTime;
-        this.medication = medication;
-    }
-
-    // =====================================================
-    // GETTERS & SETTERS
-    // =====================================================
-
-    public Long getId() {
-        return id;
-    }
-
-    public MedicalRecord getMedicalRecord() {
-        return medicalRecord;
-    }
-
-    public void setMedicalRecord(MedicalRecord medicalRecord) {
-        this.medicalRecord = medicalRecord;
-    }
-
-    public MedicalSpecialist getMedicalSpecialist() {
-        return medicalSpecialist;
-    }
-
-    public void setMedicalSpecialist(MedicalSpecialist medicalSpecialist) {
-        this.medicalSpecialist = medicalSpecialist;
-    }
-
-    public LocalDateTime getDateTime() {
-        return dateTime;
-    }
-
-    public void setDateTime(LocalDateTime dateTime) {
-        this.dateTime = dateTime;
-    }
-
-    public String getMedication() {
-        return medication;
-    }
-
-    public void setMedication(String medication) {
         this.medication = medication;
     }
 }

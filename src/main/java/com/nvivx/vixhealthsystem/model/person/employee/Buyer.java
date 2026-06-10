@@ -7,7 +7,7 @@ import jakarta.persistence.Entity;
 /**
  * Part of the purchasing department.
  * Responsible for procuring and adding new resources to the hospital inventory.
- *
+ * <p>
  * Buyers are responsible for monitoring stock levels and requesting
  * new resources when needed.
  *

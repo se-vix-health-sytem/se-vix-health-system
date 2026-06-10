@@ -2,16 +2,18 @@ package com.nvivx.vixhealthsystem.model.facility;
 
 import com.nvivx.vixhealthsystem.model.resource.Machinery;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Represents a specialized room containing medical equipment.
- *
+ * <p>
  * Specialized rooms are dedicated to specific medical activities,
  * such as radiology, MRI, CT scanning or surgery.
- *
+ * <p>
  * Each specialized room may contain multiple machines.
  *
  * @see Room
@@ -25,6 +27,8 @@ public class SpecializedRoom extends Room {
      * Specialization of the room.
      * Examples: Radiology, MRI, CT Scan, Surgery.
      */
+    @Setter
+    @Getter
     @Column(name = "specialization")
     private String specialization;
 
@@ -49,17 +53,6 @@ public class SpecializedRoom extends Room {
         this.specialization = specialization;
     }
 
-    // =====================================================
-    // GETTERS & SETTERS
-    // =====================================================
-
-    public String getSpecialization() {
-        return specialization;
-    }
-
-    public void setSpecialization(String specialization) {
-        this.specialization = specialization;
-    }
 
     protected List<Machinery> getMachineries() {
         return machineries;

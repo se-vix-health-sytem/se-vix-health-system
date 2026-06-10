@@ -3,6 +3,8 @@ package com.nvivx.vixhealthsystem.model.facility;
 import com.nvivx.vixhealthsystem.model.resource.Resource;
 import com.nvivx.vixhealthsystem.model.resource.Storage;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +13,7 @@ import java.util.Map;
 /**
  * Represents a healthcare facility such as a hospital,
  * clinic or specialized medical center.
- *
+ * <p>
  * A medical facility contains departments, rooms and a storage
  * area used to manage resources and equipment.
  *
@@ -19,6 +21,8 @@ import java.util.Map;
  * @see Room
  * @see Storage
  */
+@Getter
+@Setter
 @Entity
 @Table(name = "MedicalFacilities")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
@@ -96,61 +100,6 @@ public class MedicalFacility {
         this.phoneNumber = phoneNumber;
     }
 
-    // =====================================================
-    // GETTERS & SETTERS
-    // =====================================================
-
-    public Long getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Location getLocation() {
-        return location;
-    }
-
-    public void setLocation(Location location) {
-        this.location = location;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
-    public Storage getStorage() {
-        return storage;
-    }
-
-    public void setStorage(Storage storage) {
-        this.storage = storage;
-    }
-
-    public List<Room> getRooms() {
-        return rooms;
-    }
-
-    public List<Department> getDepartments() {
-        return departments;
-    }
 
     // =====================================================
     // DOMAIN METHODS

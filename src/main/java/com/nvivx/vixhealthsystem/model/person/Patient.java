@@ -4,6 +4,8 @@ import com.nvivx.vixhealthsystem.model.medical.Appointment;
 import com.nvivx.vixhealthsystem.model.medical.MedicalRecord;
 import com.nvivx.vixhealthsystem.model.person.employee.MedicalSpecialist;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -11,16 +13,18 @@ import java.util.List;
 
 /**
  * Represents a patient in the VIX Health System.
- *
+ * <p>
  * A patient has a unique fiscal code, personal information inherited
  * from Person, one medical record and a list of appointments.
- *
+ * <p>
  * Appointment-management logic is kept inside this class.
  *
  * @see Person
  * @see MedicalRecord
  * @see Appointment
  */
+@Getter
+@Setter
 @Entity
 @Table(name = "Patients")
 public class Patient extends Person {
@@ -57,34 +61,6 @@ public class Patient extends Person {
     public Patient(String fiscalCode, MedicalRecord medicalRecord) {
         this.fiscalCode = fiscalCode;
         this.medicalRecord = medicalRecord;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public String getFiscalCode() {
-        return fiscalCode;
-    }
-
-    public void setFiscalCode(String fiscalCode) {
-        this.fiscalCode = fiscalCode;
-    }
-
-    public MedicalRecord getMedicalRecord() {
-        return medicalRecord;
-    }
-
-    public void setMedicalRecord(MedicalRecord medicalRecord) {
-        this.medicalRecord = medicalRecord;
-    }
-
-    public List<Appointment> getAppointments() {
-        return appointments;
-    }
-
-    public void setAppointments(List<Appointment> appointments) {
-        this.appointments = appointments;
     }
 
     public Appointment makeAppointment(MedicalSpecialist m, LocalDateTime dt) {

@@ -2,6 +2,8 @@ package com.nvivx.vixhealthsystem.model.person;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.MappedSuperclass;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDate;
 import java.time.Period;
@@ -9,37 +11,71 @@ import java.time.Period;
 /**
  * Base class for all people in the system.
  * Contains personal and contact information shared by both patients and employees.
- *
+ * <p>
  * This class is marked as a MappedSuperclass, meaning its fields are inherited
  * by subclasses and mapped directly into their tables, but Person itself
  * does not have a dedicated database table.
  *
- * @see com.nvivx.vixhealthsystem.model.person.patient.Patient
+ * @see com.nvivx.vixhealthsystem.model.person.Patient
  * @see com.nvivx.vixhealthsystem.model.person.employee.Employee
  */
+@Setter
+@Getter
 @MappedSuperclass
 public abstract class Person {
 
     /**
      * Person's first name.
+     * -- GETTER --
+     *  Returns the first name.
+     * <p>
+     * -- SETTER --
+     *  Sets the first name.
+     *
+
+
      */
     @Column(name = "name", nullable = false)
     private String name;
 
     /**
      * Person's last name.
+     * -- GETTER --
+     *  Returns the surname.
+     * <p>
+     * -- SETTER --
+     *  Sets the surname.
+     *
+
+
      */
     @Column(name = "surname", nullable = false)
     private String surname;
 
     /**
      * Date of birth.
+     * -- GETTER --
+     *  Returns the date of birth.
+     * <p>
+     * -- SETTER --
+     *  Sets the date of birth.
+     *
+
+
      */
     @Column(name = "birth_date")
     private LocalDate birthDate;
 
     /**
      * Place of birth.
+     * -- GETTER --
+     *  Returns the place of birth.
+     * <p>
+     * -- SETTER --
+     *  Sets the place of birth.
+     *
+
+
      */
     @Column(name = "birth_place")
     private String birthPlace;
@@ -47,18 +83,42 @@ public abstract class Person {
     /**
      * Gender.
      * Stored as a single character (M, F, etc.).
+     * -- GETTER --
+     *  Returns the gender.
+     * <p>
+     * -- SETTER --
+     *  Sets the gender.
+     *
+
+
      */
     @Column(name = "gender")
     private char gender;
 
     /**
      * Email address.
+     * -- GETTER --
+     *  Returns the email address.
+     * <p>
+     * -- SETTER --
+     *  Sets the email address.
+     *
+
+
      */
     @Column(name = "email")
     private String email;
 
     /**
      * Phone number.
+     * -- GETTER --
+     *  Returns the phone number.
+     * <p>
+     * -- SETTER --
+     *  Sets the phone number.
+     *
+
+
      */
     @Column(name = "phone")
     private String phoneNumber;
@@ -66,132 +126,6 @@ public abstract class Person {
     // =====================================================
     // GETTERS & SETTERS
     // =====================================================
-
-    /**
-     * Returns the first name.
-     *
-     * @return person's name
-     */
-    public String getName() {
-        return name;
-    }
-
-    /**
-     * Sets the first name.
-     *
-     * @param name first name
-     */
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    /**
-     * Returns the surname.
-     *
-     * @return person's surname
-     */
-    public String getSurname() {
-        return surname;
-    }
-
-    /**
-     * Sets the surname.
-     *
-     * @param surname last name
-     */
-    public void setSurname(String surname) {
-        this.surname = surname;
-    }
-
-    /**
-     * Returns the date of birth.
-     *
-     * @return birth date
-     */
-    public LocalDate getBirthDate() {
-        return birthDate;
-    }
-
-    /**
-     * Sets the date of birth.
-     *
-     * @param birthDate date of birth
-     */
-    public void setBirthDate(LocalDate birthDate) {
-        this.birthDate = birthDate;
-    }
-
-    /**
-     * Returns the place of birth.
-     *
-     * @return birth place
-     */
-    public String getBirthPlace() {
-        return birthPlace;
-    }
-
-    /**
-     * Sets the place of birth.
-     *
-     * @param birthPlace place of birth
-     */
-    public void setBirthPlace(String birthPlace) {
-        this.birthPlace = birthPlace;
-    }
-
-    /**
-     * Returns the gender.
-     *
-     * @return gender character
-     */
-    public char getGender() {
-        return gender;
-    }
-
-    /**
-     * Sets the gender.
-     *
-     * @param gender gender character
-     */
-    public void setGender(char gender) {
-        this.gender = gender;
-    }
-
-    /**
-     * Returns the email address.
-     *
-     * @return email address
-     */
-    public String getEmail() {
-        return email;
-    }
-
-    /**
-     * Sets the email address.
-     *
-     * @param email email address
-     */
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    /**
-     * Returns the phone number.
-     *
-     * @return phone number
-     */
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    /**
-     * Sets the phone number.
-     *
-     * @param phoneNumber phone number
-     */
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
 
     // =====================================================
     // DOMAIN METHODS

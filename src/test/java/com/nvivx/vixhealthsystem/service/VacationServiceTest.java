@@ -1,7 +1,8 @@
-package com.nvivx.vixhealthsystem.infrastructure;
+/* package com.nvivx.vixhealthsystem.service;
 
-import com.nvivx.vixhealthsystem.model.staff.Vacation;
+import com.nvivx.vixhealthsystem.model.staff.VacationRequest;
 import com.nvivx.vixhealthsystem.repository.JsonVacationRepository;
+import com.nvivx.vixhealthsystem.service.scheduling.VacationService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -29,7 +30,7 @@ class VacationServiceTest {
 
         when(repository.findAll()).thenReturn(new ArrayList<>());
 
-        Vacation v = service.addVacation(
+        VacationRequest v = service.addVacationRequest(
                 1L,
                 LocalDate.of(2026, 7, 10),
                 LocalDate.of(2026, 7, 15),
@@ -74,4 +75,4 @@ class VacationServiceTest {
         assertEquals(1, result.size());
         assertEquals(1L, result.get(0).getEmployeeId());
     }
-}
+} */

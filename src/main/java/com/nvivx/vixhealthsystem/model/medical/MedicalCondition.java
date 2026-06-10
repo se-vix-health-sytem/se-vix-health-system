@@ -1,17 +1,21 @@
 package com.nvivx.vixhealthsystem.model.medical;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDate;
 
 /**
  * Represents a medical condition diagnosed in a patient.
- *
+ * <p>
  * Medical conditions are associated with a medical record and
  * contain information regarding diagnosis, treatment and type.
  *
  * @see MedicalRecord
  */
+@Getter
+@Setter
 @Entity
 @Table(name = "MedicalConditions")
 public class MedicalCondition {
@@ -93,59 +97,5 @@ public class MedicalCondition {
         this.treatment = treatment;
     }
 
-    // =====================================================
-    // GETTERS & SETTERS
-    // =====================================================
 
-    public Long getId() {
-        return id;
-    }
-
-    public MedicalRecord getMedicalRecord() {
-        return medicalRecord;
-    }
-
-    public void setMedicalRecord(MedicalRecord medicalRecord) {
-        this.medicalRecord = medicalRecord;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public LocalDate getDateOfDiagnosis() {
-        return dateOfDiagnosis;
-    }
-
-    public void setDateOfDiagnosis(LocalDate dateOfDiagnosis) {
-        this.dateOfDiagnosis = dateOfDiagnosis;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getTreatment() {
-        return treatment;
-    }
-
-    public void setTreatment(String treatment) {
-        this.treatment = treatment;
-    }
 }

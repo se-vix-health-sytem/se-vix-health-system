@@ -15,12 +15,11 @@ public class Appointment {
     private MedicalSpecialist medicalSpecialist;
     private boolean paymentStatus;
 
-    // ADD THIS FIELD - Status for appointment tracking
+    // Status for appointment tracking
     private String status;  // Possible values: PENDING, CONFIRMED, CANCELLED, RESCHEDULED, COMPLETED
 
     // Constructors
     public Appointment() {
-        // Default constructor for JSON deserialization
     }
 
     public Appointment(int id, LocalDateTime dateTime, int duration, String notes) {

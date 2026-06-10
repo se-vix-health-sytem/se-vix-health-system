@@ -2,15 +2,17 @@ package com.nvivx.vixhealthsystem.model.medical;
 
 import com.nvivx.vixhealthsystem.model.person.Patient;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Represents the complete medical record of a patient.
- *
+ * <p>
  * Each patient owns exactly one medical record.
- *
+ * <p>
  * The medical record stores general health information
  * and provides access to medical conditions,
  * prescriptions and surgeries associated with the patient.
@@ -20,6 +22,8 @@ import java.util.List;
  * @see Prescription
  * @see Surgery
  */
+@Getter
+@Setter
 @Entity
 @Table(name = "MedicalRecords")
 public class MedicalRecord {
@@ -62,7 +66,7 @@ public class MedicalRecord {
 
     /**
      * Known allergies.
-     *
+     * <p>
      * Stored as plain text for simplicity.
      */
     @Column(name = "allergies")
@@ -70,7 +74,7 @@ public class MedicalRecord {
 
     /**
      * Vaccinations received by the patient.
-     *
+     * <p>
      * Stored as plain text for simplicity.
      */
     @Column(name = "vaccines")
@@ -114,69 +118,6 @@ public class MedicalRecord {
         this.bloodType = bloodType;
     }
 
-    // =====================================================
-    // GETTERS & SETTERS
-    // =====================================================
-
-    public Long getId() {
-        return id;
-    }
-
-    public Patient getPatient() {
-        return patient;
-    }
-
-    public void setPatient(Patient patient) {
-        this.patient = patient;
-    }
-
-    public Float getHeight() {
-        return height;
-    }
-
-    public void setHeight(Float height) {
-        this.height = height;
-    }
-
-    public Float getWeight() {
-        return weight;
-    }
-
-    public void setWeight(Float weight) {
-        this.weight = weight;
-    }
-
-    public String getBloodType() {
-        return bloodType;
-    }
-
-    public void setBloodType(String bloodType) {
-        this.bloodType = bloodType;
-    }
-
-    public String getAllergies() {
-        return allergies;
-    }
-
-    public void setAllergies(String allergies) {
-        this.allergies = allergies;
-    }
-
-    public String getVaccines() {
-        return vaccines;
-    }
-
-    public void setVaccines(String vaccines) {
-        this.vaccines = vaccines;
-    }
-
-    public void setConditions(List<MedicalCondition> conditions) {
-        this.conditions = conditions;
-    }
-    public List<MedicalCondition> getConditions() {
-        return conditions;
-    }
-
     // Helper method to add a single condition (useful for services)
     public void addCondition(MedicalCondition condition) {
         this.conditions.add(condition);
@@ -187,18 +128,6 @@ public class MedicalRecord {
     public void addPrescription(Prescription prescription) {
         this.prescriptions.add(prescription);
         prescription.setMedicalRecord(this);
-    }
-
-    public List<Prescription> getPrescriptions() {
-        return prescriptions;
-    }
-
-    public void setSurgeries(List<Surgery> surgeries) {
-        this.surgeries = surgeries;
-    }
-
-    public List<Surgery> getSurgeries() {
-        return surgeries;
     }
 
     // Helper method to add a surgery

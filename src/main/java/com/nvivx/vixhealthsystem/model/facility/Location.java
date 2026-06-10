@@ -1,15 +1,19 @@
 package com.nvivx.vixhealthsystem.model.facility;
 
 import jakarta.persistence.Embeddable;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * Represents the geographic coordinates of a medical facility.
- *
+ * <p>
  * This class is embedded inside MedicalFacility and does not have
  * its own database table.
  *
  * @see MedicalFacility
  */
+@Getter
+@Setter
 @Embeddable
 public class Location {
 
@@ -25,19 +29,4 @@ public class Location {
         this.longitude = longitude;
     }
 
-    public Double getLatitude() {
-        return latitude;
-    }
-
-    public void setLatitude(Double latitude) {
-        this.latitude = latitude;
-    }
-
-    public Double getLongitude() {
-        return longitude;
-    }
-
-    public void setLongitude(Double longitude) {
-        this.longitude = longitude;
-    }
 }
