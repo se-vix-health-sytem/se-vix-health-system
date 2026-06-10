@@ -1,4 +1,4 @@
-package com.nvivx.vixhealthsystem.service.core;
+package com.nvivx.vixhealthsystem.service.resources;
 
 import com.nvivx.vixhealthsystem.model.facility.Room;
 import com.nvivx.vixhealthsystem.model.facility.InternationRoom;

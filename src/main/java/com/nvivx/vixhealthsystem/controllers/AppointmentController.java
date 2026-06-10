@@ -2,7 +2,7 @@ package com.nvivx.vixhealthsystem.controllers;
 
 import com.nvivx.vixhealthsystem.dto.CreateAppointmentRequest;
 import com.nvivx.vixhealthsystem.model.medical.Appointment;
-import com.nvivx.vixhealthsystem.service.AppointmentService;
+import com.nvivx.vixhealthsystem.service.medical.AppointmentService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 

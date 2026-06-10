@@ -1,36 +1,63 @@
 package com.nvivx.vixhealthsystem.model.staff;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.time.LocalDate;
 
+/**
+ * Represents a vacation request from an employee.
+ * Stored as JSON (vacations.json), not in the SQL database.
+ * The staff manager adds/approves these manually.
+ */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class VacationRequest {
-    private Long id;
-    private Long employeeId;
-    private String employeeName;
+
+    private int id;
+    private int employeeId;
+    private String employeeName;  // denormalized for display
     private LocalDate startDate;
     private LocalDate endDate;
     private String reason;
-    private String status; // PENDING, APPROVED, DENIED
-    private int daysRequested;
+    private String status;        // PENDING, APPROVED, DENIED
 
-    // Constructors
+    // =====================================================
+    // CONSTRUCTORS
+    // =====================================================
+
     public VacationRequest() {}
 
-    public VacationRequest(Long id, Long employeeId, LocalDate startDate, LocalDate endDate, String reason, String status) {
+    public VacationRequest(int id, int employeeId, String employeeName,
+                           LocalDate startDate, LocalDate endDate,
+                           String reason, String status) {
         this.id = id;
         this.employeeId = employeeId;
+        this.employeeName = employeeName;
         this.startDate = startDate;
         this.endDate = endDate;
         this.reason = reason;
         this.status = status;
-        this.daysRequested = (int) java.time.temporal.ChronoUnit.DAYS.between(startDate, endDate) + 1;
     }
 
-    // Getters and Setters (all fields)
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    // =====================================================
+    // COMPUTED FIELDS
+    // =====================================================
 
-    public Long getEmployeeId() { return employeeId; }
-    public void setEmployeeId(Long employeeId) { this.employeeId = employeeId; }
+    /**
+     * Returns the number of days requested (inclusive).
+     */
+    public long getDaysRequested() {
+        if (startDate == null || endDate == null) return 0;
+        return startDate.until(endDate).getDays() + 1;
+    }
+
+    // =====================================================
+    // GETTERS & SETTERS
+    // =====================================================
+
+    public int getId() { return id; }
+    public void setId(int id) { this.id = id; }
+
+    public int getEmployeeId() { return employeeId; }
+    public void setEmployeeId(int employeeId) { this.employeeId = employeeId; }
 
     public String getEmployeeName() { return employeeName; }
     public void setEmployeeName(String employeeName) { this.employeeName = employeeName; }
@@ -46,7 +73,4 @@ public class VacationRequest {
 
     public String getStatus() { return status; }
     public void setStatus(String status) { this.status = status; }
-
-    public int getDaysRequested() { return daysRequested; }
-    public void setDaysRequested(int daysRequested) { this.daysRequested = daysRequested; }
 }

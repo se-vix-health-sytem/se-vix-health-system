@@ -1,9 +1,10 @@
 // src/main/java/com/nvivx/vixhealthsystem/service/PaymentService.java
-package com.nvivx.vixhealthsystem.service;
+package com.nvivx.vixhealthsystem.service.integration;
 
 import com.nvivx.vixhealthsystem.dto.PaymentRequest;
 import com.nvivx.vixhealthsystem.dto.PaymentResponse;
 import com.nvivx.vixhealthsystem.dto.PaymentStatus;
+import com.nvivx.vixhealthsystem.service.AuditService;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;

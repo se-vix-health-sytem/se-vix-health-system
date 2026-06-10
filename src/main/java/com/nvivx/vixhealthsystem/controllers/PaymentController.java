@@ -4,7 +4,7 @@ package com.nvivx.vixhealthsystem.controllers;
 import com.nvivx.vixhealthsystem.dto.PaymentRequest;
 import com.nvivx.vixhealthsystem.dto.PaymentResponse;
 import com.nvivx.vixhealthsystem.dto.PaymentStatus;
-import com.nvivx.vixhealthsystem.service.PaymentService;
+import com.nvivx.vixhealthsystem.service.integration.PaymentService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;

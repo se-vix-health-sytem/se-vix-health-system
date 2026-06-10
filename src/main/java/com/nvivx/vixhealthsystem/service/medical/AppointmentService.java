@@ -1,4 +1,4 @@
-package com.nvivx.vixhealthsystem.service;
+package com.nvivx.vixhealthsystem.service.medical;
 
 import com.nvivx.vixhealthsystem.dto.CreateAppointmentRequest;
 import com.nvivx.vixhealthsystem.exception.SlotNotAvailableException;

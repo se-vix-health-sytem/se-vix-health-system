@@ -1,4 +1,7 @@
 package com.nvivx.vixhealthsystem.exception;
 
-public class PatientNotFoundException {
+public class PatientNotFoundException extends RuntimeException {
+    public PatientNotFoundException(String message) {
+        super(message);
+    }
 }

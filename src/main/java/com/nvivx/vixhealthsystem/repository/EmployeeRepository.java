@@ -2,6 +2,8 @@ package com.nvivx.vixhealthsystem.repository;
 
 import com.nvivx.vixhealthsystem.model.person.employee.Employee;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -16,4 +18,7 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
     Employee findByEmail(String email);
 
     List<Employee> findByDepartmentId(Long departmentId);
+
+    @Query("SELECT e FROM Employee e WHERE TYPE(e) = :type")
+    List<Employee> findByEmployeeType(@Param("type") Class<?> type);
 }
