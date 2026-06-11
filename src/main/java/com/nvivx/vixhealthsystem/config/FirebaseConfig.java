@@ -1,0 +1,42 @@
+package com.nvivx.vixhealthsystem.config;
+
+import com.google.auth.oauth2.GoogleCredentials;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.FirebaseOptions;
+import jakarta.annotation.PostConstruct;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.Resource;
+
+import java.io.InputStream;
+
+@Configuration
+@ConditionalOnProperty(
+        name = "firebase.enabled",
+        havingValue = "true"
+)
+public class FirebaseConfig {
+
+    @Value("${firebase.service-account}")
+    private Resource serviceAccount;
+
+    @PostConstruct
+    public void initializeFirebase() throws Exception {
+
+        if (!FirebaseApp.getApps().isEmpty()) {
+            return;
+        }
+
+        try (InputStream inputStream = serviceAccount.getInputStream()) {
+
+            FirebaseOptions options = FirebaseOptions.builder()
+                    .setCredentials(
+                            GoogleCredentials.fromStream(inputStream)
+                    )
+                    .build();
+
+            FirebaseApp.initializeApp(options);
+        }
+    }
+}
