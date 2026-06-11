@@ -132,3 +132,17 @@ INSERT INTO RoomPatients (room_id, patient_id) VALUES
                                                    (1, 3),
                                                    (2, 5);
 
+-- Reset identity sequences so new inserts don't collide with seeded IDs
+ALTER TABLE MedicalFacilities ALTER COLUMN id RESTART WITH 4;
+ALTER TABLE Storages           ALTER COLUMN id RESTART WITH 4;
+ALTER TABLE Resources          ALTER COLUMN id RESTART WITH 10;
+ALTER TABLE Departments        ALTER COLUMN id RESTART WITH 7;
+ALTER TABLE Employees          ALTER COLUMN id RESTART WITH 12;
+ALTER TABLE Rooms              ALTER COLUMN id RESTART WITH 13;
+ALTER TABLE Patients           ALTER COLUMN id RESTART WITH 6;
+ALTER TABLE MedicalRecords     ALTER COLUMN id RESTART WITH 6;
+ALTER TABLE MedicalConditions  ALTER COLUMN id RESTART WITH 8;
+ALTER TABLE Prescriptions      ALTER COLUMN id RESTART WITH 8;
+ALTER TABLE Surgeries          ALTER COLUMN id RESTART WITH 5;
+ALTER TABLE Machines           ALTER COLUMN id RESTART WITH 5;
+

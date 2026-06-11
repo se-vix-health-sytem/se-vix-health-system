@@ -23,14 +23,14 @@
                         <div>
                             <div class="d-flex align-items-center gap-2 mb-1">
                                 <i class="bi bi-exclamation-triangle-fill text-danger"></i>
-                                <strong th:text="${alert.machineName ?: 'Machine'}">Machine</strong>
+                                <strong th:text="${alert.name ?: 'Machine'}">Machine</strong>
                             </div>
                             <div class="text-muted small" th:text="${alert.message ?: '-'}">-</div>
-                            <div class="text-muted small" th:if="${alert.timestamp != null}"
-                                 th:text="'Reported: ' + ${#temporals.format(alert.timestamp,'dd/MM/yyyy HH:mm')}">-</div>
+                            <div class="text-muted small" th:if="${alert.location != null}"
+                                 th:text="'Location: ' + ${alert.location}">-</div>
                         </div>
-                        <a th:if="${alert.machineId != null}"
-                           th:href="@{/technician/machines/{id}(id=${alert.machineId})}"
+                        <a th:if="${alert.id != null}"
+                           th:href="@{/technician/machines/{id}(id=${alert.id})}"
                            class="btn btn-sm btn-outline-primary rounded-pill text-nowrap ms-3">
                             <i class="bi bi-tools me-1"></i>View Machine
                         </a>

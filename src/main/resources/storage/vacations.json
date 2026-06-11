@@ -1,1 +1,10 @@
-[]
+[ {
+  "id" : 1,
+  "employeeId" : 4,
+  "employeeName" : "Sara Conti",
+  "startDate" : "2026-06-19",
+  "endDate" : "2026-07-19",
+  "reason" : "Annual leave",
+  "status" : "APPROVED",
+  "daysRequested" : 1
+} ]

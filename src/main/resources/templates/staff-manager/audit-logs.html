@@ -18,12 +18,15 @@
         <!-- Entity Type Filter -->
         <div class="card mb-3">
             <div class="card-body py-2">
-                <form th:action="@{/staff-manager/audit-logs}" method="get" class="d-flex gap-2 align-items-center">
+                <form th:action="@{/staff-manager/audit-logs}" method="get" class="d-flex gap-2 align-items-center flex-wrap">
                     <label class="form-label mb-0 small fw-semibold">Filter by entity:</label>
-                    <input type="text" name="entityType" class="form-control form-control-sm"
-                           style="max-width: 200px;"
-                           placeholder="e.g. Employee, Patient…"
-                           th:value="${#httpServletRequest?.getParameter('entityType')}">
+                    <select name="entityType" class="form-select form-select-sm" style="max-width: 220px;">
+                        <option value="">— All entities —</option>
+                        <option th:each="et : ${entityTypes}"
+                                th:value="${et}"
+                                th:text="${et}"
+                                th:selected="${et == selectedEntityType}">Entity</option>
+                    </select>
                     <button type="submit" class="btn btn-primary btn-sm rounded-pill">Filter</button>
                     <a th:href="@{/staff-manager/audit-logs}" class="btn btn-outline-secondary btn-sm rounded-pill">Clear</a>
                 </form>

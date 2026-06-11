@@ -1,11 +1,13 @@
 package com.nvivx.vixhealthsystem.service.core;
 
+import com.nvivx.vixhealthsystem.model.facility.Department;
 import com.nvivx.vixhealthsystem.model.person.employee.Employee;
 import com.nvivx.vixhealthsystem.model.person.employee.MedicalSpecialist;
 import com.nvivx.vixhealthsystem.model.person.employee.Secretary;
 import com.nvivx.vixhealthsystem.model.person.employee.Technician;
 import com.nvivx.vixhealthsystem.model.person.employee.Buyer;
 import com.nvivx.vixhealthsystem.model.person.employee.StaffManager;
+import com.nvivx.vixhealthsystem.repository.DepartmentRepository;
 import com.nvivx.vixhealthsystem.repository.EmployeeRepository;
 import com.nvivx.vixhealthsystem.service.AuditService;
 import com.nvivx.vixhealthsystem.service.integration.FirebaseAuthService;
@@ -22,6 +24,7 @@ import java.util.stream.Collectors;
 public class EmployeeService {
 
     private final EmployeeRepository employeeRepository;
+    private final DepartmentRepository departmentRepository;
     private final AuditService auditService;
     private final FirebaseAuthService firebaseAuthService;
 
@@ -30,12 +33,23 @@ public class EmployeeService {
 
     public EmployeeService(
             EmployeeRepository employeeRepository,
+            DepartmentRepository departmentRepository,
             AuditService auditService,
             FirebaseAuthService firebaseAuthService
     ) {
         this.employeeRepository = employeeRepository;
+        this.departmentRepository = departmentRepository;
         this.auditService = auditService;
         this.firebaseAuthService = firebaseAuthService;
+    }
+
+    public List<Department> findAllDepartments() {
+        return departmentRepository.findAll();
+    }
+
+    public Department findDepartmentById(Long id) {
+        return departmentRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Department not found with id: " + id));
     }
 
     public Employee findById(Long id) {
@@ -140,10 +154,8 @@ public class EmployeeService {
             System.out.println("=========================================");
 
         } catch (Exception e) {
-            throw new RuntimeException(
-                    "Unable to create Firebase account for employee",
-                    e
-            );
+            String rootCause = (e.getCause() != null) ? e.getCause().getMessage() : e.getMessage();
+            throw new RuntimeException("Firebase error: " + rootCause, e);
         }
 
         Employee saved = employeeRepository.save(employee);
