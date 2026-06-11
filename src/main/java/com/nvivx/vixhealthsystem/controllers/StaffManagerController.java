@@ -141,6 +141,25 @@ public class StaffManagerController {
         return "staff-manager/result";
     }
 
+    @PostMapping("/employees/reset-password")
+    public String resetEmployeePassword(@RequestParam Long employeeId, Model model) {
+        try {
+            employeeService.requestEmployeePasswordReset(employeeId);
+
+            model.addAttribute("pageTitle", "Password Reset Requested");
+            model.addAttribute(
+                    "message",
+                    "✅ Password reset requested successfully. Check the console/demo email for the reset link."
+            );
+
+        } catch (Exception e) {
+            model.addAttribute("pageTitle", "Error");
+            model.addAttribute("message", "❌ Error: " + e.getMessage());
+        }
+
+        return "staff-manager/result";
+    }
+
     // ========== SHIFT MANAGEMENT ==========
 
     @GetMapping("/shifts")

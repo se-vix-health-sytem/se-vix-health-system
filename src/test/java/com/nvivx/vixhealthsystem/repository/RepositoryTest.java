@@ -5,6 +5,7 @@ import com.nvivx.vixhealthsystem.model.person.employee.Employee;
 import com.nvivx.vixhealthsystem.model.resource.Resource;
 import com.nvivx.vixhealthsystem.model.facility.MedicalFacility;
 import com.nvivx.vixhealthsystem.model.facility.Room;
+import com.nvivx.vixhealthsystem.service.integration.FirebaseAuthService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

@@ -200,16 +200,14 @@ public class EmployeeService {
         }
 
         try {
-            String resetLink = firebaseAuthService.generatePasswordResetLink(
-                    employee.getEmail()
-            );
+            String resetLink =
+                    firebaseAuthService.generatePasswordResetLink(employee.getEmail());
 
-            System.out.println("=== PASSWORD RESET EMAIL DEMO ===");
-            System.out.println("To: " + demoResetEmail);
+            System.out.println("=== PASSWORD RESET DEMO ===");
             System.out.println("Employee: " + employee.getName() + " " + employee.getSurname());
-            System.out.println("Employee Firebase email: " + employee.getEmail());
+            System.out.println("Employee email: " + employee.getEmail());
             System.out.println("Reset link: " + resetLink);
-            System.out.println("=================================");
+            System.out.println("===========================");
 
             auditService.log(
                     "REQUEST_PASSWORD_RESET",
@@ -218,8 +216,6 @@ public class EmployeeService {
                     "Password reset requested for employee: "
                             + employee.getName() + " "
                             + employee.getSurname()
-                            + ". Demo email recipient: "
-                            + demoResetEmail
             );
 
         } catch (Exception e) {
@@ -267,4 +263,6 @@ public class EmployeeService {
                 "Deleted employee: " + employeeInfo
         );
     }
+
+
 }
