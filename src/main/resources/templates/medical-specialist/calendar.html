@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('My Calendar')}"></head>
+<body>
+<div th:replace="~{fragments/dashboard-nav :: dashboardNav}"></div>
+
+<div class="dashboard-content" style="margin-left: 280px;">
+    <div class="container p-4">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h3 class="mb-0 font-display"><i class="bi bi-calendar3 me-2"></i>My Calendar</h3>
+                <span class="badge rounded-pill px-3" style="background:var(--vix-crimson);">
+                    Dr. <span th:text="${session.user.name + ' ' + session.user.surname}">-</span>
+                </span>
+            </div>
+            <div class="card-body">
+                <div class="alert alert-info mb-4">
+                    <i class="bi bi-info-circle me-2"></i>
+                    Calendar integration with the appointment store is in progress.
+                    Appointments booked by patients and secretaries will appear here.
+                </div>
+                <div class="text-center py-4 text-muted">
+                    <i class="bi bi-calendar-week fs-1"></i>
+                    <p class="mt-3 mb-4">No calendar data available yet.</p>
+                    <a th:href="@{/medical-specialist/appointments}" class="btn btn-outline-primary rounded-pill me-2">
+                        <i class="bi bi-list-ul me-1"></i>List View
+                    </a>
+                    <a th:href="@{/medical-specialist/my-schedule}" class="btn btn-outline-primary rounded-pill">
+                        <i class="bi bi-clock me-1"></i>My Shifts
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

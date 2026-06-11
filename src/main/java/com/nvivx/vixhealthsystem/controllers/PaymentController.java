@@ -83,4 +83,13 @@ public class PaymentController {
 
         return "redirect:/payment/confirmation/" + appointmentId;
     }
+
+    @GetMapping("/confirmation/{appointmentId}")
+    public String paymentConfirmation(@PathVariable int appointmentId, Model model) {
+        var appointment = appointmentRepository.findById(appointmentId);
+        model.addAttribute("appointmentId", appointmentId);
+        model.addAttribute("appointment", appointment);
+        model.addAttribute("pageTitle", "Payment Confirmation");
+        return "payment/confirmation";
+    }
 }

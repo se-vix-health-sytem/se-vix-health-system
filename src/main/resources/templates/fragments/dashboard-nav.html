@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:fragment="dashboardNav" class="dashboard-sidebar">
+    <div class="d-flex flex-column vh-100 bg-white border-end" style="width: 280px; position: fixed; left: 0; top: 0;">
+        <!-- Brand Area -->
+        <div class="p-3 border-bottom">
+            <div class="d-flex align-items-center gap-2">
+                <img src="/images/vix-logo.png" alt="Logo" width="36" height="36"
+                     style="background: white; border-radius: 50%; padding: 4px;">
+                <div>
+                    <strong class="font-display" style="color: var(--vix-crimson);">VIX Health</strong>
+                    <br>
+                    <small class="text-muted" style="font-size: 0.7rem;">Hospital Management</small>
+                </div>
+            </div>
+            <!-- User info -->
+            <div class="mt-3 pt-2 border-top">
+                <div class="d-flex align-items-center gap-2">
+                    <i class="bi bi-person-circle fs-4" style="color: var(--vix-crimson);"></i>
+                    <div>
+                        <div class="fw-semibold small" th:if="${session.user != null}"
+                             th:text="${session.user.name + ' ' + session.user.surname}">
+                            Staff Name
+                        </div>
+                        <div class="fw-semibold small" th:if="${session.patient != null}"
+                             th:text="${session.patient.name + ' ' + session.patient.surname}">
+                            Patient Name
+                        </div>
+                        <div class="small text-muted" th:text="${session.role}">Role</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navigation Menu -->
+        <nav class="nav flex-column p-3 gap-1">
+            <!-- PATIENT MENU -->
+            <div th:if="${session.role == 'PATIENT'}">
+                <a th:href="@{/patient/dashboard}" class="nav-link rounded-3 px-3 py-2 mb-1"
+                   style="color: var(--vix-text);">
+                    <i class="bi bi-speedometer2 me-2"></i> Dashboard
+                </a>
+                <a th:href="@{/patient/appointments}" class="nav-link rounded-3 px-3 py-2 mb-1"
+                   style="color: var(--vix-text);">
+                    <i class="bi bi-calendar-check me-2"></i> My Appointments
+                </a>
+                <a th:href="@{/patient/appointments/book}" class="nav-link rounded-3 px-3 py-2 mb-1"
+                   style="color: var(--vix-text);">
+                    <i class="bi bi-plus-circle me-2"></i> Book Appointment
+                </a>
+                <a th:href="@{/patient/records}" class="nav-link rounded-3 px-3 py-2 mb-1"
+                   style="color: var(--vix-text);">
+                    <i class="bi bi-file-medical me-2"></i> Medical Records
+                </a>
+                <a th:href="@{/patient/profile}" class="nav-link rounded-3 px-3 py-2 mb-1"
+                   style="color: var(--vix-text);">
+                    <i class="bi bi-person-circle me-2"></i> My Profile
+                </a>
+            </div>
+
+            <!-- MEDICAL SPECIALIST MENU -->
+            <div th:if="${session.role == 'MEDICALSPECIALIST'}">
+                <a th:href="@{/medical-specialist/dashboard}" class="nav-link rounded-3 px-3 py-2 mb-1"
+                   style="color: var(--vix-text); background: var(--vix-cream);">
+                    <i class="bi bi-speedometer2 me-2"></i> Dashboard
+                </a>
+                <a th:href="@{/medical-specialist/patients/search}" class="nav-link rounded-3 px-3 py-2 mb-1"
+                   style="color: var(--vix-text);">
+                    <i class="bi bi-search me-2"></i> Search Patients
+                </a>
+                <a th:href="@{/medical-specialist/appointments}" class="nav-link rounded-3 px-3 py-2 mb-1"
+                   style="color: var(--vix-text);">
+                    <i class="bi bi-calendar-week me-2"></i> My Appointments
+                </a>
+                <a th:href="@{/medical-specialist/calendar}" class="nav-link rounded-3 px-3 py-2 mb-1"
+                   style="color: var(--vix-text);">
+                    <i class="bi bi-calendar3 me-2"></i> Calendar
+                </a>
+                <a th:href="@{/medical-specialist/my-schedule}" class="nav-link rounded-3 px-3 py-2 mb-1"
+                   style="color: var(--vix-text);">
+                    <i class="bi bi-clock me-2"></i> My Schedule
+                </a>
+            </div>
+
+            <!-- SECRETARY MENU -->
+            <div th:if="${session.role == 'SECRETARY'}">
+                <a th:href="@{/secretary/dashboard}" class="nav-link rounded-3 px-3 py-2 mb-1"
+                   style="color: var(--vix-text); background: var(--vix-cream);">
+                    <i class="bi bi-speedometer2 me-2"></i> Dashboard
+                </a>
+                <a th:href="@{/secretary/rooms}" class="nav-link rounded-3 px-3 py-2 mb-1"
+                   style="color: var(--vix-text);">
+                    <i class="bi bi-door-open me-2"></i> Room Management
+                </a>
+                <a th:href="@{/secretary/appointments}" class="nav-link rounded-3 px-3 py-2 mb-1"
+                   style="color: var(--vix-text);">
+                    <i class="bi bi-calendar-plus me-2"></i> Manage Appointments
+                </a>
+                <a th:href="@{/secretary/patients/search}" class="nav-link rounded-3 px-3 py-2 mb-1"
+                   style="color: var(--vix-text);">
+                    <i class="bi bi-search me-2"></i> Search Patients
+                </a>
+            </div>
+
+            <!-- TECHNICIAN MENU -->
+            <div th:if="${session.role == 'TECHNICIAN'}">
+                <a th:href="@{/technician/dashboard}" class="nav-link rounded-3 px-3 py-2 mb-1"
+                   style="color: var(--vix-text); background: var(--vix-cream);">
+                    <i class="bi bi-speedometer2 me-2"></i> Dashboard
+                </a>
+                <a th:href="@{/technician/machines}" class="nav-link rounded-3 px-3 py-2 mb-1"
+                   style="color: var(--vix-text);">
+                    <i class="bi bi-cpu me-2"></i> All Machines
+                </a>
+                <a th:href="@{/technician/machines/faulty}" class="nav-link rounded-3 px-3 py-2 mb-1"
+                   style="color: var(--vix-text);">
+                    <i class="bi bi-exclamation-triangle me-2"></i> Faulty Machines
+                </a>
+                <a th:href="@{/technician/alerts}" class="nav-link rounded-3 px-3 py-2 mb-1"
+                   style="color: var(--vix-text);">
+                    <i class="bi bi-bell me-2"></i> Alerts
+                </a>
+            </div>
+
+            <!-- BUYER MENU -->
+            <div th:if="${session.role == 'BUYER'}">
+                <a th:href="@{/buyer/dashboard}" class="nav-link rounded-3 px-3 py-2 mb-1"
+                   style="color: var(--vix-text); background: var(--vix-cream);">
+                    <i class="bi bi-speedometer2 me-2"></i> Dashboard
+                </a>
+                <a th:href="@{/buyer/inventory}" class="nav-link rounded-3 px-3 py-2 mb-1"
+                   style="color: var(--vix-text);">
+                    <i class="bi bi-box-seam me-2"></i> Inventory
+                </a>
+                <a th:href="@{/buyer/inventory/low-stock}" class="nav-link rounded-3 px-3 py-2 mb-1"
+                   style="color: var(--vix-text);">
+                    <i class="bi bi-exclamation-triangle me-2"></i> Low Stock Alerts
+                </a>
+                <a th:href="@{/buyer/inventory/add}" class="nav-link rounded-3 px-3 py-2 mb-1"
+                   style="color: var(--vix-text);">
+                    <i class="bi bi-plus-circle me-2"></i> Add Resource
+                </a>
+            </div>
+
+            <!-- STAFF MANAGER MENU -->
+            <div th:if="${session.role == 'STAFFMANAGER'}">
+                <a th:href="@{/staff-manager/dashboard}" class="nav-link rounded-3 px-3 py-2 mb-1"
+                   style="color: var(--vix-text); background: var(--vix-cream);">
+                    <i class="bi bi-speedometer2 me-2"></i> Dashboard
+                </a>
+                <a th:href="@{/staff-manager/employees}" class="nav-link rounded-3 px-3 py-2 mb-1"
+                   style="color: var(--vix-text);">
+                    <i class="bi bi-people me-2"></i> Employees
+                </a>
+                <a th:href="@{/staff-manager/employees/create}" class="nav-link rounded-3 px-3 py-2 mb-1"
+                   style="color: var(--vix-text);">
+                    <i class="bi bi-person-plus me-2"></i> Create Employee
+                </a>
+                <a th:href="@{/staff-manager/shifts}" class="nav-link rounded-3 px-3 py-2 mb-1"
+                   style="color: var(--vix-text);">
+                    <i class="bi bi-calendar-week me-2"></i> Shifts
+                </a>
+                <a th:href="@{/staff-manager/vacations}" class="nav-link rounded-3 px-3 py-2 mb-1"
+                   style="color: var(--vix-text);">
+                    <i class="bi bi-umbrella me-2"></i> Vacations
+                </a>
+                <a th:href="@{/staff-manager/availability}" class="nav-link rounded-3 px-3 py-2 mb-1"
+                   style="color: var(--vix-text);">
+                    <i class="bi bi-clock-history me-2"></i> Availability
+                </a>
+                <a th:href="@{/staff-manager/audit-logs}" class="nav-link rounded-3 px-3 py-2 mb-1"
+                   style="color: var(--vix-text);">
+                    <i class="bi bi-file-text me-2"></i> Audit Logs
+                </a>
+            </div>
+
+            <hr class="my-3">
+
+            <a th:href="@{/logout}" class="nav-link rounded-3 px-3 py-2 text-danger">
+                <i class="bi bi-box-arrow-right me-2"></i> Logout
+            </a>
+        </nav>
+
+        <div class="mt-auto p-3 border-top">
+            <small class="text-muted">VIX Health System v1.0</small>
+        </div>
+    </div>
+</div>
+</html>

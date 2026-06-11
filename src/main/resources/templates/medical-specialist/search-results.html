@@ -9,15 +9,17 @@
         <div class="card">
             <div class="card-header d-flex justify-content-between align-items-center">
                 <h3 class="mb-0 font-display"><i class="bi bi-people me-2"></i>Search Results</h3>
-                <a th:href="@{/secretary/patients/search}" class="btn btn-light rounded-pill btn-sm">
-                    <i class="bi bi-arrow-left me-1"></i>New Search
+                <a th:href="@{/medical-specialist/patients/search}" class="btn btn-light rounded-pill btn-sm">
+                    <i class="bi bi-arrow-left me-1"></i> New Search
                 </a>
             </div>
             <div class="card-body">
-                <form th:action="@{/secretary/patients/search}" method="post" class="mb-4">
+
+                <!-- Search bar to refine -->
+                <form th:action="@{/medical-specialist/patients/search}" method="post" class="mb-4">
                     <div class="input-group">
                         <input type="text" name="query" class="form-control"
-                               th:value="${query}" placeholder="Refine search…">
+                               th:value="${query}" placeholder="Refine search...">
                         <button class="btn btn-primary" type="submit">
                             <i class="bi bi-search"></i>
                         </button>
@@ -27,7 +29,7 @@
                 <p class="text-muted small mb-3">
                     Results for: <strong th:text="${query}">-</strong>
                     <span th:if="${patients != null}">
-                        — <span th:text="${patients.size()}">0</span> found
+                        — <span th:text="${patients.size()}">0</span> patient(s) found
                     </span>
                 </p>
 
@@ -35,8 +37,8 @@
                     <div th:each="p : ${patients}" class="card mb-2">
                         <div class="card-body py-2">
                             <div class="row align-items-center">
-                                <div class="col-md-3">
-                                    <i class="bi bi-person-circle me-1" style="color:var(--vix-crimson);"></i>
+                                <div class="col-md-4">
+                                    <i class="bi bi-person-circle me-2" style="color:var(--vix-crimson);"></i>
                                     <strong th:text="${p.name + ' ' + p.surname}">Name</strong>
                                 </div>
                                 <div class="col-md-3 text-muted small">
@@ -44,12 +46,14 @@
                                     <span th:text="${p.fiscalCode}">-</span>
                                 </div>
                                 <div class="col-md-3 text-muted small">
-                                    <i class="bi bi-telephone me-1"></i>
-                                    <span th:text="${p.phoneNumber ?: '-'}">-</span>
-                                </div>
-                                <div class="col-md-3 text-end small">
                                     <i class="bi bi-envelope me-1"></i>
                                     <span th:text="${p.email ?: '-'}">-</span>
+                                </div>
+                                <div class="col-md-2 text-end">
+                                    <a th:href="@{/medical-specialist/patients/{id}/record(id=${p.id})}"
+                                       class="btn btn-sm btn-primary rounded-pill">
+                                        View Record
+                                    </a>
                                 </div>
                             </div>
                         </div>
@@ -59,8 +63,8 @@
                 <div th:if="${patients == null or patients.isEmpty()}"
                      class="text-center py-5 text-muted">
                     <i class="bi bi-person-x fs-1"></i>
-                    <p class="mt-2">No patients found for "<span th:text="${query}">-</span>".</p>
-                    <a th:href="@{/secretary/patients/search}" class="btn btn-outline-primary rounded-pill">
+                    <p class="mt-2">No patients found matching "<span th:text="${query}">-</span>".</p>
+                    <a th:href="@{/medical-specialist/patients/search}" class="btn btn-outline-primary rounded-pill">
                         Try again
                     </a>
                 </div>

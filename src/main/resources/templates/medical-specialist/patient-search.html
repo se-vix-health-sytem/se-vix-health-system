@@ -8,22 +8,24 @@
     <div class="container p-4" style="max-width: 800px;">
         <div class="card">
             <div class="card-header">
-                <h3 class="mb-0 font-display"><i class="bi bi-person-search me-2"></i>Search Patients</h3>
+                <h3 class="mb-0 font-display"><i class="bi bi-search me-2"></i>Search Patients</h3>
             </div>
             <div class="card-body">
-                <form th:action="@{/secretary/patients/search}" method="post">
+                <form th:action="@{/medical-specialist/patients/search}" method="post">
                     <div class="input-group mb-3">
                         <input type="text" name="query" class="form-control form-control-lg"
-                               placeholder="Name, surname, or fiscal code…" required autofocus>
+                               placeholder="Search by name, surname, or fiscal code..."
+                               required autofocus>
                         <button class="btn btn-primary px-4" type="submit">
-                            <i class="bi bi-search me-1"></i>Search
+                            <i class="bi bi-search me-1"></i> Search
                         </button>
                     </div>
                     <small class="text-muted">
                         <i class="bi bi-info-circle me-1"></i>
-                        Search by first name, last name, or 16-character fiscal code.
+                        Enter at least 2 characters — name, surname, or full 16-character fiscal code.
                     </small>
                 </form>
+
                 <div class="text-center mt-5 text-muted">
                     <i class="bi bi-person-search fs-1"></i>
                     <p class="mt-2">Enter a search term above to find patients.</p>

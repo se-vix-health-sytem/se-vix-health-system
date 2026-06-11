@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('My Profile')}"></head>
+<body>
+<div th:replace="~{fragments/dashboard-nav :: dashboardNav}"></div>
+
+<div class="dashboard-content" style="margin-left: 280px;">
+    <div class="container p-4" style="max-width: 700px;">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h3 class="mb-0 font-display"><i class="bi bi-person-circle me-2"></i>My Profile</h3>
+                <span class="badge rounded-pill px-3 py-2"
+                      style="background: var(--vix-crimson);">Patient</span>
+            </div>
+            <div class="card-body">
+
+                <!-- Avatar row -->
+                <div class="text-center mb-4 py-3" style="background: var(--vix-cream); border-radius: 0.75rem;">
+                    <div class="rounded-circle mx-auto d-flex align-items-center justify-content-center mb-3"
+                         style="width:80px;height:80px;background:var(--vix-crimson);">
+                        <i class="bi bi-person-fill text-white fs-2"></i>
+                    </div>
+                    <h4 class="font-display mb-1"
+                        th:text="${patient.name + ' ' + patient.surname}">Name</h4>
+                    <div class="text-muted small"
+                         th:text="${patient.fiscalCode}">Fiscal Code</div>
+                </div>
+
+                <!-- Personal Details -->
+                <h6 class="text-muted text-uppercase small fw-semibold mb-3 mt-4">
+                    <i class="bi bi-person me-2"></i>Personal Details
+                </h6>
+                <div class="row g-3 mb-4">
+                    <div class="col-md-6">
+                        <label class="form-label text-muted small">First Name</label>
+                        <div class="fw-semibold" th:text="${patient.name ?: '-'}">-</div>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label text-muted small">Surname</label>
+                        <div class="fw-semibold" th:text="${patient.surname ?: '-'}">-</div>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label text-muted small">Date of Birth</label>
+                        <div th:text="${patient.birthDate != null ? #temporals.format(patient.birthDate, 'dd/MM/yyyy') : '-'}">-</div>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label text-muted small">Place of Birth</label>
+                        <div th:text="${patient.birthPlace ?: '-'}">-</div>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label text-muted small">Gender</label>
+                        <div th:text="${patient.gender.toString() == 'M' ? 'Male' : (patient.gender.toString() == 'F' ? 'Female' : '-')}">-</div>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label text-muted small">Age</label>
+                        <div th:text="${patient.getAge() > 0 ? patient.getAge() + ' years old' : '-'}">-</div>
+                    </div>
+                </div>
+
+                <!-- Contact Details -->
+                <h6 class="text-muted text-uppercase small fw-semibold mb-3">
+                    <i class="bi bi-envelope me-2"></i>Contact Details
+                </h6>
+                <div class="row g-3 mb-4">
+                    <div class="col-md-6">
+                        <label class="form-label text-muted small">Email Address</label>
+                        <div th:text="${patient.email ?: '-'}">-</div>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label text-muted small">Phone Number</label>
+                        <div th:text="${patient.phoneNumber ?: '-'}">-</div>
+                    </div>
+                </div>
+
+                <!-- Identity -->
+                <h6 class="text-muted text-uppercase small fw-semibold mb-3">
+                    <i class="bi bi-person-vcard me-2"></i>Identification
+                </h6>
+                <div class="row g-3 mb-4">
+                    <div class="col-md-6">
+                        <label class="form-label text-muted small">Fiscal Code</label>
+                        <div class="fw-semibold font-monospace"
+                             th:text="${patient.fiscalCode ?: '-'}">-</div>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label text-muted small">Patient ID</label>
+                        <div class="text-muted" th:text="${'#' + patient.id}">-</div>
+                    </div>
+                </div>
+
+                <hr>
+
+                <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+                    <a th:href="@{/patient/dashboard}" class="btn btn-outline-secondary rounded-pill">
+                        <i class="bi bi-arrow-left me-1"></i>Back to Dashboard
+                    </a>
+                    <button class="btn btn-outline-danger rounded-pill"
+                            data-bs-toggle="modal" data-bs-target="#deleteModal">
+                        <i class="bi bi-trash me-1"></i>Delete Account
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Delete Account Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header" style="background: #dc3545; color: white;">
+                <h5 class="modal-title">Delete Account</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <p><strong>Warning:</strong> This action cannot be undone.</p>
+                <p>Your personal data will be anonymized in accordance with GDPR (NFR04).
+                   Medical records will be retained for 5 years as required by law (NFR09).</p>
+                <label class="form-label">Type <strong>CONFIRM</strong> to proceed:</label>
+                <form th:action="@{/patient/delete}" method="post">
+                    <input type="text" name="confirm" class="form-control mb-3"
+                           placeholder="CONFIRM" required>
+                    <div class="d-flex gap-2 justify-content-end">
+                        <button type="button" class="btn btn-secondary rounded-pill"
+                                data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-danger rounded-pill">
+                            Delete My Account
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

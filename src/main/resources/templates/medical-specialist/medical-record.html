@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Medical Record')}"></head>
+<body>
+<div th:replace="~{fragments/dashboard-nav :: dashboardNav}"></div>
+
+<div class="dashboard-content" style="margin-left: 280px;">
+    <div class="container p-4">
+
+        <div class="card mb-4 border-0 shadow-sm">
+            <div class="card-body p-4">
+                <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+                    <div>
+                        <p class="section-eyebrow mb-1">Medical Record</p>
+                        <h2 class="font-display mb-1" style="color:var(--vix-crimson);"
+                            th:text="${patient.name + ' ' + patient.surname}">Patient Name</h2>
+                        <p class="text-muted mb-0 small">
+                            <i class="bi bi-card-text me-1"></i>
+                            <span th:text="${patient.fiscalCode}">-</span>
+                            <span class="mx-2">|</span>
+                            <i class="bi bi-calendar me-1"></i>
+                            <span th:text="${patient.birthDate != null ? #temporals.format(patient.birthDate,'dd/MM/yyyy') : '-'}">-</span>
+                            <span class="mx-2">|</span>
+                            <span th:text="${patient.gender == 'M' ? 'Male' : (patient.gender == 'F' ? 'Female' : '-')}">-</span>
+                        </p>
+                    </div>
+                    <a th:href="@{/medical-specialist/patients/search}" class="btn btn-outline-secondary rounded-pill">
+                        <i class="bi bi-arrow-left me-1"></i> Back to Search
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="row g-4">
+            <!-- Clinical Summary -->
+            <div class="col-md-4">
+                <div class="card h-100">
+                    <div class="card-header"><i class="bi bi-heart-pulse me-2"></i>Clinical Summary</div>
+                    <div class="card-body">
+                        <div th:if="${medicalRecord != null}">
+                            <dl class="row mb-0 small">
+                                <dt class="col-5 text-muted fw-normal">Blood Type</dt>
+                                <dd class="col-7 fw-bold fs-5 font-display" style="color:var(--vix-crimson);"
+                                    th:text="${medicalRecord.bloodType ?: '-'}">-</dd>
+                                <dt class="col-5 text-muted fw-normal">Height</dt>
+                                <dd class="col-7"
+                                    th:text="${medicalRecord.height != null ? medicalRecord.height + ' cm' : '-'}">-</dd>
+                                <dt class="col-5 text-muted fw-normal">Weight</dt>
+                                <dd class="col-7"
+                                    th:text="${medicalRecord.weight != null ? medicalRecord.weight + ' kg' : '-'}">-</dd>
+                                <dt class="col-12 text-muted fw-normal mt-2">Allergies</dt>
+                                <dd class="col-12 p-2 bg-light rounded small"
+                                    th:text="${medicalRecord.allergies ?: 'None recorded'}">-</dd>
+                                <dt class="col-12 text-muted fw-normal mt-2">Vaccines</dt>
+                                <dd class="col-12 p-2 bg-light rounded small"
+                                    th:text="${medicalRecord.vaccines ?: 'None recorded'}">-</dd>
+                            </dl>
+                        </div>
+                        <div th:if="${medicalRecord == null}" class="text-muted text-center py-3">
+                            <i class="bi bi-file-earmark-x fs-2"></i>
+                            <p class="small mt-2">No medical record on file.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Conditions & Actions -->
+            <div class="col-md-8">
+
+                <!-- Diagnoses -->
+                <div class="card mb-3">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <span><i class="bi bi-clipboard2-pulse me-2"></i>Diagnoses</span>
+                        <button class="btn btn-sm btn-light rounded-pill" data-bs-toggle="collapse"
+                                data-bs-target="#diagnosisForm">
+                            <i class="bi bi-plus-circle me-1"></i>Add
+                        </button>
+                    </div>
+                    <div class="collapse" id="diagnosisForm">
+                        <div class="card-body border-bottom bg-light">
+                            <form th:action="@{/medical-specialist/patients/{id}/add-diagnosis(id=${patientId})}"
+                                  method="post" class="row g-2">
+                                <div class="col-md-6">
+                                    <input type="text" name="diagnosisName" class="form-control form-control-sm"
+                                           placeholder="Diagnosis name" required>
+                                </div>
+                                <div class="col-md-3">
+                                    <select name="severity" class="form-select form-select-sm">
+                                        <option value="low">Low</option>
+                                        <option value="medium">Medium</option>
+                                        <option value="high">High</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-3">
+                                    <button type="submit" class="btn btn-primary btn-sm w-100 rounded-pill">Save</button>
+                                </div>
+                                <div class="col-12">
+                                    <textarea name="description" class="form-control form-control-sm"
+                                              rows="2" placeholder="Description (optional)"></textarea>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div th:if="${medicalRecord?.conditions != null and !medicalRecord.conditions.isEmpty()}">
+                            <div th:each="c : ${medicalRecord.conditions}"
+                                 class="d-flex justify-content-between border-bottom pb-2 mb-2 small">
+                                <div>
+                                    <strong th:text="${c.name}">-</strong>
+                                    <span class="badge bg-secondary ms-1" th:text="${c.type}">-</span><br>
+                                    <span class="text-muted" th:text="${c.description}">-</span>
+                                </div>
+                                <small class="text-muted text-nowrap ms-3"
+                                       th:text="${c.dateOfDiagnosis != null ? #temporals.format(c.dateOfDiagnosis,'dd/MM/yy') : '-'}">-</small>
+                            </div>
+                        </div>
+                        <p th:if="${medicalRecord?.conditions == null or medicalRecord.conditions.isEmpty()}"
+                           class="text-muted small mb-0">No diagnoses on record.</p>
+                    </div>
+                </div>
+
+                <!-- Prescriptions -->
+                <div class="card mb-3">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <span><i class="bi bi-capsule me-2"></i>Prescriptions</span>
+                        <button class="btn btn-sm btn-light rounded-pill" data-bs-toggle="collapse"
+                                data-bs-target="#prescriptionForm">
+                            <i class="bi bi-plus-circle me-1"></i>Add
+                        </button>
+                    </div>
+                    <div class="collapse" id="prescriptionForm">
+                        <div class="card-body border-bottom bg-light">
+                            <form th:action="@{/medical-specialist/patients/{id}/add-prescription(id=${patientId})}"
+                                  method="post" class="row g-2">
+                                <div class="col-md-5">
+                                    <input type="text" name="medication" class="form-control form-control-sm"
+                                           placeholder="Medication name" required>
+                                </div>
+                                <div class="col-md-5">
+                                    <input type="text" name="dosage" class="form-control form-control-sm"
+                                           placeholder="Dosage (e.g. 500mg twice daily)" required>
+                                </div>
+                                <div class="col-md-2">
+                                    <button type="submit" class="btn btn-primary btn-sm w-100 rounded-pill">Save</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div th:if="${medicalRecord?.prescriptions != null and !medicalRecord.prescriptions.isEmpty()}">
+                            <div th:each="rx : ${medicalRecord.prescriptions}"
+                                 class="border-bottom pb-2 mb-2 small">
+                                <strong th:text="${rx.medication}">-</strong><br>
+                                <span class="text-muted">
+                                    Dr. <span th:text="${rx.medicalSpecialist?.name + ' ' + rx.medicalSpecialist?.surname}">-</span>
+                                    &nbsp;·&nbsp;
+                                    <span th:text="${rx.dateTime != null ? #temporals.format(rx.dateTime,'dd/MM/yyyy') : '-'}">-</span>
+                                </span>
+                            </div>
+                        </div>
+                        <p th:if="${medicalRecord?.prescriptions == null or medicalRecord.prescriptions.isEmpty()}"
+                           class="text-muted small mb-0">No prescriptions on record.</p>
+                    </div>
+                </div>
+
+                <!-- Exam Results -->
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <span><i class="bi bi-file-earmark-medical me-2"></i>Exam Results / Surgeries</span>
+                        <button class="btn btn-sm btn-light rounded-pill" data-bs-toggle="collapse"
+                                data-bs-target="#examForm">
+                            <i class="bi bi-plus-circle me-1"></i>Add
+                        </button>
+                    </div>
+                    <div class="collapse" id="examForm">
+                        <div class="card-body border-bottom bg-light">
+                            <form th:action="@{/medical-specialist/patients/{id}/add-exam-result(id=${patientId})}"
+                                  method="post" class="row g-2">
+                                <div class="col-md-4">
+                                    <input type="text" name="examType" class="form-control form-control-sm"
+                                           placeholder="Exam type (e.g. Blood test)" required>
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="text" name="result" class="form-control form-control-sm"
+                                           placeholder="Result" required>
+                                </div>
+                                <div class="col-md-4">
+                                    <button type="submit" class="btn btn-primary btn-sm w-100 rounded-pill">Save</button>
+                                </div>
+                                <div class="col-12">
+                                    <input type="text" name="notes" class="form-control form-control-sm"
+                                           placeholder="Notes (optional)">
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div th:if="${medicalRecord?.surgeries != null and !medicalRecord.surgeries.isEmpty()}">
+                            <div th:each="s : ${medicalRecord.surgeries}"
+                                 class="border-bottom pb-2 mb-2 small">
+                                <strong th:text="${s.name}">-</strong>
+                                <small class="text-muted ms-2"
+                                       th:text="${s.dateTime != null ? #temporals.format(s.dateTime,'dd/MM/yyyy') : '-'}">-</small><br>
+                                <span class="text-muted" th:text="${s.description}">-</span>
+                            </div>
+                        </div>
+                        <p th:if="${medicalRecord?.surgeries == null or medicalRecord.surgeries.isEmpty()}"
+                           class="text-muted small mb-0">No exam results on record.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

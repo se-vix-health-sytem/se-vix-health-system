@@ -1,113 +1,77 @@
-<!-- src/main/resources/templates/staff-manager/audit-logs.html -->
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title th:text="${pageTitle}">Audit Logs</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
-    <link href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css" rel="stylesheet">
-</head>
+<head th:replace="~{fragments/head :: head('Audit Logs')}"></head>
 <body>
-<div class="container-fluid">
-    <div class="row">
-        <!-- Sidebar -->
-        <div class="col-md-2 bg-light p-0" style="min-height: 100vh;">
-            <div class="p-3 bg-white border-bottom">
-                <h5><i class="bi bi-people-fill"></i> Staff Manager</h5>
-                <small class="text-muted">Administration Portal</small>
-            </div>
-            <nav class="nav flex-column p-2">
-                <a class="nav-link" href="/staff-manager/dashboard"><i class="bi bi-speedometer2"></i> Dashboard</a>
-                <a class="nav-link" href="/staff-manager/employees"><i class="bi bi-person-badge"></i> Employees</a>
-                <a class="nav-link" href="/staff-manager/shifts"><i class="bi bi-calendar-week"></i> Shifts</a>
-                <a class="nav-link" href="/staff-manager/vacations"><i class="bi bi-umbrella"></i> Vacations</a>
-                <a class="nav-link" href="/staff-manager/availability"><i class="bi bi-clock-history"></i> Availability</a>
-                <a class="nav-link" href="/staff-manager/transfers"><i class="bi bi-arrow-left-right"></i> Transfers</a>
-                <a class="nav-link" href="/staff-manager/resources"><i class="bi bi-box-seam"></i> Resources</a>
-                <a class="nav-link active" href="/staff-manager/audit-logs"><i class="bi bi-file-text"></i> Audit Logs</a>
-                <hr>
-                <a class="nav-link" href="/logout"><i class="bi bi-box-arrow-right"></i> Logout</a>
-            </nav>
+<div th:replace="~{fragments/dashboard-nav :: dashboardNav}"></div>
+
+<div class="dashboard-content" style="margin-left: 280px;">
+    <div class="container p-4">
+
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="font-display mb-0" style="color:var(--vix-crimson);">
+                <i class="bi bi-file-text me-2"></i>Audit Logs
+            </h2>
+            <span class="badge rounded-pill px-3 py-2" style="background:var(--vix-crimson);"
+                  th:text="${logs != null ? logs.size() + ' entries' : '0 entries'}">0</span>
         </div>
 
-        <!-- Main Content -->
-        <div class="col-md-10 p-4">
-            <h2><i class="bi bi-file-text"></i> <span th:text="${pageTitle}">Audit Logs</span></h2>
-            <hr>
-
-            <div class="card">
-                <div class="card-header bg-dark text-white">
-                    <h5><i class="bi bi-shield-lock"></i> System Traceability (NFR02)</h5>
-                    <small>All changes are logged and cannot be deleted</small>
-                </div>
-                <div class="card-body">
-                    <div class="mb-3">
-                        <label class="form-label">Filter by Entity</label>
-                        <select class="form-select w-25" id="entityFilter" onchange="filterLogs()">
-                            <option value="">All Entities</option>
-                            <option value="Employee">Employee</option>
-                            <option value="Appointment">Appointment</option>
-                            <option value="Patient">Patient</option>
-                            <option value="Shift">Shift</option>
-                            <option value="VacationRequest">Vacation Request</option>
-                        </select>
-                    </div>
-
-                    <table id="auditTable" class="table table-striped table-hover">
-                        <thead>
-                        <tr><th>Timestamp</th><th>Action</th><th>Entity Type</th><th>Entity ID</th><th>Username</th><th>Details</th></tr>
-                        </thead>
-                        <tbody>
-                        <tr th:each="log : ${logs}">
-                            <td th:text="${#temporals.format(log.timestamp, 'dd/MM/yyyy HH:mm:ss')}">-</td>
-                            <td>
-                                <span th:if="${log.action.contains('CREATE')}" class="badge bg-success" th:text="${log.action}">CREATE</span>
-                                <span th:if="${log.action.contains('DELETE')}" class="badge bg-danger" th:text="${log.action}">DELETE</span>
-                                <span th:if="${log.action.contains('UPDATE') or log.action.contains('CHANGE')}" class="badge bg-warning" th:text="${log.action}">UPDATE</span>
-                                <span th:unless="${log.action.contains('CREATE') or log.action.contains('DELETE') or log.action.contains('UPDATE') or log.action.contains('CHANGE')}" class="badge bg-info" th:text="${log.action}">OTHER</span>
-                            </td>
-                            <td th:text="${log.entityType}">-</td>
-                            <td th:text="${log.entityId}">-</td>
-                            <td th:text="${log.username}">-</td>
-                            <td th:text="${log.details}">-</td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
+        <!-- Entity Type Filter -->
+        <div class="card mb-3">
+            <div class="card-body py-2">
+                <form th:action="@{/staff-manager/audit-logs}" method="get" class="d-flex gap-2 align-items-center">
+                    <label class="form-label mb-0 small fw-semibold">Filter by entity:</label>
+                    <input type="text" name="entityType" class="form-control form-control-sm"
+                           style="max-width: 200px;"
+                           placeholder="e.g. Employee, Patient…"
+                           th:value="${#httpServletRequest?.getParameter('entityType')}">
+                    <button type="submit" class="btn btn-primary btn-sm rounded-pill">Filter</button>
+                    <a th:href="@{/staff-manager/audit-logs}" class="btn btn-outline-secondary btn-sm rounded-pill">Clear</a>
+                </form>
             </div>
+        </div>
 
-            <div class="card mt-3">
-                <div class="card-header bg-secondary text-white">
-                    <h5><i class="bi bi-info-circle"></i> Compliance Information</h5>
+        <div class="card">
+            <div class="card-body p-0">
+                <div th:if="${logs != null and !logs.isEmpty()}">
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0 small">
+                            <thead style="background: var(--vix-cream);">
+                                <tr>
+                                    <th>Timestamp</th>
+                                    <th>Action</th>
+                                    <th>Entity Type</th>
+                                    <th>Entity ID</th>
+                                    <th>User</th>
+                                    <th>Details</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="log : ${logs}">
+                                    <td class="text-nowrap"
+                                        th:text="${log.timestamp != null ? #temporals.format(log.timestamp,'dd/MM/yyyy HH:mm') : '-'}">-</td>
+                                    <td>
+                                        <span class="badge bg-secondary" th:text="${log.action}">-</span>
+                                    </td>
+                                    <td th:text="${log.entityType ?: '-'}">-</td>
+                                    <td th:text="${log.entityId ?: '-'}">-</td>
+                                    <td th:text="${log.username ?: '-'}">-</td>
+                                    <td class="text-muted" th:text="${log.details ?: '-'}">-</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-                <div class="card-body">
-                    <ul>
-                        <li>All actions are logged for traceability (NFR02)</li>
-                        <li>Logs cannot be modified or deleted by normal users</li>
-                        <li>Audit trail satisfies GDPR requirements for data access tracking</li>
-                        <li>Each log includes: timestamp, action type, affected entity, user who performed the action, and details</li>
-                    </ul>
+                <div th:if="${logs == null or logs.isEmpty()}"
+                     class="text-center py-5 text-muted">
+                    <i class="bi bi-file-earmark-x fs-1"></i>
+                    <p class="mt-3">No audit log entries found.</p>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
-
-
-    function filterLogs() {
-        var entity = document.getElementById('entityFilter').value;
-        if (entity) {
-            window.location.href = '/staff-manager/audit-logs?entityType=' + entity;
-        } else {
-            window.location.href = '/staff-manager/audit-logs';
-        }
-    }
-</script>
+<div th:replace="~{fragments/footer :: footer}"></div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

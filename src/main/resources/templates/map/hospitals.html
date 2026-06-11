@@ -1,127 +1,147 @@
-<!-- src/main/resources/templates/map/hospitals.html -->
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title th:text="${pageTitle}">Find Our Locations</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <style>
-        #map { height: 500px; border-radius: 10px; }
-        .location-card { cursor: pointer; transition: all 0.2s; }
-        .location-card:hover { background-color: #f8f9fa; transform: translateX(5px); }
-        .custom-marker { font-size: 24px; }
-    </style>
-</head>
+<head th:replace="~{fragments/head :: head('Find a Hospital')}"></head>
+<!-- Leaflet CSS -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
 <body>
-<div class="container mt-4">
-    <div class="card">
-        <div class="card-header bg-primary text-white">
-            <h2 th:text="${pageTitle}">Our Locations</h2>
-        </div>
-        <div class="card-body">
-            <div class="row">
-                <div class="col-md-4">
-                    <h5>📍 Select a location:</h5>
-                    <div id="locations-list">
-                        <div class="location-card card mb-2 p-2" data-lat="46.066422" data-lng="11.119928">
-                            <strong>🏥 VIX Central Hospital</strong>
-                            <small>Via San Camillo 1, 38122 Trento TN</small>
-                            <small class="text-muted">📞 +39 0461 000 001</small>
-                        </div>
-                        <div class="location-card card mb-2 p-2" data-lat="46.082944" data-lng="11.119928">
-                            <strong>🏥 VIX Tecnomed Nord</strong>
-                            <small>Via Brennero 45, 38100 Trento TN</small>
-                            <small class="text-muted">📞 +39 0461 000 002</small>
-                        </div>
-                        <div class="location-card card mb-2 p-2" data-lat="45.890584" data-lng="11.039744">
-                            <strong>🏥 VIX Tecnomed Sud</strong>
-                            <small>Via Malpensa 12, 38068 Rovereto TN</small>
-                            <small class="text-muted">📞 +39 0461 000 003</small>
-                        </div>
-                    </div>
+<div th:replace="~{fragments/navbar :: navbar}"></div>
 
-                    <div class="mt-3">
-                        <a href="/map/directions" class="btn btn-outline-primary w-100">
-                            🚗 Get Directions
-                        </a>
+<main>
+    <div class="container py-4">
+        <div class="text-center mb-4">
+            <p class="section-eyebrow">VIX Health System</p>
+            <h1 class="font-display display-5" style="color: var(--vix-crimson);">Find a Location</h1>
+            <p class="text-muted">Hospitals, clinics and medical centres — click a marker for details</p>
+        </div>
+    </div>
+
+    <!-- Full-width Leaflet map -->
+    <div id="map" style="height: 480px; width: 100%; z-index: 0;"></div>
+
+    <!-- Location cards below the map -->
+    <div class="container py-4">
+        <div th:if="${locations != null and !locations.isEmpty()}" class="row g-4">
+            <div class="col-md-6 col-lg-4" th:each="loc, stat : ${locations}">
+                <div class="card h-100 border-0 shadow-sm location-card"
+                     th:attr="data-lat=${loc.lat}, data-lng=${loc.lng}, data-index=${stat.index}"
+                     style="cursor:pointer; transition: box-shadow 0.2s;">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center gap-2 mb-2">
+                            <i class="bi bi-geo-alt-fill fs-5" style="color:var(--vix-crimson);"></i>
+                            <h5 class="font-display mb-0" th:text="${loc.name}">Location</h5>
+                        </div>
+                        <div class="small text-muted mb-1" th:if="${loc.address}">
+                            <i class="bi bi-building me-1"></i>
+                            <span th:text="${loc.address}">-</span>
+                        </div>
+                        <div class="small text-muted mb-2" th:if="${loc.phone}">
+                            <i class="bi bi-telephone me-1"></i>
+                            <span th:text="${loc.phone}">-</span>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span th:if="${loc.type}" class="badge rounded-pill"
+                                  th:classappend="${loc.type == 'HOSPITAL' ? 'bg-primary' :
+                                                   loc.type == 'CLINIC' ? 'bg-info text-dark' : 'bg-secondary'}"
+                                  th:text="${loc.type}">-</span>
+                            <a th:if="${loc.lat != null and loc.lng != null}"
+                               th:href="@{/map/directions(lat=${loc.lat},lng=${loc.lng},name=${loc.name})}"
+                               class="btn btn-outline-primary rounded-pill btn-sm ms-auto">
+                                <i class="bi bi-signpost me-1"></i>Directions
+                            </a>
+                        </div>
                     </div>
-                </div>
-                <div class="col-md-8">
-                    <div id="map"></div>
                 </div>
             </div>
         </div>
+
+        <div th:if="${locations == null or locations.isEmpty()}"
+             class="text-center py-5 text-muted">
+            <i class="bi bi-geo-alt fs-1"></i>
+            <p class="mt-3">No locations available at this time.</p>
+        </div>
     </div>
-</div>
+</main>
 
-<script>
-    // Initialize map centered on Trento
-    var map = L.map('map').setView([46.066422, 11.119928], 12);
+<div th:replace="~{fragments/footer :: footer}"></div>
 
-    // Add OpenStreetMap tiles (FREE, no API key needed!)
+<!-- Leaflet JS -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV/XN/WLs=" crossorigin=""></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    const locations = /*[[${locations}]]*/ [];
+
+    const map = L.map('map');
+
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-        maxZoom: 19
+        maxZoom: 18,
+        attribution: '© <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors'
     }).addTo(map);
 
-    // Hospital locations
-    var locations = [
-        { name: "VIX Central Hospital", lat: 46.066422, lng: 11.119928, address: "Via San Camillo 1, Trento", phone: "+39 0461 000 001", type: "hospital" },
-        { name: "VIX Tecnomed Nord", lat: 46.082944, lng: 11.119928, address: "Via Brennero 45, Trento", phone: "+39 0461 000 002", type: "clinic" },
-        { name: "VIX Tecnomed Sud", lat: 45.890584, lng: 11.039744, address: "Via Malpensa 12, Rovereto", phone: "+39 0461 000 003", type: "clinic" }
-    ];
-
-    // Custom icons
-    var hospitalIcon = L.divIcon({
-        html: '🏥',
-        className: 'custom-marker',
-        iconSize: [30, 30]
+    const crimsonIcon = L.divIcon({
+        html: '<div style="background:#7a1428;width:28px;height:28px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);border:3px solid white;box-shadow:0 2px 6px rgba(0,0,0,0.4);"></div>',
+        iconSize: [28, 28],
+        iconAnchor: [14, 28],
+        popupAnchor: [0, -30],
+        className: ''
     });
 
-    var clinicIcon = L.divIcon({
-        html: '🏥',
-        className: 'custom-marker',
-        iconSize: [30, 30]
-    });
+    const markers = [];
 
-    // Add markers
-    locations.forEach(function(loc) {
-        var marker = L.marker([loc.lat, loc.lng]).addTo(map);
+    if (locations && locations.length > 0) {
+        const bounds = [];
 
-        // Popup with details
-        marker.bindPopup(`
-            <strong>${loc.name}</strong><br>
-            ${loc.address}<br>
-            📞 ${loc.phone}<br>
-            <a href="https://www.google.com/maps/dir/?api=1&destination=${loc.lat},${loc.lng}" target="_blank">
-                Get Directions →
-            </a>
-        `);
+        locations.forEach(function(loc, i) {
+            if (loc.lat != null && loc.lng != null) {
+                const marker = L.marker([loc.lat, loc.lng], {icon: crimsonIcon}).addTo(map);
 
-        // Click handler for cards
-        marker.on('click', function() {
-            map.setView([loc.lat, loc.lng], 15);
+                const typeLabel = loc.type || '';
+                const address  = loc.address ? '<br><small>' + loc.address + '</small>' : '';
+                const phone    = loc.phone   ? '<br><small>' + loc.phone + '</small>'   : '';
+                const dirUrl   = '/map/directions?lat=' + loc.lat + '&lng=' + loc.lng + '&name=' + encodeURIComponent(loc.name || '');
+
+                marker.bindPopup(
+                    '<strong style="color:#7a1428;">' + (loc.name || '') + '</strong>' +
+                    address + phone +
+                    '<br><a href="' + dirUrl + '" class="btn btn-sm btn-primary rounded-pill mt-2" style="font-size:0.75rem;">Get Directions</a>'
+                );
+
+                markers.push(marker);
+                bounds.push([loc.lat, loc.lng]);
+            }
+        });
+
+        if (bounds.length > 0) {
+            map.fitBounds(bounds, {padding: [40, 40]});
+        }
+    } else {
+        // Default to Milan if no locations
+        map.setView([45.4642, 9.1900], 12);
+    }
+
+    // Click on location card → pan map and open popup
+    document.querySelectorAll('.location-card').forEach(function(card) {
+        card.addEventListener('mouseenter', function() {
+            this.style.boxShadow = '0 4px 16px rgba(122,20,40,0.25)';
+        });
+        card.addEventListener('mouseleave', function() {
+            this.style.boxShadow = '';
+        });
+        card.addEventListener('click', function(e) {
+            if (e.target.closest('a')) return; // let links work normally
+            const idx = parseInt(this.dataset.index);
+            const lat = parseFloat(this.dataset.lat);
+            const lng = parseFloat(this.dataset.lng);
+            if (!isNaN(lat) && !isNaN(lng)) {
+                map.flyTo([lat, lng], 15, {duration: 1});
+                if (markers[idx]) markers[idx].openPopup();
+            }
         });
     });
-
-    // Card click handlers
-    document.querySelectorAll('.location-card').forEach(card => {
-        card.addEventListener('click', function() {
-            var lat = parseFloat(this.dataset.lat);
-            var lng = parseFloat(this.dataset.lng);
-            map.setView([lat, lng], 15);
-
-            // Find and open the marker's popup
-            locations.forEach(loc => {
-                if (Math.abs(loc.lat - lat) < 0.0001) {
-                    var marker = L.marker([lat, lng]);
-                    marker.bindPopup(`<strong>${loc.name}</strong><br>${loc.address}`).openPopup();
-                }
-            });
-        });
-    });
+    /*]]>*/
 </script>
 </body>
 </html>

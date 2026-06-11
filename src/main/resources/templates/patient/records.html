@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('My Medical Records')}"></head>
+<body>
+<div th:replace="~{fragments/dashboard-nav :: dashboardNav}"></div>
+
+<div class="dashboard-content" style="margin-left: 280px;">
+    <div class="container p-4">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="mb-0 font-display"><i class="bi bi-file-medical me-2"></i> My Medical Records</h3>
+            </div>
+            <div class="card-body">
+                <!-- Personal Info Section -->
+                <div class="row mb-4">
+                    <div class="col-md-12">
+                        <h5 class="font-display" style="color: var(--vix-crimson);">Personal Information</h5>
+                        <hr>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <small class="text-muted">Name</small>
+                                <div th:text="${session.patient.name} + ' ' + ${session.patient.surname}">-</div>
+                            </div>
+                            <div class="col-md-3">
+                                <small class="text-muted">Date of Birth</small>
+                                <div th:text="${#temporals.format(session.patient.birthDate, 'dd/MM/yyyy')} ?: '-'">-</div>
+                            </div>
+                            <div class="col-md-3">
+                                <small class="text-muted">Gender</small>
+                                <div th:text="${session.patient.gender == 'M' ? 'Male' : 'Female'}">-</div>
+                            </div>
+                            <div class="col-md-3">
+                                <small class="text-muted">Fiscal Code</small>
+                                <div th:text="${session.patient.fiscalCode}">-</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Medical Record Section -->
+                <div class="row mb-4">
+                    <div class="col-md-12">
+                        <h5 class="font-display" style="color: var(--vix-crimson);">Clinical Data</h5>
+                        <hr>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <small class="text-muted">Blood Type</small>
+                                <div class="fw-bold" th:text="${patient.medicalRecord?.bloodType ?: 'Not recorded'}">-</div>
+                            </div>
+                            <div class="col-md-3">
+                                <small class="text-muted">Height</small>
+                                <div th:text="${patient.medicalRecord?.height != null ? medicalRecord.height + ' cm' : '-'}">-</div>
+                            </div>
+                            <div class="col-md-3">
+                                <small class="text-muted">Weight</small>
+                                <div th:text="${patient.medicalRecord?.weight != null ? medicalRecord.weight + ' kg' : '-'}">-</div>
+                            </div>
+                            <div class="col-md-3">
+                                <small class="text-muted">BMI</small>
+                                <div th:text="${patient.medicalRecord?.height != null and medicalRecord?.weight != null ? #numbers.formatDecimal(medicalRecord.weight / ((medicalRecord.height/100) * (medicalRecord.height/100)), 1, 1) : '-'}">-</div>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-md-12">
+                                <small class="text-muted">Allergies</small>
+                                <div class="p-2 bg-light rounded" th:text="${patient.medicalRecord?.allergies ?: 'None recorded'}">-</div>
+                            </div>
+                            <div class="col-md-12 mt-2">
+                                <small class="text-muted">Vaccinations</small>
+                                <div class="p-2 bg-light rounded" th:text="${patient.medicalRecord?.vaccines ?: 'None recorded'}">-</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Medical Conditions -->
+                <div class="mb-4">
+                    <h5 class="font-display" style="color: var(--vix-crimson);">
+                        <i class="bi bi-clipboard2-pulse me-2"></i> Medical Conditions
+                    </h5>
+                    <hr>
+                    <div th:if="${patient.medicalRecord?.conditions != null and !medicalRecord.conditions.isEmpty()}">
+                        <div th:each="condition : ${patient.medicalRecord.conditions}" class="border-bottom pb-2 mb-2">
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <strong th:text="${condition.name}">Condition Name</strong>
+                                    <span class="badge bg-secondary ms-2" th:text="${condition.type}">Type</span>
+                                </div>
+                                <small class="text-muted">Diagnosed: <span th:text="${#temporals.format(condition.dateOfDiagnosis, 'dd/MM/yyyy')}">-</span></small>
+                            </div>
+                            <p class="small text-muted mt-1 mb-1" th:text="${condition.description}">Description</p>
+                            <div th:if="${condition.treatment}" class="small">
+                                <i class="bi bi-capsule me-1"></i> Treatment: <span th:text="${condition.treatment}">-</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div th:unless="${patient.medicalRecord?.conditions != null and !medicalRecord.conditions.isEmpty()}" class="alert alert-secondary">
+                        No medical conditions recorded.
+                    </div>
+                </div>
+
+                <!-- Prescriptions -->
+                <div class="mb-4">
+                    <h5 class="font-display" style="color: var(--vix-crimson);">
+                        <i class="bi bi-prescription me-2"></i> Prescriptions
+                    </h5>
+                    <hr>
+                    <div th:if="${patient.medicalRecord?.prescriptions != null and !medicalRecord.prescriptions.isEmpty()}">
+                        <div th:each="prescription : ${patient.medicalRecord.prescriptions}" class="border-bottom pb-2 mb-2">
+                            <div>
+                                <strong th:text="${prescription.medication}">Medication</strong>
+                            </div>
+                            <div class="small text-muted">
+                                Prescribed by: Dr. <span th:text="${prescription.medicalSpecialist.name} + ' ' + ${prescription.medicalSpecialist.surname}"></span>
+                                on <span th:text="${#temporals.format(prescription.dateTime, 'dd/MM/yyyy')}"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div th:unless="${patient.medicalRecord?.prescriptions != null and !medicalRecord.prescriptions.isEmpty()}" class="alert alert-secondary">
+                        No prescriptions recorded.
+                    </div>
+                </div>
+
+                <!-- Surgeries -->
+                <div class="mb-4">
+                    <h5 class="font-display" style="color: var(--vix-crimson);">
+                        <i class="bi bi-scissors me-2"></i> Surgeries
+                    </h5>
+                    <hr>
+                    <div th:if="${patient.medicalRecord?.surgeries != null and !medicalRecord.surgeries.isEmpty()}">
+                        <div th:each="surgery : ${patient.medicalRecord.surgeries}" class="border-bottom pb-2 mb-2">
+                            <div class="d-flex justify-content-between">
+                                <strong th:text="${surgery.name}">Surgery Name</strong>
+                                <small class="text-muted">Performed: <span th:text="${#temporals.format(surgery.dateTime, 'dd/MM/yyyy')}">-</span></small>
+                            </div>
+                            <p class="small text-muted mb-1" th:text="${surgery.description}">Description</p>
+                        </div>
+                    </div>
+                    <div th:unless="${patient.medicalRecord?.surgeries != null and !medicalRecord.surgeries.isEmpty()}" class="alert alert-secondary">
+                        No surgeries recorded.
+                    </div>
+                </div>
+
+                <div class="text-center mt-4">
+                    <a th:href="@{/patient/dashboard}" class="btn btn-outline-secondary rounded-pill">
+                        <i class="bi bi-arrow-left me-1"></i> Back to Dashboard
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,1 +1,9 @@
-[]
+[ {
+  "id" : 1,
+  "action" : "ASSIGN_SHIFT",
+  "entityType" : "Shift",
+  "entityId" : "1",
+  "username" : "SYSTEM",
+  "details" : "Assigned AFTERNOON shift to employee 4 on 2026-06-28",
+  "timestamp" : "2026-06-11T04:57:55.3910748"
+} ]

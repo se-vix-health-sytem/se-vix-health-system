@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<footer th:fragment="footer" class="vix-footer" style="background: var(--vix-crimson-dk); color: rgba(255,255,255,.72); padding: 4rem 0 2rem;">
+    <div class="container">
+        <div class="row g-5">
+            <div class="col-lg-4">
+                <div class="d-flex align-items-center gap-2 mb-3">
+                    <img src="/images/vix-logo.png" alt="VIX" width="38" height="38"
+                         style="background: white; border-radius: 50%; padding: 4px;">
+                    <strong class="font-display" style="color: #fff; font-size: 1.25rem;">VIX Health System</strong>
+                </div>
+                <p style="font-size: 0.84rem; line-height: 1.75; max-width: 280px;">
+                    A network of one main hospital and two day-healthcare centres in Trento,
+                    providing integrated, patient-centred care since 2015.
+                </p>
+                <div class="d-inline-flex align-items-center gap-2 px-3 py-1 rounded-pill"
+                     style="background: rgba(184,149,42,.15); border: 1px solid rgba(184,149,42,.3);">
+                    <i class="bi bi-shield-lock" style="color: var(--vix-gold-lt);"></i>
+                    <span style="font-size: 0.73rem; color: var(--vix-gold-lt);">GDPR · HL7 · FHIR Compliant</span>
+                </div>
+            </div>
+            <div class="col-6 col-lg-2">
+                <div class="mb-3" style="color: var(--vix-gold-lt); font-size: 0.78rem; font-weight: 700; letter-spacing: 0.08em;">
+                    SERVICES
+                </div>
+                <a th:href="@{/departments}" class="d-block mb-2" style="color: rgba(255,255,255,.6); font-size: 0.84rem; text-decoration: none;">Departments</a>
+                <a th:href="@{/doctors}" class="d-block mb-2" style="color: rgba(255,255,255,.6); font-size: 0.84rem; text-decoration: none;">Our Doctors</a>
+                <a th:href="@{/patient/appointments/book}" class="d-block mb-2" style="color: rgba(255,255,255,.6); font-size: 0.84rem; text-decoration: none;">Book Appointment</a>
+                <a th:href="@{/questionnaire}" class="d-block mb-2" style="color: rgba(255,255,255,.6); font-size: 0.84rem; text-decoration: none;">Find a Specialist</a>
+            </div>
+            <div class="col-6 col-lg-2">
+                <div class="mb-3" style="color: var(--vix-gold-lt); font-size: 0.78rem; font-weight: 700; letter-spacing: 0.08em;">
+                    PATIENTS
+                </div>
+                <a th:href="@{/patient/login}" class="d-block mb-2" style="color: rgba(255,255,255,.6); font-size: 0.84rem; text-decoration: none;">Patient Login</a>
+                <a th:href="@{/patient/appointments}" class="d-block mb-2" style="color: rgba(255,255,255,.6); font-size: 0.84rem; text-decoration: none;">My Appointments</a>
+                <a th:href="@{/patient/records}" class="d-block mb-2" style="color: rgba(255,255,255,.6); font-size: 0.84rem; text-decoration: none;">Medical Records</a>
+            </div>
+            <div class="col-6 col-lg-2">
+                <div class="mb-3" style="color: var(--vix-gold-lt); font-size: 0.78rem; font-weight: 700; letter-spacing: 0.08em;">
+                    CONTACT
+                </div>
+                <div class="mb-2"><i class="bi bi-geo-alt me-2"></i> Via San Camillo 1, Trento</div>
+                <div class="mb-2"><i class="bi bi-telephone me-2"></i> <a href="tel:+390461000001" style="color: rgba(255,255,255,.6); text-decoration: none;">+39 0461 000 001</a></div>
+                <div class="mb-2"><i class="bi bi-envelope me-2"></i> <a href="mailto:info@vixhealth.it" style="color: rgba(255,255,255,.6); text-decoration: none;">info@vixhealth.it</a></div>
+            </div>
+            <div class="col-6 col-lg-2">
+                <div class="mb-3" style="color: var(--vix-gold-lt); font-size: 0.78rem; font-weight: 700; letter-spacing: 0.08em;">
+                    LEGAL
+                </div>
+                <a href="#" class="d-block mb-2" style="color: rgba(255,255,255,.6); font-size: 0.84rem; text-decoration: none;">Privacy Policy</a>
+                <a href="#" class="d-block mb-2" style="color: rgba(255,255,255,.6); font-size: 0.84rem; text-decoration: none;">GDPR Information</a>
+                <a href="#" class="d-block mb-2" style="color: rgba(255,255,255,.6); font-size: 0.84rem; text-decoration: none;">Terms of Use</a>
+            </div>
+        </div>
+        <hr class="my-4" style="border-color: rgba(184,149,42,.2);">
+        <div class="text-center" style="font-size: 0.78rem;">
+            © <span th:text="${#dates.year(#dates.createNow())}">2026</span> VIX Health System · All rights reserved.
+        </div>
+    </div>
+</footer>
+</html>
