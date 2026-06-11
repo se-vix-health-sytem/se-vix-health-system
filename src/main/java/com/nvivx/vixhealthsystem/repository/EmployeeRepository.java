@@ -19,6 +19,8 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
 
     List<Employee> findByDepartmentId(Long departmentId);
 
+    Employee findByFirebaseUid(String firebaseUid);
+
     @Query("SELECT e FROM Employee e WHERE TYPE(e) = :type")
     List<Employee> findByEmployeeType(@Param("type") Class<?> type);
 }

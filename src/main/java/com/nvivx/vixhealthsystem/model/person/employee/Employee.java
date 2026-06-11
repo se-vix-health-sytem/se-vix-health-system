@@ -42,6 +42,13 @@ public abstract class Employee extends Person {
     private Long id;
 
     /**
+     * Firebase unique user identifier.
+     * Used to link the employee to an external Firebase account.
+     */
+    @Column(name = "firebase_uid", unique = true)
+    private String firebaseUid;
+
+    /**
      * Date when the employee was hired.
      */
     @Column(name = "hire_date", nullable = false)
@@ -74,6 +81,24 @@ public abstract class Employee extends Person {
      */
     public void setId(Long id) {
         this.id = id;
+    }
+
+    /**
+     * Returns the employee unique identifier used in firebase.
+     *
+     * @return the employee firebase user id
+     */
+    public String getFirebaseUid() {
+        return firebaseUid;
+    }
+
+    /**
+     * Sets the employee unique identifier.
+     *
+     * @param firebaseUid the employee Firebase User ID to set
+     */
+    public void setFirebaseUid(String firebaseUid) {
+        this.firebaseUid = firebaseUid;
     }
 
     /**
