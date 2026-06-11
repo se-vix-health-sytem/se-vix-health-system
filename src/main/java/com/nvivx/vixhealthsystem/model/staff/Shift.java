@@ -2,17 +2,66 @@ package com.nvivx.vixhealthsystem.model.staff;
 
 import java.time.LocalDate;
 
+/**
+ * Represents a work shift assigned to an employee.
+ * <p>
+ * Shifts are stored as JSON (shifts.json), not in the SQL database.
+ * Each shift is linked to an employee by ID and carries a date,
+ * type and optional notes.
+ */
 public class Shift {
 
-    private Long id;           // Changed from long to Long
-    private Long employeeId;   // Changed from long to Long
+    /**
+     * Unique shift identifier.
+     */
+    private Long id;
+
+    /**
+     * Identifier of the employee assigned to this shift.
+     */
+    private Long employeeId;
+
+    /**
+     * Date of the shift.
+     */
     private LocalDate date;
+
+    /**
+     * Shift type (e.g. Morning, Afternoon, Night).
+     */
     private String shiftType;
+
+    /**
+     * Optional notes for the shift.
+     */
     private String notes;
 
-    public Shift() {}
+    // =====================================================
+    // CONSTRUCTORS
+    // =====================================================
 
-    public Shift(Long id, Long employeeId, LocalDate date, String shiftType, String notes) {
+    /**
+     * Default constructor required for JSON deserialization.
+     */
+    public Shift() {
+    }
+
+    /**
+     * Creates a shift with the specified details.
+     *
+     * @param id         the shift identifier
+     * @param employeeId the employee identifier
+     * @param date       the shift date
+     * @param shiftType  the shift type
+     * @param notes      optional notes
+     */
+    public Shift(
+            Long id,
+            Long employeeId,
+            LocalDate date,
+            String shiftType,
+            String notes
+    ) {
         this.id = id;
         this.employeeId = employeeId;
         this.date = date;
@@ -20,18 +69,97 @@ public class Shift {
         this.notes = notes;
     }
 
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    // =====================================================
+    // GETTERS & SETTERS
+    // =====================================================
 
-    public Long getEmployeeId() { return employeeId; }
-    public void setEmployeeId(Long employeeId) { this.employeeId = employeeId; }
+    /**
+     * Returns the unique shift identifier.
+     *
+     * @return the shift ID
+     */
+    public Long getId() {
+        return id;
+    }
 
-    public LocalDate getDate() { return date; }
-    public void setDate(LocalDate date) { this.date = date; }
+    /**
+     * Sets the unique shift identifier.
+     *
+     * @param id the shift ID to set
+     */
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-    public String getShiftType() { return shiftType; }
-    public void setShiftType(String shiftType) { this.shiftType = shiftType; }
+    /**
+     * Returns the identifier of the employee assigned to this shift.
+     *
+     * @return the employee ID
+     */
+    public Long getEmployeeId() {
+        return employeeId;
+    }
 
-    public String getNotes() { return notes; }
-    public void setNotes(String notes) { this.notes = notes; }
+    /**
+     * Sets the identifier of the employee assigned to this shift.
+     *
+     * @param employeeId the employee ID to set
+     */
+    public void setEmployeeId(Long employeeId) {
+        this.employeeId = employeeId;
+    }
+
+    /**
+     * Returns the date of the shift.
+     *
+     * @return the shift date
+     */
+    public LocalDate getDate() {
+        return date;
+    }
+
+    /**
+     * Sets the date of the shift.
+     *
+     * @param date the shift date to set
+     */
+    public void setDate(LocalDate date) {
+        this.date = date;
+    }
+
+    /**
+     * Returns the shift type (e.g. Morning, Afternoon, Night).
+     *
+     * @return the shift type
+     */
+    public String getShiftType() {
+        return shiftType;
+    }
+
+    /**
+     * Sets the shift type.
+     *
+     * @param shiftType the shift type to set
+     */
+    public void setShiftType(String shiftType) {
+        this.shiftType = shiftType;
+    }
+
+    /**
+     * Returns the optional notes for the shift.
+     *
+     * @return the notes
+     */
+    public String getNotes() {
+        return notes;
+    }
+
+    /**
+     * Sets the optional notes for the shift.
+     *
+     * @param notes the notes to set
+     */
+    public void setNotes(String notes) {
+        this.notes = notes;
+    }
 }

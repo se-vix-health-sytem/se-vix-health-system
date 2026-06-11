@@ -10,13 +10,13 @@ import java.util.List;
 
 /**
  * Represents a generic employee in the system.
+ * <p>
  * All specific employee roles inherit from this class.
- *
  * This class is mapped using Single Table Inheritance, meaning that all
  * employee types are stored inside the same Employees table.
- *
- * The "type" column is used by JPA to understand which subclass
- * an employee belongs to.
+ * <p>
+ * The "type" discriminator column is used by JPA to determine which
+ * subclass an employee row belongs to.
  *
  * @see Buyer
  * @see MedicalSpecialist
@@ -58,26 +58,56 @@ public abstract class Employee extends Person {
     // GETTERS & SETTERS
     // =====================================================
 
+    /**
+     * Returns the employee unique identifier.
+     *
+     * @return the employee ID
+     */
     public Long getId() {
         return id;
     }
 
+    /**
+     * Sets the employee unique identifier.
+     *
+     * @param id the employee ID to set
+     */
     public void setId(Long id) {
         this.id = id;
     }
 
+    /**
+     * Returns the date when the employee was hired.
+     *
+     * @return the hire date
+     */
     public LocalDate getHireDate() {
         return hireDate;
     }
 
+    /**
+     * Sets the date when the employee was hired.
+     *
+     * @param hireDate the hire date to set
+     */
     public void setHireDate(LocalDate hireDate) {
         this.hireDate = hireDate;
     }
 
+    /**
+     * Returns the department where the employee works.
+     *
+     * @return the department
+     */
     public Department getDepartment() {
         return department;
     }
 
+    /**
+     * Sets the department where the employee works.
+     *
+     * @param department the department to set
+     */
     public void setDepartment(Department department) {
         this.department = department;
     }

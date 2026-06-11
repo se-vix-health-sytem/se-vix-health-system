@@ -1,8 +1,6 @@
 package com.nvivx.vixhealthsystem.model.medical;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
 
 import java.time.LocalDate;
 
@@ -14,8 +12,6 @@ import java.time.LocalDate;
  *
  * @see MedicalRecord
  */
-@Getter
-@Setter
 @Entity
 @Table(name = "MedicalConditions")
 public class MedicalCondition {
@@ -75,13 +71,13 @@ public class MedicalCondition {
     }
 
     /**
-     * Creates a medical condition.
+     * Creates a medical condition with the specified details.
      *
-     * @param name condition name
-     * @param dateOfDiagnosis diagnosis date
-     * @param type condition type
-     * @param description condition description
-     * @param treatment prescribed treatment
+     * @param name            the condition name
+     * @param dateOfDiagnosis the date of diagnosis
+     * @param type            the condition category or type
+     * @param description     the detailed description
+     * @param treatment       the prescribed treatment
      */
     public MedicalCondition(
             String name,
@@ -97,5 +93,133 @@ public class MedicalCondition {
         this.treatment = treatment;
     }
 
+    // =====================================================
+    // GETTERS & SETTERS
+    // =====================================================
 
+    /**
+     * Returns the unique medical condition identifier.
+     *
+     * @return the condition ID
+     */
+    public Long getId() {
+        return id;
+    }
+
+    /**
+     * Sets the unique medical condition identifier.
+     *
+     * @param id the condition ID to set
+     */
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    /**
+     * Returns the medical record associated with this condition.
+     *
+     * @return the medical record
+     */
+    public MedicalRecord getMedicalRecord() {
+        return medicalRecord;
+    }
+
+    /**
+     * Sets the medical record associated with this condition.
+     *
+     * @param medicalRecord the medical record to set
+     */
+    public void setMedicalRecord(MedicalRecord medicalRecord) {
+        this.medicalRecord = medicalRecord;
+    }
+
+    /**
+     * Returns the condition name.
+     *
+     * @return the condition name
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * Sets the condition name.
+     *
+     * @param name the condition name to set
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    /**
+     * Returns the date of diagnosis.
+     *
+     * @return the diagnosis date
+     */
+    public LocalDate getDateOfDiagnosis() {
+        return dateOfDiagnosis;
+    }
+
+    /**
+     * Sets the date of diagnosis.
+     *
+     * @param dateOfDiagnosis the diagnosis date to set
+     */
+    public void setDateOfDiagnosis(LocalDate dateOfDiagnosis) {
+        this.dateOfDiagnosis = dateOfDiagnosis;
+    }
+
+    /**
+     * Returns the condition category or type.
+     *
+     * @return the condition type
+     */
+    public String getType() {
+        return type;
+    }
+
+    /**
+     * Sets the condition category or type.
+     *
+     * @param type the condition type to set
+     */
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    /**
+     * Returns the detailed condition description.
+     *
+     * @return the condition description
+     */
+    public String getDescription() {
+        return description;
+    }
+
+    /**
+     * Sets the detailed condition description.
+     *
+     * @param description the condition description to set
+     */
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    /**
+     * Returns the treatment associated with the condition.
+     *
+     * @return the treatment
+     */
+    public String getTreatment() {
+        return treatment;
+    }
+
+    /**
+     * Sets the treatment associated with the condition.
+     *
+     * @param treatment the treatment to set
+     */
+    public void setTreatment(String treatment) {
+        this.treatment = treatment;
+    }
 }

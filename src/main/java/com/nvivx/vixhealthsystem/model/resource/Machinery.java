@@ -6,7 +6,7 @@ import jakarta.persistence.*;
 
 /**
  * Represents a medical machine installed inside a specialized room.
- *
+ * <p>
  * Machines can be operational, under maintenance or faulty.
  * Technicians use the machine status to identify equipment
  * requiring intervention.
@@ -39,7 +39,7 @@ public class Machinery {
     private String name;
 
     /**
-     * Current machine status.
+     * Current operational status of the machine.
      */
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
@@ -56,9 +56,9 @@ public class Machinery {
     }
 
     /**
-     * Creates a machine with the specified name.
+     * Creates a machine with the specified name and initializes its status.
      *
-     * @param name machine name
+     * @param name the machine name
      */
     public Machinery(String name) {
         this.name = name;
@@ -69,30 +69,74 @@ public class Machinery {
     // GETTERS & SETTERS
     // =====================================================
 
+    /**
+     * Returns the unique machine identifier.
+     *
+     * @return the machine ID
+     */
     public Long getId() {
         return id;
     }
 
+    /**
+     * Sets the unique machine identifier.
+     *
+     * @param id the machine ID to set
+     */
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    /**
+     * Returns the machine name.
+     *
+     * @return the machine name
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Sets the machine name.
+     *
+     * @param name the machine name to set
+     */
     public void setName(String name) {
         this.name = name;
     }
 
+    /**
+     * Returns the room where the machine is installed.
+     *
+     * @return the specialized room
+     */
     public SpecializedRoom getSpecializedRoom() {
         return specializedRoom;
     }
 
+    /**
+     * Sets the room where the machine is installed.
+     *
+     * @param specializedRoom the specialized room to set
+     */
     public void setSpecializedRoom(SpecializedRoom specializedRoom) {
         this.specializedRoom = specializedRoom;
     }
 
+    /**
+     * Returns the current operational status of the machine.
+     *
+     * @return the machine status
+     */
     public MachineStatus getStatus() {
         return status;
     }
 
+    /**
+     * Sets the current operational status of the machine.
+     *
+     * @param status the machine status to set
+     */
     public void setStatus(MachineStatus status) {
         this.status = status;
     }
@@ -103,18 +147,20 @@ public class Machinery {
 
     /**
      * Updates the machine status.
-     *
+     * <p>
      * Business logic to determine the current status
      * should be implemented here.
      */
     public void updateStatus() {
-        // TODO
+        if (this.status == null) {
+            this.status = MachineStatus.WORKING;
+        }
     }
 
     /**
      * Checks whether the machine is faulty.
      *
-     * @return true if the machine is faulty
+     * @return true if the machine status is FAULTY, false otherwise
      */
     public boolean isFaulty() {
         return status == MachineStatus.FAULTY;

@@ -1,33 +1,86 @@
 package com.nvivx.vixhealthsystem.model.staff;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.time.LocalDate;
 
 /**
- * Represents a vacation from an employee.
- * Stored as JSON (vacations.json), not in the SQL database.
- * The staff manager adds/approves these manually.
+ * Represents a vacation request submitted by an employee.
+ * <p>
+ * Vacation requests are stored as JSON (vacations.json), not in the SQL database.
+ * The staff manager reviews and approves or denies requests manually.
+ *
+ * @see com.nvivx.vixhealthsystem.model.person.employee.StaffManager
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class VacationRequest {
 
+    /**
+     * Unique vacation request identifier.
+     */
     private int id;
+
+    /**
+     * Identifier of the employee submitting the request.
+     */
     private int employeeId;
-    private String employeeName;  // denormalized for display
+
+    /**
+     * Employee full name, denormalized for display purposes.
+     */
+    private String employeeName;
+
+    /**
+     * Start date of the requested vacation period.
+     */
     private LocalDate startDate;
+
+    /**
+     * End date of the requested vacation period.
+     */
     private LocalDate endDate;
+
+    /**
+     * Reason provided by the employee for the vacation request.
+     */
     private String reason;
-    private String status;        // PENDING, APPROVED, DENIED
+
+    /**
+     * Current status of the request.
+     * Possible values: PENDING, APPROVED, DENIED.
+     */
+    private String status;
 
     // =====================================================
     // CONSTRUCTORS
     // =====================================================
 
-    public VacationRequest() {}
+    /**
+     * Default constructor required for JSON deserialization.
+     */
+    public VacationRequest() {
+    }
 
-    public VacationRequest(int id, int employeeId, String employeeName,
-                           LocalDate startDate, LocalDate endDate,
-                           String reason, String status) {
+    /**
+     * Creates a vacation request with all specified details.
+     *
+     * @param id           the request identifier
+     * @param employeeId   the employee identifier
+     * @param employeeName the employee full name
+     * @param startDate    the start date of the vacation
+     * @param endDate      the end date of the vacation
+     * @param reason       the reason for the request
+     * @param status       the initial status (e.g. PENDING)
+     */
+    public VacationRequest(
+            int id,
+            int employeeId,
+            String employeeName,
+            LocalDate startDate,
+            LocalDate endDate,
+            String reason,
+            String status
+    ) {
         this.id = id;
         this.employeeId = employeeId;
         this.employeeName = employeeName;
@@ -42,10 +95,14 @@ public class VacationRequest {
     // =====================================================
 
     /**
-     * Returns the number of days requested (inclusive).
+     * Returns the total number of days requested, inclusive of both endpoints.
+     *
+     * @return number of vacation days, or 0 if dates are not set
      */
     public long getDaysRequested() {
-        if (startDate == null || endDate == null) return 0;
+        if (startDate == null || endDate == null) {
+            return 0;
+        }
         return startDate.until(endDate).getDays() + 1;
     }
 
@@ -53,24 +110,130 @@ public class VacationRequest {
     // GETTERS & SETTERS
     // =====================================================
 
-    public int getId() { return id; }
-    public void setId(int id) { this.id = id; }
+    /**
+     * Returns the unique vacation request identifier.
+     *
+     * @return the request ID
+     */
+    public int getId() {
+        return id;
+    }
 
-    public int getEmployeeId() { return employeeId; }
-    public void setEmployeeId(int employeeId) { this.employeeId = employeeId; }
+    /**
+     * Sets the unique vacation request identifier.
+     *
+     * @param id the request ID to set
+     */
+    public void setId(int id) {
+        this.id = id;
+    }
 
-    public String getEmployeeName() { return employeeName; }
-    public void setEmployeeName(String employeeName) { this.employeeName = employeeName; }
+    /**
+     * Returns the identifier of the employee submitting the request.
+     *
+     * @return the employee ID
+     */
+    public int getEmployeeId() {
+        return employeeId;
+    }
 
-    public LocalDate getStartDate() { return startDate; }
-    public void setStartDate(LocalDate startDate) { this.startDate = startDate; }
+    /**
+     * Sets the identifier of the employee submitting the request.
+     *
+     * @param employeeId the employee ID to set
+     */
+    public void setEmployeeId(int employeeId) {
+        this.employeeId = employeeId;
+    }
 
-    public LocalDate getEndDate() { return endDate; }
-    public void setEndDate(LocalDate endDate) { this.endDate = endDate; }
+    /**
+     * Returns the employee full name.
+     *
+     * @return the employee name
+     */
+    public String getEmployeeName() {
+        return employeeName;
+    }
 
-    public String getReason() { return reason; }
-    public void setReason(String reason) { this.reason = reason; }
+    /**
+     * Sets the employee full name.
+     *
+     * @param employeeName the employee name to set
+     */
+    public void setEmployeeName(String employeeName) {
+        this.employeeName = employeeName;
+    }
 
-    public String getStatus() { return status; }
-    public void setStatus(String status) { this.status = status; }
+    /**
+     * Returns the start date of the vacation period.
+     *
+     * @return the start date
+     */
+    public LocalDate getStartDate() {
+        return startDate;
+    }
+
+    /**
+     * Sets the start date of the vacation period.
+     *
+     * @param startDate the start date to set
+     */
+    public void setStartDate(LocalDate startDate) {
+        this.startDate = startDate;
+    }
+
+    /**
+     * Returns the end date of the vacation period.
+     *
+     * @return the end date
+     */
+    public LocalDate getEndDate() {
+        return endDate;
+    }
+
+    /**
+     * Sets the end date of the vacation period.
+     *
+     * @param endDate the end date to set
+     */
+    public void setEndDate(LocalDate endDate) {
+        this.endDate = endDate;
+    }
+
+    /**
+     * Returns the reason provided for the vacation request.
+     *
+     * @return the reason
+     */
+    public String getReason() {
+        return reason;
+    }
+
+    /**
+     * Sets the reason provided for the vacation request.
+     *
+     * @param reason the reason to set
+     */
+    public void setReason(String reason) {
+        this.reason = reason;
+    }
+
+    /**
+     * Returns the current status of the request.
+     * Possible values: PENDING, APPROVED, DENIED.
+     *
+     * @return the status
+     */
+    public String getStatus() {
+        return status;
+    }
+
+    /**
+     * Sets the current status of the request.
+     *
+     * @param status the status to set (PENDING, APPROVED, DENIED)
+     */
+    public void setStatus(String status) {
+        this.status = status;
+    }
 }

@@ -11,11 +11,13 @@ import java.time.LocalDateTime;
 /**
  * Handles administrative tasks such as appointment scheduling,
  * patient admissions and discharges.
- *
- * The secretary type identifies the secretary's specialization:
- * - Front Office
- * - Admissions
- * - Billing
+ * <p>
+ * The secretary role identifies the secretary's specialization:
+ * <ul>
+ *   <li>Front Office</li>
+ *   <li>Admissions</li>
+ *   <li>Billing</li>
+ * </ul>
  *
  * @see Employee
  */
@@ -24,19 +26,39 @@ import java.time.LocalDateTime;
 public class Secretary extends Employee {
 
     /**
-     * Secretary specialization type.
+     * Secretary specialization type (e.g. Front Office, Admissions, Billing).
      */
     @Column(name = "secretary_type")
     private String role;
 
     // =====================================================
+    // CONSTRUCTORS
+    // =====================================================
+
+    /**
+     * Default constructor required by JPA.
+     */
+    public Secretary() {
+    }
+
+    // =====================================================
     // GETTERS & SETTERS
     // =====================================================
 
+    /**
+     * Returns the secretary specialization role.
+     *
+     * @return the secretary role
+     */
     public String getRole() {
         return role;
     }
 
+    /**
+     * Sets the secretary specialization role.
+     *
+     * @param role the secretary role to set
+     */
     public void setRole(String role) {
         this.role = role;
     }
@@ -46,11 +68,11 @@ public class Secretary extends Employee {
     // =====================================================
 
     /**
-     * Books an appointment for a patient.
+     * Books an appointment for a patient with a specific specialist.
      *
-     * @param p patient
-     * @param m medical specialist
-     * @param dt appointment date and time
+     * @param p  the patient
+     * @param m  the medical specialist
+     * @param dt the appointment date and time
      */
     public void makeAppointmentForPatient(
             Patient p,
@@ -61,11 +83,11 @@ public class Secretary extends Employee {
     }
 
     /**
-     * Reschedules an appointment.
+     * Reschedules an existing appointment to a new date.
      *
-     * @param p patient
-     * @param dtOld current appointment date
-     * @param dtNew new appointment date
+     * @param p     the patient
+     * @param dtOld the current appointment date and time
+     * @param dtNew the new appointment date and time
      */
     public void rescheduleAppointmentForPatient(
             Patient p,
@@ -76,10 +98,10 @@ public class Secretary extends Employee {
     }
 
     /**
-     * Cancels an appointment.
+     * Cancels an appointment for a patient.
      *
-     * @param p patient
-     * @param dt appointment date
+     * @param p  the patient
+     * @param dt the appointment date and time to cancel
      */
     public void cancelAppointmentForPatient(
             Patient p,
@@ -93,17 +115,17 @@ public class Secretary extends Employee {
     // =====================================================
 
     /**
-     * Displays room availability.
+     * Displays room availability across the facility.
      */
     public void getRoomAvailability() {
 
     }
 
     /**
-     * Assigns a patient to a room.
+     * Assigns a patient to an inpatient room.
      *
-     * @param ir room
-     * @param p patient
+     * @param ir the inpatient room
+     * @param p  the patient to assign
      */
     public void setPatientInRoom(
             InternationRoom ir,
@@ -113,9 +135,9 @@ public class Secretary extends Employee {
     }
 
     /**
-     * Discharges a patient.
+     * Discharges a patient from the facility.
      *
-     * @param p patient to dismiss
+     * @param p the patient to discharge
      */
     public void dismissPatient(
             Patient p

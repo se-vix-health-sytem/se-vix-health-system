@@ -3,7 +3,6 @@ package com.nvivx.vixhealthsystem.model.facility;
 import com.nvivx.vixhealthsystem.model.person.Patient;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,6 +22,11 @@ import java.util.List;
 @Entity
 @DiscriminatorValue("HOSPITAL")
 public class Hospital extends MedicalFacility {
+
+    // =====================================================
+    // DOMAIN METHODS
+    // =====================================================
+
     /**
      * Returns all inpatient rooms available in the hospital.
      * <p>
@@ -35,16 +39,12 @@ public class Hospital extends MedicalFacility {
      * @return list of all inpatient rooms
      */
     public List<InternationRoom> getRoomsForPatients() {
-
         List<InternationRoom> out = new ArrayList<>();
-
         for (Room room : getRooms()) {
-
             if (room instanceof InternationRoom internRoom) {
                 out.add(internRoom);
             }
         }
-
         return out;
     }
 
@@ -55,40 +55,31 @@ public class Hospital extends MedicalFacility {
      * @return list of available inpatient rooms
      */
     public List<InternationRoom> getFreeRoomsForPatients() {
-
         List<InternationRoom> out = new ArrayList<>();
-
         for (Room room : getRooms()) {
-
             if (room instanceof InternationRoom internRoom &&
                     internRoom.getNFreeBeds() > 0) {
-
                 out.add(internRoom);
             }
         }
-
         return out;
     }
 
     /**
      * Finds the room currently hosting a patient.
      *
-     * @param p patient to search
-     * @return patient's room
+     * @param p the patient to search for
+     * @return the patient's room
      * @throws Exception if the patient is not admitted
      */
     public InternationRoom findPatientInRoom(Patient p)
             throws Exception {
-
         for (Room room : getRooms()) {
-
             if (room instanceof InternationRoom internRoom &&
                     internRoom.hasPatient(p)) {
-
                 return internRoom;
             }
         }
-
         throw new Exception(
                 "No patient " + p + " is currently admitted."
         );
@@ -97,28 +88,26 @@ public class Hospital extends MedicalFacility {
     /**
      * Admits a patient to an inpatient room.
      *
-     * @param p patient
-     * @param r destination room
+     * @param p the patient to admit
+     * @param r the destination room
      * @throws Exception if admission fails
      */
     public void internPatient(
             Patient p,
             InternationRoom r
     ) throws Exception {
-
         r.addPatient(p);
     }
 
     /**
      * Discharges a patient from the hospital.
      *
-     * @param p patient to discharge
+     * @param p the patient to discharge
      * @throws Exception if the patient is not admitted
      */
     public void dismissPatient(
             Patient p
     ) throws Exception {
-
         findPatientInRoom(p).removePatient(p);
     }
 }

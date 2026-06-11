@@ -16,8 +16,11 @@ public class NotificationService {
     }
 
     public void sendAppointmentConfirmation(Patient patient, Appointment appointment) {
-        // Just log to console for demo
         System.out.println("=== EMAIL NOTIFICATION (DEMO MODE) ===");
+        if (patient == null || appointment == null) {
+            System.out.println("(skipped — missing patient or appointment)");
+            return;
+        }
         System.out.println("To: " + (patient.getEmail() != null ? patient.getEmail() : "No email"));
         System.out.println("Subject: Appointment Confirmation");
         System.out.println("Body: Your appointment with Dr. " +
@@ -29,6 +32,10 @@ public class NotificationService {
 
     public void sendAppointmentReminder(Patient patient, Appointment appointment) {
         System.out.println("=== EMAIL NOTIFICATION (DEMO MODE) ===");
+        if (patient == null || appointment == null) {
+            System.out.println("(skipped — missing patient or appointment)");
+            return;
+        }
         System.out.println("To: " + (patient.getEmail() != null ? patient.getEmail() : "No email"));
         System.out.println("Subject: Appointment Reminder");
         System.out.println("Body: Reminder: Your appointment with Dr. " +
@@ -40,6 +47,10 @@ public class NotificationService {
 
     public void sendExamResultsAvailable(Patient patient, String examType) {
         System.out.println("=== EMAIL NOTIFICATION (DEMO MODE) ===");
+        if (patient == null) {
+            System.out.println("(skipped — missing patient)");
+            return;
+        }
         System.out.println("To: " + (patient.getEmail() != null ? patient.getEmail() : "No email"));
         System.out.println("Subject: Exam Results Available");
         System.out.println("Body: Your " + examType + " results are now available.");
@@ -48,6 +59,10 @@ public class NotificationService {
 
     public void sendAppointmentCancellation(Patient patient, Appointment appointment) {
         System.out.println("=== EMAIL NOTIFICATION (DEMO MODE) ===");
+        if (patient == null || appointment == null) {
+            System.out.println("(skipped — missing patient or appointment)");
+            return;
+        }
         System.out.println("To: " + (patient.getEmail() != null ? patient.getEmail() : "No email"));
         System.out.println("Subject: Appointment Cancelled");
         System.out.println("Body: Your appointment on " + appointment.getDateTime() + " has been cancelled.");

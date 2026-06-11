@@ -2,9 +2,6 @@ package com.nvivx.vixhealthsystem.model.facility;
 
 import com.nvivx.vixhealthsystem.model.resource.Machinery;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,14 +24,10 @@ public class SpecializedRoom extends Room {
      * Specialization of the room.
      * Examples: Radiology, MRI, CT Scan, Surgery.
      */
-    @Setter
-    @Getter
     @Column(name = "specialization")
     private String specialization;
 
-    /**
-     * Machines installed inside the room.
-     */
+    /** Machines installed inside the room. */
     @OneToMany(mappedBy = "specializedRoom")
     private List<Machinery> machineries = new ArrayList<>();
 
@@ -42,9 +35,18 @@ public class SpecializedRoom extends Room {
     // CONSTRUCTORS
     // =====================================================
 
+    /**
+     * Default constructor required by JPA.
+     */
     public SpecializedRoom() {
     }
 
+    /**
+     * Creates a specialized room with the specified number and specialization.
+     *
+     * @param number the room number
+     * @param specialization the room specialization
+     */
     public SpecializedRoom(
             String number,
             String specialization
@@ -53,9 +55,44 @@ public class SpecializedRoom extends Room {
         this.specialization = specialization;
     }
 
+    // =====================================================
+    // GETTERS & SETTERS
+    // =====================================================
 
+    /**
+     * Returns the room specialization.
+     *
+     * @return the specialization
+     */
+    public String getSpecialization() {
+        return specialization;
+    }
+
+    /**
+     * Sets the room specialization.
+     *
+     * @param specialization the specialization to set
+     */
+    public void setSpecialization(String specialization) {
+        this.specialization = specialization;
+    }
+
+    /**
+     * Returns the list of machines in this room.
+     *
+     * @return the list of machineries
+     */
     protected List<Machinery> getMachineries() {
         return machineries;
+    }
+
+    /**
+     * Sets the list of machines in this room.
+     *
+     * @param machineries the list of machineries to set
+     */
+    protected void setMachineries(List<Machinery> machineries) {
+        this.machineries = machineries;
     }
 
     // =====================================================
@@ -65,19 +102,15 @@ public class SpecializedRoom extends Room {
     /**
      * Returns all machines currently marked as faulty.
      *
-     * @return faulty machine list
+     * @return list of faulty machines
      */
     protected List<Machinery> getFaultyMachines() {
-
         List<Machinery> out = new ArrayList<>();
-
         for (Machinery machinery : machineries) {
-
             if (machinery.isFaulty()) {
                 out.add(machinery);
             }
         }
-
         return out;
     }
 }

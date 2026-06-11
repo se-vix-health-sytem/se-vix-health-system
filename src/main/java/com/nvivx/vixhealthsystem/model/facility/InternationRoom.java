@@ -2,9 +2,6 @@ package com.nvivx.vixhealthsystem.model.facility;
 
 import com.nvivx.vixhealthsystem.model.person.Patient;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,20 +16,15 @@ import java.util.List;
  * @see Room
  * @see Patient
  */
-
-@Getter
-@Setter
 @Entity
 @DiscriminatorValue("INTERNATION_ROOM")
 public class InternationRoom extends Room {
 
-    /**
-     * Total number of beds available in the room.
-     */
+    /** Total number of beds available in the room. */
     @Column(name = "beds_count")
     private Integer nBeds;
 
-
+    /** Patients currently occupying beds in this room. */
     @ManyToMany
     @JoinTable(
             name = "RoomPatients",
@@ -54,8 +46,8 @@ public class InternationRoom extends Room {
     /**
      * Creates an inpatient room with a specified number of beds.
      *
-     * @param number room number
-     * @param nBeds total number of beds
+     * @param number the room number
+     * @param nBeds the total number of beds
      */
     public InternationRoom(String number, int nBeds) {
         super(number);
@@ -72,13 +64,13 @@ public class InternationRoom extends Room {
      * @return total bed count
      */
     public int getTotalNBeds() {
-        return nBeds;
+        return nBeds != null ? nBeds : 0;
     }
 
     /**
      * Sets the total number of beds.
      *
-     * @param nBeds bed count
+     * @param nBeds the bed count to set
      */
     public void setNBeds(int nBeds) {
         this.nBeds = nBeds;
@@ -90,7 +82,25 @@ public class InternationRoom extends Room {
      * @return free bed count
      */
     public int getNFreeBeds() {
-        return nBeds - patients.size();
+        return (nBeds != null ? nBeds : 0) - patients.size();
+    }
+
+    /**
+     * Returns the list of patients in this room.
+     *
+     * @return the list of patients
+     */
+    public List<Patient> getPatients() {
+        return patients;
+    }
+
+    /**
+     * Sets the list of patients in this room.
+     *
+     * @param patients the list of patients to set
+     */
+    public void setPatients(List<Patient> patients) {
+        this.patients = patients;
     }
 
     // =====================================================
@@ -100,25 +110,23 @@ public class InternationRoom extends Room {
     /**
      * Admits a patient to the room.
      *
-     * @param p patient to admit
+     * @param p the patient to admit
      * @throws Exception if the room is already full
      */
     public void addPatient(Patient p) throws Exception {
-
-        if (patients.size() >= nBeds) {
+        if (patients.size() >= (nBeds != null ? nBeds : 0)) {
             throw new Exception(
                     "Patient limit reached for this room"
             );
         }
-
         patients.add(p);
     }
 
     /**
      * Checks whether a patient is currently admitted.
      *
-     * @param p patient to search
-     * @return true if the patient is present
+     * @param p the patient to search for
+     * @return true if the patient is present, false otherwise
      */
     public boolean hasPatient(Patient p) {
         return patients.contains(p);
@@ -127,17 +135,15 @@ public class InternationRoom extends Room {
     /**
      * Removes a patient from the room.
      *
-     * @param p patient to remove
+     * @param p the patient to remove
      * @throws Exception if the patient is not present
      */
     public void removePatient(Patient p) throws Exception {
-
         if (!hasPatient(p)) {
             throw new Exception(
                     "No patient " + p + " in this room"
             );
         }
-
         patients.remove(p);
     }
 }

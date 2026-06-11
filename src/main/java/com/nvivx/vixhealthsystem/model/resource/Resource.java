@@ -6,10 +6,10 @@ import java.math.BigDecimal;
 
 /**
  * Represents a resource stored and managed by a medical facility.
- *
+ * <p>
  * Resources may include medical supplies, medications,
  * disposable equipment and other inventory items.
- *
+ * <p>
  * Quantities are managed through the StorageResources table.
  *
  * @see Storage
@@ -54,11 +54,11 @@ public class Resource {
     }
 
     /**
-     * Creates a resource.
+     * Creates a resource with the specified details.
      *
-     * @param name resource name
-     * @param description resource description
-     * @param price unit price
+     * @param name        the resource name
+     * @param description the resource description
+     * @param price       the unit price
      */
     public Resource(
             String name,
@@ -76,15 +76,12 @@ public class Resource {
 
     @Override
     public boolean equals(Object obj) {
-
         if (this == obj) {
             return true;
         }
-
         if (!(obj instanceof Resource other)) {
             return false;
         }
-
         return id != null && id.equals(other.id);
     }
 
@@ -99,34 +96,74 @@ public class Resource {
     // GETTERS & SETTERS
     // =====================================================
 
+    /**
+     * Returns the unique resource identifier.
+     *
+     * @return the resource ID
+     */
     public Long getId() {
         return id;
     }
 
+    /**
+     * Sets the unique resource identifier.
+     *
+     * @param id the resource ID to set
+     */
     public void setId(Long id) {
         this.id = id;
     }
 
+    /**
+     * Returns the resource name.
+     *
+     * @return the resource name
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Sets the resource name.
+     *
+     * @param name the resource name to set
+     */
     public void setName(String name) {
         this.name = name;
     }
 
+    /**
+     * Returns the resource description.
+     *
+     * @return the resource description
+     */
     public String getDescription() {
         return description;
     }
 
+    /**
+     * Sets the resource description.
+     *
+     * @param description the resource description to set
+     */
     public void setDescription(String description) {
         this.description = description;
     }
 
+    /**
+     * Returns the unit price of the resource.
+     *
+     * @return the unit price
+     */
     public BigDecimal getPrice() {
         return price;
     }
 
+    /**
+     * Sets the unit price of the resource.
+     *
+     * @param price the unit price to set
+     */
     public void setPrice(BigDecimal price) {
         this.price = price;
     }

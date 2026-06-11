@@ -1,8 +1,6 @@
 package com.nvivx.vixhealthsystem.model.facility;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
 
 /**
  * Represents a generic room inside a medical facility.
@@ -17,8 +15,6 @@ import lombok.Setter;
  * @see Office
  * @see InternationRoom
  */
-@Setter
-@Getter
 @Entity
 @Table(name = "Rooms")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
@@ -28,24 +24,12 @@ import lombok.Setter;
 )
 public abstract class Room {
 
-
-    /**
-     * -- SETTER --
-     *  Sets the room identifier.
-     *  <p>
-     *  Normally managed automatically by JPA.
-     *
-     */
+    /** Unique room identifier. */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-
-    /**
-     * -- SETTER --
-     *  Assigns the room to a medical facility.
-     *
-     */
+    /** Medical facility to which this room belongs. */
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "facility_id", nullable = false)
     private MedicalFacility medicalFacility;
@@ -53,13 +37,6 @@ public abstract class Room {
     /**
      * Room number or room code.
      * Used to uniquely identify the room inside a facility.
-     * -- GETTER --
-     *  Returns the room number.
-     * <p>
-     *
-     * -- SETTER --
-     *  Sets the room number.
-     *
      */
     @Column(name = "room_number", nullable = false)
     private String number;
@@ -77,7 +54,7 @@ public abstract class Room {
     /**
      * Creates a room with the specified room number.
      *
-     * @param number room number
+     * @param number the room number
      */
     public Room(String number) {
         this.number = number;
@@ -87,4 +64,57 @@ public abstract class Room {
     // GETTERS & SETTERS
     // =====================================================
 
+    /**
+     * Returns the unique room identifier.
+     *
+     * @return the room ID
+     */
+    public Long getId() {
+        return id;
+    }
+
+    /**
+     * Sets the unique room identifier.
+     *
+     * @param id the room ID to set
+     */
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    /**
+     * Returns the medical facility to which this room belongs.
+     *
+     * @return the medical facility
+     */
+    public MedicalFacility getMedicalFacility() {
+        return medicalFacility;
+    }
+
+    /**
+     * Sets the medical facility to which this room belongs.
+     *
+     * @param medicalFacility the medical facility to set
+     */
+    public void setMedicalFacility(MedicalFacility medicalFacility) {
+        this.medicalFacility = medicalFacility;
+    }
+
+    /**
+     * Returns the room number or code.
+     *
+     * @return the room number
+     */
+    public String getNumber() {
+        return number;
+    }
+
+    /**
+     * Sets the room number or code.
+     *
+     * @param number the room number to set
+     */
+    public void setNumber(String number) {
+        this.number = number;
+    }
 }

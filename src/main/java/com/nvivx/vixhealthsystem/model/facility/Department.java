@@ -2,9 +2,6 @@ package com.nvivx.vixhealthsystem.model.facility;
 
 import com.nvivx.vixhealthsystem.model.person.employee.Employee;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,8 +17,6 @@ import java.util.List;
  * @see MedicalFacility
  * @see Employee
  */
-@Getter
-@Setter
 @Entity
 @Table(name = "Departments")
 public class Department {
@@ -70,4 +65,143 @@ public class Department {
     @OneToMany(mappedBy = "department")
     private List<Employee> employees = new ArrayList<>();
 
+    // =====================================================
+    // CONSTRUCTORS
+    // =====================================================
+
+    /**
+     * Default constructor required by JPA.
+     */
+    public Department() {
+    }
+
+    // =====================================================
+    // GETTERS & SETTERS
+    // =====================================================
+
+    /**
+     * Returns the unique department identifier.
+     *
+     * @return the department ID
+     */
+    public Long getId() {
+        return id;
+    }
+
+    /**
+     * Sets the unique department identifier.
+     *
+     * @param id the department ID to set
+     */
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    /**
+     * Returns the department name.
+     *
+     * @return the department name
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * Sets the department name.
+     *
+     * @param name the department name to set
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    /**
+     * Returns the department description.
+     *
+     * @return the department description
+     */
+    public String getDescription() {
+        return description;
+    }
+
+    /**
+     * Sets the department description.
+     *
+     * @param description the department description to set
+     */
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    /**
+     * Returns the department contact email.
+     *
+     * @return the department email
+     */
+    public String getEmail() {
+        return email;
+    }
+
+    /**
+     * Sets the department contact email.
+     *
+     * @param email the department email to set
+     */
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    /**
+     * Returns the department contact phone number.
+     *
+     * @return the department phone number
+     */
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    /**
+     * Sets the department contact phone number.
+     *
+     * @param phoneNumber the department phone number to set
+     */
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    /**
+     * Returns the medical facility to which this department belongs.
+     *
+     * @return the medical facility
+     */
+    public MedicalFacility getMedicalFacility() {
+        return medicalFacility;
+    }
+
+    /**
+     * Sets the medical facility to which this department belongs.
+     *
+     * @param medicalFacility the medical facility to set
+     */
+    public void setMedicalFacility(MedicalFacility medicalFacility) {
+        this.medicalFacility = medicalFacility;
+    }
+
+    /**
+     * Returns the list of employees assigned to this department.
+     *
+     * @return the list of employees
+     */
+    public List<Employee> getEmployees() {
+        return employees;
+    }
+
+    /**
+     * Sets the list of employees assigned to this department.
+     *
+     * @param employees the list of employees to set
+     */
+    public void setEmployees(List<Employee> employees) {
+        this.employees = employees;
+    }
 }
