@@ -16,7 +16,7 @@
                 <a th:href="@{/technician/machines}"
                    class="btn btn-sm rounded-pill"
                    th:classappend="${!isFaultyView ? 'btn-primary' : 'btn-outline-secondary'}">All</a>
-                <a th:href="@{/technician/machines/faulty}"
+                <a th:href="@{/technician/machines?filter=faulty}"
                    class="btn btn-sm rounded-pill"
                    th:classappend="${isFaultyView ? 'btn-danger' : 'btn-outline-danger'}">
                     Faulty Only
@@ -32,8 +32,9 @@
                             <thead style="background: var(--vix-cream);">
                                 <tr>
                                     <th>Machine Name</th>
+                                    <th>Type</th>
                                     <th>Status</th>
-                                    <th>Room</th>
+                                    <th>Location</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
@@ -45,15 +46,15 @@
                                            class="text-decoration-none"
                                            th:text="${machine.name}">-</a>
                                     </td>
+                                    <td class="small" th:text="${machine.type ?: '-'}">-</td>
                                     <td>
                                         <span class="badge rounded-pill"
-                                              th:classappend="${machine.status?.name() == 'WORKING' ? 'bg-success' :
-                                                               machine.status?.name() == 'FAULTY' ? 'bg-danger' :
-                                                               machine.status?.name() == 'UNDER_MAINTENANCE' ? 'bg-warning text-dark' : 'bg-secondary'}"
+                                              th:classappend="${machine.status == 'OPERATIONAL' ? 'bg-success' :
+                                                               machine.status == 'FAULTY' ? 'bg-danger' :
+                                                               machine.status == 'MAINTENANCE' ? 'bg-warning text-dark' : 'bg-secondary'}"
                                               th:text="${machine.status ?: 'UNKNOWN'}">-</span>
                                     </td>
-                                    <td class="small"
-                                        th:text="${machine.specializedRoom?.number ?: '-'}">-</td>
+                                    <td class="small" th:text="${machine.location ?: '-'}">-</td>
                                     <td>
                                         <div class="d-flex gap-1 align-items-center">
                                             <a th:href="@{/technician/machines/{id}(id=${machine.id})}"
@@ -64,13 +65,10 @@
                                                   class="d-flex gap-1">
                                                 <input type="hidden" name="machineId" th:value="${machine.id}">
                                                 <select name="status" class="form-select form-select-sm"
-                                                        style="max-width: 160px;">
-                                                    <option value="WORKING"
-                                                            th:selected="${machine.status?.name() == 'WORKING'}">Working</option>
-                                                    <option value="UNDER_MAINTENANCE"
-                                                            th:selected="${machine.status?.name() == 'UNDER_MAINTENANCE'}">Under Maintenance</option>
-                                                    <option value="FAULTY"
-                                                            th:selected="${machine.status?.name() == 'FAULTY'}">Faulty</option>
+                                                        style="max-width: 140px;">
+                                                    <option value="OPERATIONAL">Operational</option>
+                                                    <option value="MAINTENANCE">Maintenance</option>
+                                                    <option value="FAULTY">Faulty</option>
                                                 </select>
                                                 <button type="submit"
                                                         class="btn btn-sm btn-outline-secondary rounded-pill">

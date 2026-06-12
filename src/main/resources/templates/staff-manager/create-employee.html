@@ -28,12 +28,6 @@
                                placeholder="employee@vixhealth.com" required>
                     </div>
                     <div class="col-md-6">
-                        <label class="form-label">Hire Date</label>
-                        <input type="date" name="hireDate" class="form-control"
-                               th:value="${#temporals.format(#temporals.createNow(), 'yyyy-MM-dd')}">
-                    </div>
-
-                    <div class="col-md-6">
                         <label class="form-label">Employee Type</label>
                         <select name="employeeType" class="form-select" id="employeeTypeSelect" required>
                             <option value="">Select type…</option>
@@ -41,26 +35,12 @@
                                     th:text="${type.replace('_', ' ')}">Type</option>
                         </select>
                     </div>
-                    <div class="col-md-6">
-                        <label class="form-label">Department <span class="text-muted small">(optional)</span></label>
-                        <select name="departmentId" class="form-select">
-                            <option value="">— No department —</option>
-                            <option th:each="dept : ${departments}"
-                                    th:value="${dept.id}"
-                                    th:text="${dept.name + ' (ID ' + dept.id + ')'}">Department</option>
-                        </select>
-                    </div>
 
-                    <!-- Medical Specialist fields -->
+                    <!-- Specialist-only field -->
                     <div class="col-md-6" id="specialtyField" style="display:none;">
                         <label class="form-label">Specialty</label>
                         <input type="text" name="specialty" class="form-control"
                                placeholder="e.g. Cardiology, Neurology">
-                    </div>
-                    <div class="col-md-6" id="licenseField" style="display:none;">
-                        <label class="form-label">License Number</label>
-                        <input type="text" name="licenseNumber" class="form-control"
-                               placeholder="e.g. LIC-CARD-004">
                     </div>
 
                     <div class="col-12 d-flex gap-3 mt-2">
@@ -80,9 +60,8 @@
 <div th:replace="~{fragments/footer :: footer}"></div>
 <script>
     document.getElementById('employeeTypeSelect').addEventListener('change', function() {
-        var isSpecialist = this.value === 'MEDICAL_SPECIALIST';
-        document.getElementById('specialtyField').style.display = isSpecialist ? 'block' : 'none';
-        document.getElementById('licenseField').style.display  = isSpecialist ? 'block' : 'none';
+        document.getElementById('specialtyField').style.display =
+            this.value === 'MEDICAL_SPECIALIST' ? 'block' : 'none';
     });
 </script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

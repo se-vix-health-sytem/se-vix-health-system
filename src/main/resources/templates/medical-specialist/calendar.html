@@ -14,52 +14,21 @@
                 </span>
             </div>
             <div class="card-body">
-
-                <p class="text-muted small mb-3">Showing upcoming shifts from today onwards, grouped by month.</p>
-
-                <div th:if="${shiftsByMonth != null and !shiftsByMonth.isEmpty()}">
-                    <div th:each="entry : ${shiftsByMonth}" class="mb-4">
-                        <h6 class="fw-bold mb-2 px-1"
-                            style="color: var(--vix-crimson); border-bottom: 2px solid var(--vix-cream); padding-bottom: 4px;">
-                            <i class="bi bi-calendar3 me-1"></i>
-                            <span th:text="${entry.key}">Month</span>
-                        </h6>
-                        <div class="table-responsive">
-                            <table class="table table-hover mb-0">
-                                <thead style="background: var(--vix-cream);">
-                                    <tr>
-                                        <th>Date</th>
-                                        <th>Shift</th>
-                                        <th>Notes</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr th:each="shift : ${entry.value}">
-                                        <td th:text="${shift.date != null ? #temporals.format(shift.date,'EEE dd/MM/yyyy') : '-'}">-</td>
-                                        <td>
-                                            <span class="badge rounded-pill"
-                                                  th:classappend="${shift.shiftType == 'MORNING' ? 'bg-warning text-dark' :
-                                                                   shift.shiftType == 'AFTERNOON' ? 'bg-info text-dark' : 'bg-dark'}"
-                                                  th:text="${shift.shiftType}">-</span>
-                                        </td>
-                                        <td class="small text-muted" th:text="${shift.notes ?: '-'}">-</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
+                <div class="alert alert-info mb-4">
+                    <i class="bi bi-info-circle me-2"></i>
+                    Calendar integration with the appointment store is in progress.
+                    Appointments booked by patients and secretaries will appear here.
                 </div>
-
-                <div th:if="${shiftsByMonth == null or shiftsByMonth.isEmpty()}"
-                     class="text-center py-4 text-muted">
-                    <i class="bi bi-calendar-check fs-1"></i>
-                    <p class="mt-3 mb-1">No upcoming shifts.</p>
-                    <p class="small mb-4">All past shifts are visible in My Schedule.</p>
+                <div class="text-center py-4 text-muted">
+                    <i class="bi bi-calendar-week fs-1"></i>
+                    <p class="mt-3 mb-4">No calendar data available yet.</p>
+                    <a th:href="@{/medical-specialist/appointments}" class="btn btn-outline-primary rounded-pill me-2">
+                        <i class="bi bi-list-ul me-1"></i>List View
+                    </a>
                     <a th:href="@{/medical-specialist/my-schedule}" class="btn btn-outline-primary rounded-pill">
-                        <i class="bi bi-clock me-1"></i>My Schedule
+                        <i class="bi bi-clock me-1"></i>My Shifts
                     </a>
                 </div>
-
             </div>
         </div>
     </div>

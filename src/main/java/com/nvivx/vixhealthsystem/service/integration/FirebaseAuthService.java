@@ -12,29 +12,17 @@ public class FirebaseAuthService {
             String temporaryPassword
     ) throws Exception {
 
-        try {
-            UserRecord.CreateRequest request =
-                    new UserRecord.CreateRequest()
-                            .setEmail(email)
-                            .setPassword(temporaryPassword)
-                            .setEmailVerified(false)
-                            .setDisabled(false);
+        UserRecord.CreateRequest request =
+                new UserRecord.CreateRequest()
+                        .setEmail(email)
+                        .setPassword(temporaryPassword)
+                        .setEmailVerified(false)
+                        .setDisabled(false);
 
-            UserRecord userRecord = FirebaseAuth.getInstance().createUser(request);
-            return userRecord.getUid();
+        UserRecord userRecord =
+                FirebaseAuth.getInstance().createUser(request);
 
-        } catch (com.google.firebase.auth.FirebaseAuthException e) {
-            if ("EMAIL_EXISTS".equals(e.getAuthErrorCode() != null
-                    ? e.getAuthErrorCode().name() : "")) {
-                // Account already exists from a previous attempt — reuse the existing UID
-                return FirebaseAuth.getInstance().getUserByEmail(email).getUid();
-            }
-            // Check error message as fallback (some SDK versions use message instead of code)
-            if (e.getMessage() != null && e.getMessage().contains("EMAIL_EXISTS")) {
-                return FirebaseAuth.getInstance().getUserByEmail(email).getUid();
-            }
-            throw e;
-        }
+        return userRecord.getUid();
     }
 
     public String generatePasswordResetLink(String email)

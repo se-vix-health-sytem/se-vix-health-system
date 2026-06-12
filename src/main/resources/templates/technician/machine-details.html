@@ -27,16 +27,29 @@
                             <div class="fw-semibold" th:text="${machine.name}">-</div>
                         </div>
                         <div class="col-md-4">
+                            <div class="text-muted small">Type</div>
+                            <div th:text="${machine.type ?: '-'}">-</div>
+                        </div>
+                        <div class="col-md-4">
                             <div class="text-muted small">Status</div>
                             <span class="badge rounded-pill"
-                                  th:classappend="${machine.status?.name() == 'WORKING' ? 'bg-success' :
-                                                   machine.status?.name() == 'FAULTY' ? 'bg-danger' :
-                                                   machine.status?.name() == 'UNDER_MAINTENANCE' ? 'bg-warning text-dark' : 'bg-secondary'}"
+                                  th:classappend="${machine.status == 'OPERATIONAL' ? 'bg-success' :
+                                                   machine.status == 'FAULTY' ? 'bg-danger' :
+                                                   machine.status == 'MAINTENANCE' ? 'bg-warning text-dark' : 'bg-secondary'}"
                                   th:text="${machine.status ?: 'UNKNOWN'}">-</span>
                         </div>
                         <div class="col-md-4">
-                            <div class="text-muted small">Room</div>
-                            <div th:text="${machine.specializedRoom?.number ?: '-'}">-</div>
+                            <div class="text-muted small">Location</div>
+                            <div th:text="${machine.location ?: '-'}">-</div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="text-muted small">Serial Number</div>
+                            <div th:text="${machine.serialNumber ?: '-'}">-</div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="text-muted small">Last Maintenance</div>
+                            <div th:text="${machine.lastMaintenanceDate != null ?
+                                #temporals.format(machine.lastMaintenanceDate,'dd/MM/yyyy') : '-'}">-</div>
                         </div>
                     </div>
                 </div>
@@ -51,9 +64,9 @@
                         <div>
                             <label class="form-label">New Status</label>
                             <select name="status" class="form-select" style="min-width: 180px;">
-                                <option value="WORKING" th:selected="${machine.status?.name() == 'WORKING'}">Working</option>
-                                <option value="UNDER_MAINTENANCE" th:selected="${machine.status?.name() == 'UNDER_MAINTENANCE'}">Under Maintenance</option>
-                                <option value="FAULTY" th:selected="${machine.status?.name() == 'FAULTY'}">Faulty</option>
+                                <option value="OPERATIONAL">Operational</option>
+                                <option value="MAINTENANCE">Under Maintenance</option>
+                                <option value="FAULTY">Faulty</option>
                             </select>
                         </div>
                         <button type="submit" class="btn btn-primary rounded-pill">

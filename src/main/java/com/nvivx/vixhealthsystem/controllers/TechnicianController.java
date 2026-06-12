@@ -19,7 +19,6 @@ public class TechnicianController {
     @GetMapping("/dashboard")
     public String dashboard(Model model) {
         model.addAttribute("pageTitle", "Technician Dashboard");
-        model.addAttribute("currentPage", "dashboard");
         model.addAttribute("totalMachines", machineryService.getTotalMachineCount());
         model.addAttribute("faultyCount", machineryService.getFaultyMachineCount());
         model.addAttribute("maintenanceCount", machineryService.getMaintenanceMachineCount());
@@ -32,7 +31,6 @@ public class TechnicianController {
     public String viewAllMachines(Model model) {
         var machines = machineryService.getAllMachines();
         model.addAttribute("pageTitle", "All Machines");
-        model.addAttribute("currentPage", "machines");
         model.addAttribute("machines", machines);
         model.addAttribute("isFaultyView", false);
         return "technician/machines";
@@ -42,7 +40,6 @@ public class TechnicianController {
     public String viewFaultyMachines(Model model) {
         var faultyMachines = machineryService.getFaultyMachines();
         model.addAttribute("pageTitle", "Faulty Machines");
-        model.addAttribute("currentPage", "faultyMachines");
         model.addAttribute("machines", faultyMachines);
         model.addAttribute("isFaultyView", true);
         return "technician/machines";
@@ -52,7 +49,6 @@ public class TechnicianController {
     public String viewMaintenanceMachines(Model model) {
         var maintenanceMachines = machineryService.getMachinesUnderMaintenance();
         model.addAttribute("pageTitle", "Machines Under Maintenance");
-        model.addAttribute("currentPage", "machines");
         model.addAttribute("machines", maintenanceMachines);
         return "technician/machines";
     }
@@ -87,7 +83,6 @@ public class TechnicianController {
     public String viewAlerts(Model model) {
         var activeAlerts = machineryService.getActiveAlerts();
         model.addAttribute("pageTitle", "Machine Alerts");
-        model.addAttribute("currentPage", "alerts");
         model.addAttribute("alerts", activeAlerts);
         model.addAttribute("alertCount", activeAlerts.size());
         return "technician/alerts";
@@ -109,7 +104,6 @@ public class TechnicianController {
         try {
             var machine = machineryService.getMachineById(machineId);
             model.addAttribute("pageTitle", "Machine Details - " + machine.getName());
-            model.addAttribute("currentPage", "machines");
             model.addAttribute("machine", machine);
             return "technician/machine-details";
         } catch (Exception e) {
