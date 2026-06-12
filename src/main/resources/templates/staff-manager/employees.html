@@ -60,7 +60,7 @@
                                         <span class="badge rounded-pill"
                                               th:text="${emp.class.simpleName}"
                                               th:classappend="${emp.class.simpleName == 'MedicalSpecialist' ? 'bg-primary' :
-                                                               emp.class.simpleName == 'Secretary' ? 'bg-purple' :
+                                                               emp.class.simpleName == 'Secretary' ? 'bg-info text-dark' :
                                                                emp.class.simpleName == 'Technician' ? 'bg-warning text-dark' :
                                                                emp.class.simpleName == 'Buyer' ? 'bg-success' : 'bg-dark'}">-</span>
                                     </td>

@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<footer th:fragment="footer" class="vix-footer" style="background: var(--vix-crimson-dk); color: rgba(255,255,255,.72); padding: 4rem 0 2rem;">
+<footer th:fragment="footer" class="vix-footer"
+        th:style="'background: var(--vix-crimson-dk); color: rgba(255,255,255,.72); padding: 4rem 0 2rem;' + (${session.user != null or session.patient != null} ? ' margin-left: 280px;' : '')">
     <div class="container">
         <div class="row g-5">
             <div class="col-lg-4">

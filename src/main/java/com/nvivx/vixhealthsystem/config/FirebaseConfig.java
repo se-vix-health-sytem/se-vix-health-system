@@ -16,8 +16,15 @@ public class FirebaseConfig {
     @Value("${firebase.service-account}")
     private Resource serviceAccount;
 
+    @Value("${firebase.enabled:true}")
+    private boolean enabled;
+
     @PostConstruct
     public void initializeFirebase() throws Exception {
+
+        if (!enabled) {
+            return;
+        }
 
         if (!FirebaseApp.getApps().isEmpty()) {
             return;

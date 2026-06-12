@@ -79,19 +79,19 @@ public class MedicalRecord {
     /**
      * Medical conditions associated with this record.
      */
-    @OneToMany(mappedBy = "medicalRecord")
+    @OneToMany(mappedBy = "medicalRecord", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<MedicalCondition> conditions = new ArrayList<>();
 
     /**
      * Prescriptions associated with this record.
      */
-    @OneToMany(mappedBy = "medicalRecord")
+    @OneToMany(mappedBy = "medicalRecord", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Prescription> prescriptions = new ArrayList<>();
 
     /**
      * Surgeries associated with this record.
      */
-    @OneToMany(mappedBy = "medicalRecord")
+    @OneToMany(mappedBy = "medicalRecord", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Surgery> surgeries = new ArrayList<>();
 
     // =====================================================
