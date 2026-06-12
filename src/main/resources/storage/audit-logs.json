@@ -150,4 +150,12 @@
   "username" : "SYSTEM",
   "details" : "Password reset requested for employee: Paolo Ferrari",
   "timestamp" : "2026-06-12T20:27:01.8055756"
+}, {
+  "id" : 20,
+  "action" : "REQUEST_PASSWORD_RESET",
+  "entityType" : "Employee",
+  "entityId" : "4",
+  "username" : "SYSTEM",
+  "details" : "Password reset requested for employee: Sara Conti",
+  "timestamp" : "2026-06-12T20:58:53.4073423"
 } ]

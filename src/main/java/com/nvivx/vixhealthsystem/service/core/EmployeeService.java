@@ -28,9 +28,6 @@ public class EmployeeService {
     private final AuditService auditService;
     private final FirebaseAuthService firebaseAuthService;
 
-    @Value("${app.demo-reset-email}")
-    private String demoResetEmail;
-
     public EmployeeService(
             EmployeeRepository employeeRepository,
             DepartmentRepository departmentRepository,
