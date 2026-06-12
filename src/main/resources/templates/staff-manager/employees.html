@@ -16,7 +16,6 @@
             </a>
         </div>
 
-        <!-- Type filter -->
         <div class="card mb-3">
             <div class="card-body py-2">
                 <div class="d-flex gap-2 flex-wrap">
@@ -34,55 +33,76 @@
             </div>
         </div>
 
-        <!-- Employees Table -->
         <div class="card">
             <div class="card-body p-0">
                 <div th:if="${employees != null and !employees.isEmpty()}">
                     <div class="table-responsive">
                         <table class="table table-hover mb-0">
                             <thead style="background: var(--vix-cream);">
-                                <tr>
-                                    <th>Name</th>
-                                    <th>Type</th>
-                                    <th>Email</th>
-                                    <th>Department</th>
-                                    <th>Hire Date</th>
-                                    <th>Actions</th>
-                                </tr>
+                            <tr>
+                                <th>Name</th>
+                                <th>Type</th>
+                                <th>Email</th>
+                                <th>Department</th>
+                                <th>Hire Date</th>
+                                <th>Actions</th>
+                            </tr>
                             </thead>
+
                             <tbody>
-                                <tr th:each="emp : ${employees}">
-                                    <td>
-                                        <i class="bi bi-person-circle me-1" style="color:var(--vix-crimson);"></i>
-                                        <span th:text="${emp.name + ' ' + emp.surname}">-</span>
-                                    </td>
-                                    <td>
-                                        <span class="badge rounded-pill"
-                                              th:text="${emp.class.simpleName}"
-                                              th:classappend="${emp.class.simpleName == 'MedicalSpecialist' ? 'bg-primary' :
-                                                               emp.class.simpleName == 'Secretary' ? 'bg-info text-dark' :
-                                                               emp.class.simpleName == 'Technician' ? 'bg-warning text-dark' :
-                                                               emp.class.simpleName == 'Buyer' ? 'bg-success' : 'bg-dark'}">-</span>
-                                    </td>
-                                    <td class="small" th:text="${emp.email ?: '-'}">-</td>
-                                    <td class="small" th:text="${emp.department?.name ?: '-'}">-</td>
-                                    <td class="small"
-                                        th:text="${emp.hireDate != null ? #temporals.format(emp.hireDate,'dd/MM/yyyy') : '-'}">-</td>
-                                    <td>
-                                        <form th:action="@{/staff-manager/employees/delete}" method="post"
-                                              class="d-inline">
-                                            <input type="hidden" name="employeeId" th:value="${emp.id}">
-                                            <button type="submit" class="btn btn-sm btn-outline-danger rounded-pill"
-                                                    onclick="return confirm('Delete this employee?')">
-                                                <i class="bi bi-trash"></i>
-                                            </button>
-                                        </form>
-                                    </td>
-                                </tr>
+                            <tr th:each="employee : ${employees}">
+                                <td>
+                                    <i class="bi bi-person-circle me-1" style="color:var(--vix-crimson);"></i>
+                                    <span th:text="${employee.name + ' ' + employee.surname}">-</span>
+                                </td>
+
+                                <td>
+                                    <span class="badge rounded-pill"
+                                          th:text="${employee.getClass().getSimpleName()}"
+                                          th:classappend="${employee.getClass().getSimpleName() == 'MedicalSpecialist' ? 'bg-primary' :
+                                                           employee.getClass().getSimpleName() == 'Secretary' ? 'bg-info text-dark' :
+                                                           employee.getClass().getSimpleName() == 'Technician' ? 'bg-warning text-dark' :
+                                                           employee.getClass().getSimpleName() == 'Buyer' ? 'bg-success' : 'bg-dark'}">-</span>
+                                </td>
+
+                                <td class="small"
+                                    th:text="${employee.email != null ? employee.email : '-'}">-</td>
+
+                                <td class="small"
+                                    th:text="${employee.department != null ? employee.department.name : '-'}">-</td>
+
+                                <td class="small"
+                                    th:text="${employee.hireDate != null ? #temporals.format(employee.hireDate,'dd/MM/yyyy') : '-'}">-</td>
+
+                                <td>
+                                    <form th:action="@{/staff-manager/employees/reset-password}"
+                                          method="post"
+                                          class="d-inline">
+                                        <input type="hidden" name="employeeId" th:value="${employee.id}">
+                                        <button type="submit"
+                                                class="btn btn-sm btn-outline-warning rounded-pill"
+                                                onclick="return confirm('Generate password reset link for this employee?')">
+                                            <i class="bi bi-key"></i>
+                                        </button>
+                                    </form>
+
+                                    <form th:action="@{/staff-manager/employees/delete}"
+                                          method="post"
+                                          class="d-inline">
+                                        <input type="hidden" name="employeeId" th:value="${employee.id}">
+                                        <button type="submit"
+                                                class="btn btn-sm btn-outline-danger rounded-pill"
+                                                onclick="return confirm('Delete this employee?')">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
+
                 <div th:if="${employees == null or employees.isEmpty()}"
                      class="text-center py-5 text-muted">
                     <i class="bi bi-person-x fs-1"></i>

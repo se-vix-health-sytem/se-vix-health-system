@@ -142,4 +142,12 @@
   "username" : "SYSTEM",
   "details" : "Machine repaired and back to WORKING status",
   "timestamp" : "2026-06-12T00:35:13.161868"
+}, {
+  "id" : 19,
+  "action" : "REQUEST_PASSWORD_RESET",
+  "entityType" : "Employee",
+  "entityId" : "5",
+  "username" : "SYSTEM",
+  "details" : "Password reset requested for employee: Paolo Ferrari",
+  "timestamp" : "2026-06-12T20:27:01.8055756"
 } ]

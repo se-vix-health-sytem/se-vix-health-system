@@ -164,6 +164,28 @@ public class StaffManagerController {
         return "staff-manager/result";
     }
 
+    @PostMapping("/employees/reset-password")
+    public String resetEmployeePassword(@RequestParam Long employeeId, Model model) {
+        try {
+            employeeService.requestEmployeePasswordReset(employeeId);
+
+            model.addAttribute("pageTitle", "Password Reset Requested");
+            model.addAttribute("message", "✅ Password reset link generated. Check the console.");
+
+        } catch (Exception e) {
+            model.addAttribute("pageTitle", "Error");
+            model.addAttribute("message", "❌ Error: " + e.getMessage());
+            e.printStackTrace();
+
+            throw new RuntimeException(
+                    "Unable to generate password reset link: " + e.getMessage(),
+                    e
+            );
+        }
+
+        return "staff-manager/result";
+    }
+
     @PostMapping("/employees/delete")
     public String deleteEmployee(@RequestParam Long employeeId, Model model) {
         try {

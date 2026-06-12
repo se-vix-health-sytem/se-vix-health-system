@@ -31,11 +31,8 @@ public class FirebaseConfig {
         }
 
         try (InputStream inputStream = serviceAccount.getInputStream()) {
-
             FirebaseOptions options = FirebaseOptions.builder()
-                    .setCredentials(
-                            GoogleCredentials.fromStream(inputStream)
-                    )
+                    .setCredentials(GoogleCredentials.fromStream(inputStream))
                     .build();
 
             FirebaseApp.initializeApp(options);
