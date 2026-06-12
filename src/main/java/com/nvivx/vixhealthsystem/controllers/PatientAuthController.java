@@ -37,7 +37,10 @@ public class PatientAuthController {
         }
 
         Patient patient = patientOpt.get();
+        // Clear any previous employee session so the patient nav renders correctly
+        session.removeAttribute("user");
         session.setAttribute("patient", patient);
+        session.setAttribute("role", "PATIENT");
 
         if (redirectUrl != null && !redirectUrl.isEmpty()) {
             return "redirect:/patient/" + redirectUrl;
@@ -80,6 +83,8 @@ public class PatientAuthController {
         if (patient == null) {
             return "redirect:/patient/login";
         }
+        // Reload from DB so medicalRecord and its collections are attached to the current Hibernate session
+        patient = patientService.findById(patient.getId());
         model.addAttribute("patient", patient);
         model.addAttribute("pageTitle", "My Medical Records");
         return "patient/records";

@@ -95,12 +95,9 @@ public class TechnicianController {
 
     @GetMapping("/machines/maintenance-history")
     public String viewMaintenanceHistory(Model model) {
-        // This would require a MaintenanceRecord entity
-        // For now, show all machines with maintenance status
-        var maintenanceMachines = machineryService.getMachinesUnderMaintenance();
-        model.addAttribute("pageTitle", "Maintenance History");
-        model.addAttribute("machines", maintenanceMachines);
-        model.addAttribute("message", "Showing machines currently under maintenance");
+        var allMachines = machineryService.getAllMachines();
+        model.addAttribute("pageTitle", "Machine History");
+        model.addAttribute("machines", allMachines);
         return "technician/maintenance-history";
     }
 

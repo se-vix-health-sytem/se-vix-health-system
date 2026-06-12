@@ -49,15 +49,15 @@
                             </div>
                             <div class="col-md-3">
                                 <small class="text-muted">Height</small>
-                                <div th:text="${patient.medicalRecord?.height != null ? medicalRecord.height + ' cm' : '-'}">-</div>
+                                <div th:text="${patient.medicalRecord?.height != null ? patient.medicalRecord.height + ' cm' : '-'}">-</div>
                             </div>
                             <div class="col-md-3">
                                 <small class="text-muted">Weight</small>
-                                <div th:text="${patient.medicalRecord?.weight != null ? medicalRecord.weight + ' kg' : '-'}">-</div>
+                                <div th:text="${patient.medicalRecord?.weight != null ? patient.medicalRecord.weight + ' kg' : '-'}">-</div>
                             </div>
                             <div class="col-md-3">
                                 <small class="text-muted">BMI</small>
-                                <div th:text="${patient.medicalRecord?.height != null and medicalRecord?.weight != null ? #numbers.formatDecimal(medicalRecord.weight / ((medicalRecord.height/100) * (medicalRecord.height/100)), 1, 1) : '-'}">-</div>
+                                <div th:text="${patient.medicalRecord?.height != null and patient.medicalRecord?.weight != null ? #numbers.formatDecimal(patient.medicalRecord.weight / ((patient.medicalRecord.height/100) * (patient.medicalRecord.height/100)), 1, 1) : '-'}">-</div>
                             </div>
                         </div>
                         <div class="row mt-3">
@@ -79,7 +79,7 @@
                         <i class="bi bi-clipboard2-pulse me-2"></i> Medical Conditions
                     </h5>
                     <hr>
-                    <div th:if="${patient.medicalRecord?.conditions != null and !medicalRecord.conditions.isEmpty()}">
+                    <div th:if="${patient.medicalRecord?.conditions != null and !patient.medicalRecord.conditions.isEmpty()}">
                         <div th:each="condition : ${patient.medicalRecord.conditions}" class="border-bottom pb-2 mb-2">
                             <div class="d-flex justify-content-between">
                                 <div>
@@ -94,7 +94,7 @@
                             </div>
                         </div>
                     </div>
-                    <div th:unless="${patient.medicalRecord?.conditions != null and !medicalRecord.conditions.isEmpty()}" class="alert alert-secondary">
+                    <div th:unless="${patient.medicalRecord?.conditions != null and !patient.medicalRecord.conditions.isEmpty()}" class="alert alert-secondary">
                         No medical conditions recorded.
                     </div>
                 </div>
@@ -105,7 +105,7 @@
                         <i class="bi bi-prescription me-2"></i> Prescriptions
                     </h5>
                     <hr>
-                    <div th:if="${patient.medicalRecord?.prescriptions != null and !medicalRecord.prescriptions.isEmpty()}">
+                    <div th:if="${patient.medicalRecord?.prescriptions != null and !patient.medicalRecord.prescriptions.isEmpty()}">
                         <div th:each="prescription : ${patient.medicalRecord.prescriptions}" class="border-bottom pb-2 mb-2">
                             <div>
                                 <strong th:text="${prescription.medication}">Medication</strong>
@@ -116,7 +116,7 @@
                             </div>
                         </div>
                     </div>
-                    <div th:unless="${patient.medicalRecord?.prescriptions != null and !medicalRecord.prescriptions.isEmpty()}" class="alert alert-secondary">
+                    <div th:unless="${patient.medicalRecord?.prescriptions != null and !patient.medicalRecord.prescriptions.isEmpty()}" class="alert alert-secondary">
                         No prescriptions recorded.
                     </div>
                 </div>
@@ -127,7 +127,7 @@
                         <i class="bi bi-scissors me-2"></i> Surgeries
                     </h5>
                     <hr>
-                    <div th:if="${patient.medicalRecord?.surgeries != null and !medicalRecord.surgeries.isEmpty()}">
+                    <div th:if="${patient.medicalRecord?.surgeries != null and !patient.medicalRecord.surgeries.isEmpty()}">
                         <div th:each="surgery : ${patient.medicalRecord.surgeries}" class="border-bottom pb-2 mb-2">
                             <div class="d-flex justify-content-between">
                                 <strong th:text="${surgery.name}">Surgery Name</strong>
@@ -136,7 +136,7 @@
                             <p class="small text-muted mb-1" th:text="${surgery.description}">Description</p>
                         </div>
                     </div>
-                    <div th:unless="${patient.medicalRecord?.surgeries != null and !medicalRecord.surgeries.isEmpty()}" class="alert alert-secondary">
+                    <div th:unless="${patient.medicalRecord?.surgeries != null and !patient.medicalRecord.surgeries.isEmpty()}" class="alert alert-secondary">
                         No surgeries recorded.
                     </div>
                 </div>

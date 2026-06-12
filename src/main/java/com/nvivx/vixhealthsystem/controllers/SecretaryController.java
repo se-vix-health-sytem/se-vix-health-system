@@ -4,11 +4,13 @@ import com.nvivx.vixhealthsystem.model.facility.Room;
 import com.nvivx.vixhealthsystem.model.facility.InternationRoom;
 import com.nvivx.vixhealthsystem.model.medical.Appointment;
 import com.nvivx.vixhealthsystem.model.person.Patient;
+import com.nvivx.vixhealthsystem.model.person.employee.Employee;
 import com.nvivx.vixhealthsystem.model.person.employee.MedicalSpecialist;
 import com.nvivx.vixhealthsystem.repository.JsonAppointmentRepository;
 import com.nvivx.vixhealthsystem.service.core.EmployeeService;
 import com.nvivx.vixhealthsystem.service.core.PatientService;
 import com.nvivx.vixhealthsystem.service.resources.RoomService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -39,13 +41,26 @@ public class SecretaryController {
     }
 
     @GetMapping("/dashboard")
-    public String dashboard(Model model) {
+    public String dashboard(HttpSession session, Model model) {
         var allRooms = roomService.getAllInpatientRooms();
         var availableRooms = roomService.getAvailableRooms();
         var allAppointments = appointmentRepository.findAll();
 
+        // Resolve department name within this request to avoid lazy-loading the detached session entity
+        String departmentName = "No department assigned";
+        Employee sessionUser = (Employee) session.getAttribute("user");
+        if (sessionUser != null) {
+            try {
+                Employee freshUser = employeeService.findById(sessionUser.getId());
+                if (freshUser != null && freshUser.getDepartment() != null) {
+                    departmentName = freshUser.getDepartment().getName();
+                }
+            } catch (Exception ignored) {}
+        }
+
         model.addAttribute("pageTitle", "Secretary Dashboard");
         model.addAttribute("currentPage", "dashboard");
+        model.addAttribute("departmentName", departmentName);
         model.addAttribute("totalRooms", allRooms.size());
         model.addAttribute("availableRooms", availableRooms.size());
         model.addAttribute("totalAppointments", allAppointments.size());
