@@ -3,6 +3,7 @@ package com.nvivx.vixhealthsystem.controllers;
 import com.nvivx.vixhealthsystem.service.core.PatientService;
 import com.nvivx.vixhealthsystem.model.person.employee.Employee;
 import com.nvivx.vixhealthsystem.service.core.EmployeeService;
+import com.nvivx.vixhealthsystem.service.integration.FirebaseAuthService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -11,11 +12,12 @@ import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class AuthController {
-
+    private final FirebaseAuthService firebaseAuthService;
     private final EmployeeService employeeService;
     private final PatientService patientService;
 
-    public AuthController(EmployeeService employeeService, com.nvivx.vixhealthsystem.service.core.PatientService patientService) {
+    public AuthController(FirebaseAuthService firebaseAuthService, EmployeeService employeeService, com.nvivx.vixhealthsystem.service.core.PatientService patientService) {
+        this.firebaseAuthService = firebaseAuthService;
         this.employeeService = employeeService;
         this.patientService = patientService;
     }
@@ -33,23 +35,22 @@ public class AuthController {
                                @RequestParam String password,
                                HttpSession session,
                                Model model) {
-        // DEMO authentication - NO REAL PASSWORD CHECK
-        // In production, this would use external IDP (SPID/CIE for patients, Hospital IDP for staff)
 
-        // Try to find employee by email (acting as username for demo)
-        Employee employee = null;
         try {
-            employee = employeeService.findByEmail(username);
-        } catch (Exception e) {
-            // Employee not found
-        }
+            String firebaseUid =
+                    firebaseAuthService.signInWithEmailAndPassword(username, password);
 
-        if (employee != null) {
-            // Store employee in session
+            Employee employee =
+                    employeeService.findByFirebaseUid(firebaseUid);
+
+            if (employee == null) {
+                model.addAttribute("error", "Employee account not linked to Firebase");
+                return "login";
+            }
+
             session.setAttribute("user", employee);
             session.setAttribute("role", employee.getClass().getSimpleName().toUpperCase());
 
-            // Redirect based on employee type
             if (employee instanceof com.nvivx.vixhealthsystem.model.person.employee.MedicalSpecialist) {
                 return "redirect:/medical-specialist/dashboard";
             } else if (employee instanceof com.nvivx.vixhealthsystem.model.person.employee.Secretary) {
@@ -61,17 +62,13 @@ public class AuthController {
             } else if (employee instanceof com.nvivx.vixhealthsystem.model.person.employee.StaffManager) {
                 return "redirect:/staff-manager/dashboard";
             }
+
+        } catch (Exception e) {
+            model.addAttribute("error", "Invalid Firebase credentials");
+            return "login";
         }
 
-        // If not employee, try patient (using fiscal code as "username" for demo)
-        var patientOpt = patientService.findByFiscalCode(username);
-        if (patientOpt.isPresent()) {
-            session.setAttribute("patient", patientOpt.get());
-            session.setAttribute("role", "PATIENT");
-            return "redirect:/patient/dashboard";
-        }
-
-        model.addAttribute("error", "Invalid credentials");
+        model.addAttribute("error", "Invalid role");
         return "login";
     }
 

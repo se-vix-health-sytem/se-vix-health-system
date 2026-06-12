@@ -2,10 +2,18 @@ package com.nvivx.vixhealthsystem.service.integration;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.UserRecord;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
 public class FirebaseAuthService {
+    @Value("${firebase.web-api-key}")
+    private String firebaseWebApiKey;
 
     public String createUser(
             String email,
@@ -48,5 +56,22 @@ public class FirebaseAuthService {
     public void deleteUser(String firebaseUid) throws Exception {
 
         FirebaseAuth.getInstance().deleteUser(firebaseUid);
+    }
+
+    public String signInWithEmailAndPassword(String email, String password) throws Exception {
+        String url = "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key="
+                + firebaseWebApiKey;
+
+        RestTemplate restTemplate = new RestTemplate();
+
+        Map<String, Object> request = new HashMap<>();
+        request.put("email", email);
+        request.put("password", password);
+        request.put("returnSecureToken", true);
+
+        ResponseEntity<Map> response =
+                restTemplate.postForEntity(url, request, Map.class);
+
+        return (String) response.getBody().get("localId");
     }
 }
