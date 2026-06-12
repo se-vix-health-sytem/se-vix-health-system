@@ -61,7 +61,7 @@
                         <a th:href="@{/buyer/inventory}" class="btn btn-outline-primary rounded-pill text-start">
                             <i class="bi bi-box-seam me-2"></i>View Full Inventory
                         </a>
-                        <a th:href="@{/buyer/inventory?filter=low-stock}"
+                        <a th:href="@{/buyer/inventory/low-stock}"
                            class="btn btn-outline-danger rounded-pill text-start">
                             <i class="bi bi-exclamation-circle me-2"></i>Low Stock Items
                             <span th:if="${lowStockCount != null and lowStockCount > 0}"
@@ -86,7 +86,7 @@
                         <div th:if="${lowStockCount != null and lowStockCount > 0}" class="alert alert-warning">
                             <i class="bi bi-exclamation-triangle me-2"></i>
                             <span th:text="${lowStockCount}">0</span> resource(s) are running low on stock.
-                            <a th:href="@{/buyer/inventory?filter=low-stock}" class="alert-link ms-2">
+                            <a th:href="@{/buyer/inventory/low-stock}" class="alert-link ms-2">
                                 View low stock items →
                             </a>
                         </div>

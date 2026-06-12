@@ -16,7 +16,7 @@
                 <a th:href="@{/buyer/inventory}"
                    class="btn btn-sm rounded-pill"
                    th:classappend="${!isLowStockView ? 'btn-primary' : 'btn-outline-secondary'}">All</a>
-                <a th:href="@{/buyer/inventory?filter=low-stock}"
+                <a th:href="@{/buyer/inventory/low-stock}"
                    class="btn btn-sm rounded-pill"
                    th:classappend="${isLowStockView ? 'btn-danger' : 'btn-outline-danger'}">Low Stock</a>
                 <a th:href="@{/buyer/inventory/add}" class="btn btn-sm btn-outline-primary rounded-pill">

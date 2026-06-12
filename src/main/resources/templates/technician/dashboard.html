@@ -75,7 +75,7 @@
                         <a th:href="@{/technician/alerts}" class="btn btn-outline-warning rounded-pill text-start">
                             <i class="bi bi-bell me-2"></i>Active Alerts
                         </a>
-                        <a th:href="@{/technician/maintenance-history}"
+                        <a th:href="@{/technician/machines/maintenance-history}"
                            class="btn btn-outline-secondary rounded-pill text-start">
                             <i class="bi bi-clock-history me-2"></i>Maintenance History
                         </a>
@@ -93,10 +93,10 @@
                                  class="d-flex justify-content-between align-items-start border-bottom px-3 py-2 small">
                                 <div>
                                     <span class="badge bg-danger me-2">ALERT</span>
-                                    <strong th:text="${alert.machineName ?: 'Machine'}">-</strong>
+                                    <strong th:text="${alert.name ?: 'Machine'}">-</strong>
                                     <div class="text-muted" th:text="${alert.message ?: '-'}">-</div>
                                 </div>
-                                <a th:href="@{/technician/machines/{id}(id=${alert.machineId})}"
+                                <a th:href="@{/technician/machines/{id}(id=${alert.id})}"
                                    class="btn btn-sm btn-outline-danger rounded-pill text-nowrap ms-2">
                                     View
                                 </a>

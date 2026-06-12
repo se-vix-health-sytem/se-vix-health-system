@@ -195,17 +195,19 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <div th:if="${medicalRecord?.surgeries != null and !medicalRecord.surgeries.isEmpty()}">
-                            <div th:each="s : ${medicalRecord.surgeries}"
-                                 class="border-bottom pb-2 mb-2 small">
-                                <strong th:text="${s.name}">-</strong>
-                                <small class="text-muted ms-2"
-                                       th:text="${s.dateTime != null ? #temporals.format(s.dateTime,'dd/MM/yyyy') : '-'}">-</small><br>
-                                <span class="text-muted" th:text="${s.description}">-</span>
+                        <div th:with="examResults=${medicalRecord?.conditions?.?[type == 'EXAM_RESULT']}">
+                            <div th:if="${examResults != null and !examResults.isEmpty()}">
+                                <div th:each="e : ${examResults}"
+                                     class="border-bottom pb-2 mb-2 small">
+                                    <strong th:text="${e.name}">-</strong>
+                                    <small class="text-muted ms-2"
+                                           th:text="${e.dateOfDiagnosis != null ? #temporals.format(e.dateOfDiagnosis,'dd/MM/yyyy') : '-'}">-</small><br>
+                                    <span class="text-muted" th:text="${e.description}">-</span>
+                                </div>
                             </div>
+                            <p th:if="${examResults == null or examResults.isEmpty()}"
+                               class="text-muted small mb-0">No exam results on record.</p>
                         </div>
-                        <p th:if="${medicalRecord?.surgeries == null or medicalRecord.surgeries.isEmpty()}"
-                           class="text-muted small mb-0">No exam results on record.</p>
                     </div>
                 </div>
             </div>

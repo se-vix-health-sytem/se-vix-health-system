@@ -45,6 +45,7 @@ public class SecretaryController {
         var allAppointments = appointmentRepository.findAll();
 
         model.addAttribute("pageTitle", "Secretary Dashboard");
+        model.addAttribute("currentPage", "dashboard");
         model.addAttribute("totalRooms", allRooms.size());
         model.addAttribute("availableRooms", availableRooms.size());
         model.addAttribute("totalAppointments", allAppointments.size());

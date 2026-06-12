@@ -142,4 +142,68 @@
   "username" : "SYSTEM",
   "details" : "Machine repaired and back to WORKING status",
   "timestamp" : "2026-06-12T00:35:13.161868"
+}, {
+  "id" : 19,
+  "action" : "CREATE_EMPLOYEE",
+  "entityType" : "Employee",
+  "entityId" : "12",
+  "username" : "SYSTEM",
+  "details" : "Created employee: Mary Smith (Type: MedicalSpecialist)",
+  "timestamp" : "2026-06-12T17:12:49.7510563"
+}, {
+  "id" : 20,
+  "action" : "CREATE_EMPLOYEE",
+  "entityType" : "Employee",
+  "entityId" : "12",
+  "username" : "SYSTEM",
+  "details" : "Created employee: Mary Smith (Type: MedicalSpecialist)",
+  "timestamp" : "2026-06-12T17:16:28.32187"
+}, {
+  "id" : 21,
+  "action" : "UPDATE_MACHINE_STATUS",
+  "entityType" : "Machinery",
+  "entityId" : "1",
+  "username" : "SYSTEM",
+  "details" : "Status changed from WORKING to WORKING",
+  "timestamp" : "2026-06-12T17:28:04.8038302"
+}, {
+  "id" : 22,
+  "action" : "REPAIR_MACHINE",
+  "entityType" : "Machinery",
+  "entityId" : "1",
+  "username" : "SYSTEM",
+  "details" : "Machine repaired and back to WORKING status",
+  "timestamp" : "2026-06-12T17:28:04.8180792"
+}, {
+  "id" : 23,
+  "action" : "UPDATE_MACHINE_STATUS",
+  "entityType" : "Machinery",
+  "entityId" : "4",
+  "username" : "SYSTEM",
+  "details" : "Status changed from FAULTY to FAULTY ⚠️ ALERT: Machine malfunction detected!",
+  "timestamp" : "2026-06-12T17:36:09.9465008"
+}, {
+  "id" : 24,
+  "action" : "UPDATE_MACHINE_STATUS",
+  "entityType" : "Machinery",
+  "entityId" : "3",
+  "username" : "SYSTEM",
+  "details" : "Status changed from WORKING to FAULTY ⚠️ ALERT: Machine malfunction detected!",
+  "timestamp" : "2026-06-12T17:36:29.3398989"
+}, {
+  "id" : 25,
+  "action" : "CREATE_RESOURCE",
+  "entityType" : "Resource",
+  "entityId" : "10",
+  "username" : "SYSTEM",
+  "details" : "Created resource: Bandaids (Price: €10000.0)",
+  "timestamp" : "2026-06-12T17:38:34.5011786"
+}, {
+  "id" : 26,
+  "action" : "ADD_RESOURCE_TO_STORAGE",
+  "entityType" : "Storage",
+  "entityId" : "1",
+  "username" : "SYSTEM",
+  "details" : "Added 3 units of Bandaids to storage",
+  "timestamp" : "2026-06-12T17:38:34.5145166"
 } ]

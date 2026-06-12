@@ -51,6 +51,7 @@ public class PatientAuthController {
         if (patient == null) {
             return "redirect:/patient/login";
         }
+        patient = patientService.findById(patient.getId());
         model.addAttribute("patient", patient);
         model.addAttribute("pageTitle", "Patient Dashboard");
         return "patient/dashboard";

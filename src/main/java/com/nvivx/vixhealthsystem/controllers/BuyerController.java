@@ -33,6 +33,7 @@ public class BuyerController {
         String buyerName = buyers.isEmpty() ? "Buyer" : buyers.get(0).getName() + " " + buyers.get(0).getSurname();
 
         model.addAttribute("pageTitle", "Purchasing Department Dashboard");
+        model.addAttribute("currentPage", "dashboard");
         model.addAttribute("lowStockCount", lowStockCount);
         model.addAttribute("totalResources", totalResources);
         model.addAttribute("buyerName", buyerName);
@@ -57,6 +58,7 @@ public class BuyerController {
                 .toList();
 
         model.addAttribute("pageTitle", "Inventory Management");
+        model.addAttribute("currentPage", "inventory");
         model.addAttribute("resources", resourceList);
         return "buyer/inventory";
     }
@@ -78,6 +80,7 @@ public class BuyerController {
                 .toList();
 
         model.addAttribute("pageTitle", "Low Stock Alerts");
+        model.addAttribute("currentPage", "inventory");
         model.addAttribute("resources", lowStockList);
         model.addAttribute("isLowStockView", true);
         return "buyer/inventory";
@@ -126,6 +129,7 @@ public class BuyerController {
             var isLowStock = inventoryService.isResourceLowStock(resourceId);
 
             model.addAttribute("pageTitle", "Resource Details - " + resource.getName());
+            model.addAttribute("currentPage", "inventory");
             model.addAttribute("resource", resource);
             model.addAttribute("totalQuantity", totalQuantity);
             model.addAttribute("isLowStock", isLowStock);

@@ -120,14 +120,17 @@ public class TechnicianController {
     }
 
     @PostMapping("/repair/{machineId}")
-    public String repairMachine(@PathVariable Long machineId, Model model) {
+    public String repairMachine(@PathVariable Long machineId,
+                                @RequestParam(required = false) String notes,
+                                Model model) {
         try {
             var machine = machineryService.repairMachine(machineId);
             model.addAttribute("pageTitle", "Machine Repaired");
             model.addAttribute("message",
                     "✅ Machine repaired successfully!\n\n" +
                             "Machine: " + machine.getName() + "\n" +
-                            "Status: 🟢 WORKING");
+                            "Status: 🟢 WORKING" +
+                            (notes != null && !notes.isBlank() ? "\n\nNotes: " + notes : ""));
         } catch (Exception e) {
             model.addAttribute("pageTitle", "Error");
             model.addAttribute("message", "❌ Error: " + e.getMessage());
