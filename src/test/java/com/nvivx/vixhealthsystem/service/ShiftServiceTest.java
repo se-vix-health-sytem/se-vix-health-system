@@ -1,79 +1,112 @@
-/* package com.nvivx.vixhealthsystem.service;
+package com.nvivx.vixhealthsystem.service.scheduling;
 
-import com.nvivx.vixhealthsystem.service.scheduling.ShiftService;
 import com.nvivx.vixhealthsystem.model.staff.Shift;
-import com.nvivx.vixhealthsystem.repository.JsonShiftRepository;
+import com.nvivx.vixhealthsystem.service.AuditService;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.io.File;
+import java.io.PrintWriter;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-@ExtendWith(MockitoExtension.class)
 class ShiftServiceTest {
 
-    @Mock
-    private JsonShiftRepository repository;
+    private AuditService auditService;
+    private ShiftService shiftService;
 
-    @InjectMocks
-    private ShiftService service;
+    private static final String FILE_PATH =
+            "src/main/resources/storage/shifts.json";
+
+    @BeforeEach
+    void setUp() throws Exception {
+        auditService = mock(AuditService.class);
+
+        // ⚠️ IMPORTANT: reset file before each test (prevents flaky dates like your 06-29 issue)
+        File file = new File(FILE_PATH);
+        if (file.exists()) {
+            file.getParentFile().mkdirs();
+            new PrintWriter(file).close(); // clear file
+        }
+
+        shiftService = new ShiftService(auditService);
+    }
 
     @Test
-    void shouldCreateShift() {
+    void shouldAssignShiftSuccessfully() {
+        Long employeeId = 1L;
+        LocalDate date = LocalDate.of(2026, 6, 12);
 
-        when(repository.findAll()).thenReturn(new ArrayList<>());
+        shiftService.assignShift(employeeId, date, "MORNING");
 
-        Shift shift = service.assignShift(
-                1L,
-                LocalDate.of(2026, 6, 10),
-                "Morning",
-                "ER duty"
+        List<Shift> shifts = shiftService.getShiftsForEmployee(employeeId);
+
+        assertEquals(1, shifts.size());
+
+        Shift shift = shifts.get(0);
+
+        assertEquals(employeeId, shift.getEmployeeId());
+        assertEquals(date, shift.getDate());
+        assertEquals("MORNING", shift.getShiftType());
+
+        verify(auditService).log(
+                eq("ASSIGN_SHIFT"),
+                eq("Shift"),
+                anyString(),
+                contains("Assigned MORNING shift")
         );
-
-        assertNotNull(shift);
-        assertEquals(1L, shift.getId());
-        assertEquals(1L, shift.getEmployeeId());
-        assertEquals("Morning", shift.getShiftType());
-
-        verify(repository, times(1)).saveAll(anyList());
     }
 
     @Test
-    void shouldDeleteShift() {
+    void shouldRemoveShift() {
+        Long employeeId = 2L;
+        LocalDate date = LocalDate.of(2026, 6, 13);
 
-        Shift shift = new Shift(
-                1L,
-                1L,
-                LocalDate.now(),
-                "Night",
-                "Test"
+        shiftService.assignShift(employeeId, date, "EVENING");
+
+        List<Shift> before = shiftService.getShiftsForEmployee(employeeId);
+        assertEquals(1, before.size());
+
+        Long shiftId = before.get(0).getId();
+
+        shiftService.removeShift(shiftId);
+
+        List<Shift> after = shiftService.getShiftsForEmployee(employeeId);
+        assertTrue(after.isEmpty());
+
+        verify(auditService).log(
+                eq("REMOVE_SHIFT"),
+                eq("Shift"),
+                eq(String.valueOf(shiftId)),
+                contains("Removed shift")
         );
-
-        when(repository.findAll()).thenReturn(new ArrayList<>(List.of(shift)));
-
-        service.deleteShift(1L);
-
-        verify(repository, times(1)).saveAll(anyList());
     }
 
     @Test
-    void shouldFilterShiftsByEmployee() {
+    void shouldDetectEmployeeOnShift() {
+        Long employeeId = 3L;
+        LocalDate date = LocalDate.of(2026, 6, 14);
 
-        Shift shift1 = new Shift(1L, 1L, LocalDate.now(), "Morning", "A");
-        Shift shift2 = new Shift(2L, 2L, LocalDate.now(), "Night", "B");
+        shiftService.assignShift(employeeId, date, "NIGHT");
 
-        when(repository.findAll()).thenReturn(List.of(shift1, shift2));
-
-        List<Shift> result = service.getEmployeeShifts(1L);
-
-        assertEquals(1, result.size());
-        assertEquals(1L, result.get(0).getEmployeeId());
+        assertTrue(shiftService.isEmployeeOnShift(employeeId, date));
     }
-} */
+
+    @Test
+    void shouldReplaceExistingShiftSameDay() {
+        Long employeeId = 4L;
+        LocalDate date = LocalDate.of(2026, 6, 15);
+
+        shiftService.assignShift(employeeId, date, "MORNING");
+        shiftService.assignShift(employeeId, date, "EVENING");
+
+        List<Shift> shifts = shiftService.getShiftsForEmployee(employeeId);
+
+        // only 1 shift should exist (old replaced)
+        assertEquals(1, shifts.size());
+        assertEquals("EVENING", shifts.get(0).getShiftType());
+    }
+}
