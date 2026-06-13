@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head(pageTitle)}"></head>
+<body>
+<div th:replace="~{fragments/dashboard-nav :: dashboardNav}"></div>
+
+<div class="dashboard-content" style="margin-left: 280px;">
+    <div class="container p-4" style="max-width: 900px;">
+
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="font-display mb-0" style="color: var(--vix-crimson);">
+                <i class="bi bi-person-badge me-2"></i>Employee Details
+            </h2>
+            <a th:href="@{/staff-manager/employees}" class="btn btn-outline-secondary rounded-pill">
+                <i class="bi bi-arrow-left me-1"></i>Back to Employees
+            </a>
+        </div>
+
+        <div th:if="${employee != null}">
+            <!-- Header -->
+            <div class="card mb-4 border-0 shadow-sm">
+                <div class="card-body p-4">
+                    <div class="d-flex align-items-center gap-3">
+                        <div class="rounded-circle d-flex align-items-center justify-content-center flex-shrink-0"
+                             style="width:70px;height:70px;background:var(--vix-crimson);">
+                            <i class="bi bi-person-fill text-white fs-2"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-display mb-1" th:text="${employee.name + ' ' + employee.surname}">Name</h3>
+                            <span class="badge rounded-pill px-3 py-2"
+                                  th:classappend="${roleLabel == 'MedicalSpecialist' ? 'bg-primary' :
+                                                   roleLabel == 'Secretary' ? 'bg-info text-dark' :
+                                                   roleLabel == 'Technician' ? 'bg-warning text-dark' :
+                                                   roleLabel == 'Buyer' ? 'bg-success' : 'bg-dark'}"
+                                  th:text="${roleLabel}">Role</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row g-4">
+                <!-- Personal Info -->
+                <div class="col-md-6">
+                    <div class="card h-100">
+                        <div class="card-header">Personal Information</div>
+                        <div class="card-body">
+                            <dl class="row mb-0 small">
+                                <dt class="col-5 text-muted fw-normal">Email</dt>
+                                <dd class="col-7" th:text="${employee.email ?: '-'}">-</dd>
+
+                                <dt class="col-5 text-muted fw-normal">Phone</dt>
+                                <dd class="col-7" th:text="${employee.phoneNumber ?: '-'}">-</dd>
+
+                                <dt class="col-5 text-muted fw-normal">Hire Date</dt>
+                                <dd class="col-7" th:text="${employee.hireDate != null ? #temporals.format(employee.hireDate, 'dd/MM/yyyy') : '-'}">-</dd>
+
+                                <dt class="col-5 text-muted fw-normal">Department</dt>
+                                <dd class="col-7" th:text="${employee.department != null ? employee.department.name : 'Not assigned'}">-</dd>
+                            </dl>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Medical Specialist details -->
+                <div class="col-md-6" th:if="${roleLabel == 'MedicalSpecialist'}">
+                    <div class="card h-100">
+                        <div class="card-header">Medical Details</div>
+                        <div class="card-body">
+                            <dl class="row mb-0 small">
+                                <dt class="col-5 text-muted fw-normal">Specialty</dt>
+                                <dd class="col-7" th:text="${employee.specialty ?: '-'}">-</dd>
+
+                                <dt class="col-5 text-muted fw-normal">License Number</dt>
+                                <dd class="col-7 font-monospace" th:text="${employee.licenseNumber ?: '-'}">-</dd>
+                            </dl>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Secretary details -->
+                <div class="col-md-6" th:if="${roleLabel == 'Secretary'}">
+                    <div class="card h-100">
+                        <div class="card-header">Secretary Details</div>
+                        <div class="card-body">
+                            <dl class="row mb-0 small">
+                                <dt class="col-5 text-muted fw-normal">Role Type</dt>
+                                <dd class="col-7" th:text="${employee.role ?: 'Front Office'}">-</dd>
+                            </dl>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Shifts -->
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">Assigned Shifts</div>
+                        <div class="card-body p-0">
+                            <div th:if="${shifts != null and !shifts.isEmpty()}">
+                                <table class="table table-sm mb-0">
+                                    <thead style="background: var(--vix-cream);">
+                                    <tr><th>Date</th><th>Shift</th><th>Notes</th></tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr th:each="shift : ${shifts}">
+                                        <td th:text="${shift.date != null ? #temporals.format(shift.date, 'dd/MM/yyyy') : '-'}">-</td>
+                                        <td><span class="badge rounded-pill" th:text="${shift.shiftType}">-</span></td>
+                                        <td class="small text-muted" th:text="${shift.notes ?: '-'}">-</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div th:unless="${shifts != null and !shifts.isEmpty()}" class="text-center py-3 text-muted small">
+                                No shifts assigned.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Vacations -->
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">Approved Vacations</div>
+                        <div class="card-body p-0">
+                            <div th:if="${vacations != null and !vacations.isEmpty()}">
+                                <table class="table table-sm mb-0">
+                                    <thead style="background: var(--vix-cream);">
+                                    <tr><th>From</th><th>To</th><th>Days</th><th>Reason</th></tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr th:each="vac : ${vacations}">
+                                        <td th:text="${#temporals.format(vac.startDate, 'dd/MM/yyyy')}">-</td>
+                                        <td th:text="${#temporals.format(vac.endDate, 'dd/MM/yyyy')}">-</td>
+                                        <td th:text="${vac.daysRequested}">-</td>
+                                        <td class="small text-muted" th:text="${vac.reason ?: '-'}">-</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div th:unless="${vacations != null and !vacations.isEmpty()}" class="text-center py-3 text-muted small">
+                                No approved vacations.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Appointments (Medical Specialists only) -->
+                <div class="col-12" th:if="${roleLabel == 'MedicalSpecialist'}">
+                    <div class="card">
+                        <div class="card-header">Scheduled Appointments</div>
+                        <div class="card-body p-0">
+                            <div th:if="${appointments != null and !appointments.isEmpty()}">
+                                <table class="table table-sm mb-0">
+                                    <thead style="background: var(--vix-cream);">
+                                    <tr><th>Patient</th><th>Date & Time</th><th>Status</th><th>Payment</th></tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr th:each="appt : ${appointments}">
+                                        <td th:text="${appt.patient != null ? appt.patient.name + ' ' + appt.patient.surname : 'Unknown'}">-</td>
+                                        <td th:text="${appt.dateTime != null ? #temporals.format(appt.dateTime, 'dd/MM/yyyy HH:mm') : '-'}">-</td>
+                                        <td><span class="badge rounded-pill" th:text="${appt.status ?: 'PENDING'}">-</span></td>
+                                        <td><i th:classappend="${appt.paymentStatus} ? 'bi-check-circle-fill text-success' : 'bi-x-circle text-danger'" class="bi"></i></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div th:unless="${appointments != null and !appointments.isEmpty()}" class="text-center py-3 text-muted small">
+                                No appointments scheduled.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

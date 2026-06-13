@@ -1,0 +1,11 @@
+[ {
+  "id" : "ae5c040c-d2ba-4bd4-9ff1-71d6cf338c99",
+  "employeeId" : 6,
+  "employeeName" : "Giulia Romano",
+  "employeeRole" : "Technician",
+  "resourceId" : 5,
+  "resourceName" : "Disinfectant",
+  "storageId" : 2,
+  "quantity" : 2,
+  "takenAt" : "2026-06-13T16:50:02.3389092"
+} ]

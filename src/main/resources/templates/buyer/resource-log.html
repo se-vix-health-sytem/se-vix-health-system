@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Resource Take Log')}"></head>
+<body>
+<div th:replace="~{fragments/dashboard-nav :: dashboardNav}"></div>
+
+<div class="dashboard-content" style="margin-left: 280px;">
+    <div class="container p-4">
+
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <p class="section-eyebrow mb-1">Inventory</p>
+                <h2 class="font-display" style="color: var(--vix-crimson);">Resource Take Log</h2>
+                <p class="text-muted small mb-0">All resources taken from storage by staff members.</p>
+            </div>
+            <a href="/buyer/inventory" class="btn btn-outline-secondary rounded-pill">
+                <i class="bi bi-arrow-left me-1"></i> Back to Inventory
+            </a>
+        </div>
+
+        <div class="card shadow-sm border-0">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0"><i class="bi bi-list-ul me-2"></i>All Takes</h5>
+                <span class="badge bg-secondary" th:text="${logs != null ? logs.size() : 0}">0</span>
+            </div>
+            <div class="card-body p-0">
+                <div th:if="${logs != null and !logs.isEmpty()}">
+                    <table class="table table-hover mb-0" style="font-size: 0.875rem;">
+                        <thead style="background: var(--vix-cream);">
+                            <tr>
+                                <th>Date &amp; Time</th>
+                                <th>Employee</th>
+                                <th>Role</th>
+                                <th>Resource</th>
+                                <th>Qty</th>
+                                <th>Storage</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="log : ${logs}">
+                                <td class="text-muted small"
+                                    th:text="${log.takenAt != null ? #temporals.format(log.takenAt, 'dd/MM/yyyy HH:mm') : '-'}">-</td>
+                                <td class="fw-semibold small" th:text="${log.employeeName}">-</td>
+                                <td><span class="badge bg-secondary" style="font-size:0.7rem;" th:text="${log.employeeRole}">-</span></td>
+                                <td class="small" th:text="${log.resourceName}">-</td>
+                                <td class="small" th:text="${log.quantity}">-</td>
+                                <td class="text-muted small">Storage #<span th:text="${log.storageId}">-</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div th:unless="${logs != null and !logs.isEmpty()}"
+                     class="text-center py-5 text-muted">
+                    <i class="bi bi-inbox fs-1"></i>
+                    <p class="mt-3">No resource takes recorded yet.</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

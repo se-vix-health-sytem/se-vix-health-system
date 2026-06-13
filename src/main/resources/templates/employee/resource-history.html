@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('My Resource History')}"></head>
+<body>
+<div th:replace="~{fragments/dashboard-nav :: dashboardNav}"></div>
+
+<div class="dashboard-content" style="margin-left: 280px;">
+    <div class="container p-4">
+
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <p class="section-eyebrow mb-1">Storage</p>
+                <h2 class="font-display" style="color: var(--vix-crimson);">My Resource History</h2>
+                <p class="text-muted small mb-0">Resources you have taken from hospital storage.</p>
+            </div>
+            <a href="/employee/resources" class="btn btn-outline-secondary rounded-pill">
+                <i class="bi bi-arrow-left me-1"></i> Back to Resources
+            </a>
+        </div>
+
+        <div class="card shadow-sm border-0">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0"><i class="bi bi-clock-history me-2"></i>Take History</h5>
+                <span class="badge bg-secondary" th:text="${logs != null ? logs.size() : 0}">0</span>
+            </div>
+            <div class="card-body p-0">
+                <div th:if="${logs != null and !logs.isEmpty()}">
+                    <table class="table table-hover mb-0">
+                        <thead style="background: var(--vix-cream);">
+                            <tr>
+                                <th>Date &amp; Time</th>
+                                <th>Resource</th>
+                                <th>Quantity</th>
+                                <th>Storage</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="log : ${logs}">
+                                <td class="small text-muted"
+                                    th:text="${log.takenAt != null ? #temporals.format(log.takenAt, 'dd/MM/yyyy HH:mm') : '-'}">-</td>
+                                <td class="small fw-semibold" th:text="${log.resourceName}">-</td>
+                                <td class="small" th:text="${log.quantity}">-</td>
+                                <td class="small text-muted">Storage #<span th:text="${log.storageId}">-</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div th:unless="${logs != null and !logs.isEmpty()}"
+                     class="text-center py-5 text-muted">
+                    <i class="bi bi-clock-history fs-1"></i>
+                    <p class="mt-3">No resource takes on record yet.</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Take Resources')}"></head>
+<body>
+<div th:replace="~{fragments/dashboard-nav :: dashboardNav}"></div>
+
+<div class="dashboard-content" style="margin-left: 280px;">
+    <div class="container p-4">
+
+        <div th:if="${message}" class="alert alert-success alert-dismissible fade show" role="alert">
+            <i class="bi bi-check-circle me-2"></i><span th:text="${message}"></span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+        <div th:if="${error}" class="alert alert-danger alert-dismissible fade show" role="alert">
+            <i class="bi bi-exclamation-triangle me-2"></i><span th:text="${error}"></span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <p class="section-eyebrow mb-1">Storage</p>
+                <h2 class="font-display" style="color: var(--vix-crimson);">Take Resources</h2>
+                <p class="text-muted small mb-0">Request supplies from hospital storage for patient care.</p>
+            </div>
+            <a href="/employee/resources/history" class="btn btn-outline-secondary rounded-pill">
+                <i class="bi bi-clock-history me-1"></i> My History
+            </a>
+        </div>
+
+        <!-- Take form -->
+        <div class="card mb-4 shadow-sm border-0">
+            <div class="card-header">
+                <h5 class="mb-0"><i class="bi bi-box-arrow-up-right me-2"></i>Request a Resource</h5>
+            </div>
+            <div class="card-body">
+                <form th:action="@{/employee/resources/take}" method="post" class="row g-3">
+                    <div class="col-md-5">
+                        <label class="form-label fw-semibold">Resource</label>
+                        <select name="resourceId" class="form-select" required>
+                            <option value="">Select resource…</option>
+                            <option th:each="r : ${resources}"
+                                    th:value="${r.id}"
+                                    th:text="${r.name + (r.lowStock ? ' ⚠ LOW STOCK (' + r.quantity + ' left)' : ' (' + r.quantity + ' available)')}">-</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label fw-semibold">Storage Facility</label>
+                        <select name="storageId" class="form-select" required>
+                            <option value="">Select storage…</option>
+                            <option th:each="s : ${storages}"
+                                    th:value="${s.id}"
+                                    th:text="${s.medicalFacility != null ? s.medicalFacility.name : 'Storage #' + s.id}">-</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <label class="form-label fw-semibold">Quantity</label>
+                        <input type="number" name="quantity" class="form-control" min="1" value="1" required>
+                    </div>
+                    <div class="col-md-2 d-flex align-items-end">
+                        <button type="submit" class="btn btn-primary rounded-pill w-100">
+                            <i class="bi bi-bag-plus me-1"></i> Take
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Current inventory table -->
+        <div class="card shadow-sm border-0">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0"><i class="bi bi-archive me-2"></i>Available Resources</h5>
+                <span class="badge bg-secondary" th:text="${resources != null ? resources.size() : 0}">0</span>
+            </div>
+            <div class="card-body p-0">
+                <div th:if="${resources != null and !resources.isEmpty()}">
+                    <table class="table table-hover mb-0">
+                        <thead style="background: var(--vix-cream);">
+                            <tr>
+                                <th>Resource</th>
+                                <th>Description</th>
+                                <th>Total Stock</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="r : ${resources}">
+                                <td class="fw-semibold small" th:text="${r.name}">-</td>
+                                <td class="text-muted small" th:text="${r.description ?: '-'}">-</td>
+                                <td class="small" th:text="${r.quantity}">-</td>
+                                <td>
+                                    <span th:if="${r.lowStock}" class="badge bg-warning text-dark">
+                                        <i class="bi bi-exclamation-triangle me-1"></i> Low Stock
+                                    </span>
+                                    <span th:unless="${r.lowStock}" class="badge bg-success">OK</span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div th:unless="${resources != null and !resources.isEmpty()}"
+                     class="text-center py-5 text-muted">
+                    <i class="bi bi-archive fs-1"></i>
+                    <p class="mt-3">No resources in inventory.</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
