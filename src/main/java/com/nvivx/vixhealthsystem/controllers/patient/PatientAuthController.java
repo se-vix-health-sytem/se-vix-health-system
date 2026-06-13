@@ -70,6 +70,53 @@ public class PatientAuthController {
         return "redirect:/patient/dashboard";
     }
 
+    /**
+     * Callback from the mock SPID portal — fiscalCode is the "assertion token".
+     * Creates the patient session exactly like the direct authenticate endpoint.
+     */
+    @GetMapping("/spid-callback")
+    public String spidCallback(@RequestParam String fiscalCode,
+                               HttpSession session,
+                               HttpServletRequest request,
+                               HttpServletResponse response,
+                               Model model) {
+        return createPatientSession(fiscalCode, session, model);
+    }
+
+    /**
+     * Callback from the mock CIE portal — same flow as SPID.
+     */
+    @GetMapping("/cie-callback")
+    public String cieCallback(@RequestParam String fiscalCode,
+                              HttpSession session,
+                              HttpServletRequest request,
+                              HttpServletResponse response,
+                              Model model) {
+        return createPatientSession(fiscalCode, session, model);
+    }
+
+    private String createPatientSession(String fiscalCode, HttpSession session, Model model) {
+        var patientOpt = patientService.findByFiscalCode(fiscalCode.trim().toUpperCase());
+        if (patientOpt.isEmpty()) {
+            model.addAttribute("error", "Autenticazione fallita. Riprova.");
+            return "patient/login";
+        }
+        Patient patient = patientOpt.get();
+        session.removeAttribute("user");
+        session.setAttribute("patient", patient);
+        session.setAttribute("role", "PATIENT");
+
+        SecurityContext ctx = SecurityContextHolder.createEmptyContext();
+        ctx.setAuthentication(new UsernamePasswordAuthenticationToken(
+            fiscalCode, null, List.of(new SimpleGrantedAuthority("ROLE_PATIENT"))
+        ));
+        SecurityContextHolder.setContext(ctx);
+        session.setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, ctx);
+        auditService.log("PATIENT_LOGIN", "Patient", String.valueOf(patient.getId()),
+            "Patient " + fiscalCode + " logged in");
+        return "redirect:/patient/dashboard";
+    }
+
     @GetMapping("/dashboard")
     public String dashboard(HttpSession session, Model model) {
         Patient patient = getLoggedInPatient(session);
@@ -79,6 +126,7 @@ public class PatientAuthController {
         patient = patientService.findById(patient.getId());
         model.addAttribute("patient", patient);
         model.addAttribute("pageTitle", "Patient Dashboard");
+        model.addAttribute("currentPage", "dashboard");
         return "patient/dashboard";
     }
 
@@ -91,7 +139,7 @@ public class PatientAuthController {
         }
         SecurityContextHolder.clearContext();
         session.invalidate();
-        return "redirect:/";
+        return "redirect:/patient/login";
     }
 
     @GetMapping("/profile")
@@ -102,6 +150,7 @@ public class PatientAuthController {
         }
         model.addAttribute("patient", patient);
         model.addAttribute("pageTitle", "My Profile");
+        model.addAttribute("currentPage", "profile");
         return "patient/profile";
     }
 
@@ -115,6 +164,7 @@ public class PatientAuthController {
         patient = patientService.findById(patient.getId());
         model.addAttribute("patient", patient);
         model.addAttribute("pageTitle", "My Medical Records");
+        model.addAttribute("currentPage", "records");
         return "patient/records";
     }
 

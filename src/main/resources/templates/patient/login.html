@@ -3,55 +3,92 @@
 <head th:replace="~{fragments/head :: head('Patient Login')}"></head>
 <body class="d-flex align-items-center justify-content-center" style="min-height: 100vh; background: linear-gradient(135deg, var(--vix-crimson-dk) 0%, var(--vix-crimson) 100%);">
 
-<div class="login-container" style="background: white; border-radius: 1.5rem; box-shadow: 0 20px 60px rgba(0,0,0,0.3); width: 100%; max-width: 450px;">
-    <div class="text-center p-4" style="background: linear-gradient(135deg, var(--vix-crimson) 0%, var(--vix-crimson-dk) 100%); color: white; border-radius: 1.5rem 1.5rem 0 0;">
-        <img src="/images/vix-logo.png" alt="VIX" width="70" height="70"
-             style="background: white; border-radius: 50%; padding: 6px; margin-bottom: 1rem;">
-        <h2 class="font-display">Patient Portal</h2>
-        <p class="opacity-75">SPID / CIE Authentication (Simulated)</p>
-    </div>
-
-    <div class="p-4">
-        <div class="alert alert-info mb-4" style="background: var(--vix-gold-pale); border: 1px solid rgba(184,149,42,0.3); border-radius: 0.75rem;">
-            <i class="bi bi-info-circle-fill me-2" style="color: var(--vix-gold);"></i>
-            <strong>🔐 SIMULATION MODE</strong><br>
-            In production, this would redirect to SPID/CIE portal.
-            <br><br>
-            <strong>Test Fiscal Codes:</strong><br>
-            RSSMRA80A01F205X - Mario Rossi<br>
-            BNCLRA92B41L219Y - Laura Bianchi<br>
-            VRDGPP75C12H501Z - Giuseppe Verdi
+<div style="width: 100%; max-width: 480px;">
+    <!-- LOGIN CARD (no notice board) -->
+    <div style="background: white; border-radius: 1.5rem; box-shadow: 0 20px 60px rgba(0,0,0,0.3);">
+        <div class="text-center p-4" style="background: linear-gradient(135deg, var(--vix-crimson) 0%, var(--vix-crimson-dk) 100%); color: white; border-radius: 1.5rem 1.5rem 0 0;">
+            <img src="/images/vix-logo.png" alt="VIX" width="70" height="70"
+                 style="background: white; border-radius: 50%; padding: 6px; margin-bottom: 1rem;">
+            <h2 class="font-display">Patient Portal</h2>
+            <p class="opacity-75">Accedi con SPID o CIE</p>
         </div>
 
-        <form th:action="@{/patient/authenticate}" method="post">
-            <input type="hidden" name="redirectUrl" th:value="${redirectUrl}">
+        <div class="p-4">
+            <div th:if="${error}" class="alert alert-danger mb-3" th:text="${error}"></div>
 
-            <div class="mb-3">
-                <label class="form-label">Fiscal Code</label>
-                <input type="text" name="fiscalCode" class="form-control"
-                       placeholder="Enter your fiscal code (e.g., RSSMRA80A01F205X)" required>
+            <a th:href="@{/mock-spid/login}" class="d-block mb-3 text-decoration-none">
+                <div class="d-flex align-items-center p-3" style="border: 2px solid #06c; border-radius: 0.75rem;">
+                    <div style="width: 52px; height: 52px; background: #06c; border-radius: 0.5rem; display:flex; align-items:center; justify-content:center;">
+                        <span style="color:white; font-weight:900;">SPID</span>
+                    </div>
+                    <div class="ms-3">
+                        <div class="fw-bold" style="color: #06c;">Entra con SPID</div>
+                        <div style="font-size: 0.8rem; color: #555;">Sistema Pubblico di Identità Digitale</div>
+                    </div>
+                    <i class="bi bi-chevron-right ms-auto" style="color: #06c;"></i>
+                </div>
+            </a>
+
+            <a th:href="@{/mock-cie/login}" class="d-block mb-4 text-decoration-none">
+                <div class="d-flex align-items-center p-3" style="border: 2px solid #003da5; border-radius: 0.75rem;">
+                    <div style="width: 52px; height: 52px; background: #003da5; border-radius: 0.5rem; display:flex; align-items:center; justify-content:center;">
+                        <span style="color:white; font-weight:900;">CIE</span>
+                    </div>
+                    <div class="ms-3">
+                        <div class="fw-bold" style="color: #003da5;">Entra con CIE</div>
+                        <div style="font-size: 0.8rem; color: #555;">Carta d'Identità Elettronica</div>
+                    </div>
+                    <i class="bi bi-chevron-right ms-auto" style="color: #003da5;"></i>
+                </div>
+            </a>
+
+            <hr>
+            <div class="text-center">
+                <a th:href="@{/login}" class="btn btn-outline-secondary w-100">
+                    <i class="bi bi-person-badge me-1"></i> Staff Portal Login
+                </a>
+                <a th:href="@{/}" class="d-block mt-3 text-muted text-decoration-none small">
+                    <i class="bi bi-arrow-left me-1"></i> Back to Home
+                </a>
             </div>
-
-            <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
-
-            <button type="submit" class="btn btn-primary w-100 py-2">
-                <i class="bi bi-box-arrow-in-right me-2"></i>Login with SPID/CIE
-            </button>
-        </form>
-
-        <hr class="my-4">
-
-        <div class="text-center">
-            <a th:href="@{/login}" class="btn btn-outline-secondary w-100">
-                <i class="bi bi-person-badge me-1"></i> Staff Portal Login
-            </a>
-            <a th:href="@{/}" class="d-block mt-3 text-muted text-decoration-none small">
-                <i class="bi bi-arrow-left me-1"></i> Back to Home
-            </a>
         </div>
     </div>
 </div>
 
+<!-- DEV FLOATING BUTTON -->
+<button onclick="document.getElementById('devModalPatient').style.display='flex'"
+        style="position:fixed; bottom:1.25rem; right:1.25rem; z-index:9999; background:#856404; color:white; border:none; border-radius:2rem; padding:0.45rem 1rem; font-size:0.78rem; font-weight:700; cursor:pointer;">
+    🔧 DEV
+</button>
+
+<!-- DEV MODAL -->
+<div id="devModalPatient" onclick="if(event.target===this)this.style.display='none'"
+     style="display:none; position:fixed; inset:0; z-index:10000; background:rgba(0,0,0,0.55); align-items:center; justify-content:center;">
+    <div style="background:white; border-radius:1rem; width:100%; max-width:500px; overflow:hidden;">
+        <div style="background:#fff3cd; padding:0.85rem 1.25rem; display:flex; justify-content:space-between;">
+            <span style="font-weight:700;">🔧 Test Patients</span>
+            <button onclick="this.closest('#devModalPatient').style.display='none'" style="background:none; border:none; font-size:1.3rem;">✕</button>
+        </div>
+        <div style="padding:1rem;">
+            <table style="width:100%; font-size:0.85rem;">
+                <thead><tr><th>Name</th><th>Fiscal Code (click to copy)</th></tr></thead>
+                <tbody>
+                <tr><td>Mario Rossi</td><td><code style="cursor:pointer;" onclick="copyToClipboard('RSSMRA80A01F205X')">RSSMRA80A01F205X</code></td></tr>
+                <tr><td>Laura Bianchi</td><td><code style="cursor:pointer;" onclick="copyToClipboard('BNCLRA92B41L219Y')">BNCLRA92B41L219Y</code></td></tr>
+                <tr><td>Giuseppe Verdi</td><td><code style="cursor:pointer;" onclick="copyToClipboard('VRDGPP75C12H501Z')">VRDGPP75C12H501Z</code></td></tr>
+                </tbody>
+            </table>
+            <div class="mt-2 small text-muted">Click a fiscal code to copy. Use any PIN (6+ digits).</div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function copyToClipboard(text) {
+        navigator.clipboard.writeText(text);
+        alert('Copied: ' + text);
+    }
+</script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

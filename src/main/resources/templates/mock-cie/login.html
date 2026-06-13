@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Entra con CIE</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        body { background: #eef2f7; font-family: 'Segoe UI', sans-serif; }
+        .cie-header { background: linear-gradient(135deg, #003da5, #0057e7); }
+        .cie-btn { background: #003da5; border: none; color: white; }
+        .cie-btn:hover { background: #002d7a; color: white; }
+        .cie-card { border: none; border-radius: 1rem; box-shadow: 0 4px 20px rgba(0,61,165,0.12); }
+        .nfc-ring {
+            width: 90px; height: 90px; border-radius: 50%;
+            border: 3px solid #003da5; display: flex; align-items: center;
+            justify-content: center; margin: 0 auto;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%   { box-shadow: 0 0 0 0 rgba(0,61,165,0.3); }
+            70%  { box-shadow: 0 0 0 14px rgba(0,61,165,0); }
+            100% { box-shadow: 0 0 0 0 rgba(0,61,165,0); }
+        }
+        .sim-badge {
+            background: #fff3cd; border: 1px solid #ffc107;
+            color: #856404; font-size: 0.7rem; padding: 0.25rem 0.6rem;
+            border-radius: 0.4rem; display: inline-block;
+        }
+        .tab-btn { cursor: pointer; border-bottom: 3px solid transparent; padding: 0.5rem 1.25rem; font-weight: 600; color: #666; }
+        .tab-btn.active { border-color: #003da5; color: #003da5; }
+    </style>
+</head>
+<body>
+
+<!-- CIE TOP BAR -->
+<div class="cie-header py-2 px-4 d-flex align-items-center justify-content-between">
+    <div class="d-flex align-items-center gap-3">
+        <div style="background:white; color:#003da5; font-weight:900; padding:2px 8px; border-radius:4px; font-size:1rem; letter-spacing:-0.5px;">CIE</div>
+        <span style="color:white; font-size:0.9rem; opacity:0.9;">Carta d'Identità Elettronica</span>
+    </div>
+    <div style="color:white; font-size:0.75rem; opacity:0.75;">
+        Ministero dell'Interno &nbsp;|&nbsp; 🇮🇹
+    </div>
+</div>
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-5">
+
+            <div class="text-center mb-3">
+                <span class="sim-badge"><i class="bi bi-cone-striped me-1"></i> SIMULAZIONE — Solo per sviluppo</span>
+            </div>
+
+            <div class="card cie-card">
+                <div class="card-body p-4">
+                    <h5 class="text-center fw-bold mb-1" style="color: #003da5;">Entra con CIE</h5>
+                    <p class="text-center text-muted mb-3" style="font-size: 0.85rem;">
+                        Autenticazione tramite Carta d'Identità Elettronica
+                    </p>
+
+                    <!-- Tab selector -->
+                    <div class="d-flex border-bottom mb-4">
+                        <div class="tab-btn active" id="tab-nfc" onclick="showTab('nfc')">
+                            <i class="bi bi-phone me-1"></i> Lettore NFC
+                        </div>
+                        <div class="tab-btn" id="tab-manual" onclick="showTab('manual')">
+                            <i class="bi bi-keyboard me-1"></i> Codice Fiscale
+                        </div>
+                    </div>
+
+                    <div th:if="${error}" class="alert alert-danger py-2" th:text="${error}"></div>
+
+                    <!-- NFC TAB (visual simulation) -->
+                    <div id="panel-nfc">
+                        <div class="text-center mb-3">
+                            <div class="nfc-ring mb-2">
+                                <i class="bi bi-phone" style="font-size: 2rem; color: #003da5;"></i>
+                            </div>
+                            <p class="text-muted" style="font-size: 0.85rem;">
+                                Avvicina la tua CIE al lettore NFC del dispositivo.
+                            </p>
+                        </div>
+                        <!-- Simulated "tap" — fills fiscal code and submits -->
+                        <div class="mb-3">
+                            <label class="form-label small text-muted">Seleziona identità (simulazione lettore):</label>
+                            <div class="d-grid gap-2">
+                                <button type="button" class="btn btn-outline-primary btn-sm text-start" onclick="simulateTap('RSSMRA80A01F205X')">
+                                    <i class="bi bi-person-vcard me-2"></i>Mario Rossi · RSSMRA80A01F205X
+                                </button>
+                                <button type="button" class="btn btn-outline-primary btn-sm text-start" onclick="simulateTap('BNCLRA92B41L219Y')">
+                                    <i class="bi bi-person-vcard me-2"></i>Laura Bianchi · BNCLRA92B41L219Y
+                                </button>
+                                <button type="button" class="btn btn-outline-primary btn-sm text-start" onclick="simulateTap('VRDGPP75C12H501Z')">
+                                    <i class="bi bi-person-vcard me-2"></i>Giuseppe Verdi · VRDGPP75C12H501Z
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- MANUAL TAB -->
+                    <div id="panel-manual" style="display:none;">
+                        <form th:action="@{/mock-cie/authenticate}" method="post" id="manual-form">
+                            <div class="mb-3">
+                                <label class="form-label fw-semibold">Codice Fiscale</label>
+                                <input type="text" name="fiscalCode" id="manual-fc" class="form-control"
+                                       placeholder="Es. RSSMRA80A01F205X"
+                                       style="text-transform: uppercase; letter-spacing: 1px;"
+                                       maxlength="16" required>
+                            </div>
+                            <div class="mb-4">
+                                <label class="form-label fw-semibold">PIN CIE (4 cifre)</label>
+                                <input type="password" name="pin" class="form-control"
+                                       placeholder="••••" maxlength="4" required>
+                                <div class="form-text">Qualsiasi 4 cifre (simulazione).</div>
+                            </div>
+                            <button type="submit" class="btn cie-btn w-100 py-2 fw-bold">
+                                <i class="bi bi-shield-lock me-2"></i>Accedi con CIE
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- Hidden NFC submit form -->
+                    <form th:action="@{/mock-cie/authenticate}" method="post" id="nfc-form" style="display:none;">
+                        <input type="hidden" name="fiscalCode" id="nfc-fc">
+                        <input type="hidden" name="pin" value="0000">
+                    </form>
+
+                    <hr class="my-3">
+                    <div class="text-center" style="font-size: 0.8rem; color: #666;">
+                        <i class="bi bi-lock-fill me-1" style="color: #003da5;"></i>
+                        Connessione sicura · Ministero dell'Interno
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center mt-3">
+                <a th:href="@{/patient/login}" class="text-muted text-decoration-none small">
+                    <i class="bi bi-arrow-left me-1"></i> Torna alla selezione
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    function showTab(tab) {
+        document.getElementById('panel-nfc').style.display = tab === 'nfc' ? '' : 'none';
+        document.getElementById('panel-manual').style.display = tab === 'manual' ? '' : 'none';
+        document.getElementById('tab-nfc').classList.toggle('active', tab === 'nfc');
+        document.getElementById('tab-manual').classList.toggle('active', tab === 'manual');
+    }
+
+    function simulateTap(fiscalCode) {
+        document.getElementById('nfc-fc').value = fiscalCode;
+        // Brief "reading" animation then submit
+        const btn = event.currentTarget;
+        btn.innerHTML = '<i class="bi bi-arrow-repeat me-2 spin"></i>Lettura CIE in corso...';
+        btn.disabled = true;
+        setTimeout(() => document.getElementById('nfc-form').submit(), 900);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const fc = document.getElementById('manual-fc');
+        if (fc) fc.addEventListener('input', () => { fc.value = fc.value.toUpperCase(); });
+    });
+</script>
+<style>
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .spin { display: inline-block; animation: spin 0.7s linear infinite; }
+</style>
+
+<button onclick="document.getElementById('devModalCie').style.display='flex'"
+        style="position:fixed; bottom:1.25rem; right:1.25rem; z-index:9999; background:#856404; color:white; border:none; border-radius:2rem; padding:0.45rem 1rem; font-size:0.78rem; font-weight:700; cursor:pointer;">
+    🔧 DEV
+</button>
+
+<div id="devModalCie" onclick="if(event.target===this)this.style.display='none'"
+     style="display:none; position:fixed; inset:0; z-index:10000; background:rgba(0,0,0,0.55); align-items:center; justify-content:center;">
+    <div style="background:white; border-radius:1rem; width:100%; max-width:500px; overflow:hidden;">
+        <div style="background:#fff3cd; padding:0.85rem 1.25rem; display:flex; justify-content:space-between;">
+            <span style="font-weight:700;">🔧 Test Patients</span>
+            <button onclick="this.closest('#devModalCie').style.display='none'" style="background:none; border:none; font-size:1.3rem;">✕</button>
+        </div>
+        <div style="padding:1rem;">
+            <p class="small text-muted mb-2">Click a fiscal code to auto-fill the field above:</p>
+            <div class="d-flex flex-column gap-2">
+                <button type="button" class="btn btn-outline-primary btn-sm" onclick="fillFiscalCode('RSSMRA80A01F205X')">Mario Rossi · RSSMRA80A01F205X</button>
+                <button type="button" class="btn btn-outline-primary btn-sm" onclick="fillFiscalCode('BNCLRA92B41L219Y')">Laura Bianchi · BNCLRA92B41L219Y</button>
+                <button type="button" class="btn btn-outline-primary btn-sm" onclick="fillFiscalCode('VRDGPP75C12H501Z')">Giuseppe Verdi · VRDGPP75C12H501Z</button>
+            </div>
+            <div class="mt-2 small text-muted">PIN: any 4 digits (e.g. 0000)</div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function fillFiscalCode(fc) {
+        const input = document.querySelector('input[name="fiscalCode"]');
+        if (input) input.value = fc;
+        document.getElementById('devModalCie').style.display = 'none';
+    }
+</script>
+
+</body>
+</html>

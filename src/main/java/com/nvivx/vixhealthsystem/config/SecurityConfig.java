@@ -18,6 +18,9 @@ public class SecurityConfig {
                 .requestMatchers(
                     "/", "/login", "/logout",
                     "/patient/login", "/patient/authenticate", "/patient/logout",
+                    "/patient/spid-callback", "/patient/cie-callback",
+                    "/mock-spid/login", "/mock-spid/authenticate",
+                    "/mock-cie/login", "/mock-cie/authenticate",
                     "/authenticate", "/select-role",
                     "/departments/**", "/questionnaire/**",
                     "/specialists/**", "/doctors",
@@ -34,6 +37,8 @@ public class SecurityConfig {
                 .requestMatchers("/technician/**").hasRole("TECHNICIAN")
                 .requestMatchers("/staff-manager/**").hasRole("STAFFMANAGER")
                 .requestMatchers("/payment/**").hasAnyRole("PATIENT", "SECRETARY")
+                .requestMatchers("/employee/resources/**").hasAnyRole(
+                        "MEDICALSPECIALIST", "SECRETARY", "BUYER", "TECHNICIAN", "STAFFMANAGER")
                 // ── Anything else requires authentication ─────────────────
                 .anyRequest().authenticated()
             )
