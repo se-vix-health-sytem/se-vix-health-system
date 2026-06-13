@@ -131,6 +131,39 @@
   "paymentStatus" : true,
   "status" : "PENDING"
 }, {
+  "id" : -1034058989,
+  "dateTime" : "2026-06-30T02:03:00",
+  "duration" : 30,
+  "notes" : "Booked via patient portal",
+  "patient" : {
+    "name" : "Mario",
+    "surname" : "Rossi",
+    "birthDate" : "1980-01-01",
+    "birthPlace" : "Milano",
+    "gender" : "M",
+    "email" : "mario.rossi@email.com",
+    "phoneNumber" : "+393441111111",
+    "id" : 1,
+    "fiscalCode" : "RSSMRA80A01F205X"
+  },
+  "medicalSpecialist" : {
+    "name" : "Valentina",
+    "surname" : "Serra",
+    "birthDate" : "1986-11-22",
+    "birthPlace" : "Venezia",
+    "gender" : "F",
+    "email" : "valentina.serra@vixhealth.com",
+    "phoneNumber" : "+393331515151",
+    "id" : 15,
+    "firebaseUid" : null,
+    "hireDate" : "2016-01-10",
+    "specialty" : "Dermatology",
+    "licenseNumber" : "LIC-DERM-015",
+    "appointments" : [ ]
+  },
+  "paymentStatus" : true,
+  "status" : "CONFIRMED"
+}, {
   "id" : 5,
   "dateTime" : "2026-06-15T10:00:00",
   "duration" : 30,
@@ -162,5 +195,137 @@
     "appointments" : [ ]
   },
   "paymentStatus" : false,
+  "status" : "CANCELLED"
+}, {
+  "id" : -1032611322,
+  "dateTime" : "2026-06-16T14:00:00",
+  "duration" : 30,
+  "notes" : "Booked via patient portal",
+  "patient" : {
+    "name" : "Mario",
+    "surname" : "Rossi",
+    "birthDate" : "1980-01-01",
+    "birthPlace" : "Milano",
+    "gender" : "M",
+    "email" : "mario.rossi@email.com",
+    "phoneNumber" : "+393441111111",
+    "id" : 1,
+    "fiscalCode" : "RSSMRA80A01F205X"
+  },
+  "medicalSpecialist" : {
+    "name" : "Valentina",
+    "surname" : "Serra",
+    "birthDate" : "1986-11-22",
+    "birthPlace" : "Venezia",
+    "gender" : "F",
+    "email" : "valentina.serra@vixhealth.com",
+    "phoneNumber" : "+393331515151",
+    "id" : 15,
+    "firebaseUid" : null,
+    "hireDate" : "2016-01-10",
+    "specialty" : "Dermatology",
+    "licenseNumber" : "LIC-DERM-015",
+    "appointments" : [ ]
+  },
+  "paymentStatus" : false,
   "status" : "PENDING"
+}, {
+  "id" : -1032565877,
+  "dateTime" : "2026-06-16T11:00:00",
+  "duration" : 30,
+  "notes" : "Booked via patient portal",
+  "patient" : {
+    "name" : "Mario",
+    "surname" : "Rossi",
+    "birthDate" : "1980-01-01",
+    "birthPlace" : "Milano",
+    "gender" : "M",
+    "email" : "mario.rossi@email.com",
+    "phoneNumber" : "+393441111111",
+    "id" : 1,
+    "fiscalCode" : "RSSMRA80A01F205X"
+  },
+  "medicalSpecialist" : {
+    "name" : "Marco",
+    "surname" : "Rossi",
+    "birthDate" : "1980-03-12",
+    "birthPlace" : "Milano",
+    "gender" : "M",
+    "email" : "marco.rossi@vixhealth.com",
+    "phoneNumber" : "+393331111111",
+    "id" : 1,
+    "firebaseUid" : "k1bFTJFXoPNkGase8Of29UqBEef2",
+    "hireDate" : "2015-09-01",
+    "specialty" : "Cardiology",
+    "licenseNumber" : "LIC-CARD-001",
+    "appointments" : [ ]
+  },
+  "paymentStatus" : false,
+  "status" : "PENDING"
+}, {
+  "id" : -1032530996,
+  "dateTime" : "2026-06-15T11:00:00",
+  "duration" : 30,
+  "notes" : "Booked via patient portal",
+  "patient" : {
+    "name" : "Mario",
+    "surname" : "Rossi",
+    "birthDate" : "1980-01-01",
+    "birthPlace" : "Milano",
+    "gender" : "M",
+    "email" : "mario.rossi@email.com",
+    "phoneNumber" : "+393441111111",
+    "id" : 1,
+    "fiscalCode" : "RSSMRA80A01F205X"
+  },
+  "medicalSpecialist" : {
+    "name" : "Marco",
+    "surname" : "Rossi",
+    "birthDate" : "1980-03-12",
+    "birthPlace" : "Milano",
+    "gender" : "M",
+    "email" : "marco.rossi@vixhealth.com",
+    "phoneNumber" : "+393331111111",
+    "id" : 1,
+    "firebaseUid" : "k1bFTJFXoPNkGase8Of29UqBEef2",
+    "hireDate" : "2015-09-01",
+    "specialty" : "Cardiology",
+    "licenseNumber" : "LIC-CARD-001",
+    "appointments" : [ ]
+  },
+  "paymentStatus" : false,
+  "status" : "PENDING"
+}, {
+  "id" : -1032554193,
+  "dateTime" : "2026-06-27T00:29:00",
+  "duration" : 30,
+  "notes" : "Booked via patient portal",
+  "patient" : {
+    "name" : "Mario",
+    "surname" : "Rossi",
+    "birthDate" : "1980-01-01",
+    "birthPlace" : "Milano",
+    "gender" : "M",
+    "email" : "mario.rossi@email.com",
+    "phoneNumber" : "+393441111111",
+    "id" : 1,
+    "fiscalCode" : "RSSMRA80A01F205X"
+  },
+  "medicalSpecialist" : {
+    "name" : "Marco",
+    "surname" : "Rossi",
+    "birthDate" : "1980-03-12",
+    "birthPlace" : "Milano",
+    "gender" : "M",
+    "email" : "marco.rossi@vixhealth.com",
+    "phoneNumber" : "+393331111111",
+    "id" : 1,
+    "firebaseUid" : "k1bFTJFXoPNkGase8Of29UqBEef2",
+    "hireDate" : "2015-09-01",
+    "specialty" : "Cardiology",
+    "licenseNumber" : "LIC-CARD-001",
+    "appointments" : [ ]
+  },
+  "paymentStatus" : true,
+  "status" : "RESCHEDULED"
 } ]

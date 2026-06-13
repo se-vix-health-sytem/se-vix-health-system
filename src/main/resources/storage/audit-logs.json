@@ -606,4 +606,124 @@
   "username" : "RSSMRA80A01F205X",
   "details" : "Patient RSSMRA80A01F205X logged out",
   "timestamp" : "2026-06-13T20:30:42.4978442"
+}, {
+  "id" : 77,
+  "action" : "PATIENT_LOGIN",
+  "entityType" : "Patient",
+  "entityId" : "1",
+  "username" : "RSSMRA80A01F205X",
+  "details" : "Patient RSSMRA80A01F205X logged in",
+  "timestamp" : "2026-06-13T21:01:51.863551"
+}, {
+  "id" : 78,
+  "action" : "BOOK_APPOINTMENT",
+  "entityType" : "Appointment",
+  "entityId" : "-1034058989",
+  "username" : "RSSMRA80A01F205X",
+  "details" : "Patient RSSMRA80A01F205X booked appointment with Dr. Valentina Serra on 15/06/2026 11:00",
+  "timestamp" : "2026-06-13T21:02:48.860076"
+}, {
+  "id" : 79,
+  "action" : "RESCHEDULE_APPOINTMENT",
+  "entityType" : "Appointment",
+  "entityId" : "-1034058989",
+  "username" : "RSSMRA80A01F205X",
+  "details" : "Patient RSSMRA80A01F205X rescheduled appointment from 15/06/2026 11:00 to 30/06/2026 02:03",
+  "timestamp" : "2026-06-13T21:03:15.92256"
+}, {
+  "id" : 80,
+  "action" : "PROCESS_PAYMENT",
+  "entityType" : "Appointment",
+  "entityId" : "-1034058989",
+  "username" : "RSSMRA80A01F205X",
+  "details" : "Payment of €85.00 processed. Transaction: TXN-E37A7354",
+  "timestamp" : "2026-06-13T21:03:37.221516"
+}, {
+  "id" : 81,
+  "action" : "CANCEL_APPOINTMENT",
+  "entityType" : "Appointment",
+  "entityId" : "5",
+  "username" : "RSSMRA80A01F205X",
+  "details" : "Patient RSSMRA80A01F205X cancelled their appointment",
+  "timestamp" : "2026-06-13T21:04:28.21601"
+}, {
+  "id" : 82,
+  "action" : "PATIENT_LOGIN",
+  "entityType" : "Patient",
+  "entityId" : "1",
+  "username" : "RSSMRA80A01F205X",
+  "details" : "Patient RSSMRA80A01F205X logged in",
+  "timestamp" : "2026-06-13T21:25:08.520038"
+}, {
+  "id" : 83,
+  "action" : "PATIENT_LOGIN",
+  "entityType" : "Patient",
+  "entityId" : "1",
+  "username" : "RSSMRA80A01F205X",
+  "details" : "Patient RSSMRA80A01F205X logged in",
+  "timestamp" : "2026-06-13T21:26:21.538299"
+}, {
+  "id" : 84,
+  "action" : "PATIENT_LOGIN",
+  "entityType" : "Patient",
+  "entityId" : "1",
+  "username" : "RSSMRA80A01F205X",
+  "details" : "Patient RSSMRA80A01F205X logged in",
+  "timestamp" : "2026-06-13T21:26:39.722772"
+}, {
+  "id" : 85,
+  "action" : "BOOK_APPOINTMENT",
+  "entityType" : "Appointment",
+  "entityId" : "-1032611322",
+  "username" : "RSSMRA80A01F205X",
+  "details" : "Patient RSSMRA80A01F205X booked appointment with Dr. Valentina Serra on 16/06/2026 14:00",
+  "timestamp" : "2026-06-13T21:26:56.527734"
+}, {
+  "id" : 86,
+  "action" : "BOOK_APPOINTMENT",
+  "entityType" : "Appointment",
+  "entityId" : "-1032565877",
+  "username" : "RSSMRA80A01F205X",
+  "details" : "Patient RSSMRA80A01F205X booked appointment with Dr. Marco Rossi on 16/06/2026 11:00",
+  "timestamp" : "2026-06-13T21:27:41.965551"
+}, {
+  "id" : 87,
+  "action" : "BOOK_APPOINTMENT",
+  "entityType" : "Appointment",
+  "entityId" : "-1032554193",
+  "username" : "RSSMRA80A01F205X",
+  "details" : "Patient RSSMRA80A01F205X booked appointment with Dr. Marco Rossi on 15/06/2026 10:00",
+  "timestamp" : "2026-06-13T21:27:53.648753"
+}, {
+  "id" : 88,
+  "action" : "BOOK_APPOINTMENT",
+  "entityType" : "Appointment",
+  "entityId" : "-1032530996",
+  "username" : "RSSMRA80A01F205X",
+  "details" : "Patient RSSMRA80A01F205X booked appointment with Dr. Marco Rossi on 15/06/2026 11:00",
+  "timestamp" : "2026-06-13T21:28:16.847066"
+}, {
+  "id" : 89,
+  "action" : "PROCESS_PAYMENT",
+  "entityType" : "Appointment",
+  "entityId" : "-1032554193",
+  "username" : "RSSMRA80A01F205X",
+  "details" : "Payment of €85.00 processed. Transaction: TXN-F6E98818",
+  "timestamp" : "2026-06-13T21:28:53.276707"
+}, {
+  "id" : 90,
+  "action" : "RESCHEDULE_APPOINTMENT",
+  "entityType" : "Appointment",
+  "entityId" : "-1032554193",
+  "username" : "RSSMRA80A01F205X",
+  "details" : "Patient RSSMRA80A01F205X rescheduled appointment from 15/06/2026 10:00 to 27/06/2026 00:29",
+  "timestamp" : "2026-06-13T21:29:13.883593"
+}, {
+  "id" : 91,
+  "action" : "PATIENT_LOGIN",
+  "entityType" : "Patient",
+  "entityId" : "1",
+  "username" : "RSSMRA80A01F205X",
+  "details" : "Patient RSSMRA80A01F205X logged in",
+  "timestamp" : "2026-06-13T21:33:03.823777"
 } ]
