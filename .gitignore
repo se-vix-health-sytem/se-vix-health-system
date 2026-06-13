@@ -37,7 +37,7 @@ build/
 *.mv.db
 *.trace.db
 
-### Private Firebase key###
+### Private Firebase key ###
 src/main/resources/firebase/firebase-service-account.json
 
 .DS_Store

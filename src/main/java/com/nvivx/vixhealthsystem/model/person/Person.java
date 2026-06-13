@@ -1,5 +1,6 @@
 package com.nvivx.vixhealthsystem.model.person;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Column;
 import jakarta.persistence.MappedSuperclass;
 import java.time.LocalDate;
@@ -225,6 +226,7 @@ public abstract class Person {
      *
      * @return age in years, or 0 if birth date is not set
      */
+    @JsonIgnore
     public int getAge() {
         if (birthDate == null) {
             return 0;

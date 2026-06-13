@@ -1,5 +1,6 @@
 package com.nvivx.vixhealthsystem.controllers;
 
+import com.nvivx.vixhealthsystem.controllers.staff.MedicalSpecialistController;
 import com.nvivx.vixhealthsystem.model.person.Patient;
 import com.nvivx.vixhealthsystem.model.medical.MedicalRecord;
 import com.nvivx.vixhealthsystem.service.core.PatientService;

@@ -1,6 +1,7 @@
 package com.nvivx.vixhealthsystem.model.medical;
 
 import com.nvivx.vixhealthsystem.model.facility.SpecializedRoom;
+import com.nvivx.vixhealthsystem.model.person.employee.MedicalSpecialist;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
@@ -38,6 +39,13 @@ public class Surgery {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "specialized_room_id", nullable = false)
     private SpecializedRoom specializedRoom;
+
+    /**
+     * Medical specialist who performed this surgery.
+     */
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "medical_specialist_id")
+    private MedicalSpecialist medicalSpecialist;
 
     /**
      * Scheduled date and time of the surgery.
@@ -197,5 +205,13 @@ public class Surgery {
      */
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public MedicalSpecialist getMedicalSpecialist() {
+        return medicalSpecialist;
+    }
+
+    public void setMedicalSpecialist(MedicalSpecialist medicalSpecialist) {
+        this.medicalSpecialist = medicalSpecialist;
     }
 }

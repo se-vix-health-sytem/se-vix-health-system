@@ -1,5 +1,6 @@
 package com.nvivx.vixhealthsystem.controllers;
 
+import com.nvivx.vixhealthsystem.controllers.site.DepartmentController;
 import com.nvivx.vixhealthsystem.model.facility.Department;
 import com.nvivx.vixhealthsystem.service.core.DepartmentService;
 import org.junit.jupiter.api.BeforeEach;

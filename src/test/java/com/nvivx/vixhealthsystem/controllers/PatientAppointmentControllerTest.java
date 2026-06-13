@@ -1,5 +1,6 @@
 package com.nvivx.vixhealthsystem.controllers;
 
+import com.nvivx.vixhealthsystem.controllers.patient.PatientAppointmentController;
 import com.nvivx.vixhealthsystem.model.person.Patient;
 import com.nvivx.vixhealthsystem.repository.JsonAppointmentRepository;
 import com.nvivx.vixhealthsystem.service.core.EmployeeService;

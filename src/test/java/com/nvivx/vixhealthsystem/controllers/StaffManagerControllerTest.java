@@ -1,5 +1,6 @@
 package com.nvivx.vixhealthsystem.controllers;
 
+import com.nvivx.vixhealthsystem.controllers.staff.StaffManagerController;
 import com.nvivx.vixhealthsystem.model.person.employee.Employee;
 import com.nvivx.vixhealthsystem.model.person.employee.MedicalSpecialist;
 import com.nvivx.vixhealthsystem.model.person.employee.Secretary;

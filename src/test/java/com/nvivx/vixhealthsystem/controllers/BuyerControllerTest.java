@@ -1,5 +1,6 @@
 package com.nvivx.vixhealthsystem.controllers;
 
+import com.nvivx.vixhealthsystem.controllers.staff.BuyerController;
 import com.nvivx.vixhealthsystem.model.person.employee.Buyer;
 import com.nvivx.vixhealthsystem.model.resource.Resource;
 import com.nvivx.vixhealthsystem.service.core.EmployeeService;

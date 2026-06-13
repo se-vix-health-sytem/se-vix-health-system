@@ -1,7 +1,9 @@
 package com.nvivx.vixhealthsystem.repository;
 
+import com.nvivx.vixhealthsystem.model.medical.Surgery;
 import com.nvivx.vixhealthsystem.model.person.Patient;
 import com.nvivx.vixhealthsystem.model.person.employee.Employee;
+import com.nvivx.vixhealthsystem.model.person.employee.MedicalSpecialist;
 import com.nvivx.vixhealthsystem.model.resource.Resource;
 import com.nvivx.vixhealthsystem.model.facility.MedicalFacility;
 import com.nvivx.vixhealthsystem.model.facility.Room;
@@ -9,6 +11,7 @@ import com.nvivx.vixhealthsystem.service.integration.FirebaseAuthService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -36,6 +39,9 @@ class RepositoryTest {
 
     @Autowired
     private RoomRepository roomRepository;
+
+    @Autowired
+    private SurgeryRepository surgeryRepository;
 
     @Test
     void shouldConnectToDatabase() throws Exception {
@@ -114,6 +120,47 @@ class RepositoryTest {
                             + f.getName() + " | Class: "
                             + f.getClass().getSimpleName()
             );
+        }
+    }
+
+    @Test
+    @Transactional
+    void shouldPrintAllSurgeriesWithSpecialist() {
+        List<Surgery> surgeries = surgeryRepository.findAll();
+
+        assertFalse(surgeries.isEmpty(), "No surgeries found in DB");
+
+        System.out.println("===== SURGERIES =====");
+        for (Surgery s : surgeries) {
+            String specialist = s.getMedicalSpecialist() != null
+                    ? s.getMedicalSpecialist().getName() + " " + s.getMedicalSpecialist().getSurname()
+                    : "NOT ASSIGNED";
+            System.out.println(
+                    s.getId() + " - " + s.getName()
+                    + " | Date: " + s.getDateTime()
+                    + " | Specialist: " + specialist
+            );
+        }
+    }
+
+    @Test
+    @Transactional
+    void shouldPrintSurgeriesForEachSpecialist() {
+        List<Employee> employees = employeeRepository.findAll();
+
+        System.out.println("===== SPECIALIST → SURGERIES =====");
+        for (Employee e : employees) {
+            if (e instanceof MedicalSpecialist specialist) {
+                List<Surgery> surgeries = specialist.getSurgeries();
+                System.out.println(
+                        specialist.getName() + " " + specialist.getSurname()
+                        + " (" + specialist.getSpecialty() + ")"
+                        + " — " + surgeries.size() + " surgery(ies)"
+                );
+                for (Surgery s : surgeries) {
+                    System.out.println("    → " + s.getName() + " on " + s.getDateTime());
+                }
+            }
         }
     }
 

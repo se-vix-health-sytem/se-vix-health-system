@@ -7,4 +7,13 @@
   "reason" : "Annual leave",
   "status" : "APPROVED",
   "daysRequested" : 1
+}, {
+  "id" : 2,
+  "employeeId" : 3,
+  "employeeName" : "Luca Verdi",
+  "startDate" : "2026-06-11",
+  "endDate" : "2026-06-30",
+  "reason" : "Annual leave",
+  "status" : "APPROVED",
+  "daysRequested" : 20
 } ]

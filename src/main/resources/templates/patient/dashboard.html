@@ -91,17 +91,19 @@
                 <div class="card h-100">
                     <div class="card-header"><i class="bi bi-heart-pulse me-2"></i>Health Snapshot</div>
                     <div class="card-body">
+                        <div class="row g-3 mb-3">
+                            <div class="col-6">
+                                <small class="text-muted d-block">Gender</small>
+                                <strong th:text="${patient.gender.toString() == 'M' ? 'Male' : (patient.gender.toString() == 'F' ? 'Female' : '-')}">-</strong>
+                            </div>
+                            <div class="col-6">
+                                <small class="text-muted d-block">Blood Type</small>
+                                <strong class="fs-4 font-display" style="color:var(--vix-crimson);"
+                                        th:text="${patient.medicalRecord?.bloodType ?: '-'}">-</strong>
+                            </div>
+                        </div>
                         <div th:if="${patient.medicalRecord != null}">
                             <div class="row g-3">
-                                <div class="col-6">
-                                    <small class="text-muted d-block">Blood Type</small>
-                                    <strong class="fs-4 font-display" style="color:var(--vix-crimson);"
-                                            th:text="${patient.medicalRecord.bloodType ?: '-'}">-</strong>
-                                </div>
-                                <div class="col-6">
-                                    <small class="text-muted d-block">Gender</small>
-                                    <strong th:text="${patient.gender == 'M' ? 'Male' : (patient.gender == 'F' ? 'Female' : '-')}">-</strong>
-                                </div>
                                 <div class="col-6">
                                     <small class="text-muted d-block">Height</small>
                                     <strong th:text="${patient.medicalRecord.height != null ? patient.medicalRecord.height + ' cm' : '-'}">-</strong>

@@ -16,7 +16,7 @@
                             <span th:text="${session.user.name + ' ' + session.user.surname}">Name</span>
                         </h2>
                         <p class="text-muted mb-0 small">
-                            <span th:text="${session.user.department?.name ?: 'No department assigned'}">Department</span>
+                            <span th:text="${departmentName}">Department</span>
                         </p>
                     </div>
                     <a th:href="@{/secretary/appointments}" class="btn btn-primary rounded-pill px-4">

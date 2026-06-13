@@ -1,5 +1,7 @@
 package com.nvivx.vixhealthsystem.model.medical;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.nvivx.vixhealthsystem.model.person.Patient;
 import com.nvivx.vixhealthsystem.model.person.employee.MedicalSpecialist;
 
@@ -16,6 +18,7 @@ import java.time.LocalDateTime;
  * @see Patient
  * @see MedicalSpecialist
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Appointment {
 
     /**
@@ -275,6 +278,7 @@ public class Appointment {
      *
      * @return true if the appointment is active, false otherwise
      */
+    @JsonIgnore
     public boolean isActive() {
         return status != null
                 && !"CANCELLED".equals(status)
@@ -288,6 +292,7 @@ public class Appointment {
      *
      * @return true if the appointment is cancellable, false otherwise
      */
+    @JsonIgnore
     public boolean isCancellable() {
         return status != null
                 && !"CANCELLED".equals(status)

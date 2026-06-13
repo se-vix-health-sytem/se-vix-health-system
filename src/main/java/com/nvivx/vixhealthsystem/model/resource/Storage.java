@@ -38,7 +38,7 @@ public class Storage {
     /**
      * Resources stored with their respective quantities.
      */
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(
             name = "StorageResources",
             joinColumns = @JoinColumn(name = "storage_id")

@@ -152,10 +152,242 @@
   "timestamp" : "2026-06-12T20:27:01.8055756"
 }, {
   "id" : 20,
+  "action" : "CREATE_EMPLOYEE",
+  "entityType" : "Employee",
+  "entityId" : "12",
+  "username" : "SYSTEM",
+  "details" : "Created employee: Mary Smith (Type: MedicalSpecialist)",
+  "timestamp" : "2026-06-12T21:53:37.8681725"
+}, {
+  "id" : 21,
+  "action" : "ASSIGN_SHIFT",
+  "entityType" : "Shift",
+  "entityId" : "2",
+  "username" : "SYSTEM",
+  "details" : "Assigned AFTERNOON shift to employee 12 on 2026-06-19",
+  "timestamp" : "2026-06-12T21:54:05.6488007"
+}, {
+  "id" : 22,
   "action" : "REQUEST_PASSWORD_RESET",
   "entityType" : "Employee",
   "entityId" : "4",
   "username" : "SYSTEM",
   "details" : "Password reset requested for employee: Sara Conti",
-  "timestamp" : "2026-06-12T20:58:53.4073423"
+  "timestamp" : "2026-06-12T21:55:54.7044061"
+}, {
+  "id" : 23,
+  "action" : "ADD_PRESCRIPTION",
+  "entityType" : "MedicalRecord",
+  "entityId" : "2",
+  "username" : "SYSTEM",
+  "details" : "Added prescription: Ibuprofene - 500mg for patient: 2 by specialist: 1",
+  "timestamp" : "2026-06-12T21:58:15.1900044"
+}, {
+  "id" : 24,
+  "action" : "UPDATE_MACHINE_STATUS",
+  "entityType" : "Machinery",
+  "entityId" : "2",
+  "username" : "SYSTEM",
+  "details" : "Status changed from UNDER_MAINTENANCE to UNDER_MAINTENANCE",
+  "timestamp" : "2026-06-12T21:58:49.738261"
+}, {
+  "id" : 25,
+  "action" : "UPDATE_MACHINE_STATUS",
+  "entityType" : "Machinery",
+  "entityId" : "2",
+  "username" : "SYSTEM",
+  "details" : "Status changed from UNDER_MAINTENANCE to WORKING",
+  "timestamp" : "2026-06-12T21:59:15.0269212"
+}, {
+  "id" : 26,
+  "action" : "REPAIR_MACHINE",
+  "entityType" : "Machinery",
+  "entityId" : "2",
+  "username" : "SYSTEM",
+  "details" : "Machine repaired and back to WORKING status",
+  "timestamp" : "2026-06-12T21:59:15.0462737"
+}, {
+  "id" : 27,
+  "action" : "UPDATE_MACHINE_STATUS",
+  "entityType" : "Machinery",
+  "entityId" : "4",
+  "username" : "SYSTEM",
+  "details" : "Status changed from FAULTY to UNDER_MAINTENANCE",
+  "timestamp" : "2026-06-12T21:59:50.1610913"
+}, {
+  "id" : 28,
+  "action" : "UPDATE_MACHINE_STATUS",
+  "entityType" : "Machinery",
+  "entityId" : "4",
+  "username" : "SYSTEM",
+  "details" : "Status changed from UNDER_MAINTENANCE to WORKING",
+  "timestamp" : "2026-06-12T22:00:29.2963565"
+}, {
+  "id" : 29,
+  "action" : "REPAIR_MACHINE",
+  "entityType" : "Machinery",
+  "entityId" : "4",
+  "username" : "SYSTEM",
+  "details" : "Machine repaired and back to WORKING status",
+  "timestamp" : "2026-06-12T22:00:29.3040245"
+}, {
+  "id" : 30,
+  "action" : "CREATE_RESOURCE",
+  "entityType" : "Resource",
+  "entityId" : "10",
+  "username" : "SYSTEM",
+  "details" : "Created resource: Bandaids (Price: €20000.0)",
+  "timestamp" : "2026-06-12T22:07:44.1462203"
+}, {
+  "id" : 31,
+  "action" : "ADD_RESOURCE_TO_STORAGE",
+  "entityType" : "Storage",
+  "entityId" : "1",
+  "username" : "SYSTEM",
+  "details" : "Added 3 units of Bandaids to storage",
+  "timestamp" : "2026-06-12T22:07:44.2048279"
+}, {
+  "id" : 32,
+  "action" : "UPDATE_MACHINE_STATUS",
+  "entityType" : "Machinery",
+  "entityId" : "1",
+  "username" : "SYSTEM",
+  "details" : "Status changed from WORKING to UNDER_MAINTENANCE",
+  "timestamp" : "2026-06-13T03:09:11.887424"
+}, {
+  "id" : 33,
+  "action" : "ADD_RESOURCE_TO_STORAGE",
+  "entityType" : "Storage",
+  "entityId" : "1",
+  "username" : "SYSTEM",
+  "details" : "Added 2 units of Thermometers to storage",
+  "timestamp" : "2026-06-13T03:48:39.9116068"
+}, {
+  "id" : 34,
+  "action" : "ADD_RESOURCE_TO_STORAGE",
+  "entityType" : "Storage",
+  "entityId" : "1",
+  "username" : "SYSTEM",
+  "details" : "Added 4 units of Bandaids to storage",
+  "timestamp" : "2026-06-13T03:48:52.4952987"
+}, {
+  "id" : 35,
+  "action" : "UPDATE_MACHINE_STATUS",
+  "entityType" : "Machinery",
+  "entityId" : "1",
+  "username" : "SYSTEM",
+  "details" : "Status changed from UNDER_MAINTENANCE to WORKING",
+  "timestamp" : "2026-06-13T03:49:43.8215768"
+}, {
+  "id" : 36,
+  "action" : "REPAIR_MACHINE",
+  "entityType" : "Machinery",
+  "entityId" : "1",
+  "username" : "SYSTEM",
+  "details" : "Machine repaired and back to WORKING status",
+  "timestamp" : "2026-06-13T03:49:43.8260427"
+}, {
+  "id" : 37,
+  "action" : "UPDATE_MACHINE_STATUS",
+  "entityType" : "Machinery",
+  "entityId" : "2",
+  "username" : "SYSTEM",
+  "details" : "Status changed from WORKING to WORKING",
+  "timestamp" : "2026-06-13T03:49:49.4855899"
+}, {
+  "id" : 38,
+  "action" : "UPDATE_MACHINE_STATUS",
+  "entityType" : "Machinery",
+  "entityId" : "3",
+  "username" : "SYSTEM",
+  "details" : "Status changed from WORKING to FAULTY ⚠️ ALERT: Machine malfunction detected!",
+  "timestamp" : "2026-06-13T03:50:06.2087071"
+}, {
+  "id" : 39,
+  "action" : "ASSIGN_SHIFT",
+  "entityType" : "Shift",
+  "entityId" : "3",
+  "username" : "alessia.moretti@vixhealth.com",
+  "details" : "Assigned MORNING shift to employee 3 on 2026-06-15",
+  "timestamp" : "2026-06-13T04:26:01.6450926"
+}, {
+  "id" : 40,
+  "action" : "CREATE_VACATION_REQUEST",
+  "entityType" : "VacationRequest",
+  "entityId" : "2",
+  "username" : "alessia.moretti@vixhealth.com",
+  "details" : "Created vacation request for employee: Luca Verdi (2026-06-11 to 2026-06-30)",
+  "timestamp" : "2026-06-13T04:26:17.9243442"
+}, {
+  "id" : 41,
+  "action" : "ADD_EXAM_RESULT",
+  "entityType" : "MedicalRecord",
+  "entityId" : "4",
+  "username" : "marco.rossi@vixhealth.com",
+  "details" : "Added exam result: Lung Surgery for patient: 4",
+  "timestamp" : "2026-06-13T04:27:50.2952904"
+}, {
+  "id" : 42,
+  "action" : "ADMIT_PATIENT",
+  "entityType" : "Patient",
+  "entityId" : "4",
+  "username" : "sara.conti@vixhealth.com",
+  "details" : "Patient admitted to room: H-102",
+  "timestamp" : "2026-06-13T05:17:07.846989"
+}, {
+  "id" : 43,
+  "action" : "PROCESS_PAYMENT",
+  "entityType" : "Appointment",
+  "entityId" : "2",
+  "username" : "RSSMRA80A01F205X",
+  "details" : "Payment of €85.00 processed. Transaction: TXN-25B47F4B",
+  "timestamp" : "2026-06-13T05:22:26.0480058"
+}, {
+  "id" : 44,
+  "action" : "PATIENT_LOGIN",
+  "entityType" : "Patient",
+  "entityId" : "1",
+  "username" : "RSSMRA80A01F205X",
+  "details" : "Patient RSSMRA80A01F205X logged in",
+  "timestamp" : "2026-06-13T08:31:56.0186176"
+}, {
+  "id" : 45,
+  "action" : "BOOK_APPOINTMENT",
+  "entityType" : "Appointment",
+  "entityId" : "4",
+  "username" : "RSSMRA80A01F205X",
+  "details" : "Patient RSSMRA80A01F205X booked appointment with Dr. Marco Rossi on 19/06/2026 09:00",
+  "timestamp" : "2026-06-13T08:32:16.3940663"
+}, {
+  "id" : 46,
+  "action" : "PROCESS_PAYMENT",
+  "entityType" : "Appointment",
+  "entityId" : "4",
+  "username" : "RSSMRA80A01F205X",
+  "details" : "Payment of €85.00 processed. Transaction: TXN-D90FE367",
+  "timestamp" : "2026-06-13T08:32:37.164775"
+}, {
+  "id" : 47,
+  "action" : "CREATE_EMPLOYEE",
+  "entityType" : "Employee",
+  "entityId" : "100",
+  "username" : "alessia.moretti@vixhealth.com",
+  "details" : "Created employee: Alex Moore (Type: MedicalSpecialist)",
+  "timestamp" : "2026-06-13T08:35:44.2343829"
+}, {
+  "id" : 48,
+  "action" : "ASSIGN_SHIFT",
+  "entityType" : "Shift",
+  "entityId" : "4",
+  "username" : "alessia.moretti@vixhealth.com",
+  "details" : "Assigned AFTERNOON shift to employee 100 on 2026-06-14",
+  "timestamp" : "2026-06-13T08:36:09.4127072"
+}, {
+  "id" : 49,
+  "action" : "APPROVE_VACATION",
+  "entityType" : "VacationRequest",
+  "entityId" : "2",
+  "username" : "alessia.moretti@vixhealth.com",
+  "details" : "Approved vacation for employee: Luca Verdi",
+  "timestamp" : "2026-06-13T08:36:22.1395664"
 } ]

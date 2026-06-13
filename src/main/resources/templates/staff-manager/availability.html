@@ -83,6 +83,42 @@
                         <span class="text-muted" th:text="${vac.daysRequested + ' day(s)'}">-</span>
                     </div>
                 </div>
+                <!-- Appointments (Medical Specialists only) -->
+                <div th:if="${appointmentsBySpecialist != null and appointmentsBySpecialist.containsKey(emp.id)}"
+                     class="card-body pt-2 pb-1 border-top">
+                    <div class="small fw-semibold mb-1" style="color: var(--vix-crimson);">
+                        <i class="bi bi-calendar-check me-1"></i>Scheduled Appointments
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-sm mb-0">
+                            <thead style="background: var(--vix-cream);">
+                                <tr>
+                                    <th class="ps-2">Patient</th>
+                                    <th>Date &amp; Time</th>
+                                    <th>Duration</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="appt : ${appointmentsBySpecialist.get(emp.id)}">
+                                    <td class="ps-2 small"
+                                        th:text="${appt.patient != null ? appt.patient.name + ' ' + appt.patient.surname : 'Unknown'}">-</td>
+                                    <td class="small"
+                                        th:text="${appt.dateTime != null ? #temporals.format(appt.dateTime,'dd/MM/yyyy HH:mm') : '-'}">-</td>
+                                    <td class="small" th:text="${appt.duration + ' min'}">-</td>
+                                    <td>
+                                        <span class="badge rounded-pill"
+                                              th:classappend="${appt.status == 'CONFIRMED' ? 'bg-success' :
+                                                               appt.status == 'PENDING'    ? 'bg-warning text-dark' :
+                                                               appt.status == 'RESCHEDULED'? 'bg-info text-dark' :
+                                                               appt.status == 'COMPLETED'  ? 'bg-secondary' : 'bg-info'}"
+                                              th:text="${appt.status ?: '-'}">-</span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
 

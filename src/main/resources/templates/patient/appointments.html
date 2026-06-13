@@ -35,8 +35,11 @@
                                 </div>
                                 <div class="col-md-3">
                                     <i class="bi bi-person-circle me-1"></i>
-                                    Dr. <span th:text="${apt.medicalSpecialist.name} + ' ' + ${apt.medicalSpecialist.surname}"></span><br>
-                                    <small class="text-muted" th:text="${apt.medicalSpecialist.specialty}">Specialty</small>
+                                    <span th:if="${apt.medicalSpecialist != null}">
+                                        Dr. <span th:text="${apt.medicalSpecialist.name} + ' ' + ${apt.medicalSpecialist.surname}"></span><br>
+                                        <small class="text-muted" th:text="${apt.medicalSpecialist.specialty}">Specialty</small>
+                                    </span>
+                                    <span th:if="${apt.medicalSpecialist == null}" class="text-muted small">No specialist assigned</span>
                                 </div>
                                 <div class="col-md-2">
                                     <span class="badge" th:classappend="'badge-status-' + ${apt.status?.toLowerCase()}" th:text="${apt.status}">CONFIRMED</span>
@@ -82,7 +85,10 @@
                                     <span th:text="${#temporals.format(apt.dateTime, 'dd/MM/yyyy HH:mm')}"></span>
                                 </div>
                                 <div class="col-md-3">
-                                    Dr. <span th:text="${apt.medicalSpecialist.name} + ' ' + ${apt.medicalSpecialist.surname}"></span>
+                                    <span th:if="${apt.medicalSpecialist != null}">
+                                        Dr. <span th:text="${apt.medicalSpecialist.name} + ' ' + ${apt.medicalSpecialist.surname}"></span>
+                                    </span>
+                                    <span th:if="${apt.medicalSpecialist == null}" class="text-muted small">N/A</span>
                                 </div>
                                 <div class="col-md-2">
                                     <span class="badge" th:classappend="'badge-status-' + ${apt.status?.toLowerCase()}" th:text="${apt.status}">COMPLETED</span>

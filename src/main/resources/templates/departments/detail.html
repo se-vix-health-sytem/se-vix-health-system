@@ -57,10 +57,12 @@
                         <div th:if="${doctors != null and !doctors.isEmpty()}">
                             <div th:each="doc : ${doctors}"
                                  class="d-flex align-items-center gap-3 border-bottom px-3 py-2">
-                                <div class="rounded-circle d-flex align-items-center justify-content-center flex-shrink-0"
-                                     style="width:40px;height:40px;background:var(--vix-cream);border:2px solid var(--vix-gold);">
-                                    <i class="bi bi-person" style="color:var(--vix-crimson);"></i>
-                                </div>
+                                <img th:src="${doctorImages != null and doctorImages.containsKey(doc.id) ? doctorImages[doc.id] : '/images/doctors/placeholder.jpg'}"
+                                     th:alt="'Dr. ' + ${doc.name} + ' ' + ${doc.surname}"
+                                     class="rounded-circle flex-shrink-0"
+                                     width="48" height="48"
+                                     style="object-fit:cover;border:2px solid var(--vix-gold);"
+                                     onerror="this.onerror=null;this.src='/images/doctors/placeholder.jpg';">
                                 <div>
                                     <div class="fw-semibold small"
                                          th:text="'Dr. ' + ${doc.name} + ' ' + ${doc.surname}">-</div>

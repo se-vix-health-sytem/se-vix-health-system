@@ -33,4 +33,12 @@ public interface SurgeryRepository
      * @return matching surgeries
      */
     List<Surgery> findByName(String name);
+
+    /**
+     * Returns all surgeries performed by a medical specialist.
+     *
+     * @param medicalSpecialistId specialist id
+     * @return surgeries assigned to the specialist
+     */
+    List<Surgery> findByMedicalSpecialistId(Long medicalSpecialistId);
 }
