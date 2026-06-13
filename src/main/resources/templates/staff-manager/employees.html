@@ -75,23 +75,20 @@
                                     th:text="${employee.hireDate != null ? #temporals.format(employee.hireDate,'dd/MM/yyyy') : '-'}">-</td>
 
                                 <td>
-                                    <form th:action="@{/staff-manager/employees/reset-password}"
-                                          method="post"
-                                          class="d-inline">
+                                    <a th:href="@{/staff-manager/employees/{id}(id=${employee.id})}"
+                                       class="btn btn-sm btn-outline-info rounded-pill me-1" title="View Details">
+                                        <i class="bi bi-eye"></i>
+                                    </a>
+                                    <form th:action="@{/staff-manager/employees/reset-password}" method="post" class="d-inline">
                                         <input type="hidden" name="employeeId" th:value="${employee.id}">
-                                        <button type="submit"
-                                                class="btn btn-sm btn-outline-warning rounded-pill"
+                                        <button type="submit" class="btn btn-sm btn-outline-warning rounded-pill me-1"
                                                 onclick="return confirm('Generate password reset link for this employee?')">
                                             <i class="bi bi-key"></i>
                                         </button>
                                     </form>
-
-                                    <form th:action="@{/staff-manager/employees/delete}"
-                                          method="post"
-                                          class="d-inline">
+                                    <form th:action="@{/staff-manager/employees/delete}" method="post" class="d-inline">
                                         <input type="hidden" name="employeeId" th:value="${employee.id}">
-                                        <button type="submit"
-                                                class="btn btn-sm btn-outline-danger rounded-pill"
+                                        <button type="submit" class="btn btn-sm btn-outline-danger rounded-pill"
                                                 onclick="return confirm('Delete this employee?')">
                                             <i class="bi bi-trash"></i>
                                         </button>

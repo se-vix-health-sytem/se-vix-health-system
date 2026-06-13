@@ -129,5 +129,5 @@
     "appointments" : [ ]
   },
   "paymentStatus" : true,
-  "status" : "PENDING"
+  "status" : "CONFIRMED"
 } ]

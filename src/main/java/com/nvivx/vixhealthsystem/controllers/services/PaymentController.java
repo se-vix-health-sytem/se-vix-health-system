@@ -71,8 +71,9 @@ public class PaymentController {
         PaymentResponse response = paymentService.processPayment(request);
 
         if ("SUCCESS".equals(response.getStatus())) {
-            // Update appointment payment status
+            // Update appointment payment status and confirm it
             appointment.setPaymentStatus(true);
+            appointment.setStatus("CONFIRMED");
             appointmentRepository.save(appointment);
 
             redirectAttributes.addFlashAttribute("message",

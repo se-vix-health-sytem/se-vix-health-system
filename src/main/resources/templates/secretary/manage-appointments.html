@@ -92,8 +92,8 @@
                                            th:classappend="${apt.paymentStatus ? 'bi-check-circle-fill text-success' : 'bi-x-circle text-danger'}"></i>
                                     </td>
                                     <td>
-                                        <!-- Confirm (only for PENDING, especially if paid) -->
-                                        <form th:if="${apt.status == 'PENDING'}"
+                                        <!-- Confirm (for PENDING or null-status appointments) -->
+                                        <form th:if="${apt.status == null or apt.status == 'PENDING'}"
                                               th:action="@{/secretary/appointments/{id}/confirm(id=${apt.id})}"
                                               method="post" class="d-inline me-1">
                                             <button type="submit" class="btn btn-sm btn-outline-success rounded-pill">

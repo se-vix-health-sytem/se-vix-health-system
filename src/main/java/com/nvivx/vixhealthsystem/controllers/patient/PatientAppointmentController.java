@@ -71,6 +71,7 @@ public class PatientAppointmentController {
         model.addAttribute("pastAppointments", past);
         model.addAttribute("pageTitle", "My Appointments");
         model.addAttribute("patient", patient);
+        model.addAttribute("currentPage", "appointments");
         return "patient/appointments";
     }
 
@@ -86,6 +87,7 @@ public class PatientAppointmentController {
         model.addAttribute("specialists", specialists);
         model.addAttribute("patient", patient);
         model.addAttribute("pageTitle", "Book Appointment");
+        model.addAttribute("currentPage", "bookAppointment");
         return "patient/book-appointment";
     }
 

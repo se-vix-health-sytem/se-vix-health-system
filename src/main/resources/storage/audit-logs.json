@@ -390,4 +390,204 @@
   "username" : "alessia.moretti@vixhealth.com",
   "details" : "Approved vacation for employee: Luca Verdi",
   "timestamp" : "2026-06-13T08:36:22.1395664"
+}, {
+  "id" : 50,
+  "action" : "PATIENT_LOGIN",
+  "entityType" : "Patient",
+  "entityId" : "1",
+  "username" : "RSSMRA80A01F205X",
+  "details" : "Patient RSSMRA80A01F205X logged in",
+  "timestamp" : "2026-06-13T16:07:19.0016387"
+}, {
+  "id" : 51,
+  "action" : "PATIENT_LOGIN",
+  "entityType" : "Patient",
+  "entityId" : "2",
+  "username" : "BNCLRA92B41L219Y",
+  "details" : "Patient BNCLRA92B41L219Y logged in",
+  "timestamp" : "2026-06-13T16:08:15.4819035"
+}, {
+  "id" : 52,
+  "action" : "DELETE_EMPLOYEE",
+  "entityType" : "Employee",
+  "entityId" : "100",
+  "username" : "alessia.moretti@vixhealth.com",
+  "details" : "Deleted employee: Alex Moore",
+  "timestamp" : "2026-06-13T16:47:51.5389395"
+}, {
+  "id" : 53,
+  "action" : "CREATE_EMPLOYEE",
+  "entityType" : "Employee",
+  "entityId" : "100",
+  "username" : "alessia.moretti@vixhealth.com",
+  "details" : "Created employee: Mary Smith (Type: MedicalSpecialist)",
+  "timestamp" : "2026-06-13T16:48:28.7012755"
+}, {
+  "id" : 54,
+  "action" : "REMOVE_RESOURCE_FROM_STORAGE",
+  "entityType" : "Storage",
+  "entityId" : "2",
+  "username" : "giulia.romano@vixhealth.com",
+  "details" : "Giulia Romano (Technician) took 2 units of Disinfectant",
+  "timestamp" : "2026-06-13T16:50:02.3431264"
+}, {
+  "id" : 55,
+  "action" : "CONFIRM_APPOINTMENT",
+  "entityType" : "Appointment",
+  "entityId" : "4",
+  "username" : "sara.conti@vixhealth.com",
+  "details" : "Secretary confirmed appointment for patient RSSMRA80A01F205X",
+  "timestamp" : "2026-06-13T16:51:37.6728157"
+}, {
+  "id" : 56,
+  "action" : "PATIENT_LOGIN",
+  "entityType" : "Patient",
+  "entityId" : "1",
+  "username" : "RSSMRA80A01F205X",
+  "details" : "Patient RSSMRA80A01F205X logged in",
+  "timestamp" : "2026-06-13T17:01:15.1283709"
+}, {
+  "id" : 57,
+  "action" : "PATIENT_LOGOUT",
+  "entityType" : "Patient",
+  "entityId" : "1",
+  "username" : "RSSMRA80A01F205X",
+  "details" : "Patient RSSMRA80A01F205X logged out",
+  "timestamp" : "2026-06-13T17:02:29.4905287"
+}, {
+  "id" : 58,
+  "action" : "DELETE_EMPLOYEE",
+  "entityType" : "Employee",
+  "entityId" : "100",
+  "username" : "alessia.moretti@vixhealth.com",
+  "details" : "Deleted employee: Mary Smith",
+  "timestamp" : "2026-06-13T17:20:46.230952"
+}, {
+  "id" : 59,
+  "action" : "CREATE_EMPLOYEE",
+  "entityType" : "Employee",
+  "entityId" : "100",
+  "username" : "alessia.moretti@vixhealth.com",
+  "details" : "Created employee: Mary Smith (Type: MedicalSpecialist)",
+  "timestamp" : "2026-06-13T17:22:08.4734174"
+}, {
+  "id" : 60,
+  "action" : "ADMIT_PATIENT",
+  "entityType" : "Patient",
+  "entityId" : "5",
+  "username" : "sara.conti@vixhealth.com",
+  "details" : "Patient admitted to room: H-103",
+  "timestamp" : "2026-06-13T17:51:47.4744815"
+}, {
+  "id" : 61,
+  "action" : "ADMIT_PATIENT",
+  "entityType" : "Patient",
+  "entityId" : "5",
+  "username" : "sara.conti@vixhealth.com",
+  "details" : "Secretary admitted patient #5 to room #15",
+  "timestamp" : "2026-06-13T17:51:47.585193"
+}, {
+  "id" : 62,
+  "action" : "DISMISS_PATIENT",
+  "entityType" : "Patient",
+  "entityId" : "5",
+  "username" : "sara.conti@vixhealth.com",
+  "details" : "Patient dismissed from room: H-102",
+  "timestamp" : "2026-06-13T17:51:54.5034873"
+}, {
+  "id" : 63,
+  "action" : "DISMISS_PATIENT",
+  "entityType" : "Patient",
+  "entityId" : "5",
+  "username" : "sara.conti@vixhealth.com",
+  "details" : "Secretary dismissed patient #5 from room #2",
+  "timestamp" : "2026-06-13T17:51:54.5285748"
+}, {
+  "id" : 64,
+  "action" : "ADD_DIAGNOSIS",
+  "entityType" : "MedicalRecord",
+  "entityId" : "1",
+  "username" : "marco.rossi@vixhealth.com",
+  "details" : "Added diagnosis: Hepatitis (severity: medium) for patient: 1",
+  "timestamp" : "2026-06-13T17:55:26.2656582"
+}, {
+  "id" : 65,
+  "action" : "ADD_PRESCRIPTION",
+  "entityType" : "MedicalRecord",
+  "entityId" : "1",
+  "username" : "marco.rossi@vixhealth.com",
+  "details" : "Added prescription: Ibuprofene - 500mg for patient: 1 by specialist: 1",
+  "timestamp" : "2026-06-13T18:30:39.0782031"
+}, {
+  "id" : 66,
+  "action" : "ADD_SURGERY",
+  "entityType" : "MedicalRecord",
+  "entityId" : "1",
+  "username" : "marco.rossi@vixhealth.com",
+  "details" : "Scheduled surgery 'MRI' for patient 1",
+  "timestamp" : "2026-06-13T18:31:31.3862414"
+}, {
+  "id" : 67,
+  "action" : "ADD_EXAM_RESULT",
+  "entityType" : "MedicalRecord",
+  "entityId" : "1",
+  "username" : "marco.rossi@vixhealth.com",
+  "details" : "Added exam result: Blood Test for patient: 1",
+  "timestamp" : "2026-06-13T18:32:03.7744112"
+}, {
+  "id" : 68,
+  "action" : "PATIENT_LOGIN",
+  "entityType" : "Patient",
+  "entityId" : "1",
+  "username" : "RSSMRA80A01F205X",
+  "details" : "Patient RSSMRA80A01F205X logged in",
+  "timestamp" : "2026-06-13T19:17:55.4079038"
+}, {
+  "id" : 69,
+  "action" : "PATIENT_LOGOUT",
+  "entityType" : "Patient",
+  "entityId" : "1",
+  "username" : "RSSMRA80A01F205X",
+  "details" : "Patient RSSMRA80A01F205X logged out",
+  "timestamp" : "2026-06-13T19:18:36.5356789"
+}, {
+  "id" : 70,
+  "action" : "PATIENT_LOGIN",
+  "entityType" : "Patient",
+  "entityId" : "1",
+  "username" : "RSSMRA80A01F205X",
+  "details" : "Patient RSSMRA80A01F205X logged in",
+  "timestamp" : "2026-06-13T19:18:47.2138305"
+}, {
+  "id" : 71,
+  "action" : "PATIENT_LOGOUT",
+  "entityType" : "Patient",
+  "entityId" : "1",
+  "username" : "RSSMRA80A01F205X",
+  "details" : "Patient RSSMRA80A01F205X logged out",
+  "timestamp" : "2026-06-13T19:18:53.0600792"
+}, {
+  "id" : 72,
+  "action" : "ASSIGN_SHIFT",
+  "entityType" : "Shift",
+  "entityId" : "5",
+  "username" : "alessia.moretti@vixhealth.com",
+  "details" : "Assigned AFTERNOON shift to employee 1 on 2026-06-18",
+  "timestamp" : "2026-06-13T19:22:50.6041158"
+}, {
+  "id" : 73,
+  "action" : "PATIENT_LOGIN",
+  "entityType" : "Patient",
+  "entityId" : "1",
+  "username" : "RSSMRA80A01F205X",
+  "details" : "Patient RSSMRA80A01F205X logged in",
+  "timestamp" : "2026-06-13T19:33:48.567119"
+}, {
+  "id" : 74,
+  "action" : "PATIENT_LOGOUT",
+  "entityType" : "Patient",
+  "entityId" : "1",
+  "username" : "RSSMRA80A01F205X",
+  "details" : "Patient RSSMRA80A01F205X logged out",
+  "timestamp" : "2026-06-13T19:34:09.6943024"
 } ]
