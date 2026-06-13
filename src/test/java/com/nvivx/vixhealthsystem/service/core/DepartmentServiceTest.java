@@ -337,10 +337,12 @@ class DepartmentServiceTest {
 
         MedicalSpecialist doctor1 = new MedicalSpecialist();
         doctor1.setId(10L);
+        doctor1.setGender('M');
         doctor1.setDepartment(cardiology);
 
         MedicalSpecialist doctor2 = new MedicalSpecialist();
         doctor2.setId(20L);
+        doctor2.setGender('F');
         doctor2.setDepartment(cardiology);
 
         when(departmentRepository.findById(1L))
@@ -400,10 +402,12 @@ class DepartmentServiceTest {
 
         MedicalSpecialist doctor1 = new MedicalSpecialist();
         doctor1.setId(10L);
+        doctor1.setGender('M');
         doctor1.setDepartment(cardiology);
 
         MedicalSpecialist doctor2 = new MedicalSpecialist();
         doctor2.setId(20L);
+        doctor2.setGender('F');
         doctor2.setDepartment(neurology);
 
         when(departmentRepository.findAll())

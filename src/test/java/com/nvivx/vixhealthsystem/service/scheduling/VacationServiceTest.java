@@ -1,6 +1,7 @@
 package com.nvivx.vixhealthsystem.service.scheduling;
 
 import com.nvivx.vixhealthsystem.exception.VacationNotFoundException;
+import com.nvivx.vixhealthsystem.model.enums.VacationStatus;
 import com.nvivx.vixhealthsystem.model.staff.VacationRequest;
 import com.nvivx.vixhealthsystem.repository.JsonVacationRepository;
 import com.nvivx.vixhealthsystem.service.AuditService;
@@ -17,12 +18,6 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-/**
- * Arrange = prepare fake data and mock behavior
- * Act = call the method being tested
- * Assert = check the result
- * Verify = check that mocks were called correctly
- */
 @ExtendWith(MockitoExtension.class)
 class VacationServiceTest {
 
@@ -35,39 +30,39 @@ class VacationServiceTest {
     @InjectMocks
     private VacationService service;
 
+    /**
+     * Tests that addVacationRequest() creates a new vacation request
+     * with PENDING status and saves it through the repository.
+     */
     @Test
-    void shouldAddVacationRequest() {
-        // Arrange
+    void shouldAddVacationRequestSuccessfully() {
         VacationRequest savedRequest = new VacationRequest(
                 1,
-                101,
-                "John Smith",
+                10,
+                "Marco Rossi",
                 LocalDate.of(2026, 7, 1),
                 LocalDate.of(2026, 7, 5),
-                "Holiday",
-                "PENDING"
+                "Summer holiday",
+                VacationStatus.PENDING
         );
 
         when(repository.save(any(VacationRequest.class)))
                 .thenReturn(savedRequest);
 
-        // Act
         VacationRequest result = service.addVacationRequest(
-                101,
-                "John Smith",
+                10,
+                "Marco Rossi",
                 LocalDate.of(2026, 7, 1),
                 LocalDate.of(2026, 7, 5),
-                "Holiday"
+                "Summer holiday"
         );
 
-        // Assert
         assertNotNull(result);
         assertEquals(1, result.getId());
-        assertEquals(101, result.getEmployeeId());
-        assertEquals("John Smith", result.getEmployeeName());
-        assertEquals("PENDING", result.getStatus());
+        assertEquals(10, result.getEmployeeId());
+        assertEquals("Marco Rossi", result.getEmployeeName());
+        assertEquals(VacationStatus.PENDING, result.getStatus());
 
-        // Verify
         verify(repository).save(any(VacationRequest.class));
         verify(auditService).log(
                 eq("CREATE_VACATION_REQUEST"),
@@ -77,32 +72,40 @@ class VacationServiceTest {
         );
     }
 
+    /**
+     * Tests that approveVacation() changes a pending request
+     * to APPROVED and saves the updated request.
+     */
     @Test
-    void shouldApproveVacation() {
-        // Arrange
+    void shouldApproveVacationSuccessfully() {
         VacationRequest request = new VacationRequest(
                 1,
-                101,
-                "John Smith",
+                10,
+                "Marco Rossi",
                 LocalDate.of(2026, 7, 1),
                 LocalDate.of(2026, 7, 5),
-                "Holiday",
-                "PENDING"
+                "Summer holiday",
+                VacationStatus.PENDING
         );
 
-        when(repository.findById(1))
-                .thenReturn(Optional.of(request));
+        VacationRequest approvedRequest = new VacationRequest(
+                1,
+                10,
+                "Marco Rossi",
+                LocalDate.of(2026, 7, 1),
+                LocalDate.of(2026, 7, 5),
+                "Summer holiday",
+                VacationStatus.APPROVED
+        );
 
-        when(repository.save(request))
-                .thenReturn(request);
+        when(repository.findById(1)).thenReturn(Optional.of(request));
+        when(repository.save(request)).thenReturn(approvedRequest);
 
-        // Act
         VacationRequest result = service.approveVacation(1);
 
-        // Assert
-        assertEquals("APPROVED", result.getStatus());
+        assertEquals(VacationStatus.APPROVED, request.getStatus());
+        assertEquals(VacationStatus.APPROVED, result.getStatus());
 
-        // Verify
         verify(repository).findById(1);
         verify(repository).save(request);
         verify(auditService).log(
@@ -113,51 +116,60 @@ class VacationServiceTest {
         );
     }
 
+    /**
+     * Tests that approveVacation() throws VacationNotFoundException
+     * when the requested vacation ID does not exist.
+     */
     @Test
-    void shouldThrowWhenApprovingVacationThatDoesNotExist() {
-        // Arrange
-        when(repository.findById(99))
-                .thenReturn(Optional.empty());
+    void shouldThrowWhenApprovingNonExistingVacation() {
+        when(repository.findById(99)).thenReturn(Optional.empty());
 
-        // Act + Assert
         VacationNotFoundException exception = assertThrows(
                 VacationNotFoundException.class,
                 () -> service.approveVacation(99)
         );
 
-        assertTrue(exception.getMessage().contains("Vacation request not found"));
+        assertEquals("Vacation request not found: 99", exception.getMessage());
 
-        // Verify
         verify(repository).findById(99);
         verify(repository, never()).save(any());
+        verifyNoInteractions(auditService);
     }
 
+    /**
+     * Tests that denyVacation() changes a pending request
+     * to DENIED and saves the updated request.
+     */
     @Test
-    void shouldDenyVacation() {
-        // Arrange
+    void shouldDenyVacationSuccessfully() {
         VacationRequest request = new VacationRequest(
                 2,
-                102,
-                "Anna Brown",
+                20,
+                "Elena Bianchi",
                 LocalDate.of(2026, 8, 10),
                 LocalDate.of(2026, 8, 12),
-                "Trip",
-                "PENDING"
+                "Family event",
+                VacationStatus.PENDING
         );
 
-        when(repository.findById(2))
-                .thenReturn(Optional.of(request));
+        VacationRequest deniedRequest = new VacationRequest(
+                2,
+                20,
+                "Elena Bianchi",
+                LocalDate.of(2026, 8, 10),
+                LocalDate.of(2026, 8, 12),
+                "Family event",
+                VacationStatus.DENIED
+        );
 
-        when(repository.save(request))
-                .thenReturn(request);
+        when(repository.findById(2)).thenReturn(Optional.of(request));
+        when(repository.save(request)).thenReturn(deniedRequest);
 
-        // Act
         VacationRequest result = service.denyVacation(2);
 
-        // Assert
-        assertEquals("DENIED", result.getStatus());
+        assertEquals(VacationStatus.DENIED, request.getStatus());
+        assertEquals(VacationStatus.DENIED, result.getStatus());
 
-        // Verify
         verify(repository).findById(2);
         verify(repository).save(request);
         verify(auditService).log(
@@ -168,176 +180,120 @@ class VacationServiceTest {
         );
     }
 
+    /**
+     * Tests that denyVacation() throws VacationNotFoundException
+     * when the requested vacation ID does not exist.
+     */
     @Test
-    void shouldThrowWhenDenyingVacationThatDoesNotExist() {
-        // Arrange
-        when(repository.findById(99))
-                .thenReturn(Optional.empty());
+    void shouldThrowWhenDenyingNonExistingVacation() {
+        when(repository.findById(99)).thenReturn(Optional.empty());
 
-        // Act + Assert
         VacationNotFoundException exception = assertThrows(
                 VacationNotFoundException.class,
                 () -> service.denyVacation(99)
         );
 
-        assertTrue(exception.getMessage().contains("Vacation request not found"));
+        assertEquals("Vacation request not found: 99", exception.getMessage());
 
-        // Verify
         verify(repository).findById(99);
         verify(repository, never()).save(any());
+        verifyNoInteractions(auditService);
     }
 
+    /**
+     * Tests that getAllRequests() returns every vacation request
+     * provided by the repository.
+     */
     @Test
     void shouldReturnAllRequests() {
-        // Arrange
-        VacationRequest v1 = new VacationRequest();
-        VacationRequest v2 = new VacationRequest();
+        VacationRequest r1 = createRequest(1, 10, "Marco", VacationStatus.PENDING);
+        VacationRequest r2 = createRequest(2, 20, "Elena", VacationStatus.APPROVED);
 
-        when(repository.findAll())
-                .thenReturn(List.of(v1, v2));
+        when(repository.findAll()).thenReturn(List.of(r1, r2));
 
-        // Act
         List<VacationRequest> result = service.getAllRequests();
 
-        // Assert
         assertEquals(2, result.size());
+        assertEquals("Marco", result.get(0).getEmployeeName());
+        assertEquals("Elena", result.get(1).getEmployeeName());
 
-        // Verify
         verify(repository).findAll();
     }
 
+    /**
+     * Tests that getPendingRequests() returns only requests
+     * with PENDING status.
+     */
     @Test
     void shouldReturnOnlyPendingRequests() {
-        // Arrange
-        VacationRequest pending = new VacationRequest(
-                1,
-                101,
-                "John Smith",
-                LocalDate.of(2026, 7, 1),
-                LocalDate.of(2026, 7, 5),
-                "Holiday",
-                "PENDING"
-        );
+        VacationRequest pending = createRequest(1, 10, "Marco", VacationStatus.PENDING);
+        VacationRequest approved = createRequest(2, 20, "Elena", VacationStatus.APPROVED);
+        VacationRequest denied = createRequest(3, 30, "Luca", VacationStatus.DENIED);
 
-        VacationRequest approved = new VacationRequest(
-                2,
-                102,
-                "Anna Brown",
-                LocalDate.of(2026, 8, 1),
-                LocalDate.of(2026, 8, 3),
-                "Trip",
-                "APPROVED"
-        );
+        when(repository.findAll()).thenReturn(List.of(pending, approved, denied));
 
-        when(repository.findAll())
-                .thenReturn(List.of(pending, approved));
-
-        // Act
         List<VacationRequest> result = service.getPendingRequests();
 
-        // Assert
         assertEquals(1, result.size());
-        assertEquals("PENDING", result.get(0).getStatus());
+        assertEquals(VacationStatus.PENDING, result.get(0).getStatus());
 
-        // Verify
         verify(repository).findAll();
     }
 
+    /**
+     * Tests that getRequestsForEmployee() returns only
+     * vacation requests belonging to the selected employee.
+     */
     @Test
     void shouldReturnRequestsForEmployee() {
-        // Arrange
-        VacationRequest v1 = new VacationRequest(
-                1,
-                101,
-                "John Smith",
-                LocalDate.of(2026, 7, 1),
-                LocalDate.of(2026, 7, 5),
-                "Holiday",
-                "PENDING"
-        );
+        VacationRequest r1 = createRequest(1, 10, "Marco", VacationStatus.PENDING);
+        VacationRequest r2 = createRequest(2, 20, "Elena", VacationStatus.APPROVED);
+        VacationRequest r3 = createRequest(3, 10, "Marco", VacationStatus.DENIED);
 
-        VacationRequest v2 = new VacationRequest(
-                2,
-                102,
-                "Anna Brown",
-                LocalDate.of(2026, 8, 1),
-                LocalDate.of(2026, 8, 3),
-                "Trip",
-                "APPROVED"
-        );
+        when(repository.findAll()).thenReturn(List.of(r1, r2, r3));
 
-        when(repository.findAll())
-                .thenReturn(List.of(v1, v2));
+        List<VacationRequest> result = service.getRequestsForEmployee(10);
 
-        // Act
-        List<VacationRequest> result = service.getRequestsForEmployee(101);
+        assertEquals(2, result.size());
+        assertTrue(result.stream().allMatch(r -> r.getEmployeeId() == 10));
 
-        // Assert
-        assertEquals(1, result.size());
-        assertEquals(101, result.get(0).getEmployeeId());
-
-        // Verify
         verify(repository).findAll();
     }
 
+    /**
+     * Tests that getApprovedRequestsForEmployee() returns only
+     * APPROVED requests for the selected employee.
+     */
     @Test
     void shouldReturnApprovedRequestsForEmployee() {
-        // Arrange
-        VacationRequest approved = new VacationRequest(
-                1,
-                101,
-                "John Smith",
-                LocalDate.of(2026, 7, 1),
-                LocalDate.of(2026, 7, 5),
-                "Holiday",
-                "APPROVED"
-        );
+        VacationRequest approved = createRequest(1, 10, "Marco", VacationStatus.APPROVED);
+        VacationRequest pending = createRequest(2, 10, "Marco", VacationStatus.PENDING);
+        VacationRequest otherEmployee = createRequest(3, 20, "Elena", VacationStatus.APPROVED);
 
-        VacationRequest pending = new VacationRequest(
-                2,
-                101,
-                "John Smith",
-                LocalDate.of(2026, 8, 1),
-                LocalDate.of(2026, 8, 3),
-                "Trip",
-                "PENDING"
-        );
+        when(repository.findAll()).thenReturn(List.of(approved, pending, otherEmployee));
 
-        when(repository.findAll())
-                .thenReturn(List.of(approved, pending));
-
-        // Act
         List<VacationRequest> result =
-                service.getApprovedRequestsForEmployee(101);
+                service.getApprovedRequestsForEmployee(10);
 
-        // Assert
         assertEquals(1, result.size());
-        assertEquals("APPROVED", result.get(0).getStatus());
+        assertEquals(VacationStatus.APPROVED, result.get(0).getStatus());
+        assertEquals(10, result.get(0).getEmployeeId());
 
-        // Verify
         verify(repository).findAll();
     }
 
+    /**
+     * Tests that deleteRequest() deletes an existing request
+     * and creates an audit log entry.
+     */
     @Test
-    void shouldDeleteExistingRequest() {
-        // Arrange
-        VacationRequest request = new VacationRequest(
-                1,
-                101,
-                "John Smith",
-                LocalDate.of(2026, 7, 1),
-                LocalDate.of(2026, 7, 5),
-                "Holiday",
-                "PENDING"
-        );
+    void shouldDeleteRequestSuccessfully() {
+        VacationRequest request = createRequest(1, 10, "Marco", VacationStatus.PENDING);
 
-        when(repository.findById(1))
-                .thenReturn(Optional.of(request));
+        when(repository.findById(1)).thenReturn(Optional.of(request));
 
-        // Act
         service.deleteRequest(1);
 
-        // Assert
         verify(repository).findById(1);
         verify(repository).deleteById(1);
         verify(auditService).log(
@@ -348,144 +304,138 @@ class VacationServiceTest {
         );
     }
 
+    /**
+     * Tests that deleteRequest() still calls deleteById()
+     * but does not log anything when the request does not exist.
+     */
     @Test
-    void shouldDeleteRequestWithoutAuditWhenRequestDoesNotExist() {
-        // Arrange
-        when(repository.findById(99))
-                .thenReturn(Optional.empty());
+    void shouldDeleteNonExistingRequestWithoutAuditLog() {
+        when(repository.findById(99)).thenReturn(Optional.empty());
 
-        // Act
         service.deleteRequest(99);
 
-        // Assert / Verify
         verify(repository).findById(99);
         verify(repository).deleteById(99);
         verifyNoInteractions(auditService);
     }
 
+    /**
+     * Tests that hasOverlappingVacation() returns true
+     * when a pending or approved request overlaps the given dates.
+     */
     @Test
     void shouldDetectOverlappingVacation() {
-        // Arrange
-        VacationRequest existing = new VacationRequest(
+        VacationRequest request = new VacationRequest(
                 1,
-                101,
-                "John Smith",
-                LocalDate.of(2026, 7, 1),
+                10,
+                "Marco",
                 LocalDate.of(2026, 7, 10),
+                LocalDate.of(2026, 7, 15),
                 "Holiday",
-                "APPROVED"
+                VacationStatus.APPROVED
         );
 
-        when(repository.findAll())
-                .thenReturn(List.of(existing));
+        when(repository.findAll()).thenReturn(List.of(request));
 
-        // Act
         boolean result = service.hasOverlappingVacation(
-                101,
-                LocalDate.of(2026, 7, 5),
-                LocalDate.of(2026, 7, 8)
+                10,
+                LocalDate.of(2026, 7, 14),
+                LocalDate.of(2026, 7, 20)
         );
 
-        // Assert
         assertTrue(result);
 
-        // Verify
         verify(repository).findAll();
     }
 
+    /**
+     * Tests that hasOverlappingVacation() ignores denied requests
+     * even if their dates overlap.
+     */
     @Test
-    void shouldReturnFalseWhenVacationDoesNotOverlap() {
-        // Arrange
-        VacationRequest existing = new VacationRequest(
+    void shouldIgnoreDeniedVacationWhenCheckingOverlap() {
+        VacationRequest request = new VacationRequest(
                 1,
-                101,
-                "John Smith",
-                LocalDate.of(2026, 7, 1),
-                LocalDate.of(2026, 7, 5),
-                "Holiday",
-                "APPROVED"
-        );
-
-        when(repository.findAll())
-                .thenReturn(List.of(existing));
-
-        // Act
-        boolean result = service.hasOverlappingVacation(
-                101,
+                10,
+                "Marco",
                 LocalDate.of(2026, 7, 10),
-                LocalDate.of(2026, 7, 12)
+                LocalDate.of(2026, 7, 15),
+                "Holiday",
+                VacationStatus.DENIED
         );
 
-        // Assert
+        when(repository.findAll()).thenReturn(List.of(request));
+
+        boolean result = service.hasOverlappingVacation(
+                10,
+                LocalDate.of(2026, 7, 14),
+                LocalDate.of(2026, 7, 20)
+        );
+
         assertFalse(result);
 
-        // Verify
         verify(repository).findAll();
     }
 
-    @Test
-    void shouldIgnoreDeniedRequestsWhenCheckingOverlap() {
-        // Arrange
-        VacationRequest denied = new VacationRequest(
-                1,
-                101,
-                "John Smith",
-                LocalDate.of(2026, 7, 1),
-                LocalDate.of(2026, 7, 10),
-                "Holiday",
-                "DENIED"
-        );
-
-        when(repository.findAll())
-                .thenReturn(List.of(denied));
-
-        // Act
-        boolean result = service.hasOverlappingVacation(
-                101,
-                LocalDate.of(2026, 7, 5),
-                LocalDate.of(2026, 7, 8)
-        );
-
-        // Assert
-        assertFalse(result);
-
-        // Verify
-        verify(repository).findAll();
-    }
-
+    /**
+     * Tests that getTotalVacationDaysInYear() sums only approved
+     * vacation days for the requested employee and year.
+     */
     @Test
     void shouldReturnTotalVacationDaysInYear() {
-        // Arrange
-        VacationRequest approved = new VacationRequest(
+        VacationRequest r1 = new VacationRequest(
                 1,
-                101,
-                "John Smith",
+                10,
+                "Marco",
                 LocalDate.of(2026, 7, 1),
                 LocalDate.of(2026, 7, 5),
                 "Holiday",
-                "APPROVED"
+                VacationStatus.APPROVED
+        );
+
+        VacationRequest r2 = new VacationRequest(
+                2,
+                10,
+                "Marco",
+                LocalDate.of(2026, 8, 1),
+                LocalDate.of(2026, 8, 3),
+                "Holiday",
+                VacationStatus.APPROVED
         );
 
         VacationRequest pending = new VacationRequest(
-                2,
-                101,
-                "John Smith",
-                LocalDate.of(2026, 8, 1),
-                LocalDate.of(2026, 8, 3),
-                "Trip",
-                "PENDING"
+                3,
+                10,
+                "Marco",
+                LocalDate.of(2026, 9, 1),
+                LocalDate.of(2026, 9, 10),
+                "Holiday",
+                VacationStatus.PENDING
         );
 
-        when(repository.findAll())
-                .thenReturn(List.of(approved, pending));
+        when(repository.findAll()).thenReturn(List.of(r1, r2, pending));
 
-        // Act
-        long result = service.getTotalVacationDaysInYear(101, 2026);
+        long result = service.getTotalVacationDaysInYear(10, 2026);
 
-        // Assert
-        assertEquals(5, result);
+        assertEquals(8, result);
 
-        // Verify
         verify(repository).findAll();
+    }
+
+    private VacationRequest createRequest(
+            int id,
+            int employeeId,
+            String employeeName,
+            VacationStatus status
+    ) {
+        return new VacationRequest(
+                id,
+                employeeId,
+                employeeName,
+                LocalDate.of(2026, 7, 1),
+                LocalDate.of(2026, 7, 5),
+                "Reason",
+                status
+        );
     }
 }

@@ -41,6 +41,9 @@ class InventoryServiceTest {
     @Mock
     private AuditService auditService;
 
+    @Mock
+    private ResourceTakeLogStore takeLogStore;
+
     @InjectMocks
     private InventoryService service;
 
@@ -258,9 +261,6 @@ class InventoryServiceTest {
         storage2.setId(20L);
         storage2.addResource(resource, 40);
 
-        when(resourceRepository.findAll())
-                .thenReturn(List.of(resource));
-
         when(storageRepository.findAll())
                 .thenReturn(List.of(storage1, storage2));
 
@@ -272,7 +272,6 @@ class InventoryServiceTest {
         assertEquals(70, result.get(resource));
 
         // Verify
-        verify(resourceRepository).findAll();
         verify(storageRepository).findAll();
     }
 
@@ -285,9 +284,6 @@ class InventoryServiceTest {
         Storage storage = new Storage();
         storage.setId(10L);
         storage.addResource(resource, 20);
-
-        when(resourceRepository.findAll())
-                .thenReturn(List.of(resource));
 
         when(storageRepository.findAll())
                 .thenReturn(List.of(storage));
@@ -303,7 +299,6 @@ class InventoryServiceTest {
         assertTrue(result.get(0).isLowStock());
 
         // Verify
-        verify(resourceRepository).findAll();
         verify(storageRepository).findAll();
     }
 
@@ -427,9 +422,6 @@ class InventoryServiceTest {
         storage.setId(10L);
         storage.addResource(resource, 20);
 
-        when(resourceRepository.findAll())
-                .thenReturn(List.of(resource));
-
         when(storageRepository.findAll())
                 .thenReturn(List.of(storage));
 
@@ -440,7 +432,6 @@ class InventoryServiceTest {
         assertTrue(result);
 
         // Verify
-        verify(resourceRepository).findAll();
         verify(storageRepository).findAll();
     }
 
@@ -458,9 +449,6 @@ class InventoryServiceTest {
         storage2.setId(20L);
         storage2.addResource(resource, 35);
 
-        when(resourceRepository.findAll())
-                .thenReturn(List.of(resource));
-
         when(storageRepository.findAll())
                 .thenReturn(List.of(storage1, storage2));
 
@@ -471,7 +459,6 @@ class InventoryServiceTest {
         assertEquals(50, result);
 
         // Verify
-        verify(resourceRepository).findAll();
         verify(storageRepository).findAll();
     }
 }
