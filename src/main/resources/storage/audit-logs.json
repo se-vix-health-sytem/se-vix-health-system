@@ -406,4 +406,44 @@
   "username" : "RSSMRA80A01F205X",
   "details" : "Patient RSSMRA80A01F205X logged out",
   "timestamp" : "2026-06-13T12:59:40.6957613"
+}, {
+  "id" : 52,
+  "action" : "PATIENT_LOGIN",
+  "entityType" : "Patient",
+  "entityId" : "3",
+  "username" : "VRDGPP75C12H501Z",
+  "details" : "Patient VRDGPP75C12H501Z logged in",
+  "timestamp" : "2026-06-13T19:07:31.626262"
+}, {
+  "id" : 53,
+  "action" : "PATIENT_LOGIN",
+  "entityType" : "Patient",
+  "entityId" : "2",
+  "username" : "BNCLRA92B41L219Y",
+  "details" : "Patient BNCLRA92B41L219Y logged in",
+  "timestamp" : "2026-06-13T19:07:40.781992"
+}, {
+  "id" : 54,
+  "action" : "PATIENT_LOGIN",
+  "entityType" : "Patient",
+  "entityId" : "1",
+  "username" : "RSSMRA80A01F205X",
+  "details" : "Patient RSSMRA80A01F205X logged in",
+  "timestamp" : "2026-06-13T19:07:46.924815"
+}, {
+  "id" : 55,
+  "action" : "BOOK_APPOINTMENT",
+  "entityType" : "Appointment",
+  "entityId" : "5",
+  "username" : "RSSMRA80A01F205X",
+  "details" : "Patient RSSMRA80A01F205X booked appointment with Dr. Marco Rossi on 15/06/2026 10:00",
+  "timestamp" : "2026-06-13T19:08:12.401166"
+}, {
+  "id" : 56,
+  "action" : "PATIENT_LOGOUT",
+  "entityType" : "Patient",
+  "entityId" : "1",
+  "username" : "RSSMRA80A01F205X",
+  "details" : "Patient RSSMRA80A01F205X logged out",
+  "timestamp" : "2026-06-13T19:09:07.425933"
 } ]
