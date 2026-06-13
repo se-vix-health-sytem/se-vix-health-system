@@ -1,34 +1,120 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-  <meta charset="UTF-8">
-  <title>Accessibility - VIX Health System</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
-</head>
-<body class="bg-light">
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Accessibility')}"></head>
+<body>
+<div th:replace="~{fragments/navbar :: navbar}"></div>
 
-<div class="container py-5">
-  <h1 class="mb-3">Accessibility Statement</h1>
+<main class="container py-5" style="max-width: 960px;">
 
-  <p>VIX Health System is designed to be accessible and user-friendly for all users, including people with disabilities.</p>
+  <div class="mb-4">
+    <a th:href="@{/}" class="btn btn-outline-secondary rounded-pill btn-sm">
+      <i class="bi bi-arrow-left me-1"></i> Back to Home
+    </a>
+  </div>
 
-  <h4>User Friendliness (NFR08)</h4>
-  <p>The interface is simple, intuitive, and designed for quick access to core functions like booking and viewing records.</p>
+  <div class="card border-0 shadow-sm">
+    <div class="card-header" style="background: var(--vix-crimson); color: white;">
+      <h1 class="font-display mb-0 fs-3">Accessibility Statement</h1>
+    </div>
+    <div class="card-body p-4">
 
-  <h4>Keyboard Navigation</h4>
-  <p>All main features are accessible via keyboard navigation.</p>
+      <div class="alert alert-success mb-4">
+        <i class="bi bi-flag me-2 fs-5 float-start"></i>
+        <strong>Commitment to Accessibility</strong><br>
+        VIX Health System is committed to ensuring digital accessibility for all users, including people with disabilities.
+      </div>
 
-  <h4>Responsive Design</h4>
-  <p>The system works on mobile, tablet, and desktop devices.</p>
+      <div class="section-divider my-4"></div>
 
-  <h4>Readable Design</h4>
-  <p>High contrast colors and readable fonts are used to improve accessibility.</p>
+      <h5 class="font-display" style="color: var(--vix-crimson);">User Friendliness (NFR08)</h5>
+      <p>The interface is simple, intuitive, and designed for quick access to core functions like booking and viewing records. We follow WCAG 2.1 Level AA guidelines to ensure an inclusive experience for all users.</p>
 
-  <h4>Continuous Improvement</h4>
-  <p>We continuously improve usability to meet accessibility standards (WCAG principles).</p>
+      <h5 class="font-display" style="color: var(--vix-crimson);">Keyboard Navigation</h5>
+      <p>All main features are accessible via keyboard navigation. You can navigate through the site using:</p>
+      <ul>
+        <li><kbd>Tab</kbd> — Move between interactive elements</li>
+        <li><kbd>Shift</kbd> + <kbd>Tab</kbd> — Move backwards</li>
+        <li><kbd>Enter</kbd> — Activate buttons and links</li>
+        <li><kbd>Space</kbd> — Check/uncheck checkboxes</li>
+        <li><kbd>Esc</kbd> — Close modals and menus</li>
+      </ul>
 
-  <a th:href="@{/}" class="btn btn-primary mt-3">Back to Home</a>
-</div>
+      <h5 class="font-display" style="color: var(--vix-crimson);">Responsive Design</h5>
+      <p>The system works seamlessly on mobile, tablet, and desktop devices. The layout adapts to different screen sizes and orientations, ensuring all content remains accessible regardless of device.</p>
 
+      <h5 class="font-display" style="color: var(--vix-crimson);">Readable Design</h5>
+      <p>High contrast colors and readable fonts are used to improve accessibility:</p>
+      <ul>
+        <li>Minimum contrast ratio of 4.5:1 for normal text</li>
+        <li>Font sizes are adjustable using browser zoom (up to 200% without loss of content or functionality)</li>
+        <li>Clear, readable typography using system fonts</li>
+        <li>Sufficient spacing between interactive elements</li>
+      </ul>
+
+      <h5 class="font-display" style="color: var(--vix-crimson);">Screen Reader Compatibility</h5>
+      <p>The system is designed to work with major screen readers including:</p>
+      <ul>
+        <li>NVDA (Windows)</li>
+        <li>JAWS (Windows)</li>
+        <li>VoiceOver (macOS, iOS)</li>
+        <li>TalkBack (Android)</li>
+      </ul>
+      <p>We use semantic HTML, proper ARIA labels, and logical heading structures to ensure content is properly interpreted by assistive technologies.</p>
+
+      <h5 class="font-display" style="color: var(--vix-crimson);">Alternative Text</h5>
+      <p>All meaningful images include descriptive alternative text. Decorative images are marked as such and ignored by screen readers.</p>
+
+      <h5 class="font-display" style="color: var(--vix-crimson);">Form Accessibility</h5>
+      <p>All forms include:</p>
+      <ul>
+        <li>Properly associated labels for each input field</li>
+        <li>Clear error messages with instructions for correction</li>
+        <li>Logical tab order</li>
+        <li>Required field indicators</li>
+      </ul>
+
+      <h5 class="font-display" style="color: var(--vix-crimson);">Time Limits</h5>
+      <p>Users are automatically logged out after 8 minutes of inactivity for security. An on-screen warning is displayed 1 minute before logout, giving users the option to extend their session.</p>
+
+      <h5 class="font-display" style="color: var(--vix-crimson);">Focus Indicators</h5>
+      <p>Clear visual focus indicators are provided for all interactive elements, making it easy to identify which element currently has keyboard focus.</p>
+
+      <h5 class="font-display" style="color: var(--vix-crimson);">Language & Readability</h5>
+      <p>The system uses clear, plain language whenever possible. Technical medical terms are explained when necessary. The primary language is set to Italian, with English available for international staff.</p>
+
+      <h5 class="font-display" style="color: var(--vix-crimson);">Accessibility Testing</h5>
+      <p>We continuously improve usability to meet accessibility standards (WCAG principles). Our testing includes:</p>
+      <ul>
+        <li>Automated accessibility testing with industry-standard tools</li>
+        <li>Manual keyboard navigation testing</li>
+        <li>Screen reader testing</li>
+        <li>User testing with people who have disabilities</li>
+      </ul>
+
+      <h5 class="font-display" style="color: var(--vix-crimson);">Feedback & Support</h5>
+      <p>We welcome your feedback on the accessibility of VIX Health System. If you encounter any accessibility barriers, please contact us:</p>
+      <div class="p-3 rounded-3 mb-4" style="background: var(--vix-cream);">
+        <i class="bi bi-envelope me-2" style="color: var(--vix-gold);"></i> <strong>Email:</strong> <a href="mailto:accessibility@vixhealth.it">accessibility@vixhealth.it</a><br>
+        <i class="bi bi-telephone me-2" style="color: var(--vix-gold);"></i> <strong>Phone:</strong> +39 0461 000 001<br>
+        <i class="bi bi-chat me-2" style="color: var(--vix-gold);"></i> <strong>Web form:</strong> <a th:href="@{/contact}">Contact Us</a>
+      </div>
+      <p>We aim to respond to accessibility inquiries within 5 business days.</p>
+
+      <div class="section-divider my-4"></div>
+
+      <div class="d-flex gap-3 justify-content-center mt-4">
+        <a th:href="@{/}" class="btn btn-primary rounded-pill px-4">
+          <i class="bi bi-house me-2"></i>Return to Home
+        </a>
+        <a th:href="@{/contact}" class="btn btn-outline-secondary rounded-pill px-4">
+          <i class="bi bi-chat-dots me-2"></i>Contact Us
+        </a>
+      </div>
+    </div>
+  </div>
+</main>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

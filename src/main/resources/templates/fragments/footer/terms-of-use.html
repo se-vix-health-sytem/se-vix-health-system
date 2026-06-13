@@ -1,36 +1,139 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Terms of Use - VIX Health System</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
-</head>
-<body class="bg-light">
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Terms of Use')}"></head>
+<body>
+<div th:replace="~{fragments/navbar :: navbar}"></div>
 
-<div class="container py-5">
-    <h1 class="mb-3">Terms of Use</h1>
+<main class="container py-5" style="max-width: 960px;">
 
-    <h4>Acceptance of Terms</h4>
-    <p>By using VIX Health System, you agree to comply with all rules and policies.</p>
+    <div class="mb-4">
+        <a th:href="@{/}" class="btn btn-outline-secondary rounded-pill btn-sm">
+            <i class="bi bi-arrow-left me-1"></i> Back to Home
+        </a>
+    </div>
 
-    <h4>System Availability (NFR03)</h4>
-    <p>We aim for 99.99% uptime. Essential services are restored within 30 minutes in case of failure.</p>
+    <div class="card border-0 shadow-sm">
+        <div class="card-header" style="background: var(--vix-crimson); color: white;">
+            <h1 class="font-display mb-0 fs-3">Terms of Use</h1>
+        </div>
+        <div class="card-body p-4">
 
-    <h4>User Responsibilities</h4>
-    <ul>
-        <li>Provide accurate personal information</li>
-        <li>Do not share login credentials</li>
-        <li>Use system responsibly</li>
-    </ul>
+            <p class="lead">Last updated: <span th:text="${#dates.format(#dates.createNow(), 'dd MMMM yyyy')}">2026</span></p>
+            <p>Welcome to VIX Health System. By accessing or using our platform, you agree to be bound by these Terms of Use.</p>
 
-    <h4>Monitoring & Logs (NFR02)</h4>
-    <p>All actions in the system are logged for traceability and cannot be modified by normal users.</p>
+            <div class="section-divider my-4"></div>
 
-    <h4>Service Changes</h4>
-    <p>We may update services, features, or policies at any time for improvement or legal compliance.</p>
+            <h5 class="font-display" style="color: var(--vix-crimson);">1. Acceptance of Terms</h5>
+            <p>By using VIX Health System (including the website, patient portal, and staff portals), you agree to comply with all rules and policies outlined in this document. If you do not agree, please do not use the system.</p>
 
-    <a th:href="@{/}" class="btn btn-primary mt-3">Back to Home</a>
-</div>
+            <h5 class="font-display" style="color: var(--vix-crimson);">2. System Availability (NFR03)</h5>
+            <p>VIX Health System aims for 99.99% uptime. Scheduled maintenance will be announced at least 48 hours in advance whenever possible. In case of unexpected failures:</p>
+            <ul>
+                <li>Critical services are restored within 30 minutes</li>
+                <li>Non-critical services are restored within 4 hours</li>
+                <li>Emergency contact methods are always available via phone</li>
+            </ul>
 
+            <h5 class="font-display" style="color: var(--vix-crimson);">3. User Responsibilities</h5>
+            <p>All users of VIX Health System agree to:</p>
+            <ul class="mb-4">
+                <li>Provide accurate, current, and complete personal information during registration</li>
+                <li>Maintain the security of login credentials and not share them with others</li>
+                <li>Notify us immediately of any unauthorized use of your account</li>
+                <li>Use the system responsibly and in accordance with all applicable laws</li>
+                <li>Not attempt to access data belonging to other users</li>
+                <li>Not upload malicious code or attempt to compromise system security</li>
+            </ul>
+
+            <h5 class="font-display" style="color: var(--vix-crimson);">4. Patient Accounts</h5>
+            <p>Patients can create accounts using their Italian fiscal code. Each patient is responsible for:</p>
+            <ul>
+                <li>Keeping appointment times and notifications up to date</li>
+                <li>Providing accurate medical history to healthcare providers</li>
+                <li>Paying any outstanding fees for services rendered</li>
+                <li>Complying with medical advice and treatment plans</li>
+            </ul>
+
+            <h5 class="font-display" style="color: var(--vix-crimson);">5. Staff Accounts</h5>
+            <p>Employee accounts are created and managed by Staff Managers. All staff members must:</p>
+            <ul>
+                <li>Use strong passwords and enable two-factor authentication where available</li>
+                <li>Log out after each session, especially on shared devices</li>
+                <li>Report any security incidents immediately to IT security</li>
+                <li>Access only the data necessary for their role (principle of least privilege)</li>
+                <li>Complete annual data protection and security training</li>
+            </ul>
+
+            <h5 class="font-display" style="color: var(--vix-crimson);">6. Monitoring & Logs (NFR02)</h5>
+            <p>All actions in the system are logged for traceability and security purposes. These logs:</p>
+            <ul>
+                <li>Cannot be deleted or modified by normal users</li>
+                <li>Are retained for a minimum of 5 years</li>
+                <li>May be used for security audits and investigations</li>
+                <li>Are accessible only to authorized personnel (Staff Managers and IT administrators)</li>
+            </ul>
+
+            <h5 class="font-display" style="color: var(--vix-crimson);">7. Medical Information Disclaimer</h5>
+            <div class="alert alert-warning mb-4">
+                <i class="bi bi-exclamation-triangle me-2"></i>
+                <strong>Important:</strong> The information provided through VIX Health System is for informational purposes only and is not a substitute for professional medical advice. Always consult a qualified healthcare provider for medical concerns.
+            </div>
+
+            <h5 class="font-display" style="color: var(--vix-crimson);">8. Appointment Cancellation Policy</h5>
+            <p>Patients may cancel or reschedule appointments through the portal up to 24 hours before the scheduled time. Late cancellations may be subject to fees as follows:</p>
+            <ul>
+                <li>Cancellation 24+ hours in advance: No fee</li>
+                <li>Cancellation 2-24 hours in advance: 50% of consultation fee</li>
+                <li>Cancellation less than 2 hours or no-show: 100% of consultation fee</li>
+            </ul>
+
+            <h5 class="font-display" style="color: var(--vix-crimson);">9. Payment Terms</h5>
+            <p>All payments for medical services must be made prior to or immediately following the appointment. We accept:</p>
+            <ul>
+                <li>Credit/Debit cards (Visa, Mastercard, American Express)</li>
+                <li>Bank transfers</li>
+                <li>Cash (at physical locations only)</li>
+            </ul>
+
+            <h5 class="font-display" style="color: var(--vix-crimson);">10. Intellectual Property</h5>
+            <p>All content on the VIX Health System platform, including text, graphics, logos, software, and images, is the property of VIX Health System and is protected by copyright and other intellectual property laws.</p>
+
+            <h5 class="font-display" style="color: var(--vix-crimson);">11. Limitation of Liability</h5>
+            <p>To the maximum extent permitted by law, VIX Health System shall not be liable for any indirect, incidental, special, consequential, or punitive damages resulting from your use of or inability to use the system.</p>
+
+            <h5 class="font-display" style="color: var(--vix-crimson);">12. Service Modifications</h5>
+            <p>We may update services, features, or policies at any time for system improvement or legal compliance. Users will be notified of significant changes via email or on-platform announcements.</p>
+
+            <h5 class="font-display" style="color: var(--vix-crimson);">13. Termination of Access</h5>
+            <p>VIX Health System reserves the right to suspend or terminate access to any user who violates these Terms of Use, without prior notice.</p>
+
+            <h5 class="font-display" style="color: var(--vix-crimson);">14. Governing Law</h5>
+            <p>These Terms shall be governed by and construed in accordance with the laws of Italy. Any disputes arising from these Terms shall be subject to the exclusive jurisdiction of the courts of Trento, Italy.</p>
+
+            <h5 class="font-display" style="color: var(--vix-crimson);">15. Contact Information</h5>
+            <p>For questions about these Terms of Use, please contact:</p>
+            <div class="p-3 rounded-3 mb-4" style="background: var(--vix-cream);">
+                <strong>VIX Health System - Legal Department</strong><br>
+                Via San Camillo 1, 38122 Trento TN, Italy<br>
+                <i class="bi bi-envelope me-1"></i> <a href="mailto:legal@vixhealth.it">legal@vixhealth.it</a><br>
+                <i class="bi bi-telephone me-1"></i> +39 0461 000 001
+            </div>
+
+            <div class="section-divider my-4"></div>
+
+            <div class="d-flex gap-3 justify-content-center mt-4">
+                <a th:href="@{/}" class="btn btn-primary rounded-pill px-4">
+                    <i class="bi bi-house me-2"></i>Return to Home
+                </a>
+                <a th:href="@{/privacy}" class="btn btn-outline-secondary rounded-pill px-4">
+                    <i class="bi bi-file-text me-2"></i>Privacy Policy
+                </a>
+            </div>
+        </div>
+    </div>
+</main>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

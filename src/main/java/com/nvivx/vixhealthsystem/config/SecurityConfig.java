@@ -25,6 +25,7 @@ public class SecurityConfig {
                     "/departments/**", "/questionnaire/**",
                     "/specialists/**", "/doctors",
                     "/about", "/contact", "/map/**",
+                    "/privacy", "/gdpr", "/terms", "/accessibility",
                     "/images/**", "/css/**", "/js/**",
                     "/webjars/**", "/error"
                 ).permitAll()
