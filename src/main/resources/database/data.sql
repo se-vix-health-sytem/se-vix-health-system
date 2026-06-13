@@ -316,17 +316,20 @@ INSERT INTO RoomPatients (room_id, patient_id)
 INSERT INTO RoomPatients (room_id, patient_id)
     SELECT 2, 5 WHERE NOT EXISTS (SELECT 1 FROM RoomPatients WHERE room_id = 2 AND patient_id = 5);
 
--- Reset identity sequences so new inserts don't collide with seeded IDs
-ALTER TABLE MedicalFacilities ALTER COLUMN id RESTART WITH 4;
-ALTER TABLE Storages           ALTER COLUMN id RESTART WITH 4;
-ALTER TABLE Resources          ALTER COLUMN id RESTART WITH 10;
-ALTER TABLE Departments        ALTER COLUMN id RESTART WITH 11;
-ALTER TABLE Employees          ALTER COLUMN id RESTART WITH 100;
-ALTER TABLE Rooms              ALTER COLUMN id RESTART WITH 22;
-ALTER TABLE Patients           ALTER COLUMN id RESTART WITH 6;
-ALTER TABLE MedicalRecords     ALTER COLUMN id RESTART WITH 6;
-ALTER TABLE MedicalConditions  ALTER COLUMN id RESTART WITH 8;
-ALTER TABLE Prescriptions      ALTER COLUMN id RESTART WITH 8;
-ALTER TABLE Surgeries          ALTER COLUMN id RESTART WITH 5;
-ALTER TABLE Machines           ALTER COLUMN id RESTART WITH 12;
+-- Reset identity sequences to safe values above all seeded IDs.
+-- These run on every restart. The values must be above any IDs that may
+-- have been inserted by users in previous sessions, so we use 100 for
+-- transactional tables and small fixed offsets for reference tables.
+ALTER TABLE MedicalFacilities ALTER COLUMN id RESTART WITH 10;
+ALTER TABLE Storages           ALTER COLUMN id RESTART WITH 10;
+ALTER TABLE Resources          ALTER COLUMN id RESTART WITH 50;
+ALTER TABLE Departments        ALTER COLUMN id RESTART WITH 50;
+ALTER TABLE Employees          ALTER COLUMN id RESTART WITH 20;
+ALTER TABLE Rooms              ALTER COLUMN id RESTART WITH 50;
+ALTER TABLE Patients           ALTER COLUMN id RESTART WITH 50;
+ALTER TABLE MedicalRecords     ALTER COLUMN id RESTART WITH 50;
+ALTER TABLE MedicalConditions  ALTER COLUMN id RESTART WITH 10000;
+ALTER TABLE Prescriptions      ALTER COLUMN id RESTART WITH 10000;
+ALTER TABLE Surgeries          ALTER COLUMN id RESTART WITH 10000;
+ALTER TABLE Machines           ALTER COLUMN id RESTART WITH 50;
 

@@ -6,7 +6,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/map")
@@ -15,9 +17,20 @@ public class MapController {
 
     @GetMapping("/hospitals")
     public String showHospitalMap(Model model) {
-        List<HospitalLocation> locations = getHospitalLocations();
+        // Convert to List<Map> so Thymeleaf's JS inline serializer produces valid JS objects
+        List<Map<String, Object>> locations = getHospitalLocations().stream()
+                .map(loc -> {
+                    Map<String, Object> m = new HashMap<>();
+                    m.put("name",    loc.getName());
+                    m.put("lat",     loc.getLat());
+                    m.put("lng",     loc.getLng());
+                    m.put("address", loc.getAddress());
+                    m.put("phone",   loc.getPhone());
+                    m.put("type",    loc.getType());
+                    return m;
+                })
+                .collect(java.util.stream.Collectors.toList());
         model.addAttribute("locations", locations);
-        model.addAttribute("apiKey", "${GOOGLE_MAPS_API_KEY}");
         model.addAttribute("pageTitle", "Find Our Locations");
         return "site/map/hospitals";
     }

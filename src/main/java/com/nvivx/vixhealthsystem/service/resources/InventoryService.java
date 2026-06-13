@@ -16,6 +16,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+
+
 /**
  * Service for inventory management (FR5.5)
  * Used by Purchasing Department / Buyer to manage hospital resources
@@ -27,16 +29,19 @@ public class InventoryService {
     private final ResourceRepository resourceRepository;
     private final StorageRepository storageRepository;
     private final AuditService auditService;
+    private final ResourceTakeLogStore takeLogStore;
 
     // Low stock threshold (can be configured per resource in the future)
     private static final int DEFAULT_LOW_STOCK_THRESHOLD = 50;
 
     public InventoryService(ResourceRepository resourceRepository,
                             StorageRepository storageRepository,
-                            AuditService auditService) {
+                            AuditService auditService,
+                            ResourceTakeLogStore takeLogStore) {
         this.resourceRepository = resourceRepository;
         this.storageRepository = storageRepository;
         this.auditService = auditService;
+        this.takeLogStore = takeLogStore;
     }
 
     /**
@@ -136,24 +141,12 @@ public class InventoryService {
      * Used for FR7.2 - Compound resource availability
      */
     public Map<Resource, Integer> getTotalInventory() {
-        // Load all Resource entities fully within this transaction so they are not
-        // Hibernate proxies when accessed by the controller after the session closes.
-        Map<Long, Resource> resourceById = resourceRepository.findAll().stream()
-                .collect(Collectors.toMap(Resource::getId, r -> r));
-
         Map<Resource, Integer> totalInventory = new HashMap<>();
-
+        // Iterate all storages — @ElementCollection(EAGER) loads each map in one query per storage
         for (Storage storage : storageRepository.findAll()) {
-            for (Map.Entry<Resource, Integer> entry : storage.getResources().entrySet()) {
-                // entry.getKey() may be a proxy; get its ID (safe without initialization)
-                Long id = entry.getKey().getId();
-                Resource fullyLoaded = resourceById.get(id);
-                if (fullyLoaded != null) {
-                    totalInventory.merge(fullyLoaded, entry.getValue(), Integer::sum);
-                }
-            }
+            storage.getResources().forEach((resource, qty) ->
+                    totalInventory.merge(resource, qty, Integer::sum));
         }
-
         return totalInventory;
     }
 
@@ -235,8 +228,15 @@ public class InventoryService {
             employee.takeResource(storage, resource, quantity);
             storageRepository.save(storage);
 
+            // Persist take log for history and low-stock alerting
+            String role = employee.getClass().getSimpleName();
+            takeLogStore.log(employee.getId(),
+                    employee.getName() + " " + employee.getSurname(), role,
+                    resource.getId(), resource.getName(), storageId, quantity);
+
             auditService.log("REMOVE_RESOURCE_FROM_STORAGE", "Storage", String.valueOf(storageId),
-                    "Removed " + quantity + " units of " + resource.getName() + " from storage");
+                    employee.getName() + " " + employee.getSurname() + " (" + role + ") took "
+                    + quantity + " units of " + resource.getName());
         } catch (Exception e) {
             throw new RuntimeException("Failed to remove resource: " + e.getMessage(), e);
         }
