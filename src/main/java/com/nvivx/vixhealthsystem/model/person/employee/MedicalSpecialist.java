@@ -151,4 +151,9 @@ public class MedicalSpecialist extends Employee {
         pr.setMedicalSpecialist(this);
         p.getMedicalRecord().addPrescription(pr);
     }
+
+    public void scheduleSurgeryForPatient(Patient p, Surgery s) {
+        s.setMedicalSpecialist(this);
+        s.setMedicalRecord(p.getMedicalRecord());
+    }
 }

@@ -152,8 +152,13 @@ public class Machinery {
      * should be implemented here.
      */
     public void updateStatus() {
-        if (this.status == null) {
+        double r = Math.random();
+        if (r < 0.50) {
             this.status = MachineStatus.WORKING;
+        } else if (r < 0.80) {
+            this.status = MachineStatus.FAULTY;
+        } else {
+            this.status = MachineStatus.UNDER_MAINTENANCE;
         }
     }
 
