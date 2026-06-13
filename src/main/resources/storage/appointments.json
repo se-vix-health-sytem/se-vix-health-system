@@ -1,1 +1,100 @@
-[]
+[ {
+  "id" : 3,
+  "dateTime" : "2026-06-22T09:00:00",
+  "duration" : 30,
+  "notes" : "Booked via patient portal",
+  "patient" : {
+    "name" : "Mario",
+    "surname" : "Rossi",
+    "birthDate" : "1980-01-01",
+    "birthPlace" : "Milano",
+    "gender" : "M",
+    "email" : "mario.rossi@email.com",
+    "phoneNumber" : "+393441111111",
+    "id" : 1,
+    "fiscalCode" : "RSSMRA80A01F205X"
+  },
+  "medicalSpecialist" : {
+    "name" : "Elena",
+    "surname" : "Bianchi",
+    "birthDate" : "1985-07-22",
+    "birthPlace" : "Torino",
+    "gender" : "F",
+    "email" : "elena.bianchi@vixhealth.com",
+    "phoneNumber" : "+393332222222",
+    "id" : 2,
+    "firebaseUid" : "mPgpiVHtIoeDdF3ozIYfygOT94v2",
+    "hireDate" : "2017-04-15",
+    "specialty" : "Neurology",
+    "licenseNumber" : "LIC-NEUR-002",
+    "appointments" : [ ]
+  },
+  "paymentStatus" : false,
+  "status" : "CANCELLED"
+}, {
+  "id" : 2,
+  "dateTime" : "2026-06-15T10:27:00",
+  "duration" : 30,
+  "notes" : "Booked by secretary",
+  "patient" : {
+    "name" : "Mario",
+    "surname" : "Rossi",
+    "birthDate" : "1980-01-01",
+    "birthPlace" : "Milano",
+    "gender" : "M",
+    "email" : "mario.rossi@email.com",
+    "phoneNumber" : "+393441111111",
+    "id" : 1,
+    "fiscalCode" : "RSSMRA80A01F205X"
+  },
+  "medicalSpecialist" : {
+    "name" : "Marco",
+    "surname" : "Rossi",
+    "birthDate" : "1980-03-12",
+    "birthPlace" : "Milano",
+    "gender" : "M",
+    "email" : "marco.rossi@vixhealth.com",
+    "phoneNumber" : "+393331111111",
+    "id" : 1,
+    "firebaseUid" : "k1bFTJFXoPNkGase8Of29UqBEef2",
+    "hireDate" : "2015-09-01",
+    "specialty" : "Cardiology",
+    "licenseNumber" : "LIC-CARD-001",
+    "appointments" : [ ]
+  },
+  "paymentStatus" : true,
+  "status" : "RESCHEDULED"
+}, {
+  "id" : 1,
+  "dateTime" : "2026-06-18T03:44:00",
+  "duration" : 30,
+  "notes" : "Booked by secretary",
+  "patient" : {
+    "name" : "Laura",
+    "surname" : "Bianchi",
+    "birthDate" : "1992-02-10",
+    "birthPlace" : "Torino",
+    "gender" : "F",
+    "email" : "laura.bianchi@email.com",
+    "phoneNumber" : "+393442222222",
+    "id" : 2,
+    "fiscalCode" : "BNCLRA92B41L219Y"
+  },
+  "medicalSpecialist" : {
+    "name" : "Elena",
+    "surname" : "Bianchi",
+    "birthDate" : "1985-07-22",
+    "birthPlace" : "Torino",
+    "gender" : "F",
+    "email" : "elena.bianchi@vixhealth.com",
+    "phoneNumber" : "+393332222222",
+    "id" : 2,
+    "firebaseUid" : "mPgpiVHtIoeDdF3ozIYfygOT94v2",
+    "hireDate" : "2017-04-15",
+    "specialty" : "Neurology",
+    "licenseNumber" : "LIC-NEUR-002",
+    "appointments" : [ ]
+  },
+  "paymentStatus" : false,
+  "status" : "CANCELLED"
+} ]

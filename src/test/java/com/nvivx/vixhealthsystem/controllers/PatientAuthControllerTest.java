@@ -1,5 +1,6 @@
 package com.nvivx.vixhealthsystem.controllers;
 
+import com.nvivx.vixhealthsystem.controllers.patient.PatientAuthController;
 import com.nvivx.vixhealthsystem.model.person.Patient;
 import com.nvivx.vixhealthsystem.service.core.PatientService;
 import jakarta.servlet.http.HttpSession;

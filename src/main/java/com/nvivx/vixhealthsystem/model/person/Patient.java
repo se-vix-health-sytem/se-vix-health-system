@@ -1,5 +1,7 @@
 package com.nvivx.vixhealthsystem.model.person;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.nvivx.vixhealthsystem.model.medical.Appointment;
 import com.nvivx.vixhealthsystem.model.medical.MedicalRecord;
 import com.nvivx.vixhealthsystem.model.person.employee.MedicalSpecialist;
@@ -23,6 +25,7 @@ import java.util.List;
  */
 @Entity
 @Table(name = "Patients")
+@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"}, ignoreUnknown = true)
 public class Patient extends Person {
 
     /**
@@ -43,6 +46,7 @@ public class Patient extends Person {
      * Patient medical record.
      * One patient has exactly one medical record.
      */
+    @JsonIgnore
     @OneToOne(mappedBy = "patient", cascade = CascadeType.ALL, orphanRemoval = true)
     private MedicalRecord medicalRecord;
 
@@ -51,6 +55,7 @@ public class Patient extends Person {
      * Marked as Transient because appointments are stored in a JSON file,
      * not in the SQL database.
      */
+    @JsonIgnore
     @Transient
     private List<Appointment> appointments = new ArrayList<>();
 

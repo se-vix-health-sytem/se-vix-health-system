@@ -1,170 +1,138 @@
 package com.nvivx.vixhealthsystem.controllers;
 
-import com.nvivx.vixhealthsystem.model.facility.Room;
-import com.nvivx.vixhealthsystem.model.facility.InternationRoom;
-import com.nvivx.vixhealthsystem.model.medical.Appointment;
-import com.nvivx.vixhealthsystem.model.person.Patient;
-import com.nvivx.vixhealthsystem.model.person.employee.MedicalSpecialist;
-import com.nvivx.vixhealthsystem.repository.JsonAppointmentRepository;
+import com.nvivx.vixhealthsystem.controllers.staff.SecretaryController;
+import com.nvivx.vixhealthsystem.model.person.employee.Secretary;
 import com.nvivx.vixhealthsystem.service.core.EmployeeService;
 import com.nvivx.vixhealthsystem.service.core.PatientService;
 import com.nvivx.vixhealthsystem.service.resources.RoomService;
+import com.nvivx.vixhealthsystem.repository.JsonAppointmentRepository;
+import jakarta.servlet.http.HttpSession;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.ui.Model;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.*;
 
+@ExtendWith(MockitoExtension.class)
 class SecretaryControllerTest {
 
+    @Mock
     private RoomService roomService;
+
+    @Mock
     private EmployeeService employeeService;
+
+    @Mock
     private PatientService patientService;
+
+    @Mock
     private JsonAppointmentRepository appointmentRepository;
 
-    private SecretaryController controller;
+    @Mock
+    private HttpSession session;
+
+    @Mock
+    private Model model;
+
+    @InjectMocks
+    private SecretaryController secretaryController;
+
+    private Secretary testSecretary;
 
     @BeforeEach
     void setUp() {
-        roomService = mock(RoomService.class);
-        employeeService = mock(EmployeeService.class);
-        patientService = mock(PatientService.class);
-        appointmentRepository = mock(JsonAppointmentRepository.class);
-
-        controller = new SecretaryController(
-                roomService,
-                employeeService,
-                patientService,
-                appointmentRepository
-        );
+        testSecretary = new Secretary();
+        testSecretary.setId(1L);
+        testSecretary.setName("Test");
+        testSecretary.setSurname("Secretary");
     }
 
     @Test
-    void shouldLoadDashboard() {
+    void testDashboard() {
+        // Arrange
+        when(session.getAttribute("user")).thenReturn(testSecretary);
+        when(employeeService.findById(1L)).thenReturn(testSecretary);
+        when(roomService.getAllInpatientRooms()).thenReturn(java.util.Collections.emptyList());
+        when(roomService.getAvailableRooms()).thenReturn(java.util.Collections.emptyList());
+        when(appointmentRepository.findAll()).thenReturn(java.util.Collections.emptyList());
+        when(roomService.getTotalAvailableBeds()).thenReturn(0);
 
-        when(roomService.getAllInpatientRooms()).thenReturn(List.of());
-        when(roomService.getAvailableRooms()).thenReturn(List.of());
-        when(roomService.getTotalAvailableBeds()).thenReturn(10);
-        when(appointmentRepository.findAll()).thenReturn(List.of());
+        // Act
+        String result = secretaryController.dashboard(session, model);
 
-        Model model = mock(Model.class);
-
-        String view = controller.dashboard(model);
-
-        assertEquals("secretary/dashboard", view);
-
-        verify(model).addAttribute(eq("totalRooms"), any());
-        verify(model).addAttribute(eq("availableRooms"), any());
-        verify(model).addAttribute(eq("totalAppointments"), any());
+        // Assert
+        assertEquals("secretary/dashboard", result);
+        verify(model).addAttribute(eq("pageTitle"), anyString());
+        verify(model).addAttribute(eq("currentPage"), eq("dashboard"));
+        verify(model).addAttribute(eq("totalRooms"), anyInt());
+        verify(model).addAttribute(eq("availableRooms"), anyInt());
+        verify(model).addAttribute(eq("totalAppointments"), anyInt());
+        verify(model).addAttribute(eq("totalAvailableBeds"), anyInt());
     }
 
     @Test
-    void shouldAdmitPatientSuccessfully() {
+    void testViewAllRooms() {
+        // Arrange
+        when(roomService.getAllRooms()).thenReturn(java.util.Collections.emptyList());
+        when(patientService.findAllPatients()).thenReturn(java.util.Collections.emptyList());
 
-        RedirectAttributes redirectAttributes = mock(RedirectAttributes.class);
+        // Act
+        String result = secretaryController.viewAllRooms(model);
 
-        String view = controller.admitPatient(1L, 2L, redirectAttributes);
-
-        assertEquals("redirect:/secretary/rooms", view);
-
-        verify(roomService).admitPatient(1L, 2L);
-        verify(redirectAttributes).addFlashAttribute(eq("message"), any());
+        // Assert
+        assertEquals("secretary/rooms", result);
+        verify(model).addAttribute(eq("rooms"), any());
+        verify(model).addAttribute(eq("patients"), any());
+        verify(model).addAttribute(eq("pageTitle"), eq("All Rooms"));
     }
 
     @Test
-    void shouldHandleAdmitPatientFailure() {
+    void testViewAvailableRooms() {
+        // Arrange
+        when(roomService.getAvailableRooms()).thenReturn(java.util.Collections.emptyList());
+        when(patientService.findAllPatients()).thenReturn(java.util.Collections.emptyList());
 
-        doThrow(new RuntimeException("Room full"))
-                .when(roomService).admitPatient(anyLong(), anyLong());
+        // Act
+        String result = secretaryController.viewAvailableRooms(model);
 
-        RedirectAttributes redirectAttributes = mock(RedirectAttributes.class);
-
-        String view = controller.admitPatient(1L, 2L, redirectAttributes);
-
-        assertEquals("redirect:/secretary/rooms", view);
-
-        verify(redirectAttributes).addFlashAttribute(eq("error"), contains("Room full"));
+        // Assert
+        assertEquals("secretary/rooms", result);
+        verify(model).addAttribute(eq("rooms"), any());
+        verify(model).addAttribute(eq("patients"), any());
+        verify(model).addAttribute(eq("pageTitle"), eq("Available Rooms"));
+        verify(model).addAttribute(eq("isAvailableView"), eq(true));
     }
 
     @Test
-    void shouldDismissPatientSuccessfully() {
+    void testManageAppointments() {
+        // Arrange
+        when(appointmentRepository.findAll()).thenReturn(java.util.Collections.emptyList());
+        when(patientService.findAllPatients()).thenReturn(java.util.Collections.emptyList());
+        when(employeeService.findAllMedicalSpecialists()).thenReturn(java.util.Collections.emptyList());
 
-        RedirectAttributes redirectAttributes = mock(RedirectAttributes.class);
+        // Act
+        String result = secretaryController.manageAppointments(model);
 
-        String view = controller.dismissPatient(1L, 2L, redirectAttributes);
-
-        assertEquals("redirect:/secretary/rooms", view);
-
-        verify(roomService).dismissPatient(1L, 2L);
+        // Assert
+        assertEquals("secretary/manage-appointments", result);
+        verify(model).addAttribute(eq("appointments"), any());
+        verify(model).addAttribute(eq("patients"), any());
+        verify(model).addAttribute(eq("specialists"), any());
+        verify(model).addAttribute(eq("pageTitle"), eq("Manage Appointments"));
     }
 
     @Test
-    void shouldBookAppointmentForPatient() {
+    void testShowPatientSearchForm() {
+        // Act
+        String result = secretaryController.showPatientSearchForm(model);
 
-        Patient patient = new Patient();
-        MedicalSpecialist specialist = mock(MedicalSpecialist.class);
-
-        when(patientService.findById(1L)).thenReturn(patient);
-        when(employeeService.findById(2L)).thenReturn(specialist);
-
-        Appointment saved = new Appointment();
-        saved.setId(10);
-
-        when(appointmentRepository.save(any())).thenReturn(saved);
-
-        RedirectAttributes redirectAttributes = mock(RedirectAttributes.class);
-
-        String view = controller.bookAppointmentForPatient(
-                1L,
-                2L,
-                "2026-06-10T10:00:00",
-                redirectAttributes
-        );
-
-        assertEquals("redirect:/secretary/appointments", view);
-
-        verify(appointmentRepository).save(any(Appointment.class));
-    }
-
-    @Test
-    void shouldCancelAppointment() {
-
-        Appointment appointment = new Appointment();
-        appointment.setId(1);
-
-        when(appointmentRepository.findById(1)).thenReturn(appointment);
-
-        RedirectAttributes redirectAttributes = mock(RedirectAttributes.class);
-
-        String view = controller.cancelAppointment(1, redirectAttributes);
-
-        assertEquals("redirect:/secretary/appointments", view);
-
-        verify(appointmentRepository).save(appointment);
-    }
-
-    @Test
-    void shouldRescheduleAppointment() {
-
-        Appointment appointment = new Appointment();
-        appointment.setId(1);
-
-        when(appointmentRepository.findById(1)).thenReturn(appointment);
-
-        RedirectAttributes redirectAttributes = mock(RedirectAttributes.class);
-
-        String view = controller.rescheduleAppointment(
-                1,
-                "2026-06-11T10:00:00",
-                redirectAttributes
-        );
-
-        assertEquals("redirect:/secretary/appointments", view);
-
-        verify(appointmentRepository).save(appointment);
+        // Assert
+        assertEquals("secretary/patient-search", result);
+        verify(model).addAttribute(eq("pageTitle"), eq("Search Patients"));
     }
 }

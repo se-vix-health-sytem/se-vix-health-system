@@ -68,13 +68,15 @@
                           class="d-flex gap-3 align-items-end flex-wrap">
                         <input type="hidden" name="resourceId" th:value="${resource.id}">
                         <div>
-                            <label class="form-label">New Quantity</label>
+                            <label class="form-label">Quantity to add / remove</label>
                             <input type="number" name="quantity" class="form-control"
-                                   th:value="${totalQuantity ?: resource.quantity ?: 0}"
-                                   min="0" style="max-width: 160px;" required>
+                                   value="1" min="1" style="max-width: 160px;" required>
                         </div>
-                        <button type="submit" class="btn btn-primary rounded-pill">
-                            <i class="bi bi-check-circle me-1"></i>Update Quantity
+                        <button type="submit" name="action" value="add" class="btn btn-success rounded-pill">
+                            <i class="bi bi-plus-circle me-1"></i>Add
+                        </button>
+                        <button type="submit" name="action" value="remove" class="btn btn-outline-danger rounded-pill">
+                            <i class="bi bi-dash-circle me-1"></i>Remove
                         </button>
                     </form>
                 </div>

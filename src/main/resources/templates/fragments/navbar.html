@@ -24,24 +24,29 @@
             </button>
 
             <!-- Nav links -->
-            <div class="collapse navbar-collapse" id="navbarContent">
-                <ul class="navbar-nav mx-auto gap-2">
-                    <li class="nav-item">
-                        <a class="nav-link" th:href="@{/}" style="color: var(--vix-text); font-weight: 500;">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" th:href="@{/departments}" style="color: var(--vix-text); font-weight: 500;">Departments</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" th:href="@{/doctors}" style="color: var(--vix-text); font-weight: 500;">Doctors</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" th:href="@{/questionnaire}" style="color: var(--vix-text); font-weight: 500;">Find Specialist</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" th:href="@{/map/hospitals}" style="color: var(--vix-text); font-weight: 500;">Locations</a>
-                    </li>
-                </ul>
+            <ul class="navbar-nav mx-auto gap-2">
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/}">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/departments}">Departments</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/specialists}">Medical Specialists</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/about}">About Us</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/contact}">Contact</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/map/hospitals}">Locations</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/questionnaire}">Find Specialist</a>
+                </li>
+            </ul>
 
                 <!-- Auth controls -->
                 <div class="d-flex gap-2">
@@ -71,7 +76,6 @@
                     </div>
                 </div>
             </div>
-        </div>
     </nav>
 </div>
 </html>

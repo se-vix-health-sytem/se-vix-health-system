@@ -41,6 +41,5 @@ build/
 src/main/resources/firebase/firebase-service-account.json
 
 ### Private Firebase key###
-src/main/resources/firebase/firebase-service-account.json
 
 .DS_Store

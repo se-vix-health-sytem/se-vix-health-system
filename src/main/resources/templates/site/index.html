@@ -1,0 +1,1269 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title th:text="${siteName} ?: 'VIX Health System'">VIX Health System</title>
+
+    <!-- Bootstrap 5 -->
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"/>
+    <!-- Leaflet -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"/>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous"/>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;600&display=swap"
+          rel="stylesheet"/>
+
+    <style>
+        /* ── Design Tokens ───────────────────────────────────────────── */
+        :root {
+            --vix-crimson:   #7a1428;
+            --vix-crimson-dk:#5a0e1e;
+            --vix-crimson-lt:#9e1a34;
+            --vix-gold:      #b8952a;
+            --vix-gold-lt:   #d4ae4a;
+            --vix-gold-pale: #f5edd8;
+            --vix-cream:     #faf7f2;
+            --vix-white:     #ffffff;
+            --vix-text:      #2a1518;
+            --vix-muted:     #7a6068;
+            --vix-border:    #e8ddd5;
+            --vix-navy:      #7a1428;   /* alias kept for legacy refs */
+            --vix-blue:      #9e1a34;
+            --vix-teal:      #b8952a;
+            --vix-teal-lt:   #d4ae4a;
+            --radius-lg:     1rem;
+            --radius-pill:   50px;
+            --shadow-sm:     0 2px 8px rgba(122,20,40,.08);
+            --shadow-md:     0 6px 24px rgba(122,20,40,.14);
+            --shadow-lg:     0 16px 48px rgba(122,20,40,.18);
+        }
+
+        /* ── Base ───────────────────────────────────────────────────── */
+        *  { box-sizing: border-box; }
+        body {
+            font-family: 'DM Sans', sans-serif;
+            color: var(--vix-text);
+            background: var(--vix-white);
+            overflow-x: hidden;
+        }
+        h1, h2, h3, .font-display { font-family: 'Cormorant Garamond', serif; }
+
+        /* ── Navbar ─────────────────────────────────────────────────── */
+        .vix-navbar {
+            background: var(--vix-white);
+            border-bottom: 1px solid var(--vix-border);
+            padding: .75rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: var(--shadow-sm);
+        }
+        .vix-brand {
+            display: flex;
+            align-items: center;
+            gap: .65rem;
+            text-decoration: none;
+        }
+        .vix-brand-logo {
+            width: 44px;
+            height: 44px;
+            flex-shrink: 0;
+        }
+        .vix-brand-text { line-height: 1.1; }
+        .vix-brand-text strong {
+            display: block;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--vix-crimson);
+            letter-spacing: .02em;
+        }
+        .vix-brand-text span {
+            font-size: .68rem;
+            color: var(--vix-gold);
+            text-transform: uppercase;
+            letter-spacing: .07em;
+        }
+        .vix-nav-link {
+            color: var(--vix-text) !important;
+            font-weight: 500;
+            font-size: .9rem;
+            padding: .4rem .8rem !important;
+            border-radius: 6px;
+            transition: background .2s, color .2s;
+            letter-spacing: .01em;
+        }
+        .vix-nav-link:hover,
+        .vix-nav-link.active { background: var(--vix-gold-pale); color: var(--vix-crimson) !important; }
+        .btn-login {
+            border: 1.5px solid var(--vix-crimson);
+            color: var(--vix-crimson);
+            border-radius: var(--radius-pill);
+            font-weight: 600;
+            font-size: .86rem;
+            padding: .4rem 1.1rem;
+            transition: all .2s;
+            background: transparent;
+        }
+        .btn-login:hover { background: var(--vix-crimson); color: #fff; }
+        .btn-book-nav {
+            background: var(--vix-crimson);
+            color: #fff !important;
+            border-radius: var(--radius-pill);
+            font-weight: 600;
+            font-size: .86rem;
+            padding: .4rem 1.2rem;
+            transition: background .2s;
+            text-decoration: none;
+        }
+        .btn-book-nav:hover { background: var(--vix-crimson-dk); }
+
+        /* Emergency bar */
+        .emergency-bar {
+            background: var(--vix-crimson-dk);
+            color: rgba(255,255,255,.85);
+            font-size: .78rem;
+            padding: .3rem 0;
+            border-bottom: 1px solid rgba(184,149,42,.3);
+        }
+        .emergency-bar a { color: var(--vix-gold-lt); text-decoration: none; }
+        .emergency-bar a:hover { color: #fff; }
+
+        /* ── Hero ───────────────────────────────────────────────────── */
+        .vix-hero {
+            background: linear-gradient(135deg, var(--vix-crimson-dk) 0%, var(--vix-crimson) 55%, #a01830 100%);
+            color: #fff;
+            padding: 7rem 0 5rem;
+            position: relative;
+            overflow: hidden;
+        }
+        .vix-hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+        /* Gold decorative line at bottom of hero */
+        .vix-hero::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            height: 3px;
+            pointer-events: none;
+            background: linear-gradient(90deg, transparent, var(--vix-gold), transparent);
+        }
+        .hero-eyebrow {
+            display: inline-block;
+            background: rgba(184,149,42,.18);
+            border: 1px solid rgba(184,149,42,.45);
+            border-radius: var(--radius-pill);
+            font-size: .76rem;
+            font-weight: 600;
+            letter-spacing: .07em;
+            text-transform: uppercase;
+            padding: .3rem 1rem;
+            margin-bottom: 1.25rem;
+            color: var(--vix-gold-lt);
+        }
+        .vix-hero h1 { font-size: clamp(2.4rem, 5vw, 3.8rem); line-height: 1.1; margin-bottom: 1.2rem; font-weight: 600; }
+        .vix-hero p.lead { font-size: 1.05rem; opacity: .88; max-width: 540px; line-height: 1.75; }
+        .btn-hero-primary {
+            display: inline-flex;
+            align-items: center;
+            background: var(--vix-gold);
+            color: #fff;
+            border-radius: var(--radius-pill);
+            font-weight: 600;
+            font-size: .98rem;
+            padding: .85rem 2rem;
+            border: none;
+            transition: background .2s, transform .2s;
+            text-decoration: none;
+            cursor: pointer;
+            position: relative;
+            z-index: 2;
+        }
+        .btn-hero-primary:hover { background: var(--vix-gold-lt); color: #fff; transform: translateY(-2px); }
+        .btn-hero-secondary {
+            display: inline-flex;
+            align-items: center;
+            background: transparent;
+            color: #fff;
+            border: 1.5px solid rgba(255,255,255,.45);
+            border-radius: var(--radius-pill);
+            font-weight: 500;
+            font-size: .98rem;
+            padding: .85rem 2rem;
+            transition: border-color .2s, background .2s;
+            text-decoration: none;
+            cursor: pointer;
+            position: relative;
+            z-index: 2;
+        }
+        .btn-hero-secondary:hover { border-color: var(--vix-gold-lt); background: rgba(184,149,42,.1); color: #fff; }
+
+        /* Hero floating card */
+        .hero-card {
+            background: var(--vix-white);
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            box-shadow: var(--shadow-lg);
+            color: var(--vix-text);
+            border-top: 3px solid var(--vix-gold);
+            position: relative;
+            z-index: 2;
+        }
+        .hero-card-title { font-size: .75rem; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--vix-gold); margin-bottom: 1rem; }
+        .quick-link-item {
+            display: flex;
+            align-items: center;
+            gap: .75rem;
+            padding: .75rem 1rem;
+            border-radius: 10px;
+            margin-bottom: .5rem;
+            background: var(--vix-white);
+            text-decoration: none;
+            color: var(--vix-text);
+            font-weight: 600;
+            font-size: .88rem;
+            border: 1.5px solid var(--vix-border);
+            box-shadow: 0 1px 4px rgba(122,20,40,.06);
+            transition: background .18s, color .18s, border-color .18s, box-shadow .18s, transform .18s;
+            cursor: pointer;
+        }
+        .quick-link-item:hover {
+            background: var(--vix-crimson);
+            color: #fff !important;
+            border-color: var(--vix-crimson);
+            box-shadow: 0 4px 14px rgba(122,20,40,.22);
+            transform: translateY(-2px);
+        }
+        .quick-link-item:hover .quick-link-icon { background: rgba(255,255,255,.18) !important; }
+        .quick-link-item:hover i { color: #fff !important; }
+        .quick-link-item:active { transform: translateY(0); box-shadow: 0 1px 4px rgba(122,20,40,.1); }
+        .quick-link-icon { width: 34px; height: 34px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: .95rem; flex-shrink: 0; }
+
+
+        /* ── Stats ──────────────────────────────────────────────────── */
+        .stats-strip {
+            background: var(--vix-crimson-dk);
+            color: #fff;
+            padding: 2.5rem 0;
+            border-top: 1px solid rgba(184,149,42,.25);
+            border-bottom: 1px solid rgba(184,149,42,.25);
+        }
+        .stat-item { text-align: center; }
+        .stat-number {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.6rem;
+            font-weight: 700;
+            color: var(--vix-gold-lt);
+            line-height: 1;
+        }
+        .stat-label { font-size: .8rem; opacity: .72; margin-top: .3rem; }
+
+        /* ── Section Commons ────────────────────────────────────────── */
+        .section-eyebrow {
+            font-size: .72rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: .12em;
+            color: var(--vix-gold);
+            margin-bottom: .5rem;
+        }
+        .section-title { font-size: clamp(1.8rem, 3vw, 2.5rem); color: var(--vix-crimson); margin-bottom: .75rem; font-weight: 600; }
+        .section-lead { color: var(--vix-muted); max-width: 560px; line-height: 1.75; }
+        .section-divider { width: 48px; height: 2px; background: linear-gradient(90deg, var(--vix-gold), var(--vix-gold-lt)); border-radius: 2px; margin: 1rem 0 1.5rem; }
+
+        /* ── Departments ────────────────────────────────────────────── */
+        .dept-card {
+            background: var(--vix-white);
+            border: 1px solid var(--vix-border);
+            border-radius: var(--radius-lg);
+            padding: 1.75rem 1.5rem;
+            text-decoration: none;
+            color: var(--vix-text);
+            display: block;
+            height: 100%;
+            transition: border-color .25s, box-shadow .25s, transform .25s;
+            position: relative;
+            overflow: hidden;
+        }
+        .dept-card::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--vix-crimson), var(--vix-gold));
+            transform: scaleX(0);
+            transition: transform .25s;
+        }
+        .dept-card:hover { border-color: var(--vix-gold); box-shadow: var(--shadow-md); transform: translateY(-4px); color: var(--vix-text); }
+        .dept-card:hover::after { transform: scaleX(1); }
+        .dept-icon {
+            width: 56px; height: 56px;
+            background: var(--vix-cream);
+            border-radius: 14px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.5rem;
+            color: var(--vix-crimson);
+            margin-bottom: 1rem;
+            transition: background .25s, color .25s;
+            border: 1px solid var(--vix-border);
+        }
+        .dept-card:hover .dept-icon { background: var(--vix-crimson); color: #fff; border-color: var(--vix-crimson); }
+        .dept-name { font-weight: 600; font-size: 1rem; margin-bottom: .4rem; color: var(--vix-crimson); }
+        .dept-desc { font-size: .84rem; color: var(--vix-muted); line-height: 1.6; }
+        .dept-arrow { position: absolute; top: 1.5rem; right: 1.5rem; color: var(--vix-border); font-size: 1.1rem; transition: color .25s; }
+        .dept-card:hover .dept-arrow { color: var(--vix-gold); }
+
+        /* ── Book Appointment ───────────────────────────────────────── */
+        .book-section {
+            background: linear-gradient(135deg, var(--vix-crimson) 0%, var(--vix-crimson-dk) 100%);
+            color: #fff;
+            padding: 5rem 0;
+            position: relative;
+        }
+        .book-section::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23b8952a' fill-opacity='0.04'%3E%3Ccircle cx='40' cy='40' r='30'/%3E%3C/g%3E%3C/svg%3E");
+        }
+        .book-form-card {
+            background: var(--vix-white);
+            border-radius: var(--radius-lg);
+            padding: 2.5rem;
+            box-shadow: var(--shadow-lg);
+            border-top: 3px solid var(--vix-gold);
+            position: relative;
+            z-index: 1;
+        }
+        .form-label { font-weight: 600; font-size: .83rem; color: var(--vix-crimson); letter-spacing: .02em; }
+        .form-control, .form-select {
+            border: 1.5px solid var(--vix-border);
+            border-radius: 10px;
+            font-size: .9rem;
+            padding: .6rem .9rem;
+            background: var(--vix-cream);
+        }
+        .form-control:focus, .form-select:focus { border-color: var(--vix-gold); box-shadow: 0 0 0 3px rgba(184,149,42,.12); background: #fff; }
+        .btn-book-primary {
+            background: var(--vix-crimson);
+            color: #fff;
+            border: none;
+            border-radius: var(--radius-pill);
+            font-weight: 600;
+            font-size: .95rem;
+            padding: .75rem 2rem;
+            width: 100%;
+            transition: background .2s;
+            text-decoration: none;
+            display: block;
+            text-align: center;
+        }
+        .btn-book-primary:hover { background: var(--vix-crimson-dk); color: #fff; }
+
+        /* ── Medical Specialists ────────────────────────────────────────────────── */
+        .doctor-card {
+            background: var(--vix-white);
+            border: 1px solid var(--vix-border);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            transition: box-shadow .25s, transform .25s;
+        }
+        .doctor-card:hover { box-shadow: var(--shadow-md); transform: translateY(-4px); }
+        .doctor-avatar {
+            height: 220px;
+            background: linear-gradient(135deg, var(--vix-cream) 0%, var(--vix-gold-pale) 100%);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 4rem;
+            color: var(--vix-crimson);
+            border-bottom: 2px solid var(--vix-border);
+        }
+        .doctor-info { padding: 1.25rem 1.5rem; }
+        .doctor-name { font-weight: 700; font-size: 1rem; margin-bottom: .2rem; color: var(--vix-crimson); }
+        .doctor-spec { font-size: .82rem; color: var(--vix-gold); font-weight: 600; margin-bottom: .6rem; }
+        .doctor-dept { font-size: .79rem; color: var(--vix-muted); }
+        .btn-doc-profile {
+            display: block;
+            text-align: center;
+            border: 1.5px solid var(--vix-border);
+            border-radius: var(--radius-pill);
+            font-size: .82rem;
+            font-weight: 600;
+            color: var(--vix-crimson);
+            padding: .5rem;
+            margin: 1rem 1.5rem 1.5rem;
+            text-decoration: none;
+            transition: all .2s;
+        }
+        .btn-doc-profile:hover { background: var(--vix-crimson); color: #fff; border-color: var(--vix-crimson); }
+
+        /* ── Questionnaire Banner ───────────────────────────────────── */
+        .quiz-banner {
+            background: var(--vix-white);
+            border: 1px solid var(--vix-border);
+            border-left: 4px solid var(--vix-gold);
+            border-radius: var(--radius-lg);
+            padding: 2rem 2.5rem;
+            box-shadow: var(--shadow-sm);
+        }
+        .quiz-banner h3 { font-size: 1.5rem; color: var(--vix-crimson); margin-bottom: .5rem; }
+
+        /* ── Map Section ────────────────────────────────────────────── */
+        .map-section { background: var(--vix-cream); padding: 5rem 0; }
+        .map-placeholder {
+            background: var(--vix-crimson-dk);
+            border-radius: var(--radius-lg);
+            height: 380px;
+            display: flex; align-items: center; justify-content: center;
+            flex-direction: column;
+            color: #fff;
+            gap: 1rem;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(184,149,42,.2);
+        }
+        .map-placeholder::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: repeating-linear-gradient(
+                    0deg, transparent, transparent 39px,
+                    rgba(255,255,255,.03) 40px
+            ),
+            repeating-linear-gradient(
+                    90deg, transparent, transparent 39px,
+                    rgba(255,255,255,.03) 40px
+            );
+        }
+        .map-placeholder i { font-size: 3.5rem; opacity: .5; color: var(--vix-gold-lt); }
+        .map-placeholder p { opacity: .7; font-size: .95rem; }
+        .location-card {
+            background: var(--vix-white);
+            border: 1px solid var(--vix-border);
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            transition: box-shadow .2s;
+        }
+        .location-card:hover { box-shadow: var(--shadow-sm); }
+        .location-type-badge {
+            display: inline-block;
+            font-size: .68rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: .07em;
+            padding: .25rem .65rem;
+            border-radius: var(--radius-pill);
+            margin-bottom: .6rem;
+        }
+        .badge-hospital { background: rgba(122,20,40,.1); color: var(--vix-crimson); }
+        .badge-center { background: rgba(184,149,42,.12); color: var(--vix-gold); }
+
+        /* ── Contact ────────────────────────────────────────────────── */
+        .contact-section { background: var(--vix-white); padding: 5rem 0; }
+        .contact-card {
+            text-align: center;
+            padding: 2rem 1.5rem;
+            border: 1px solid var(--vix-border);
+            border-radius: var(--radius-lg);
+            height: 100%;
+            transition: box-shadow .2s, border-color .2s;
+        }
+        .contact-card:hover { box-shadow: var(--shadow-sm); border-color: var(--vix-gold); }
+        .contact-card-icon {
+            width: 60px; height: 60px;
+            background: var(--vix-gold-pale);
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.4rem;
+            color: var(--vix-crimson);
+            margin: 0 auto 1rem;
+            border: 1px solid rgba(184,149,42,.2);
+        }
+        .contact-card h6 { font-weight: 700; color: var(--vix-crimson); margin-bottom: .4rem; font-family: 'Cormorant Garamond', serif; font-size: 1.05rem; }
+        .contact-card p { font-size: .87rem; color: var(--vix-muted); margin: 0; }
+        .contact-card a { color: var(--vix-gold); text-decoration: none; font-weight: 500; }
+
+        /* ── Footer ─────────────────────────────────────────────────── */
+        .vix-footer {
+            background: var(--vix-crimson-dk);
+            color: rgba(255,255,255,.72);
+            padding: 4rem 0 2rem;
+            border-top: 2px solid rgba(184,149,42,.3);
+        }
+        .footer-brand strong { color: #fff; font-family: 'Cormorant Garamond', serif; font-size: 1.25rem; font-weight: 700; }
+        .footer-desc { font-size: .84rem; line-height: 1.75; margin-top: .5rem; max-width: 280px; }
+        .footer-heading { color: var(--vix-gold-lt); font-weight: 700; font-size: .78rem; letter-spacing: .08em; text-transform: uppercase; margin-bottom: 1.1rem; }
+        .footer-link { display: block; color: rgba(255,255,255,.6); font-size: .84rem; text-decoration: none; margin-bottom: .45rem; transition: color .2s; }
+        .footer-link:hover { color: var(--vix-gold-lt); }
+        .footer-divider { border-color: rgba(184,149,42,.2); margin: 2.5rem 0 1.5rem; }
+        .footer-bottom { font-size: .78rem; }
+        .footer-badge {
+            display: inline-flex; align-items: center; gap: .5rem;
+            background: rgba(184,149,42,.15);
+            border: 1px solid rgba(184,149,42,.3);
+            border-radius: var(--radius-pill);
+            font-size: .73rem;
+            color: var(--vix-gold-lt);
+            padding: .3rem .85rem;
+        }
+
+        /* ── Auth Alert ─────────────────────────────────────────────── */
+        .auth-required-note {
+            font-size: .76rem;
+            color: var(--vix-muted);
+            text-align: center;
+            margin-top: .75rem;
+        }
+        .auth-required-note a { color: var(--vix-gold); }
+
+        /* ── Outline buttons override ───────────────────────────────── */
+        .btn-outline-secondary {
+            border-color: var(--vix-border) !important;
+            color: var(--vix-crimson) !important;
+        }
+        .btn-outline-secondary:hover {
+            background: var(--vix-crimson) !important;
+            border-color: var(--vix-crimson) !important;
+            color: #fff !important;
+        }
+
+        /* ── Questionnaire CTA button ───────────────────────────────── */
+        .btn-primary.rounded-pill {
+            background: var(--vix-crimson) !important;
+            border-color: var(--vix-crimson) !important;
+        }
+        .btn-primary.rounded-pill:hover {
+            background: var(--vix-crimson-dk) !important;
+            border-color: var(--vix-crimson-dk) !important;
+        }
+    </style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════════
+     EMERGENCY TOP BAR
+     ══════════════════════════════════════════════════════════ -->
+<div class="emergency-bar">
+    <div class="container d-flex justify-content-between align-items-center flex-wrap gap-2">
+        <span><i class="bi bi-telephone-fill me-1"></i> Emergency: <a href="tel:+390461000001">+39 0461 000 001</a></span>
+        <span class="d-flex gap-3">
+            <span><i class="bi bi-clock me-1"></i> Mon–Fri: 08:00–20:00 &nbsp;|&nbsp; Sat: 08:00–14:00</span>
+            <a th:href="@{/login}"><i class="bi bi-person-badge me-1"></i> Staff Portal</a>
+        </span>
+    </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     NAVBAR
+     ══════════════════════════════════════════════════════════ -->
+<nav class="vix-navbar">
+    <div class="container d-flex align-items-center gap-3">
+        <!-- Brand with inline logo -->
+        <a class="vix-brand me-auto" th:href="@{/}">
+            <!-- VIX Logo  -->
+            <img src="/images/vix-logo.png" alt="VIX Logo" class="vix-brand-logo"/>
+            <div class="vix-brand-text">
+                <strong>VIX Health System</strong>
+                <span>Hospital Network · Trento</span>
+            </div>
+        </a>
+
+        <!-- Nav links (desktop) -->
+        <ul class="nav d-none d-lg-flex align-items-center gap-1">
+            <li class="nav-item">
+                <a class="nav-link vix-nav-link active" th:href="@{/}">Home</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link vix-nav-link" th:href="@{/departments}">Departments</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link vix-nav-link" th:href="@{/specialists}">Medical Specialists</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link vix-nav-link" th:href="@{/about}">About Us</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link vix-nav-link" th:href="@{/contact}">Contact</a>
+            </li>
+        </ul>
+
+        <!-- Auth controls -->
+        <div class="d-none d-lg-flex align-items-center gap-2 ms-3">
+            <!-- Not logged in -->
+            <div th:if="${session.patient == null and session.user == null}" class="d-flex gap-2">
+                <a th:href="@{/patient/login}" class="btn btn-login">
+                    <i class="bi bi-person me-1"></i> Patient Login
+                </a>
+                <a th:href="@{/patient/login}" class="btn-book-nav">
+                    <i class="bi bi-calendar-plus me-1"></i> Book Appointment
+                </a>
+            </div>
+            <!-- Patient logged in -->
+            <div th:if="${session.patient != null}" class="d-flex gap-2 align-items-center">
+                <span class="small" style="color:var(--vix-muted);"
+                      th:text="'Hi, ' + ${session.patient.name}">Hi, Patient</span>
+                <a th:href="@{/patient/dashboard}" class="btn-book-nav">
+                    <i class="bi bi-speedometer2 me-1"></i> My Dashboard
+                </a>
+                <a th:href="@{/patient/logout}" class="btn btn-login">Logout</a>
+            </div>
+            <!-- Staff logged in -->
+            <div th:if="${session.user != null}" class="d-flex gap-2 align-items-center">
+                <span class="small" style="color:var(--vix-muted);"
+                      th:text="${session.user.name + ' · ' + session.role}">Staff</span>
+                <a th:href="@{/logout}" class="btn btn-login">Logout</a>
+            </div>
+        </div>
+
+        <!-- Mobile toggler -->
+        <button class="navbar-toggler d-lg-none border-0 p-1" type="button"
+                data-bs-toggle="offcanvas" data-bs-target="#mobileMenu">
+            <i class="bi bi-list fs-4"></i>
+        </button>
+    </div>
+</nav>
+
+<!-- Mobile offcanvas -->
+<div class="offcanvas offcanvas-end d-lg-none" tabindex="-1" id="mobileMenu">
+    <div class="offcanvas-header border-bottom">
+        <span class="fw-bold" style="font-family:'Cormorant Garamond',serif; color:var(--vix-crimson); font-size:1.1rem">VIX Health System</span>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+    </div>
+    <div class="offcanvas-body">
+        <ul class="nav flex-column gap-1">
+            <li><a class="nav-link vix-nav-link" th:href="@{/}">Home</a></li>
+            <li><a class="nav-link vix-nav-link" th:href="@{/departments}">Departments</a></li>
+            <li><a class="nav-link vix-nav-link" th:href="@{/doctors}">Doctors</a></li>
+            <li><a class="nav-link vix-nav-link" th:href="@{/about}">About Us</a></li>
+            <li><a class="nav-link vix-nav-link" th:href="@{/contact}">Contact</a></li>
+        </ul>
+        <hr/>
+        <a th:href="@{/patient/login}" class="btn btn-login w-100 mb-2">Patient Login</a>
+        <a th:href="@{/patient/login}" class="btn-book-nav d-block text-center w-100">Book Appointment</a>
+    </div>
+</div>
+
+
+
+<!-- ═══════════════════════════════════════════════════════════
+     HERO
+     ══════════════════════════════════════════════════════════ -->
+<section class="vix-hero">
+    <div class="container">
+        <div class="row align-items-center g-5">
+            <!-- Text column -->
+            <div class="col-lg-6" style="position:relative;z-index:2;">
+                <div class="hero-eyebrow">
+                    <i class="bi bi-shield-check me-1"></i>
+                    GDPR Compliant · Private Hospital Network
+                </div>
+                <h1>Your Health,<br/>Our Priority</h1>
+                <p class="lead">
+                    VIX Health System brings together one full-service hospital and two day-healthcare
+                    centres in Trento — offering seamless online booking, secure medical records,
+                    and real-time care coordination.
+                </p>
+                <div class="d-flex flex-wrap gap-3 mt-4">
+                    <a th:href="@{/patient/login}" class="btn-hero-primary">
+                        <i class="bi bi-calendar-plus me-2"></i>Book an Appointment
+                    </a>
+                    <a href="#departments" class="btn-hero-secondary">
+                        <i class="bi bi-grid-3x3-gap me-2"></i>Our Departments
+                    </a>
+                </div>
+            </div>
+
+            <!-- Quick-access card -->
+            <div class="col-lg-5 offset-lg-1">
+                <div class="hero-card">
+                    <div class="hero-card-title">Quick Access</div>
+
+                    <a th:href="@{/patient/login}" class="quick-link-item">
+                        <div class="quick-link-icon" style="background:rgba(184,149,42,.12)">
+                            <i class="bi bi-calendar-plus" style="color:var(--vix-gold)"></i>
+                        </div>
+                        Book an Appointment
+                    </a>
+
+                    <a th:href="@{/patient/records}" class="quick-link-item">
+                        <div class="quick-link-icon" style="background:rgba(122,20,40,.08)">
+                            <i class="bi bi-file-medical" style="color:var(--vix-crimson)"></i>
+                        </div>
+                        My Medical Records
+                    </a>
+
+                    <a th:href="@{/patient/appointments}" class="quick-link-item">
+                        <div class="quick-link-icon" style="background:rgba(184,149,42,.12)">
+                            <i class="bi bi-calendar-check" style="color:var(--vix-gold)"></i>
+                        </div>
+                        My Appointments
+                    </a>
+
+                    <a href="#questionnaire-banner" class="quick-link-item">
+                        <div class="quick-link-icon" style="background:rgba(122,20,40,.08)">
+                            <i class="bi bi-question-circle" style="color:var(--vix-crimson)"></i>
+                        </div>
+                        Find the Right Specialist
+                    </a>
+
+                    <a href="#find-hospitals" class="quick-link-item">
+                        <div class="quick-link-icon" style="background:rgba(184,149,42,.1)">
+                            <i class="bi bi-geo-alt" style="color:var(--vix-gold)"></i>
+                        </div>
+                        Find Nearby Structures
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════════
+     STATS STRIP
+     ══════════════════════════════════════════════════════════ -->
+<section class="stats-strip">
+    <div class="container">
+        <div class="row text-center g-4">
+            <div class="col-6 col-md-3">
+                <div class="stat-item">
+                    <div class="stat-number" data-target="3">3</div>
+                    <div class="stat-label">Hospital Structures</div>
+                </div>
+            </div>
+            <div class="col-6 col-md-3">
+                <div class="stat-item">
+                    <div class="stat-number" data-target="${totalDepartments}" th:attr="data-target=${totalDepartments}" th:text="${totalDepartments}">6</div>
+                    <div class="stat-label">Medical Departments</div>
+                </div>
+            </div>
+            <div class="col-6 col-md-3">
+                <div class="stat-item">
+                    <div class="stat-number" data-target="${totalSpecialists}" th:attr="data-target=${totalSpecialists}" th:text="${totalSpecialists}">3</div>
+                    <div class="stat-label">Specialist Doctors</div>
+                </div>
+            </div>
+            <div class="col-6 col-md-3">
+                <div class="stat-item">
+                    <div class="stat-number">24/7</div>
+                    <div class="stat-label">Online Access</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════════
+     DEPARTMENTS SECTION  (UC8 – Browse Hospital Information)
+     ══════════════════════════════════════════════════════════ -->
+<section class="py-5 bg-white" id="departments">
+    <div class="container py-3">
+        <div class="row mb-5 align-items-end">
+            <div class="col-lg-7">
+                <div class="section-eyebrow">Our Specialties</div>
+                <h2 class="section-title">Medical Departments</h2>
+                <div class="section-divider"></div>
+                <p class="section-lead">
+                    Explore our full range of specialties. Each department provides targeted care,
+                    experienced doctors, and cutting-edge diagnostics.
+                </p>
+            </div>
+            <div class="col-lg-5 text-lg-end">
+                <a th:href="@{/departments}" class="btn btn-outline-secondary rounded-pill">
+                    View All Departments <i class="bi bi-arrow-right ms-1"></i>
+                </a>
+            </div>
+        </div>
+
+        <!-- Dynamic departments from database -->
+        <div class="row g-4" th:if="${departments != null and !departments.isEmpty()}">
+            <div class="col-md-6 col-lg-4 col-xl-3" th:each="dept : ${departments}">
+                <a th:href="@{/departments/{id}(id=${dept.id})}" class="dept-card h-100">
+                    <i class="bi bi-arrow-right dept-arrow"></i>
+                    <div class="dept-icon"><i class="bi bi-hospital"></i></div>
+                    <div class="dept-name" th:text="${dept.name}">Department Name</div>
+                    <p class="dept-desc" th:text="${dept.description ?: 'Specialist medical care and diagnostics.'}">Description</p>
+                </a>
+            </div>
+        </div>
+
+        <!-- Fallback if no departments loaded -->
+        <div th:if="${departments == null or departments.isEmpty()}" class="text-center py-4 text-muted">
+            <i class="bi bi-hospital fs-2"></i>
+            <p class="mt-2">Department information loading...</p>
+        </div>
+
+    </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════════
+     QUESTIONNAIRE BANNER  (FR2.7 – Aid Questionnaire)
+     ══════════════════════════════════════════════════════════ -->
+<section id="questionnaire-banner" class="py-4" style="background:var(--vix-cream)">
+    <div class="container">
+        <div class="quiz-banner d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3">
+            <div>
+                <div class="section-eyebrow mb-1">Not Sure Where to Start?</div>
+                <h3 class="mb-1">Find the Right Specialist</h3>
+                <p class="text-muted mb-0" style="font-size:.9rem">
+                    Answer a few short questions and we'll point you to the right department and doctor.
+                </p>
+            </div>
+            <a th:href="@{/questionnaire}"
+               class="btn btn-primary rounded-pill px-4 flex-shrink-0"
+               style="background:var(--vix-crimson);border-color:var(--vix-crimson)">
+                <i class="bi bi-clipboard2-pulse me-2"></i>Start Questionnaire
+            </a>
+        </div>
+    </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════════
+     BOOK APPOINTMENT SECTION  (UC10 – Book an Appointment)
+     ══════════════════════════════════════════════════════════ -->
+<section class="book-section" id="book-appointment">
+    <div class="container">
+        <div class="row align-items-center g-5">
+            <!-- Left: text -->
+            <div class="col-lg-5 text-white" style="position:relative;z-index:1">
+                <div class="section-eyebrow" style="color:var(--vix-gold-lt)">Online Booking</div>
+                <h2 class="section-title" style="color:#fff;font-size:2.2rem">
+                    Book Your Appointment in Minutes
+                </h2>
+                <div class="section-divider" style="background:linear-gradient(90deg,var(--vix-gold-lt),transparent)"></div>
+                <p style="opacity:.85;line-height:1.75;font-size:.95rem">
+                    Choose your department, doctor, and preferred time slot — all from home.
+                    Receive instant email confirmation and a reminder 48 hours before your visit.
+                </p>
+                <ul class="list-unstyled mt-3" style="font-size:.88rem;opacity:.85">
+                    <li class="mb-2"><i class="bi bi-check-circle-fill me-2" style="color:var(--vix-gold-lt)"></i>Real-time availability from our calendar system</li>
+                    <li class="mb-2"><i class="bi bi-check-circle-fill me-2" style="color:var(--vix-gold-lt)"></i>Reschedule or cancel anytime online</li>
+                    <li><i class="bi bi-check-circle-fill me-2" style="color:var(--vix-gold-lt)"></i>Email confirmation &amp; appointment reminders</li>
+                </ul>
+            </div>
+
+            <!-- Right: booking quick-form -->
+            <div class="col-lg-6 offset-lg-1">
+                <div class="book-form-card">
+                    <h5 class="fw-bold mb-1" style="color:var(--vix-crimson);font-family:'Cormorant Garamond',serif;font-size:1.4rem">Quick Appointment Request</h5>
+                    <!-- Logged in -->
+                    <div th:if="${session.patient != null}">
+                        <p class="text-muted mb-4" style="font-size:.9rem; line-height:1.7">
+                            Welcome back, <strong th:text="${session.patient.name}">Patient</strong>!
+                            You're all set — jump straight to booking.
+                        </p>
+                        <a th:href="@{/patient/appointments/book}" class="btn-book-primary d-block text-center">
+                            <i class="bi bi-calendar-plus me-2"></i>Book an Appointment
+                        </a>
+                        <p class="auth-required-note mt-3">
+                            <i class="bi bi-speedometer2 me-1"></i>
+                            <a th:href="@{/patient/dashboard}">Go to my dashboard</a>
+                        </p>
+                    </div>
+                    <!-- Not logged in -->
+                    <div th:if="${session.patient == null}">
+                        <p class="text-muted mb-3" style="font-size:.84rem">
+                            Select your preferences below — login required to confirm.
+                        </p>
+                        <p class="text-muted mb-4" style="font-size:.9rem; line-height:1.7">
+                            Log in to your patient account to view available slots, choose your preferred
+                            specialist, and confirm your appointment in seconds.
+                        </p>
+                        <a th:href="@{/patient/login}" class="btn-book-primary d-block text-center">
+                            <i class="bi bi-box-arrow-in-right me-2"></i>Log in to Book an Appointment
+                        </a>
+                        <p class="auth-required-note mt-3">
+                            <i class="bi bi-person-plus me-1"></i>New patient?
+                            <a th:href="@{/patient/login}">Create a free account</a> to get started.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════════
+     FEATURED MEDICAL SPECIALISTS  (FR2.3 / FR2.4)
+     ══════════════════════════════════════════════════════════ -->
+<section class="py-5 bg-white" id="doctors">
+    <div class="container py-3">
+        <div class="row mb-4 align-items-end">
+            <div class="col-lg-7">
+                <div class="section-eyebrow">Our Team</div>
+                <h2 class="section-title">Meet Our Medical Specialists</h2>
+                <div class="section-divider"></div>
+                <p class="section-lead">
+                    Our specialists bring deep expertise across all medical disciplines.
+                    Browse profiles and find the right consultant for your needs.
+                </p>
+            </div>
+            <div class="col-lg-5 text-lg-end">
+                <a th:href="@{/specialists}" class="btn btn-outline-secondary rounded-pill">
+                    All Medical Specialists <i class="bi bi-arrow-right ms-1"></i>
+                </a>
+            </div>
+        </div>
+
+        <!-- Dynamic from database -->
+        <div class="row g-4" th:if="${featuredSpecialists != null and !featuredSpecialists.isEmpty()}">
+            <div class="col-md-6 col-lg-3" th:each="specialist : ${featuredSpecialists}">
+                <div class="doctor-card">
+                    <div class="doctor-avatar" style="padding:0;overflow:hidden;">
+                        <img th:src="${doctorImages != null and doctorImages.containsKey(specialist.id) ? doctorImages[specialist.id] : '/images/doctors/placeholder.jpg'}"
+                             th:alt="'Dr. ' + ${specialist.name} + ' ' + ${specialist.surname}"
+                             style="width:100%;height:100%;object-fit:cover;"
+                             onerror="this.onerror=null;this.src='/images/doctors/placeholder.jpg';">
+                    </div>
+                    <div class="doctor-info">
+                        <div class="doctor-name"
+                             th:text="'Dr. ' + ${specialist.name} + ' ' + ${specialist.surname}">
+                            Dr. Name
+                        </div>
+                        <div class="doctor-spec" th:text="${specialist.specialty ?: 'General Medicine'}">
+                            Specialization
+                        </div>
+                        <div class="doctor-dept" th:text="${specialist.department?.name ?: 'Department Not Assigned'}">
+                            Department
+                        </div>
+                    </div>
+                    <a th:href="@{/specialists/{id}(id=${specialist.id})}" class="btn-doc-profile">
+                        View Profile
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div th:if="${featuredSpecialists == null or featuredSpecialists.isEmpty()}"
+             class="text-center py-5 text-muted">
+            <i class="bi bi-person-circle fs-1"></i>
+            <p>Medical specialist profiles coming soon.</p>
+        </div>
+    </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════════
+     FIND NEARBY STRUCTURES  (UC9 – Locate Nearby Hospital Structures)
+     ══════════════════════════════════════════════════════════ -->
+<section class="map-section" id="find-hospitals">
+    <div class="container">
+        <div class="row mb-5">
+            <div class="col-lg-7">
+                <div class="section-eyebrow">Hospital Network</div>
+                <h2 class="section-title">Find a Nearby Structure</h2>
+                <div class="section-divider"></div>
+                <p class="section-lead">
+                    VIX Health System operates across three facilities in the Trento area.
+                    Click a location card to jump to it on the map.
+                </p>
+            </div>
+        </div>
+
+        <div class="row g-4 align-items-center">
+            <!-- Location cards -->
+            <div class="col-lg-4">
+                <div class="location-card location-card-interactive"
+                     data-lat="46.066422" data-lng="11.119928" data-idx="0"
+                     onclick="flyToLocation(0)"
+                     style="cursor:pointer">
+                    <span class="location-type-badge badge-hospital">Main Hospital</span>
+                    <h6 class="fw-bold mb-1">VIX Central Hospital</h6>
+                    <p class="text-muted mb-2" style="font-size:.84rem">
+                        <i class="bi bi-geo-alt me-1"></i> Via San Camillo 1, 38122 Trento TN
+                    </p>
+                    <p class="text-muted mb-2" style="font-size:.82rem">
+                        <i class="bi bi-telephone me-1"></i>
+                        <a href="tel:+390461000001" style="color:var(--vix-gold);text-decoration:none">+39 0461 000 001</a>
+                    </p>
+                    <a href="https://www.google.com/maps/dir/?api=1&destination=46.066422,11.119928"
+                       target="_blank" rel="noopener"
+                       class="btn btn-sm rounded-pill mt-1"
+                       style="border:1px solid var(--vix-gold);color:var(--vix-gold);font-size:.78rem"
+                       onclick="event.stopPropagation()">
+                        <i class="bi bi-signpost-split me-1"></i>Get Directions
+                    </a>
+                </div>
+                <div class="location-card location-card-interactive"
+                     data-lat="46.082944" data-lng="11.119928" data-idx="1"
+                     onclick="flyToLocation(1)"
+                     style="cursor:pointer">
+                    <span class="location-type-badge badge-center">Day-Healthcare Centre</span>
+                    <h6 class="fw-bold mb-1">VIX Tecnomed Nord</h6>
+                    <p class="text-muted mb-2" style="font-size:.84rem">
+                        <i class="bi bi-geo-alt me-1"></i> Via Brennero 45, 38100 Trento TN
+                    </p>
+                    <p class="text-muted mb-2" style="font-size:.82rem">
+                        <i class="bi bi-telephone me-1"></i>
+                        <a href="tel:+390461000002" style="color:var(--vix-gold);text-decoration:none">+39 0461 000 002</a>
+                    </p>
+                    <a href="https://www.google.com/maps/dir/?api=1&destination=46.082944,11.119928"
+                       target="_blank" rel="noopener"
+                       class="btn btn-sm rounded-pill mt-1"
+                       style="border:1px solid var(--vix-gold);color:var(--vix-gold);font-size:.78rem"
+                       onclick="event.stopPropagation()">
+                        <i class="bi bi-signpost-split me-1"></i>Get Directions
+                    </a>
+                </div>
+                <div class="location-card location-card-interactive"
+                     data-lat="45.890584" data-lng="11.039744" data-idx="2"
+                     onclick="flyToLocation(2)"
+                     style="cursor:pointer">
+                    <span class="location-type-badge badge-center">Day-Healthcare Centre</span>
+                    <h6 class="fw-bold mb-1">VIX Tecnomed Sud</h6>
+                    <p class="text-muted mb-2" style="font-size:.84rem">
+                        <i class="bi bi-geo-alt me-1"></i> Via Malpensa 12, 38068 Rovereto TN
+                    </p>
+                    <p class="text-muted mb-2" style="font-size:.82rem">
+                        <i class="bi bi-telephone me-1"></i>
+                        <a href="tel:+390461000003" style="color:var(--vix-gold);text-decoration:none">+39 0461 000 003</a>
+                    </p>
+                    <a href="https://www.google.com/maps/dir/?api=1&destination=45.890584,11.039744"
+                       target="_blank" rel="noopener"
+                       class="btn btn-sm rounded-pill mt-1"
+                       style="border:1px solid var(--vix-gold);color:var(--vix-gold);font-size:.78rem"
+                       onclick="event.stopPropagation()">
+                        <i class="bi bi-signpost-split me-1"></i>Get Directions
+                    </a>
+                </div>
+            </div>
+
+            <!-- Leaflet map -->
+            <div class="col-lg-8">
+                <div id="leafletMap" style="height:420px; border-radius:var(--radius-lg); border:1px solid var(--vix-border); overflow:hidden;"></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════════
+     CONTACT SECTION  (FR2.5 – Display of Hospital Contacts)
+     ══════════════════════════════════════════════════════════ -->
+<section class="contact-section" id="contact">
+    <div class="container">
+        <div class="text-center mb-5">
+            <div class="section-eyebrow">Get in Touch</div>
+            <h2 class="section-title mx-auto">Contact Us</h2>
+            <div class="section-divider mx-auto"></div>
+        </div>
+        <div class="row g-4">
+            <div class="col-md-6 col-lg-3">
+                <div class="contact-card">
+                    <div class="contact-card-icon"><i class="bi bi-telephone-fill"></i></div>
+                    <h6>Phone</h6>
+                    <p><a href="tel:+390461000001">+39 0461 000 001</a></p>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3">
+                <div class="contact-card">
+                    <div class="contact-card-icon"><i class="bi bi-envelope-fill"></i></div>
+                    <h6>Email</h6>
+                    <p><a href="mailto:info@vixhealth.it">info@vixhealth.it</a></p>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3">
+                <div class="contact-card">
+                    <div class="contact-card-icon"><i class="bi bi-clock-fill"></i></div>
+                    <h6>Opening Hours</h6>
+                    <p>Mon–Fri 08:00–20:00<br/>Sat 08:00–14:00</p>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3">
+                <div class="contact-card">
+                    <div class="contact-card-icon"><i class="bi bi-geo-alt-fill"></i></div>
+                    <h6>Main Address</h6>
+                    <p>Via San Camillo 1,<br/>38122 Trento TN</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════════
+     FOOTER
+     ══════════════════════════════════════════════════════════ -->
+<footer class="vix-footer">
+    <div class="container">
+        <div class="row g-5">
+            <!-- Brand col -->
+            <div class="col-lg-4">
+                <div class="footer-brand d-flex align-items-center gap-2 mb-3">
+                    <!-- Small footer logo -->
+                    <img src="/images/vix-logo.png" alt="VIX Logo" width="38" height="38" style="object-fit:contain"/>
+                    <strong>VIX Health System</strong>
+                </div>
+                <p class="footer-desc">
+                    A network of one main hospital and two day-healthcare centres in Trento,
+                    providing integrated, patient-centred care since 2015.
+                </p>
+                <div class="footer-badge mt-3">
+                    <i class="bi bi-shield-lock"></i> GDPR · HL7 · FHIR Compliant
+                </div>
+            </div>
+            <!-- Quick links -->
+            <div class="col-6 col-lg-2">
+                <div class="footer-heading">Services</div>
+                <a class="footer-link" th:href="@{/departments}">Departments</a>
+                <a class="footer-link" th:href="@{/doctors}">Our Doctors</a>
+                <a class="footer-link" th:href="@{/appointments/book}">Book Appointment</a>
+                <a class="footer-link" th:href="@{/questionnaire}">Find a Specialist</a>
+                <a class="footer-link" th:href="@{/map/hospitals}">Our Structures</a>
+            </div>
+            <!-- Patient -->
+            <div class="col-6 col-lg-2">
+                <div class="footer-heading">Patients</div>
+                <a class="footer-link" th:href="@{/login}">Patient Login</a>
+                <a class="footer-link" th:href="@{/patient/appointments}">My Appointments</a>
+                <a class="footer-link" th:href="@{/patient/records}">Medical Records</a>
+                <a class="footer-link" th:href="@{/patient/profile}">My Profile</a>
+            </div>
+            <!-- Staff -->
+            <div class="col-6 col-lg-2">
+                <div class="footer-heading">Staff</div>
+                <a class="footer-link" th:href="@{/login}">Staff Login</a>
+                <a class="footer-link" th:href="@{/medical-specialist/calendar}">My Calendar</a>
+                <a class="footer-link" th:href="@{/medical-specialist/search-patients}">Patient Records</a>
+            </div>
+            <!-- Legal -->
+            <div class="col-6 col-lg-2">
+                <div class="footer-heading">Legal</div>
+                <a class="footer-link" th:href="@{/privacy}">Privacy Policy</a>
+                <a class="footer-link" th:href="@{/gdpr}">GDPR Information</a>
+                <a class="footer-link" th:href="@{/terms}">Terms of Use</a>
+                <a class="footer-link" th:href="@{/accessibility}">Accessibility</a>
+            </div>
+        </div>
+        <hr class="footer-divider"/>
+        <div class="footer-bottom d-flex flex-column flex-md-row justify-content-between align-items-center gap-2">
+            <span>© <span th:text="${#dates.year(#dates.createNow())}">2026</span> VIX Health System · All rights reserved.</span>
+            <span>Built with Spring MVC · Thymeleaf · Bootstrap 5</span>
+        </div>
+    </div>
+</footer>
+
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Leaflet JS -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<script>
+    // ── Smooth scroll for anchor links ──────────────────────────
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                e.preventDefault();
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        });
+    });
+
+    // ── Active nav link highlight ────────────────────────────────
+    const currentPath = window.location.pathname;
+    document.querySelectorAll('.vix-nav-link').forEach(link => {
+        if (link.getAttribute('href') === currentPath) link.classList.add('active');
+    });
+
+    // ── Leaflet map ──────────────────────────────────────────────
+    const locations = [
+        { name: 'VIX Central Hospital',  lat: 46.066422, lng: 11.119928, type: 'Main Hospital' },
+        { name: 'VIX Tecnomed Nord',     lat: 46.082944, lng: 11.119928, type: 'Day-Healthcare Centre' },
+        { name: 'VIX Tecnomed Sud',      lat: 45.890584, lng: 11.039744, type: 'Day-Healthcare Centre' }
+    ];
+
+    const map = L.map('leafletMap').setView([46.0, 11.1], 10);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+        maxZoom: 18
+    }).addTo(map);
+
+    const crimson = '#7a1428';
+    const markerIcon = (label) => L.divIcon({
+        className: '',
+        html: `<div style="background:${crimson};color:#fff;border-radius:50%;width:32px;height:32px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.8rem;box-shadow:0 2px 8px rgba(0,0,0,.3);border:2px solid #fff">${label}</div>`,
+        iconSize: [32, 32],
+        iconAnchor: [16, 16]
+    });
+
+    const markers = locations.map((loc, i) => {
+        const m = L.marker([loc.lat, loc.lng], { icon: markerIcon(i + 1) }).addTo(map);
+        m.bindPopup(`<strong>${loc.name}</strong><br><span style="font-size:.8rem;color:#666">${loc.type}</span>`);
+        return m;
+    });
+
+    window.flyToLocation = function(idx) {
+        map.flyTo([locations[idx].lat, locations[idx].lng], 15, { animate: true, duration: 1 });
+        markers[idx].openPopup();
+        document.querySelectorAll('.location-card-interactive').forEach((c, i) => {
+            c.style.borderColor = i === idx ? crimson : '';
+            c.style.boxShadow  = i === idx ? '0 4px 16px rgba(122,20,40,.2)' : '';
+        });
+    };
+
+    // ── Rolling counter animation (0 → 99 → target descending) ─
+    function animateCounter(el, target) {
+        const ROLL_TOP = 99;
+        const ROLL_MS  = 700;
+        const LAND_MS  = 500;
+
+        let cur = 0;
+        const rollStep = Math.max(1, Math.ceil(ROLL_TOP / (ROLL_MS / 16)));
+
+        const phase1 = setInterval(() => {
+            cur = Math.min(cur + rollStep, ROLL_TOP);
+            el.textContent = cur;
+            if (cur >= ROLL_TOP) {
+                clearInterval(phase1);
+                if (target >= ROLL_TOP) { el.textContent = target; return; }
+                const diff = ROLL_TOP - target;
+                const landStep = Math.max(1, Math.ceil(diff / (LAND_MS / 16)));
+                const phase2 = setInterval(() => {
+                    cur -= landStep;
+                    if (cur <= target) { cur = target; clearInterval(phase2); }
+                    el.textContent = cur;
+                }, 16);
+            }
+        }, 16);
+    }
+
+    function runCounters(section) {
+        section.querySelectorAll('.stat-number[data-target]').forEach(el => {
+            animateCounter(el, parseInt(el.dataset.target) || 0);
+        });
+    }
+
+    const statsObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                runCounters(entry.target);
+            }
+        });
+    }, { threshold: 0.2 });
+
+    const statsStrip = document.querySelector('.stats-strip');
+    if (statsStrip) {
+        statsObserver.observe(statsStrip);
+    }
+</script>
+
+</body>
+</html>

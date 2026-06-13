@@ -241,6 +241,9 @@ CREATE TABLE IF NOT EXISTS Surgeries (
                                    REFERENCES Rooms(id)
 );
 
+ALTER TABLE Surgeries ADD COLUMN IF NOT EXISTS medical_specialist_id BIGINT;
+ALTER TABLE Surgeries ADD CONSTRAINT IF NOT EXISTS fk_surgery_specialist FOREIGN KEY (medical_specialist_id) REFERENCES Employees(id);
+
 -- =====================================================
 -- MACHINES
 -- =====================================================

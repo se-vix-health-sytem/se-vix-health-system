@@ -10,4 +10,10 @@
   "date" : "2026-06-19",
   "shiftType" : "AFTERNOON",
   "notes" : "Assigned by Staff Manager"
+}, {
+  "id" : 3,
+  "employeeId" : 3,
+  "date" : "2026-06-15",
+  "shiftType" : "MORNING",
+  "notes" : "Assigned by Staff Manager"
 } ]

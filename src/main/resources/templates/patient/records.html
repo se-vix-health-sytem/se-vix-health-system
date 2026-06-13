@@ -27,7 +27,7 @@
                             </div>
                             <div class="col-md-3">
                                 <small class="text-muted">Gender</small>
-                                <div th:text="${session.patient.gender == 'M' ? 'Male' : 'Female'}">-</div>
+                                <div th:text="${session.patient.gender.toString() == 'M' ? 'Male' : (session.patient.gender.toString() == 'F' ? 'Female' : '-')}">-</div>
                             </div>
                             <div class="col-md-3">
                                 <small class="text-muted">Fiscal Code</small>

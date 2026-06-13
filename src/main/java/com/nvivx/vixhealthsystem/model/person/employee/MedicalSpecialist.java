@@ -1,12 +1,12 @@
 package com.nvivx.vixhealthsystem.model.person.employee;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.nvivx.vixhealthsystem.model.medical.Appointment;
 import com.nvivx.vixhealthsystem.model.medical.Prescription;
+import com.nvivx.vixhealthsystem.model.medical.Surgery;
 import com.nvivx.vixhealthsystem.model.person.Patient;
-import jakarta.persistence.Column;
-import jakarta.persistence.DiscriminatorValue;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Transient;
+import jakarta.persistence.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +27,7 @@ import java.util.List;
  */
 @Entity
 @DiscriminatorValue("MEDICAL_SPECIALIST")
+@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"}, ignoreUnknown = true)
 public class MedicalSpecialist extends Employee {
 
     /**
@@ -47,6 +48,13 @@ public class MedicalSpecialist extends Employee {
      */
     @Transient
     private List<Appointment> appointments = new ArrayList<>();
+
+    /**
+     * Surgeries performed by this specialist.
+     */
+    @JsonIgnore
+    @OneToMany(mappedBy = "medicalSpecialist", fetch = FetchType.LAZY)
+    private List<Surgery> surgeries = new ArrayList<>();
 
     // =====================================================
     // CONSTRUCTORS
@@ -114,6 +122,14 @@ public class MedicalSpecialist extends Employee {
      */
     public void setAppointments(List<Appointment> appointments) {
         this.appointments = appointments;
+    }
+
+    public List<Surgery> getSurgeries() {
+        return surgeries;
+    }
+
+    public void setSurgeries(List<Surgery> surgeries) {
+        this.surgeries = surgeries;
     }
 
     // =====================================================

@@ -21,7 +21,7 @@
                             <i class="bi bi-calendar me-1"></i>
                             <span th:text="${patient.birthDate != null ? #temporals.format(patient.birthDate,'dd/MM/yyyy') : '-'}">-</span>
                             <span class="mx-2">|</span>
-                            <span th:text="${patient.gender == 'M' ? 'Male' : (patient.gender == 'F' ? 'Female' : '-')}">-</span>
+                            <span th:text="${patient.gender.toString() == 'M' ? 'Male' : (patient.gender.toString() == 'F' ? 'Female' : '-')}">-</span>
                         </p>
                     </div>
                     <a th:href="@{/medical-specialist/patients/search}" class="btn btn-outline-secondary rounded-pill">
@@ -160,6 +160,64 @@
                         </div>
                         <p th:if="${medicalRecord?.prescriptions == null or medicalRecord.prescriptions.isEmpty()}"
                            class="text-muted small mb-0">No prescriptions on record.</p>
+                    </div>
+                </div>
+
+                <!-- Surgeries -->
+                <div class="card mb-3">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <span><i class="bi bi-scissors me-2"></i>Surgeries</span>
+                        <button class="btn btn-sm btn-light rounded-pill" data-bs-toggle="collapse"
+                                data-bs-target="#surgeryForm">
+                            <i class="bi bi-plus-circle me-1"></i>Schedule
+                        </button>
+                    </div>
+                    <div class="collapse" id="surgeryForm">
+                        <div class="card-body border-bottom bg-light">
+                            <form th:action="@{/medical-specialist/patients/{id}/add-surgery(id=${patientId})}"
+                                  method="post" class="row g-2">
+                                <div class="col-md-6">
+                                    <input type="text" name="surgeryName" class="form-control form-control-sm"
+                                           placeholder="Surgery name (e.g. Appendectomy)" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <select name="roomId" class="form-select form-select-sm" required>
+                                        <option value="">Select operating room…</option>
+                                        <option th:each="r : ${specializedRooms}"
+                                                th:value="${r.id}"
+                                                th:text="${r.name ?: 'Room #' + r.id} + ' (' + (${r.specialization ?: 'Surgery'}) + ')'">Room</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <input type="datetime-local" name="surgeryDateTime" class="form-control form-control-sm" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <button type="submit" class="btn btn-primary btn-sm w-100 rounded-pill">Schedule Surgery</button>
+                                </div>
+                                <div class="col-12">
+                                    <textarea name="surgeryDescription" class="form-control form-control-sm"
+                                              rows="2" placeholder="Description (optional)"></textarea>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div th:if="${medicalRecord?.surgeries != null and !medicalRecord.surgeries.isEmpty()}">
+                            <div th:each="s : ${medicalRecord.surgeries}"
+                                 class="d-flex justify-content-between align-items-start border-bottom pb-2 mb-2 small">
+                                <div>
+                                    <strong th:text="${s.name}">-</strong>
+                                    <span class="badge ms-1"
+                                          th:classappend="${s.dateTime != null and s.dateTime.isBefore(T(java.time.LocalDateTime).now())} ? 'bg-success' : 'bg-primary'"
+                                          th:text="${s.dateTime != null and s.dateTime.isBefore(T(java.time.LocalDateTime).now())} ? 'Completed' : 'Scheduled'">-</span><br>
+                                    <span class="text-muted" th:text="${s.description ?: ''}"></span>
+                                </div>
+                                <small class="text-muted text-nowrap ms-3"
+                                       th:text="${s.dateTime != null ? #temporals.format(s.dateTime, 'dd/MM/yyyy HH:mm') : '-'}">-</small>
+                            </div>
+                        </div>
+                        <p th:if="${medicalRecord?.surgeries == null or medicalRecord.surgeries.isEmpty()}"
+                           class="text-muted small mb-0">No surgeries on record.</p>
                     </div>
                 </div>
 

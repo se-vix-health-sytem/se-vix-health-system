@@ -1,5 +1,7 @@
 package com.nvivx.vixhealthsystem.model.person.employee;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.nvivx.vixhealthsystem.model.facility.Department;
 import com.nvivx.vixhealthsystem.model.person.Person;
 import com.nvivx.vixhealthsystem.model.resource.Resource;
@@ -31,6 +33,7 @@ import java.util.List;
         name = "type",
         discriminatorType = DiscriminatorType.STRING
 )
+@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"}, ignoreUnknown = true)
 public abstract class Employee extends Person {
 
     /**
@@ -57,6 +60,7 @@ public abstract class Employee extends Person {
     /**
      * Department where the employee works.
      */
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "department_id")
     private Department department;

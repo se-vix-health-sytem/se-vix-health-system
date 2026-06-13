@@ -1,122 +1,211 @@
 package com.nvivx.vixhealthsystem.controllers;
 
+import com.nvivx.vixhealthsystem.controllers.staff.TechnicianController;
 import com.nvivx.vixhealthsystem.model.enums.MachineStatus;
 import com.nvivx.vixhealthsystem.model.resource.Machinery;
 import com.nvivx.vixhealthsystem.service.resources.MachineryService;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
-import org.springframework.ui.ExtendedModelMap;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.ui.Model;
 
-import java.util.List;
-
+import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
 
+@ExtendWith(MockitoExtension.class)
 class TechnicianControllerTest {
 
-    private final MachineryService machineryService = Mockito.mock(MachineryService.class);
-    private final TechnicianController controller = new TechnicianController(machineryService);
+    @Mock
+    private MachineryService machineryService;
 
+    @Mock
+    private Model model;
 
-    @Test
-    void shouldLoadDashboard() {
-        ExtendedModelMap model = new ExtendedModelMap();
+    @InjectMocks
+    private TechnicianController technicianController;
 
-        Mockito.when(machineryService.getTotalMachineCount()).thenReturn(5L);
-        Mockito.when(machineryService.getFaultyMachineCount()).thenReturn(2L);
-        Mockito.when(machineryService.getMaintenanceMachineCount()).thenReturn(1L);
-        Mockito.when(machineryService.getActiveAlerts()).thenReturn(List.of());
+    private Machinery testMachine;
 
-        String view = controller.dashboard(model);
-
-        assertEquals("technician/dashboard", view);
-        assertEquals(5L, model.get("totalMachines"));
+    @BeforeEach
+    void setUp() {
+        testMachine = new Machinery();
+        testMachine.setId(1L);
+        testMachine.setName("Test MRI Machine");
+        testMachine.setStatus(MachineStatus.WORKING);
     }
 
     @Test
-    void shouldViewAllMachines() {
-        ExtendedModelMap model = new ExtendedModelMap();
+    void testDashboard() {
+        // Arrange
+        when(machineryService.getTotalMachineCount()).thenReturn(5L);
+        when(machineryService.getFaultyMachineCount()).thenReturn(1L);
+        when(machineryService.getMaintenanceMachineCount()).thenReturn(1L);
+        when(machineryService.getActiveAlerts()).thenReturn(java.util.Collections.emptyList());
 
-        Machinery m1 = Mockito.mock(Machinery.class);
-        Machinery m2 = Mockito.mock(Machinery.class);
+        // Act
+        String result = technicianController.dashboard(model);
 
-        Mockito.when(machineryService.getAllMachines())
-                .thenReturn(List.of(m1, m2));
-
-        String view = controller.viewAllMachines(model);
-
-        assertEquals("technician/machines", view);
-        assertEquals(2, ((List<?>) model.get("machines")).size());
+        // Assert
+        assertEquals("technician/dashboard", result);
+        verify(model).addAttribute(eq("pageTitle"), eq("Technician Dashboard"));
+        verify(model).addAttribute(eq("currentPage"), eq("dashboard"));
+        verify(model).addAttribute(eq("totalMachines"), eq(5L));
+        verify(model).addAttribute(eq("faultyCount"), eq(1L));
+        verify(model).addAttribute(eq("maintenanceCount"), eq(1L));
+        verify(model).addAttribute(eq("alertCount"), eq(1L));
+        verify(model).addAttribute(eq("activeAlerts"), any());
     }
 
-
     @Test
-    void shouldViewFaultyMachines() {
-        ExtendedModelMap model = new ExtendedModelMap();
+    void testViewAllMachines() {
+        // Arrange
+        when(machineryService.getAllMachines()).thenReturn(java.util.Collections.emptyList());
 
-        Mockito.when(machineryService.getFaultyMachines())
-                .thenReturn(List.of());
+        // Act
+        String result = technicianController.viewAllMachines(model);
 
-        String view = controller.viewFaultyMachines(model);
-
-        assertEquals("technician/machines", view);
-        assertTrue((Boolean) model.get("isFaultyView"));
+        // Assert
+        assertEquals("technician/machines", result);
+        verify(model).addAttribute(eq("pageTitle"), eq("All Machines"));
+        verify(model).addAttribute(eq("currentPage"), eq("machines"));
+        verify(model).addAttribute(eq("machines"), any());
+        verify(model).addAttribute(eq("isFaultyView"), eq(false));
     }
 
-
     @Test
-    void shouldUpdateMachineStatusToFaulty() {
-        ExtendedModelMap model = new ExtendedModelMap();
+    void testViewFaultyMachines() {
+        // Arrange
+        when(machineryService.getFaultyMachines()).thenReturn(java.util.Collections.emptyList());
 
-        Machinery machine = Mockito.mock(Machinery.class);
-        Mockito.when(machine.getName()).thenReturn("X-Ray Machine");
+        // Act
+        String result = technicianController.viewFaultyMachines(model);
 
-        Mockito.when(machineryService.updateMachineStatus(
-                Mockito.eq(1L),
-                Mockito.eq(MachineStatus.FAULTY)
-        )).thenReturn(machine);
-
-        String view = controller.updateMachineStatus(
-                1L,
-                "FAULTY",
-                model
-        );
-
-        assertEquals("technician/result", view);
-        assertTrue(model.get("message").toString().contains("FAULTY"));
-        assertTrue(model.get("message").toString().contains("X-Ray Machine"));
+        // Assert
+        assertEquals("technician/machines", result);
+        verify(model).addAttribute(eq("pageTitle"), eq("Faulty Machines"));
+        verify(model).addAttribute(eq("currentPage"), eq("faultyMachines"));
+        verify(model).addAttribute(eq("machines"), any());
+        verify(model).addAttribute(eq("isFaultyView"), eq(true));
     }
 
-
     @Test
-    void shouldViewMachineDetails() {
-        ExtendedModelMap model = new ExtendedModelMap();
+    void testViewMaintenanceMachines() {
+        // Arrange
+        when(machineryService.getMachinesUnderMaintenance()).thenReturn(java.util.Collections.emptyList());
 
-        Machinery machine = Mockito.mock(Machinery.class);
-        Mockito.when(machine.getName()).thenReturn("MRI Scanner");
+        // Act
+        String result = technicianController.viewMaintenanceMachines(model);
 
-        Mockito.when(machineryService.getMachineById(1L))
-                .thenReturn(machine);
-
-        String view = controller.viewMachineDetails(1L, model);
-
-        assertEquals("technician/machine-details", view);
-        assertEquals(machine, model.get("machine"));
+        // Assert
+        assertEquals("technician/machines", result);
+        verify(model).addAttribute(eq("pageTitle"), eq("Machines Under Maintenance"));
+        verify(model).addAttribute(eq("currentPage"), eq("machines"));
+        verify(model).addAttribute(eq("machines"), any());
     }
 
+    @Test
+    void testUpdateMachineStatus() {
+        // Arrange
+        when(machineryService.updateMachineStatus(eq(1L), eq(MachineStatus.WORKING)))
+                .thenReturn(testMachine);
+
+        // Act
+        String result = technicianController.updateMachineStatus(1L, "WORKING", model);
+
+        // Assert
+        assertEquals("technician/result", result);
+        verify(model).addAttribute(eq("pageTitle"), eq("Machine Status Updated"));
+        verify(model).addAttribute(eq("message"), anyString());
+    }
 
     @Test
-    void shouldRepairMachine() {
-        ExtendedModelMap model = new ExtendedModelMap();
+    void testViewAlerts() {
+        // Arrange
+        when(machineryService.getActiveAlerts()).thenReturn(java.util.Collections.emptyList());
 
-        Machinery machine = Mockito.mock(Machinery.class);
-        Mockito.when(machine.getName()).thenReturn("Ventilator");
+        // Act
+        String result = technicianController.viewAlerts(model);
 
-        Mockito.when(machineryService.repairMachine(1L))
-                .thenReturn(machine);
+        // Assert
+        assertEquals("technician/alerts", result);
+        verify(model).addAttribute(eq("pageTitle"), eq("Machine Alerts"));
+        verify(model).addAttribute(eq("currentPage"), eq("alerts"));
+        verify(model).addAttribute(eq("alerts"), any());
+        verify(model).addAttribute(eq("alertCount"), eq(0));
+    }
 
-        String view = controller.repairMachine(1L, model);
+    @Test
+    void testViewMaintenanceHistory() {
+        // Arrange
+        when(machineryService.getAllMachines()).thenReturn(java.util.Collections.emptyList());
 
-        assertEquals("technician/result", view);
-        assertTrue(model.get("message").toString().contains("repaired"));
+        // Act
+        String result = technicianController.viewMaintenanceHistory(model);
+
+        // Assert
+        assertEquals("technician/maintenance-history", result);
+        verify(model).addAttribute(eq("pageTitle"), eq("Machine History"));
+        verify(model).addAttribute(eq("machines"), any());
+    }
+
+    @Test
+    void testViewMachineDetails() {
+        // Arrange
+        when(machineryService.getMachineById(1L)).thenReturn(testMachine);
+
+        // Act
+        String result = technicianController.viewMachineDetails(1L, model);
+
+        // Assert
+        assertEquals("technician/machine-details", result);
+        verify(model).addAttribute(eq("pageTitle"), eq("Machine Details - Test MRI Machine"));
+        verify(model).addAttribute(eq("currentPage"), eq("machines"));
+        verify(model).addAttribute(eq("machine"), eq(testMachine));
+    }
+
+    @Test
+    void testRepairMachine() {
+        // Arrange
+        when(machineryService.repairMachine(1L)).thenReturn(testMachine);
+
+        // Act - Note: repairMachine accepts notes as optional parameter
+        String result = technicianController.repairMachine(1L, "Fixed the power supply", model);
+
+        // Assert
+        assertEquals("technician/result", result);
+        verify(model).addAttribute(eq("pageTitle"), eq("Machine Repaired"));
+        verify(model).addAttribute(eq("message"), anyString());
+    }
+
+    @Test
+    void testRepairMachineWithoutNotes() {
+        // Arrange
+        when(machineryService.repairMachine(1L)).thenReturn(testMachine);
+
+        // Act - Test with null notes
+        String result = technicianController.repairMachine(1L, null, model);
+
+        // Assert
+        assertEquals("technician/result", result);
+        verify(model).addAttribute(eq("pageTitle"), eq("Machine Repaired"));
+        verify(model).addAttribute(eq("message"), anyString());
+    }
+
+    @Test
+    void testViewMachineDetailsNotFound() {
+        // Arrange
+        when(machineryService.getMachineById(999L))
+                .thenThrow(new RuntimeException("Machine not found with id: 999"));
+
+        // Act
+        String result = technicianController.viewMachineDetails(999L, model);
+
+        // Assert
+        assertEquals("technician/result", result);
+        verify(model).addAttribute(eq("pageTitle"), eq("Machine Not Found"));
+        verify(model).addAttribute(eq("message"), anyString());
     }
 }

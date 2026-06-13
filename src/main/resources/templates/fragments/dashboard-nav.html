@@ -81,6 +81,10 @@
                    th:style="${currentPage == 'schedule'} ? 'color: var(--vix-text); background: var(--vix-cream);' : 'color: var(--vix-text);'">
                     <i class="bi bi-clock me-2"></i> My Schedule
                 </a>
+                <a th:href="@{/medical-specialist/surgeries}" class="nav-link rounded-3 px-3 py-2 mb-1"
+                   th:style="${currentPage == 'surgeries'} ? 'color: var(--vix-text); background: var(--vix-cream);' : 'color: var(--vix-text);'">
+                    <i class="bi bi-scissors me-2"></i> My Surgeries
+                </a>
             </div>
 
             <!-- SECRETARY MENU -->
@@ -100,6 +104,10 @@
                 <a th:href="@{/secretary/patients/search}" class="nav-link rounded-3 px-3 py-2 mb-1"
                    th:style="${currentPage == 'patients'} ? 'color: var(--vix-text); background: var(--vix-cream);' : 'color: var(--vix-text);'">
                     <i class="bi bi-search me-2"></i> Search Patients
+                </a>
+                <a th:href="@{/secretary/profile}" class="nav-link rounded-3 px-3 py-2 mb-1"
+                   th:style="${currentPage == 'profile'} ? 'color: var(--vix-text); background: var(--vix-cream);' : 'color: var(--vix-text);'">
+                    <i class="bi bi-person-circle me-2"></i> My Profile
                 </a>
             </div>
 

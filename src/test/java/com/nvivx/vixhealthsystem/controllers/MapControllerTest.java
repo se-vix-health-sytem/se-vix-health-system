@@ -1,5 +1,6 @@
 package com.nvivx.vixhealthsystem.controllers;
 
+import com.nvivx.vixhealthsystem.controllers.site.MapController;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.test.web.servlet.MockMvc;

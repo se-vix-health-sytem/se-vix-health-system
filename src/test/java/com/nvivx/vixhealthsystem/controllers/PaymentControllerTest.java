@@ -1,5 +1,6 @@
 package com.nvivx.vixhealthsystem.controllers;
 
+import com.nvivx.vixhealthsystem.controllers.services.PaymentController;
 import com.nvivx.vixhealthsystem.dto.PaymentRequest;
 import com.nvivx.vixhealthsystem.dto.PaymentResponse;
 import com.nvivx.vixhealthsystem.dto.PaymentStatus;
