@@ -173,21 +173,21 @@ public class InventoryService {
      * Uses the Buyer domain method, which delegates to Storage domain logic.
      */
     @Transactional
-    public void addResourceToStorage(Buyer buyer, Long storageId, Long resourceId, int quantity) {
+    public void addResourceToStorage(Buyer buyer, Long resourceId, int quantity) {
         if (quantity <= 0) {
             throw new IllegalArgumentException("Quantity must be positive");
         }
 
-        Storage storage = storageRepository.findById(storageId)
-                .orElseThrow(() -> new RuntimeException("Storage not found: " + storageId));
-
         Resource resource = getResourceById(resourceId);
 
-        // Domain: buyer adds resource to storage via model method
-        buyer.addResource(storage, resource, quantity);
+        // Domain: buyer navigates department → facility → storage internally
+        buyer.addResource(resource, quantity);
+
+        Storage storage = buyer.getDepartment().getMedicalFacility().getStorage();
         storageRepository.save(storage);
 
-        auditService.log("ADD_RESOURCE_TO_STORAGE", "Storage", String.valueOf(storageId),
+        auditService.log("ADD_RESOURCE_TO_STORAGE", "Storage",
+                String.valueOf(storage.getId()),
                 "Added " + quantity + " units of " + resource.getName() + " to storage");
     }
 
@@ -213,28 +213,26 @@ public class InventoryService {
      * Uses the Employee domain method, which delegates to Storage domain logic.
      */
     @Transactional
-    public void removeResourceFromStorage(Employee employee, Long storageId, Long resourceId, int quantity) {
+    public void removeResourceFromStorage(Employee employee, Long resourceId, int quantity) {
         if (quantity <= 0) {
             throw new IllegalArgumentException("Quantity must be positive");
         }
 
-        Storage storage = storageRepository.findById(storageId)
-                .orElseThrow(() -> new RuntimeException("Storage not found: " + storageId));
-
         Resource resource = getResourceById(resourceId);
 
         try {
-            // Domain: employee takes resource from storage via model method
-            employee.takeResource(storage, resource, quantity);
+            // Domain: employee navigates department → facility → storage internally
+            employee.takeResource(resource, quantity);
+
+            Storage storage = employee.getDepartment().getMedicalFacility().getStorage();
             storageRepository.save(storage);
 
-            // Persist take log for history and low-stock alerting
             String role = employee.getClass().getSimpleName();
             takeLogStore.log(employee.getId(),
                     employee.getName() + " " + employee.getSurname(), role,
-                    resource.getId(), resource.getName(), storageId, quantity);
+                    resource.getId(), resource.getName(), storage.getId(), quantity);
 
-            auditService.log("REMOVE_RESOURCE_FROM_STORAGE", "Storage", String.valueOf(storageId),
+            auditService.log("REMOVE_RESOURCE_FROM_STORAGE", "Storage", String.valueOf(storage.getId()),
                     employee.getName() + " " + employee.getSurname() + " (" + role + ") took "
                     + quantity + " units of " + resource.getName());
         } catch (Exception e) {

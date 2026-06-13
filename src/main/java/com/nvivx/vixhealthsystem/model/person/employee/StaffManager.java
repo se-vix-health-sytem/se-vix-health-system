@@ -1,5 +1,7 @@
 package com.nvivx.vixhealthsystem.model.person.employee;
 
+import com.nvivx.vixhealthsystem.model.enums.EmployeeType;
+import com.nvivx.vixhealthsystem.model.enums.Role;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 
@@ -15,6 +17,12 @@ import jakarta.persistence.Entity;
 @Entity
 @DiscriminatorValue("STAFF_MANAGER")
 public class StaffManager extends Employee {
+
+    @Override
+    public Role getSystemRole() { return Role.ROLE_STAFF_MANAGER; }
+
+    @Override
+    public EmployeeType getEmployeeType() { return EmployeeType.STAFF_MANAGER; }
 
     // =====================================================
     // ACCOUNT MANAGEMENT METHODS

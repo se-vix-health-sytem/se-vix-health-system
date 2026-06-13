@@ -2,10 +2,11 @@ package com.nvivx.vixhealthsystem.model.person.employee;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.nvivx.vixhealthsystem.model.enums.EmployeeType;
+import com.nvivx.vixhealthsystem.model.enums.Role;
 import com.nvivx.vixhealthsystem.model.facility.Department;
 import com.nvivx.vixhealthsystem.model.person.Person;
 import com.nvivx.vixhealthsystem.model.resource.Resource;
-import com.nvivx.vixhealthsystem.model.resource.Storage;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -146,16 +147,32 @@ public abstract class Employee extends Person {
     // =====================================================
 
     /**
-     * Takes a quantity of a resource from a storage unit.
-     * Delegates to the storage's removal logic, which enforces
-     * that sufficient stock exists before deducting.
+     * Returns the system authentication role for this employee type.
+     */
+    public abstract Role getSystemRole();
+
+    /**
+     * Returns the employee type enum identifying this employee's role in the organisation.
+     */
+    public abstract EmployeeType getEmployeeType();
+
+    /**
+     * Takes a quantity of a resource from the facility storage,
+     * navigating through the employee's own department → facility → storage chain.
      *
-     * @param storage the storage to take from
-     * @param r       the resource to take
-     * @param q       the quantity to take
+     * @param r the resource to take
+     * @param q the quantity to take
+     * @throws IllegalStateException if department, facility or storage is not set
      * @throws Exception if the storage has insufficient stock
      */
-    public void takeResource(Storage storage, Resource r, int q) throws Exception {
-        storage.removeResource(r, q);
+    public void takeResource(Resource r, int q) throws Exception {
+        if (getDepartment() == null
+                || getDepartment().getMedicalFacility() == null
+                || getDepartment().getMedicalFacility().getStorage() == null) {
+            throw new IllegalStateException(
+                    "Employee has no department/facility/storage assigned"
+            );
+        }
+        getDepartment().getMedicalFacility().getStorage().removeResource(r, q);
     }
 }

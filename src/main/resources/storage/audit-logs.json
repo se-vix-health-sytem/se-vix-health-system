@@ -606,4 +606,20 @@
   "username" : "RSSMRA80A01F205X",
   "details" : "Patient RSSMRA80A01F205X logged out",
   "timestamp" : "2026-06-13T20:30:42.4978442"
+}, {
+  "id" : 77,
+  "action" : "PATIENT_LOGIN",
+  "entityType" : "Patient",
+  "entityId" : "1",
+  "username" : "RSSMRA80A01F205X",
+  "details" : "Patient RSSMRA80A01F205X logged in",
+  "timestamp" : "2026-06-13T20:57:23.4478146"
+}, {
+  "id" : 78,
+  "action" : "PATIENT_LOGOUT",
+  "entityType" : "Patient",
+  "entityId" : "1",
+  "username" : "RSSMRA80A01F205X",
+  "details" : "Patient RSSMRA80A01F205X logged out",
+  "timestamp" : "2026-06-13T20:57:47.4186997"
 } ]

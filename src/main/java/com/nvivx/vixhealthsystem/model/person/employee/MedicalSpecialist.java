@@ -2,6 +2,8 @@ package com.nvivx.vixhealthsystem.model.person.employee;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.nvivx.vixhealthsystem.model.enums.EmployeeType;
+import com.nvivx.vixhealthsystem.model.enums.Role;
 import com.nvivx.vixhealthsystem.model.medical.Appointment;
 import com.nvivx.vixhealthsystem.model.medical.Prescription;
 import com.nvivx.vixhealthsystem.model.medical.Surgery;
@@ -131,6 +133,12 @@ public class MedicalSpecialist extends Employee {
     public void setSurgeries(List<Surgery> surgeries) {
         this.surgeries = surgeries;
     }
+
+    @Override
+    public Role getSystemRole() { return Role.ROLE_MEDICAL_SPECIALIST; }
+
+    @Override
+    public EmployeeType getEmployeeType() { return EmployeeType.MEDICAL_SPECIALIST; }
 
     // =====================================================
     // DOMAIN METHODS

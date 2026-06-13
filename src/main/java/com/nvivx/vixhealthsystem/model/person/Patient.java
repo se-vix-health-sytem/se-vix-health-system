@@ -2,6 +2,7 @@ package com.nvivx.vixhealthsystem.model.person;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.nvivx.vixhealthsystem.model.enums.Role;
 import com.nvivx.vixhealthsystem.model.medical.Appointment;
 import com.nvivx.vixhealthsystem.model.medical.MedicalRecord;
 import com.nvivx.vixhealthsystem.model.person.employee.MedicalSpecialist;
@@ -159,6 +160,11 @@ public class Patient extends Person {
     // =====================================================
     // DOMAIN METHODS
     // =====================================================
+
+    /**
+     * Returns the system authentication role for patients.
+     */
+    public Role getSystemRole() { return Role.ROLE_PATIENT; }
 
     /**
      * Creates and registers a new appointment for this patient with a specialist.

@@ -70,7 +70,7 @@ public class EmployeeResourceController {
         }
         try {
             Employee employee = employeeService.findById(sessionUser.getId());
-            inventoryService.removeResourceFromStorage(employee, storageId, resourceId, quantity);
+            inventoryService.removeResourceFromStorage(employee, resourceId, quantity);
 
             var resource = inventoryService.getResourceById(resourceId);
             redirectAttributes.addFlashAttribute("message",

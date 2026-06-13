@@ -1,5 +1,6 @@
 package com.nvivx.vixhealthsystem.model.facility;
 
+import com.nvivx.vixhealthsystem.model.enums.BedStatus;
 import com.nvivx.vixhealthsystem.model.person.Patient;
 import jakarta.persistence.*;
 import java.util.ArrayList;
@@ -101,6 +102,19 @@ public class InternationRoom extends Room {
      */
     public void setPatients(List<Patient> patients) {
         this.patients = patients;
+    }
+
+    // =====================================================
+    // BED STATUS (derived from occupancy)
+    // =====================================================
+
+    /**
+     * Returns the current bed availability status derived from occupancy.
+     * FREE if at least one bed is available; OCCUPIED if the room is full.
+     */
+    @Transient
+    public BedStatus getBedStatus() {
+        return getNFreeBeds() > 0 ? BedStatus.FREE : BedStatus.OCCUPIED;
     }
 
     // =====================================================

@@ -1,5 +1,7 @@
 package com.nvivx.vixhealthsystem.model.person.employee;
 
+import com.nvivx.vixhealthsystem.model.enums.EmployeeType;
+import com.nvivx.vixhealthsystem.model.enums.Role;
 import com.nvivx.vixhealthsystem.model.resource.Machinery;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
@@ -17,6 +19,12 @@ import java.util.stream.Collectors;
 @Entity
 @DiscriminatorValue("TECHNICIAN")
 public class Technician extends Employee {
+
+    @Override
+    public Role getSystemRole() { return Role.ROLE_TECHNICIAN; }
+
+    @Override
+    public EmployeeType getEmployeeType() { return EmployeeType.TECHNICIAN; }
 
     // =====================================================
     // MACHINE MANAGEMENT METHODS

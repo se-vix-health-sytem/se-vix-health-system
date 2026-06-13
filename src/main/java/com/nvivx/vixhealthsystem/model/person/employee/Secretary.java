@@ -1,5 +1,7 @@
 package com.nvivx.vixhealthsystem.model.person.employee;
 
+import com.nvivx.vixhealthsystem.model.enums.EmployeeType;
+import com.nvivx.vixhealthsystem.model.enums.Role;
 import com.nvivx.vixhealthsystem.model.facility.InternationRoom;
 import com.nvivx.vixhealthsystem.model.medical.Appointment;
 import com.nvivx.vixhealthsystem.model.person.Patient;
@@ -63,6 +65,12 @@ public class Secretary extends Employee {
     public void setRole(String role) {
         this.role = role;
     }
+
+    @Override
+    public Role getSystemRole() { return Role.ROLE_SECRETARY; }
+
+    @Override
+    public EmployeeType getEmployeeType() { return EmployeeType.SECRETARY; }
 
     // =====================================================
     // APPOINTMENT MANAGEMENT

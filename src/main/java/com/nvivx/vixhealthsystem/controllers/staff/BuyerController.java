@@ -130,7 +130,7 @@ public class BuyerController {
             var newResource = inventoryService.createResource(name, description, bigDecimalPrice);
 
             // Domain: buyer adds resource to storage via model method
-            inventoryService.addResourceToStorage(buyer, 1L, newResource.getId(), quantity);
+            inventoryService.addResourceToStorage(buyer, newResource.getId(), quantity);
 
             model.addAttribute("pageTitle", "Resource Added Successfully");
             model.addAttribute("message",

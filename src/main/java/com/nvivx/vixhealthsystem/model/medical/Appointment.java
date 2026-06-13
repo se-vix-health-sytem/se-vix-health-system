@@ -2,6 +2,8 @@ package com.nvivx.vixhealthsystem.model.medical;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.nvivx.vixhealthsystem.model.enums.AppointmentStatus;
+import com.nvivx.vixhealthsystem.model.enums.PaymentStatus;
 import com.nvivx.vixhealthsystem.model.person.Patient;
 import com.nvivx.vixhealthsystem.model.person.employee.MedicalSpecialist;
 
@@ -52,15 +54,14 @@ public class Appointment {
     private MedicalSpecialist medicalSpecialist;
 
     /**
-     * Whether the appointment has been paid.
+     * Payment status of the appointment.
      */
-    private boolean paymentStatus;
+    private PaymentStatus paymentStatus;
 
     /**
      * Current lifecycle status of the appointment.
-     * Possible values: PENDING, CONFIRMED, CANCELLED, RESCHEDULED, COMPLETED.
      */
-    private String status;
+    private AppointmentStatus status;
 
     // =====================================================
     // CONSTRUCTORS
@@ -91,7 +92,7 @@ public class Appointment {
         this.dateTime = dateTime;
         this.duration = duration;
         this.notes = notes;
-        this.status = "CONFIRMED";
+        this.status = AppointmentStatus.CONFIRMED;
     }
 
     /**
@@ -116,7 +117,7 @@ public class Appointment {
         this.notes = notes;
         this.patient = patient;
         this.medicalSpecialist = medicalSpecialist;
-        this.status = "CONFIRMED";
+        this.status = AppointmentStatus.CONFIRMED;
     }
 
     // =====================================================
@@ -232,39 +233,58 @@ public class Appointment {
     }
 
     /**
-     * Returns whether the appointment has been paid.
-     *
-     * @return true if paid, false otherwise
+     * Returns the payment status enum.
      */
-    public boolean isPaymentStatus() {
+    public PaymentStatus getPaymentStatus() {
         return paymentStatus;
     }
 
     /**
-     * Sets the payment status of the appointment.
-     *
-     * @param paymentStatus true if paid, false otherwise
+     * Returns whether the appointment has been paid (boolean convenience getter).
      */
-    public void setPaymentStatus(boolean paymentStatus) {
+    public boolean isPaymentStatus() {
+        return paymentStatus == PaymentStatus.PAID;
+    }
+
+    /**
+     * Sets the payment status using the enum.
+     */
+    public void setPaymentStatus(PaymentStatus paymentStatus) {
         this.paymentStatus = paymentStatus;
     }
 
     /**
-     * Returns the current lifecycle status of the appointment.
-     * Possible values: PENDING, CONFIRMED, CANCELLED, RESCHEDULED, COMPLETED.
-     *
-     * @return the appointment status
+     * Sets the payment status from a boolean (backward-compatible: true → PAID, false → UNPAID).
+     */
+    public void setPaymentStatus(boolean paid) {
+        this.paymentStatus = paid ? PaymentStatus.PAID : PaymentStatus.UNPAID;
+    }
+
+    /**
+     * Returns the current lifecycle status as a String (backward-compatible for templates and controllers).
      */
     public String getStatus() {
+        return status != null ? status.name() : null;
+    }
+
+    /**
+     * Returns the current lifecycle status enum.
+     */
+    public AppointmentStatus getStatusEnum() {
         return status;
     }
 
     /**
-     * Sets the current lifecycle status of the appointment.
-     *
-     * @param status the status to set (PENDING, CONFIRMED, CANCELLED, RESCHEDULED, COMPLETED)
+     * Sets the lifecycle status from a String (backward-compatible).
      */
     public void setStatus(String status) {
+        this.status = status != null ? AppointmentStatus.valueOf(status) : null;
+    }
+
+    /**
+     * Sets the lifecycle status using the enum.
+     */
+    public void setStatus(AppointmentStatus status) {
         this.status = status;
     }
 
@@ -281,22 +301,18 @@ public class Appointment {
     @JsonIgnore
     public boolean isActive() {
         return status != null
-                && !"CANCELLED".equals(status)
-                && !"COMPLETED".equals(status);
+                && status != AppointmentStatus.CANCELLED
+                && status != AppointmentStatus.COMPLETED;
     }
 
     /**
      * Checks whether the appointment can be cancelled.
-     * An appointment can be cancelled if it has not already been
-     * cancelled or completed.
-     *
-     * @return true if the appointment is cancellable, false otherwise
      */
     @JsonIgnore
     public boolean isCancellable() {
         return status != null
-                && !"CANCELLED".equals(status)
-                && !"COMPLETED".equals(status);
+                && status != AppointmentStatus.CANCELLED
+                && status != AppointmentStatus.COMPLETED;
     }
 
     /**
@@ -310,7 +326,7 @@ public class Appointment {
                     "Appointment cannot be cancelled: current status is " + status
             );
         }
-        this.status = "CANCELLED";
+        this.status = AppointmentStatus.CANCELLED;
     }
 
     /**
@@ -326,6 +342,6 @@ public class Appointment {
             );
         }
         this.dateTime = newDateTime;
-        this.status = "RESCHEDULED";
+        this.status = AppointmentStatus.RESCHEDULED;
     }
 }

@@ -1,7 +1,7 @@
 package com.nvivx.vixhealthsystem.model.staff;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
+import com.nvivx.vixhealthsystem.model.enums.VacationStatus;
 import java.time.LocalDate;
 
 /**
@@ -47,9 +47,8 @@ public class VacationRequest {
 
     /**
      * Current status of the request.
-     * Possible values: PENDING, APPROVED, DENIED.
      */
-    private String status;
+    private VacationStatus status;
 
     // =====================================================
     // CONSTRUCTORS
@@ -79,7 +78,7 @@ public class VacationRequest {
             LocalDate startDate,
             LocalDate endDate,
             String reason,
-            String status
+            VacationStatus status
     ) {
         this.id = id;
         this.employeeId = employeeId;
@@ -219,21 +218,30 @@ public class VacationRequest {
     }
 
     /**
-     * Returns the current status of the request.
-     * Possible values: PENDING, APPROVED, DENIED.
-     *
-     * @return the status
+     * Returns the vacation status enum.
      */
-    public String getStatus() {
+    public VacationStatus getStatus() {
         return status;
     }
 
     /**
-     * Sets the current status of the request.
-     *
-     * @param status the status to set (PENDING, APPROVED, DENIED)
+     * Returns the vacation status as a String (backward-compatible for templates).
+     */
+    public String getStatusName() {
+        return status != null ? status.name() : null;
+    }
+
+    /**
+     * Sets the vacation status using the enum.
+     */
+    public void setStatus(VacationStatus status) {
+        this.status = status;
+    }
+
+    /**
+     * Sets the vacation status from a String (backward-compatible for JSON deserialization).
      */
     public void setStatus(String status) {
-        this.status = status;
+        this.status = status != null ? VacationStatus.valueOf(status) : null;
     }
 }

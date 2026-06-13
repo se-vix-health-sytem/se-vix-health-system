@@ -1,6 +1,7 @@
 package com.nvivx.vixhealthsystem.service.scheduling;
 
 import com.nvivx.vixhealthsystem.exception.VacationNotFoundException;
+import com.nvivx.vixhealthsystem.model.enums.VacationStatus;
 import com.nvivx.vixhealthsystem.model.staff.VacationRequest;
 import com.nvivx.vixhealthsystem.repository.JsonVacationRepository;
 import com.nvivx.vixhealthsystem.service.AuditService;
@@ -40,7 +41,7 @@ public class VacationService {
                 startDate,
                 endDate,
                 reason,
-                "PENDING"
+                VacationStatus.PENDING
         );
         VacationRequest saved = repository.save(request);
 
@@ -56,7 +57,7 @@ public class VacationService {
     public VacationRequest approveVacation(int id) {
         VacationRequest request = repository.findById(id)
                 .orElseThrow(() -> new VacationNotFoundException("Vacation request not found: " + id));
-        request.setStatus("APPROVED");
+        request.setStatus(VacationStatus.APPROVED);
         VacationRequest saved = repository.save(request);
 
         auditService.log("APPROVE_VACATION", "VacationRequest", String.valueOf(id),
@@ -71,7 +72,7 @@ public class VacationService {
     public VacationRequest denyVacation(int id) {
         VacationRequest request = repository.findById(id)
                 .orElseThrow(() -> new VacationNotFoundException("Vacation request not found: " + id));
-        request.setStatus("DENIED");
+        request.setStatus(VacationStatus.DENIED);
         VacationRequest saved = repository.save(request);
 
         auditService.log("DENY_VACATION", "VacationRequest", String.valueOf(id),
@@ -92,7 +93,7 @@ public class VacationService {
      */
     public List<VacationRequest> getPendingRequests() {
         return repository.findAll().stream()
-                .filter(v -> "PENDING".equals(v.getStatus()))
+                .filter(v -> v.getStatus() == VacationStatus.PENDING)
                 .collect(Collectors.toList());
     }
 
@@ -110,7 +111,7 @@ public class VacationService {
      */
     public List<VacationRequest> getApprovedRequestsForEmployee(int employeeId) {
         return repository.findAll().stream()
-                .filter(v -> v.getEmployeeId() == employeeId && "APPROVED".equals(v.getStatus()))
+                .filter(v -> v.getEmployeeId() == employeeId && v.getStatus() == VacationStatus.APPROVED)
                 .collect(Collectors.toList());
     }
 
@@ -132,7 +133,7 @@ public class VacationService {
      */
     public boolean hasOverlappingVacation(int employeeId, LocalDate startDate, LocalDate endDate) {
         return getRequestsForEmployee(employeeId).stream()
-                .filter(v -> "APPROVED".equals(v.getStatus()) || "PENDING".equals(v.getStatus()))
+                .filter(v -> v.getStatus() == VacationStatus.APPROVED || v.getStatus() == VacationStatus.PENDING)
                 .anyMatch(v ->
                         !(v.getEndDate().isBefore(startDate) || v.getStartDate().isAfter(endDate))
                 );
@@ -143,7 +144,7 @@ public class VacationService {
      */
     public long getTotalVacationDaysInYear(int employeeId, int year) {
         return getRequestsForEmployee(employeeId).stream()
-                .filter(v -> "APPROVED".equals(v.getStatus()))
+                .filter(v -> v.getStatus() == VacationStatus.APPROVED)
                 .filter(v -> v.getStartDate().getYear() == year)
                 .mapToLong(VacationRequest::getDaysRequested)
                 .sum();

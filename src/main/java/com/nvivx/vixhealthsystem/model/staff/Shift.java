@@ -1,5 +1,6 @@
 package com.nvivx.vixhealthsystem.model.staff;
 
+import com.nvivx.vixhealthsystem.model.enums.ShiftType;
 import java.time.LocalDate;
 
 /**
@@ -27,9 +28,9 @@ public class Shift {
     private LocalDate date;
 
     /**
-     * Shift type (e.g. Morning, Afternoon, Night).
+     * Shift type (MORNING, AFTERNOON, NIGHT).
      */
-    private String shiftType;
+    private ShiftType shiftType;
 
     /**
      * Optional notes for the shift.
@@ -59,7 +60,7 @@ public class Shift {
             Long id,
             Long employeeId,
             LocalDate date,
-            String shiftType,
+            ShiftType shiftType,
             String notes
     ) {
         this.id = id;
@@ -128,21 +129,31 @@ public class Shift {
     }
 
     /**
-     * Returns the shift type (e.g. Morning, Afternoon, Night).
-     *
-     * @return the shift type
+     * Returns the shift type enum.
      */
-    public String getShiftType() {
+    public ShiftType getShiftType() {
         return shiftType;
     }
 
     /**
-     * Sets the shift type.
-     *
-     * @param shiftType the shift type to set
+     * Returns the shift type as a String (backward-compatible for templates and JSON).
+     */
+    public String getShiftTypeName() {
+        return shiftType != null ? shiftType.name() : null;
+    }
+
+    /**
+     * Sets the shift type using the enum.
+     */
+    public void setShiftType(ShiftType shiftType) {
+        this.shiftType = shiftType;
+    }
+
+    /**
+     * Sets the shift type from a String (backward-compatible for JSON deserialization).
      */
     public void setShiftType(String shiftType) {
-        this.shiftType = shiftType;
+        this.shiftType = shiftType != null ? ShiftType.valueOf(shiftType) : null;
     }
 
     /**
