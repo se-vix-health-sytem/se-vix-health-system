@@ -390,4 +390,20 @@
   "username" : "alessia.moretti@vixhealth.com",
   "details" : "Approved vacation for employee: Luca Verdi",
   "timestamp" : "2026-06-13T08:36:22.1395664"
+}, {
+  "id" : 50,
+  "action" : "PATIENT_LOGIN",
+  "entityType" : "Patient",
+  "entityId" : "1",
+  "username" : "RSSMRA80A01F205X",
+  "details" : "Patient RSSMRA80A01F205X logged in",
+  "timestamp" : "2026-06-13T12:57:38.6491875"
+}, {
+  "id" : 51,
+  "action" : "PATIENT_LOGOUT",
+  "entityType" : "Patient",
+  "entityId" : "1",
+  "username" : "RSSMRA80A01F205X",
+  "details" : "Patient RSSMRA80A01F205X logged out",
+  "timestamp" : "2026-06-13T12:59:40.6957613"
 } ]

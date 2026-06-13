@@ -1,10 +1,9 @@
-package com.nvivx.vixhealthsystem.service;
+package com.nvivx.vixhealthsystem.service.medical;
 
 import com.nvivx.vixhealthsystem.dto.CreateAppointmentRequest;
 import com.nvivx.vixhealthsystem.exception.SlotNotAvailableException;
 import com.nvivx.vixhealthsystem.model.medical.Appointment;
 import com.nvivx.vixhealthsystem.repository.JsonAppointmentRepository;
-import com.nvivx.vixhealthsystem.service.medical.AppointmentService;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
