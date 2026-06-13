@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('My Shifts')}"></head>
+<body>
+<div th:replace="~{fragments/dashboard-nav :: dashboardNav}"></div>
+
+<div class="dashboard-content" style="margin-left: 280px;">
+    <div class="container p-4" style="max-width: 800px;">
+
+        <h2 class="font-display mb-4" style="color: var(--vix-crimson);">
+            <i class="bi bi-calendar-week me-2"></i>My Shifts &amp; Vacations
+        </h2>
+
+        <!-- Approved Vacations -->
+        <div th:if="${vacations != null and !vacations.isEmpty()}" class="card mb-4 shadow-sm border-0">
+            <div class="card-header fw-semibold" style="background: #e9ecef;">
+                <i class="bi bi-umbrella me-2 text-secondary"></i>Approved Vacation Leaves
+            </div>
+            <div class="card-body p-0">
+                <table class="table table-hover mb-0">
+                    <thead style="background: var(--vix-cream);">
+                    <tr>
+                        <th>From</th><th>To</th><th>Days</th><th>Reason</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="v : ${vacations}">
+                        <td class="small" th:text="${v.startDate != null ? #temporals.format(v.startDate,'dd MMM yyyy') : '—'}">—</td>
+                        <td class="small" th:text="${v.endDate != null ? #temporals.format(v.endDate,'dd MMM yyyy') : '—'}">—</td>
+                        <td class="small text-muted" th:text="${v.daysRequested + ' days'}">—</td>
+                        <td class="small text-muted" th:text="${v.reason ?: '—'}">—</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Shifts grouped by month -->
+        <div th:if="${shifts != null and !shifts.isEmpty()}">
+
+            <!-- Sorted table by date -->
+            <div class="card shadow-sm border-0">
+                <div class="card-header fw-semibold" style="background: var(--vix-cream);">
+                    <i class="bi bi-clock me-2" style="color:#0d6efd;"></i>All Assigned Shifts
+                    <span class="badge rounded-pill ms-2" style="background: var(--vix-crimson);"
+                          th:text="${shifts.size()}">0</span>
+                </div>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0">
+                            <thead style="background: var(--vix-cream);">
+                            <tr>
+                                <th>Date</th><th>Day</th><th>Shift</th><th>Time</th><th>Notes</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="shift : ${shifts}"
+                                th:style="${shift.date != null and shift.date.equals(T(java.time.LocalDate).now())} ? 'background: var(--vix-cream);' : ''">
+                                <td class="small fw-semibold"
+                                    th:text="${shift.date != null ? #temporals.format(shift.date,'dd/MM/yyyy') : '—'}">—</td>
+                                <td class="small text-muted"
+                                    th:text="${shift.date != null ? shift.date.dayOfWeek.getDisplayName(T(java.time.format.TextStyle).SHORT, T(java.util.Locale).ENGLISH) : '—'}">—</td>
+                                <td>
+                                    <span class="badge rounded-pill"
+                                          th:classappend="${shift.shiftType == 'MORNING' ? 'bg-warning text-dark' :
+                                                           shift.shiftType == 'AFTERNOON' ? 'bg-info text-dark' : 'bg-dark'}"
+                                          th:text="${shift.shiftType}">—</span>
+                                </td>
+                                <td class="small text-muted">
+                                    <span th:if="${shift.shiftType == 'MORNING'}">08:00 – 13:00</span>
+                                    <span th:if="${shift.shiftType == 'AFTERNOON'}">13:00 – 18:00</span>
+                                    <span th:if="${shift.shiftType == 'NIGHT'}">20:00 – 08:00</span>
+                                </td>
+                                <td class="small text-muted" th:text="${shift.notes ?: '—'}">—</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div th:if="${shifts == null or shifts.isEmpty()}" class="text-center py-5 text-muted">
+            <i class="bi bi-calendar-event fs-1"></i>
+            <p class="mt-3 mb-1">No shifts assigned yet.</p>
+            <p class="small">Shifts will appear here when assigned by the Staff Manager.</p>
+        </div>
+
+        <div class="mt-4">
+            <a th:href="${dashboardLink}" class="btn btn-outline-secondary rounded-pill">
+                <i class="bi bi-arrow-left me-1"></i>Back to Dashboard
+            </a>
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

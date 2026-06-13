@@ -1,10 +1,9 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/head :: head('Find a Hospital')}"></head>
+<!-- Leaflet CSS - MUST be in head -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 <body>
-<!-- Leaflet CSS must be in the rendered DOM; placing after body open is valid HTML5 -->
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
 <div th:replace="~{fragments/navbar :: navbar}"></div>
 
 <main>
@@ -17,7 +16,7 @@
     </div>
 
     <!-- Full-width Leaflet map -->
-    <div id="map" style="height: 480px; width: 100%; z-index: 0;"></div>
+    <div id="map" style="height: 480px; width: 100%;"></div>
 
     <!-- Location cards below the map -->
     <div class="container py-4">
@@ -25,7 +24,7 @@
             <div class="col-md-6 col-lg-4" th:each="loc, stat : ${locations}">
                 <div class="card h-100 border-0 shadow-sm location-card"
                      th:attr="data-lat=${loc.lat}, data-lng=${loc.lng}, data-index=${stat.index}"
-                     style="cursor:pointer; transition: box-shadow 0.2s;">
+                     style="cursor: pointer;">
                     <div class="card-body">
                         <div class="d-flex align-items-center gap-2 mb-2">
                             <i class="bi bi-geo-alt-fill fs-5" style="color:var(--vix-crimson);"></i>
@@ -54,58 +53,47 @@
                 </div>
             </div>
         </div>
-
-        <div th:if="${locations == null or locations.isEmpty()}"
-             class="text-center py-5 text-muted">
-            <i class="bi bi-geo-alt fs-1"></i>
-            <p class="mt-3">No locations available at this time.</p>
-        </div>
     </div>
 </main>
 
 <div th:replace="~{fragments/footer :: footer}"></div>
 
-<!-- Leaflet JS -->
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV/XN/WLs=" crossorigin=""></script>
+<!-- Leaflet JS - after map container -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
 <script th:inline="javascript">
-    /*<![CDATA[*/
     const locations = /*[[${locations}]]*/ [];
 
-    const map = L.map('map');
+    // Initialize map with default view
+    const map = L.map('map').setView([46.066422, 11.119928], 10);
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        maxZoom: 18,
-        attribution: '© <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors'
+        attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        maxZoom: 18
     }).addTo(map);
 
     const crimsonIcon = L.divIcon({
-        html: '<div style="background:#7a1428;width:28px;height:28px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);border:3px solid white;box-shadow:0 2px 6px rgba(0,0,0,0.4);"></div>',
-        iconSize: [28, 28],
-        iconAnchor: [14, 28],
-        popupAnchor: [0, -30],
+        html: '<div style="background:#7a1428;width:32px;height:32px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);border:3px solid white;box-shadow:0 2px 8px rgba(0,0,0,0.4);"></div>',
+        iconSize: [32, 32],
+        iconAnchor: [16, 32],
+        popupAnchor: [0, -32],
         className: ''
     });
 
     const markers = [];
+    const bounds = [];
 
     if (locations && locations.length > 0) {
-        const bounds = [];
-
         locations.forEach(function(loc, i) {
             if (loc.lat != null && loc.lng != null) {
                 const marker = L.marker([loc.lat, loc.lng], {icon: crimsonIcon}).addTo(map);
-
-                const typeLabel = loc.type || '';
-                const address  = loc.address ? '<br><small>' + loc.address + '</small>' : '';
-                const phone    = loc.phone   ? '<br><small>' + loc.phone + '</small>'   : '';
-                const dirUrl   = '/map/directions?lat=' + loc.lat + '&lng=' + loc.lng + '&name=' + encodeURIComponent(loc.name || '');
+                const dirUrl = '/map/directions?lat=' + loc.lat + '&lng=' + loc.lng + '&name=' + encodeURIComponent(loc.name || '');
 
                 marker.bindPopup(
                     '<strong style="color:#7a1428;">' + (loc.name || '') + '</strong>' +
-                    address + phone +
+                    (loc.address ? '<br><small>' + loc.address + '</small>' : '') +
+                    (loc.phone ? '<br><small>' + loc.phone + '</small>' : '') +
                     '<br><a href="' + dirUrl + '" class="btn btn-sm btn-primary rounded-pill mt-2" style="font-size:0.75rem;">Get Directions</a>'
                 );
 
@@ -117,31 +105,21 @@
         if (bounds.length > 0) {
             map.fitBounds(bounds, {padding: [40, 40]});
         }
-    } else {
-        // Default to Milan if no locations
-        map.setView([45.4642, 9.1900], 12);
     }
 
-    // Click on location card → pan map and open popup
+    // Click handlers for cards
     document.querySelectorAll('.location-card').forEach(function(card) {
-        card.addEventListener('mouseenter', function() {
-            this.style.boxShadow = '0 4px 16px rgba(122,20,40,0.25)';
-        });
-        card.addEventListener('mouseleave', function() {
-            this.style.boxShadow = '';
-        });
         card.addEventListener('click', function(e) {
-            if (e.target.closest('a')) return; // let links work normally
-            const idx = parseInt(this.dataset.index);
+            if (e.target.closest('a')) return;
             const lat = parseFloat(this.dataset.lat);
             const lng = parseFloat(this.dataset.lng);
+            const idx = parseInt(this.dataset.index);
             if (!isNaN(lat) && !isNaN(lng)) {
                 map.flyTo([lat, lng], 15, {duration: 1});
                 if (markers[idx]) markers[idx].openPopup();
             }
         });
     });
-    /*]]>*/
 </script>
 </body>
 </html>

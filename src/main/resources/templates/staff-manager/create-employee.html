@@ -28,9 +28,31 @@
                                placeholder="employee@vixhealth.com" required>
                     </div>
                     <div class="col-md-6">
+                        <label class="form-label">Gender</label>
+                        <select name="gender" class="form-select" required>
+                            <option value="">Select gender…</option>
+                            <option value="M">Male</option>
+                            <option value="F">Female</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label">Phone</label>
+                        <input type="tel" name="phone" class="form-control" placeholder="+39 344 1234567">
+                    </div>
+                    <div class="col-md-6">
                         <label class="form-label">Hire Date</label>
                         <input type="date" name="hireDate" class="form-control"
                                th:value="${#temporals.format(#temporals.createNow(), 'yyyy-MM-dd')}">
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label">Date of Birth</label>
+                        <input type="date" name="birthDate" class="form-control">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Place of Birth</label>
+                        <input type="text" name="birthPlace" class="form-control" placeholder="e.g. Milano">
                     </div>
 
                     <div class="col-md-6">

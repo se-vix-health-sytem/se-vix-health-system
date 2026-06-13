@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('My Profile')}"></head>
+<body>
+<div th:replace="~{fragments/dashboard-nav :: dashboardNav}"></div>
+
+<div class="dashboard-content" style="margin-left: 280px;">
+    <div class="container p-4" style="max-width: 760px;">
+
+        <div th:if="${message}" class="alert alert-success" th:text="${message}"></div>
+        <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+
+        <h2 class="font-display mb-4" style="color: var(--vix-crimson);">
+            <i class="bi bi-person-circle me-2"></i>My Profile
+        </h2>
+
+        <div th:if="${employee != null}">
+
+            <!-- Personal Information -->
+            <div class="card mb-4">
+                <div class="card-header fw-semibold">
+                    <i class="bi bi-person me-2"></i>Personal Information
+                </div>
+                <div class="card-body">
+                    <dl class="row mb-0">
+                        <dt class="col-sm-4 text-muted fw-normal">First Name</dt>
+                        <dd class="col-sm-8 fw-semibold" th:text="${employee.name}">-</dd>
+
+                        <dt class="col-sm-4 text-muted fw-normal">Last Name</dt>
+                        <dd class="col-sm-8 fw-semibold" th:text="${employee.surname}">-</dd>
+
+                        <dt class="col-sm-4 text-muted fw-normal">Employee ID</dt>
+                        <dd class="col-sm-8 font-monospace" th:text="'#' + ${employee.id}">-</dd>
+
+                        <dt class="col-sm-4 text-muted fw-normal">Gender</dt>
+                        <dd class="col-sm-8"
+                            th:text="${employee.gender != null ? (employee.gender.toString() == 'M' or employee.gender.toString() == 'm' ? 'Male' : (employee.gender.toString() == 'F' or employee.gender.toString() == 'f' ? 'Female' : '—')) : '—'}">-</dd>
+
+                        <dt class="col-sm-4 text-muted fw-normal">Date of Birth</dt>
+                        <dd class="col-sm-8"
+                            th:text="${employee.birthDate != null ? #temporals.format(employee.birthDate, 'dd MMM yyyy') : '—'}">-</dd>
+
+                        <dt class="col-sm-4 text-muted fw-normal">Place of Birth</dt>
+                        <dd class="col-sm-8" th:text="${employee.birthPlace ?: '—'}">-</dd>
+                    </dl>
+                </div>
+            </div>
+
+            <!-- Contact Information -->
+            <div class="card mb-4">
+                <div class="card-header fw-semibold">
+                    <i class="bi bi-envelope me-2"></i>Contact Information
+                </div>
+                <div class="card-body">
+                    <dl class="row mb-0">
+                        <dt class="col-sm-4 text-muted fw-normal">Email</dt>
+                        <dd class="col-sm-8">
+                            <a th:href="'mailto:' + ${employee.email}" th:text="${employee.email ?: '—'}">-</a>
+                        </dd>
+
+                        <dt class="col-sm-4 text-muted fw-normal">Phone</dt>
+                        <dd class="col-sm-8" th:text="${employee.phoneNumber ?: '—'}">-</dd>
+                    </dl>
+                </div>
+            </div>
+
+            <!-- Employment Information -->
+            <div class="card mb-4">
+                <div class="card-header fw-semibold">
+                    <i class="bi bi-briefcase me-2"></i>Employment
+                </div>
+                <div class="card-body">
+                    <dl class="row mb-0">
+                        <dt class="col-sm-4 text-muted fw-normal">Role</dt>
+                        <dd class="col-sm-8">
+                            <span class="badge" style="background: var(--vix-crimson);"
+                                  th:text="${roleLabel}">Role</span>
+                        </dd>
+
+                        <dt class="col-sm-4 text-muted fw-normal">Hire Date</dt>
+                        <dd class="col-sm-8"
+                            th:text="${employee.hireDate != null ? #temporals.format(employee.hireDate, 'dd MMM yyyy') : '—'}">-</dd>
+
+                        <dt class="col-sm-4 text-muted fw-normal">Department</dt>
+                        <dd class="col-sm-8"
+                            th:text="${employee.department != null ? employee.department.name : '— Not assigned —'}">-</dd>
+                    </dl>
+                </div>
+            </div>
+
+            <!-- Medical Specialist extras -->
+            <div class="card mb-4" th:if="${isSpecialist}">
+                <div class="card-header fw-semibold">
+                    <i class="bi bi-heart-pulse me-2"></i>Medical Details
+                </div>
+                <div class="card-body">
+                    <dl class="row mb-0">
+                        <dt class="col-sm-4 text-muted fw-normal">Specialty</dt>
+                        <dd class="col-sm-8" th:text="${employee.specialty ?: '—'}">-</dd>
+
+                        <dt class="col-sm-4 text-muted fw-normal">License Number</dt>
+                        <dd class="col-sm-8 font-monospace" th:text="${employee.licenseNumber ?: '—'}">-</dd>
+                    </dl>
+                </div>
+            </div>
+
+            <a th:href="${dashboardLink}" class="btn btn-outline-secondary rounded-pill">
+                <i class="bi bi-arrow-left me-1"></i>Back to Dashboard
+            </a>
+        </div>
+
+        <div th:if="${employee == null}" class="alert alert-warning">
+            <i class="bi bi-exclamation-triangle me-2"></i>
+            Could not load profile. Please <a th:href="@{/login}">log in</a> again.
+        </div>
+
+    </div>
+</div>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -583,13 +583,16 @@
         <!-- Nav links (desktop) -->
         <ul class="nav d-none d-lg-flex align-items-center gap-1">
             <li class="nav-item">
-                <a class="nav-link vix-nav-link active" th:href="@{/}">Home</a>
+                <a class="nav-link vix-nav-link" th:href="@{/}">Home</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link vix-nav-link" th:href="@{/departments}">Departments</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link vix-nav-link" th:href="@{/specialists}">Medical Specialists</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link vix-nav-link" th:href="@{/map/hospitals}">Locations</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link vix-nav-link" th:href="@{/about}">About Us</a>
@@ -636,16 +639,17 @@
 </nav>
 
 <!-- Mobile offcanvas -->
-<div class="offcanvas offcanvas-end d-lg-none" tabindex="-1" id="mobileMenu">
+<div class="offcanvas offcanvas-start" tabindex="-1" id="mobileMenu">
     <div class="offcanvas-header border-bottom">
-        <span class="fw-bold" style="font-family:'Cormorant Garamond',serif; color:var(--vix-crimson); font-size:1.1rem">VIX Health System</span>
-        <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+        <span class="font-display fw-bold" style="color:var(--vix-crimson); font-size:1.2rem;">VIX Health</span>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <div class="offcanvas-body">
         <ul class="nav flex-column gap-1">
             <li><a class="nav-link vix-nav-link" th:href="@{/}">Home</a></li>
             <li><a class="nav-link vix-nav-link" th:href="@{/departments}">Departments</a></li>
-            <li><a class="nav-link vix-nav-link" th:href="@{/doctors}">Doctors</a></li>
+            <li><a class="nav-link vix-nav-link" th:href="@{/specialists}">Medical Specialists</a></li>
+            <li><a class="nav-link vix-nav-link" th:href="@{/map/hospitals}">Locations</a></li>
             <li><a class="nav-link vix-nav-link" th:href="@{/about}">About Us</a></li>
             <li><a class="nav-link vix-nav-link" th:href="@{/contact}">Contact</a></li>
         </ul>
@@ -1122,8 +1126,8 @@
             <div class="col-6 col-lg-2">
                 <div class="footer-heading">Services</div>
                 <a class="footer-link" th:href="@{/departments}">Departments</a>
-                <a class="footer-link" th:href="@{/doctors}">Our Doctors</a>
-                <a class="footer-link" th:href="@{/appointments/book}">Book Appointment</a>
+                <a class="footer-link" th:href="@{/specialists}">Our Medical Specialists</a>
+                <a class="footer-link" th:href="@{/patient/login}">Book Appointment</a>
                 <a class="footer-link" th:href="@{/questionnaire}">Find a Specialist</a>
                 <a class="footer-link" th:href="@{/map/hospitals}">Our Structures</a>
             </div>

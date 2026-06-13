@@ -7,31 +7,11 @@ import com.nvivx.vixhealthsystem.repository.DepartmentRepository;
 import com.nvivx.vixhealthsystem.repository.EmployeeRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
 public class DepartmentService {
-
-    // Departments that start with a male image (others start female)
-    private static final Map<String, Boolean> DEPT_STARTS_MALE = Map.of(
-        "Cardiology",   true,
-        "Neurology",    false,
-        "Radiology",    true,
-        "Orthopedics",  false,
-        "Oncology",     true,
-        "Pediatrics",   false,
-        "Dermatology",  false,
-        "Administration", true
-    );
-
-    private static final String[] MALE_FIRST   = {"m1", "f1", "m2", "f2"};
-    private static final String[] FEMALE_FIRST = {"f1", "m1", "f2", "m2"};
 
     private final DepartmentRepository departmentRepository;
     private final EmployeeRepository employeeRepository;
@@ -111,11 +91,13 @@ public class DepartmentService {
             List<MedicalSpecialist> docs = new ArrayList<>(byDept.getOrDefault(dept.getId(), List.of()));
             docs.sort(Comparator.comparing(MedicalSpecialist::getId));
             String deptKey = dept.getName().toLowerCase().replace(" ", "");
-            boolean startsMale = DEPT_STARTS_MALE.getOrDefault(dept.getName(), true);
-            String[] pattern = startsMale ? MALE_FIRST : FEMALE_FIRST;
-            for (int i = 0; i < docs.size(); i++) {
-                result.put(docs.get(i).getId(),
-                        "/images/doctors/" + deptKey + "_" + pattern[i % 4] + ".jpg");
+            int maleCount = 0, femaleCount = 0;
+            for (MedicalSpecialist doc : docs) {
+                boolean isMale = doc.getGender() == 'M' || doc.getGender() == 'm';
+                String suffix = isMale
+                        ? "m" + (++maleCount > 2 ? ((maleCount - 1) % 2) + 1 : maleCount)
+                        : "f" + (++femaleCount > 2 ? ((femaleCount - 1) % 2) + 1 : femaleCount);
+                result.put(doc.getId(), "/images/doctors/" + deptKey + "_" + suffix + ".jpg");
             }
         }
         return result;
@@ -134,14 +116,14 @@ public class DepartmentService {
         doctors.sort(Comparator.comparing(d -> d.getId()));
 
         String deptKey = dept.getName().toLowerCase().replace(" ", "");
-        boolean startsMale = DEPT_STARTS_MALE.getOrDefault(dept.getName(), true);
-        String[] pattern = startsMale ? MALE_FIRST : FEMALE_FIRST;
-
         Map<Long, String> imageMap = new LinkedHashMap<>();
-        for (int i = 0; i < doctors.size(); i++) {
-            String suffix = pattern[i % 4];
-            imageMap.put(doctors.get(i).getId(),
-                "/images/doctors/" + deptKey + "_" + suffix + ".jpg");
+        int maleCount = 0, femaleCount = 0;
+        for (MedicalSpecialist doc : doctors) {
+            boolean isMale = doc.getGender() == 'M' || doc.getGender() == 'm';
+            String suffix = isMale
+                    ? "m" + (++maleCount > 2 ? ((maleCount - 1) % 2) + 1 : maleCount)
+                    : "f" + (++femaleCount > 2 ? ((femaleCount - 1) % 2) + 1 : femaleCount);
+            imageMap.put(doc.getId(), "/images/doctors/" + deptKey + "_" + suffix + ".jpg");
         }
         return imageMap;
     }

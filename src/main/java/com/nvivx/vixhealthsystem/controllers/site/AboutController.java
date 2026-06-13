@@ -20,7 +20,11 @@ public class AboutController {
     @GetMapping("/about")
     public String about(Model model) {
         model.addAttribute("totalSpecialists", employeeService.findAllMedicalSpecialists().size());
-        model.addAttribute("totalDepartments", departmentService.getAllDepartments().size());
+        long distinctDepts = departmentService.getAllDepartments().stream()
+                .map(d -> d.getName().toLowerCase())
+                .distinct()
+                .count();
+        model.addAttribute("totalDepartments", distinctDepts);
         model.addAttribute("totalEmployees", employeeService.getTotalEmployeeCount());
         model.addAttribute("pageTitle", "About VIX Health System");
         return "site/about";  // Add "site/" prefix

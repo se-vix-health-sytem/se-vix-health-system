@@ -85,6 +85,14 @@
                    th:style="${currentPage == 'surgeries'} ? 'color: var(--vix-text); background: var(--vix-cream);' : 'color: var(--vix-text);'">
                     <i class="bi bi-scissors me-2"></i> My Surgeries
                 </a>
+                <a th:href="@{/employee/resources}" class="nav-link rounded-3 px-3 py-2 mb-1"
+                   th:style="${currentPage == 'resources'} ? 'color: var(--vix-text); background: var(--vix-cream);' : 'color: var(--vix-text);'">
+                    <i class="bi bi-bag-plus me-2"></i> Take Resources
+                </a>
+                <a th:href="@{/medical-specialist/profile}" class="nav-link rounded-3 px-3 py-2 mb-1"
+                   th:style="${currentPage == 'profile'} ? 'color: var(--vix-text); background: var(--vix-cream);' : 'color: var(--vix-text);'">
+                    <i class="bi bi-person-circle me-2"></i> My Profile
+                </a>
             </div>
 
             <!-- SECRETARY MENU -->
@@ -105,9 +113,17 @@
                    th:style="${currentPage == 'patients'} ? 'color: var(--vix-text); background: var(--vix-cream);' : 'color: var(--vix-text);'">
                     <i class="bi bi-search me-2"></i> Search Patients
                 </a>
+                <a th:href="@{/secretary/my-shifts}" class="nav-link rounded-3 px-3 py-2 mb-1"
+                   th:style="${currentPage == 'myShifts'} ? 'color: var(--vix-text); background: var(--vix-cream);' : 'color: var(--vix-text);'">
+                    <i class="bi bi-calendar-week me-2"></i> My Shifts
+                </a>
                 <a th:href="@{/secretary/profile}" class="nav-link rounded-3 px-3 py-2 mb-1"
                    th:style="${currentPage == 'profile'} ? 'color: var(--vix-text); background: var(--vix-cream);' : 'color: var(--vix-text);'">
                     <i class="bi bi-person-circle me-2"></i> My Profile
+                </a>
+                <a th:href="@{/employee/resources}" class="nav-link rounded-3 px-3 py-2 mb-1"
+                   th:style="${currentPage == 'resources'} ? 'color: var(--vix-text); background: var(--vix-cream);' : 'color: var(--vix-text);'">
+                    <i class="bi bi-bag-plus me-2"></i> Take Resources
                 </a>
             </div>
 
@@ -129,6 +145,18 @@
                    th:style="${currentPage == 'alerts'} ? 'color: var(--vix-text); background: var(--vix-cream);' : 'color: var(--vix-text);'">
                     <i class="bi bi-bell me-2"></i> Alerts
                 </a>
+                <a th:href="@{/employee/resources}" class="nav-link rounded-3 px-3 py-2 mb-1"
+                   th:style="${currentPage == 'resources'} ? 'color: var(--vix-text); background: var(--vix-cream);' : 'color: var(--vix-text);'">
+                    <i class="bi bi-bag-plus me-2"></i> Take Resources
+                </a>
+                <a th:href="@{/technician/my-shifts}" class="nav-link rounded-3 px-3 py-2 mb-1"
+                   th:style="${currentPage == 'myShifts'} ? 'color: var(--vix-text); background: var(--vix-cream);' : 'color: var(--vix-text);'">
+                    <i class="bi bi-calendar-week me-2"></i> My Shifts
+                </a>
+                <a th:href="@{/technician/profile}" class="nav-link rounded-3 px-3 py-2 mb-1"
+                   th:style="${currentPage == 'profile'} ? 'color: var(--vix-text); background: var(--vix-cream);' : 'color: var(--vix-text);'">
+                    <i class="bi bi-person-circle me-2"></i> My Profile
+                </a>
             </div>
 
             <!-- BUYER MENU -->
@@ -148,6 +176,22 @@
                 <a th:href="@{/buyer/inventory/add}" class="nav-link rounded-3 px-3 py-2 mb-1"
                    th:style="${currentPage == 'addResource'} ? 'color: var(--vix-text); background: var(--vix-cream);' : 'color: var(--vix-text);'">
                     <i class="bi bi-plus-circle me-2"></i> Add Resource
+                </a>
+                <a th:href="@{/buyer/resource-log}" class="nav-link rounded-3 px-3 py-2 mb-1"
+                   th:style="${currentPage == 'resourceLog'} ? 'color: var(--vix-text); background: var(--vix-cream);' : 'color: var(--vix-text);'">
+                    <i class="bi bi-list-ul me-2"></i> Resource Take Log
+                </a>
+                <a th:href="@{/employee/resources}" class="nav-link rounded-3 px-3 py-2 mb-1"
+                   th:style="${currentPage == 'resources'} ? 'color: var(--vix-text); background: var(--vix-cream);' : 'color: var(--vix-text);'">
+                    <i class="bi bi-bag-plus me-2"></i> Take Resources
+                </a>
+                <a th:href="@{/buyer/my-shifts}" class="nav-link rounded-3 px-3 py-2 mb-1"
+                   th:style="${currentPage == 'myShifts'} ? 'color: var(--vix-text); background: var(--vix-cream);' : 'color: var(--vix-text);'">
+                    <i class="bi bi-calendar-week me-2"></i> My Shifts
+                </a>
+                <a th:href="@{/buyer/profile}" class="nav-link rounded-3 px-3 py-2 mb-1"
+                   th:style="${currentPage == 'profile'} ? 'color: var(--vix-text); background: var(--vix-cream);' : 'color: var(--vix-text);'">
+                    <i class="bi bi-person-circle me-2"></i> My Profile
                 </a>
             </div>
 
@@ -181,11 +225,24 @@
                    th:style="${currentPage == 'auditLogs'} ? 'color: var(--vix-text); background: var(--vix-cream);' : 'color: var(--vix-text);'">
                     <i class="bi bi-file-text me-2"></i> Audit Logs
                 </a>
+                <a th:href="@{/staff-manager/resource-log}" class="nav-link rounded-3 px-3 py-2 mb-1"
+                   th:style="${currentPage == 'resourceLog'} ? 'color: var(--vix-text); background: var(--vix-cream);' : 'color: var(--vix-text);'">
+                    <i class="bi bi-list-ul me-2"></i> Resource Take Log
+                </a>
+                <a th:href="@{/employee/resources}" class="nav-link rounded-3 px-3 py-2 mb-1"
+                   th:style="${currentPage == 'resources'} ? 'color: var(--vix-text); background: var(--vix-cream);' : 'color: var(--vix-text);'">
+                    <i class="bi bi-bag-plus me-2"></i> Take Resources
+                </a>
+                <a th:href="@{/staff-manager/profile}" class="nav-link rounded-3 px-3 py-2 mb-1"
+                   th:style="${currentPage == 'profile'} ? 'color: var(--vix-text); background: var(--vix-cream);' : 'color: var(--vix-text);'">
+                    <i class="bi bi-person-circle me-2"></i> My Profile
+                </a>
             </div>
 
             <hr class="my-3">
 
-            <a th:href="@{/logout}" class="nav-link rounded-3 px-3 py-2 text-danger">
+            <a th:href="${session.role == 'PATIENT'} ? '/patient/logout' : '/logout'"
+               class="nav-link rounded-3 px-3 py-2 text-danger">
                 <i class="bi bi-box-arrow-right me-2"></i> Logout
             </a>
         </nav>
