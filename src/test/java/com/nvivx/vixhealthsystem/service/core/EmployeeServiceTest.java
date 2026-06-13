@@ -1,38 +1,137 @@
 package com.nvivx.vixhealthsystem.service.core;
 
+import com.nvivx.vixhealthsystem.model.facility.Department;
 import com.nvivx.vixhealthsystem.model.person.employee.*;
+import com.nvivx.vixhealthsystem.repository.DepartmentRepository;
+import com.nvivx.vixhealthsystem.repository.EmployeeRepository;
+import com.nvivx.vixhealthsystem.service.AuditService;
+import com.nvivx.vixhealthsystem.service.integration.FirebaseAuthService;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
-@SpringBootTest
+/**
+ * Arrange = prepare fake data and mock behavior
+ * Act = call the method being tested
+ * Assert = check the result
+ * Verify = check that mocks were called correctly
+ */
+@ExtendWith(MockitoExtension.class)
 class EmployeeServiceTest {
 
-    @Autowired
-    private EmployeeService employeeService;
+    @Mock
+    private EmployeeRepository employeeRepository;
+
+    @Mock
+    private DepartmentRepository departmentRepository;
+
+    @Mock
+    private AuditService auditService;
+
+    @Mock
+    private FirebaseAuthService firebaseAuthService;
+
+    @InjectMocks
+    private EmployeeService service;
 
     @Test
-    void shouldFindEmployeeById() {
-        Employee employee = employeeService.findById(1L);
+    void shouldReturnAllDepartments() {
+        // Arrange
+        Department d1 = new Department();
+        d1.setId(1L);
+        d1.setName("Cardiology");
 
-        assertNotNull(employee);
-        assertEquals(1L, employee.getId());
-        assertEquals("Marco", employee.getName());
-        assertEquals("Rossi", employee.getSurname());
-        assertTrue(employee instanceof MedicalSpecialist);
+        Department d2 = new Department();
+        d2.setId(2L);
+        d2.setName("Neurology");
+
+        when(departmentRepository.findAll())
+                .thenReturn(List.of(d1, d2));
+
+        // Act
+        List<Department> result = service.findAllDepartments();
+
+        // Assert
+        assertEquals(2, result.size());
+        assertEquals("Cardiology", result.get(0).getName());
+
+        verify(departmentRepository).findAll();
     }
 
     @Test
-    void shouldThrowExceptionWhenEmployeeIdDoesNotExist() {
+    void shouldFindDepartmentById() {
+        // Arrange
+        Department department = new Department();
+        department.setId(1L);
+        department.setName("Cardiology");
+
+        when(departmentRepository.findById(1L))
+                .thenReturn(Optional.of(department));
+
+        // Act
+        Department result = service.findDepartmentById(1L);
+
+        // Assert
+        assertNotNull(result);
+        assertEquals("Cardiology", result.getName());
+
+        verify(departmentRepository).findById(1L);
+    }
+
+    @Test
+    void shouldThrowExceptionWhenDepartmentNotFound() {
+        // Arrange
+        when(departmentRepository.findById(99L))
+                .thenReturn(Optional.empty());
+
+        // Act + Assert
         RuntimeException exception = assertThrows(
                 RuntimeException.class,
-                () -> employeeService.findById(999L)
+                () -> service.findDepartmentById(99L)
+        );
+
+        assertTrue(exception.getMessage().contains("Department not found"));
+    }
+
+    @Test
+    void shouldFindEmployeeById() {
+        // Arrange
+        MedicalSpecialist employee = new MedicalSpecialist();
+        employee.setId(1L);
+        employee.setName("Marco");
+
+        when(employeeRepository.findById(1L))
+                .thenReturn(Optional.of(employee));
+
+        // Act
+        Employee result = service.findById(1L);
+
+        // Assert
+        assertNotNull(result);
+        assertEquals("Marco", result.getName());
+
+        verify(employeeRepository).findById(1L);
+    }
+
+    @Test
+    void shouldThrowExceptionWhenEmployeeNotFound() {
+        // Arrange
+        when(employeeRepository.findById(99L))
+                .thenReturn(Optional.empty());
+
+        // Act + Assert
+        RuntimeException exception = assertThrows(
+                RuntimeException.class,
+                () -> service.findById(99L)
         );
 
         assertTrue(exception.getMessage().contains("Employee not found"));
@@ -40,249 +139,491 @@ class EmployeeServiceTest {
 
     @Test
     void shouldFindEmployeeByIdOptional() {
-        Optional<Employee> employee = employeeService.findByIdOptional(2L);
+        // Arrange
+        Secretary secretary = new Secretary();
+        secretary.setId(2L);
 
-        assertTrue(employee.isPresent());
-        assertEquals("Elena", employee.get().getName());
-        assertTrue(employee.get() instanceof MedicalSpecialist);
+        when(employeeRepository.findById(2L))
+                .thenReturn(Optional.of(secretary));
+
+        // Act
+        Optional<Employee> result = service.findByIdOptional(2L);
+
+        // Assert
+        assertTrue(result.isPresent());
+        assertEquals(2L, result.get().getId());
+
+        verify(employeeRepository).findById(2L);
     }
 
     @Test
-    void shouldReturnEmptyOptionalWhenEmployeeDoesNotExist() {
-        Optional<Employee> employee = employeeService.findByIdOptional(999L);
+    void shouldReturnAllEmployees() {
+        // Arrange
+        MedicalSpecialist doctor = new MedicalSpecialist();
+        Secretary secretary = new Secretary();
 
-        assertTrue(employee.isEmpty());
-    }
+        when(employeeRepository.findAll())
+                .thenReturn(List.of(doctor, secretary));
 
-    @Test
-    void shouldReturnAllEmployeesFromDatabase() {
-        List<Employee> employees = employeeService.findAllEmployees();
+        // Act
+        List<Employee> result = service.findAllEmployees();
 
-        assertNotNull(employees);
-        assertEquals(11, employees.size());
+        // Assert
+        assertEquals(2, result.size());
+
+        verify(employeeRepository).findAll();
     }
 
     @Test
     void shouldFindEmployeeByEmail() {
-        Employee employee = employeeService.findByEmail("marco.rossi@vixhealth.com");
+        // Arrange
+        MedicalSpecialist employee = new MedicalSpecialist();
+        employee.setEmail("doctor@test.com");
 
-        assertNotNull(employee);
-        assertEquals("Marco", employee.getName());
-        assertEquals("Rossi", employee.getSurname());
-        assertTrue(employee instanceof MedicalSpecialist);
+        when(employeeRepository.findByEmail("doctor@test.com"))
+                .thenReturn(employee);
+
+        // Act
+        Employee result = service.findByEmail("doctor@test.com");
+
+        // Assert
+        assertNotNull(result);
+        assertEquals("doctor@test.com", result.getEmail());
+
+        verify(employeeRepository).findByEmail("doctor@test.com");
     }
 
     @Test
-    void shouldReturnNullWhenEmailDoesNotExist() {
-        Employee employee = employeeService.findByEmail("notfound@vixhealth.com");
+    void shouldFindEmployeeByFirebaseUid() {
+        // Arrange
+        MedicalSpecialist employee = new MedicalSpecialist();
+        employee.setFirebaseUid("firebase123");
 
-        assertNull(employee);
+        when(employeeRepository.findByFirebaseUid("firebase123"))
+                .thenReturn(employee);
+
+        // Act
+        Employee result = service.findByFirebaseUid("firebase123");
+
+        // Assert
+        assertNotNull(result);
+        assertEquals("firebase123", result.getFirebaseUid());
+
+        verify(employeeRepository).findByFirebaseUid("firebase123");
     }
 
     @Test
     void shouldFindEmployeesBySurname() {
-        List<Employee> employees = employeeService.findBySurname("Rossi");
+        // Arrange
+        MedicalSpecialist employee = new MedicalSpecialist();
+        employee.setSurname("Rossi");
 
-        assertNotNull(employees);
-        assertFalse(employees.isEmpty());
+        when(employeeRepository.findBySurname("Rossi"))
+                .thenReturn(List.of(employee));
 
-        assertTrue(employees.stream()
-                .anyMatch(e -> e.getEmail().equals("marco.rossi@vixhealth.com")));
+        // Act
+        List<Employee> result = service.findBySurname("Rossi");
+
+        // Assert
+        assertEquals(1, result.size());
+        assertEquals("Rossi", result.get(0).getSurname());
+
+        verify(employeeRepository).findBySurname("Rossi");
     }
 
     @Test
     void shouldFindEmployeesByDepartmentId() {
-        List<Employee> employees = employeeService.findByDepartmentId(1L);
+        // Arrange
+        Department department = new Department();
+        department.setId(1L);
 
-        assertNotNull(employees);
-        assertFalse(employees.isEmpty());
+        MedicalSpecialist employee = new MedicalSpecialist();
+        employee.setDepartment(department);
 
-        assertTrue(employees.stream()
-                .allMatch(e -> e.getDepartment() != null
-                        && e.getDepartment().getId().equals(1L)));
+        when(employeeRepository.findByDepartmentId(1L))
+                .thenReturn(List.of(employee));
+
+        // Act
+        List<Employee> result = service.findByDepartmentId(1L);
+
+        // Assert
+        assertEquals(1, result.size());
+        assertEquals(1L, result.get(0).getDepartment().getId());
+
+        verify(employeeRepository).findByDepartmentId(1L);
     }
 
     @Test
     void shouldFindEmployeesByRole() {
-        List<Employee> specialists =
-                employeeService.findByRole(MedicalSpecialist.class);
+        // Arrange
+        MedicalSpecialist doctor = new MedicalSpecialist();
+        Secretary secretary = new Secretary();
 
-        assertNotNull(specialists);
-        assertEquals(3, specialists.size());
-        assertTrue(specialists.stream()
-                .allMatch(e -> e instanceof MedicalSpecialist));
+        when(employeeRepository.findAll())
+                .thenReturn(List.of(doctor, secretary));
+
+        // Act
+        List<Employee> result = service.findByRole(MedicalSpecialist.class);
+
+        // Assert
+        assertEquals(1, result.size());
+        assertTrue(result.get(0) instanceof MedicalSpecialist);
+
+        verify(employeeRepository).findAll();
     }
 
     @Test
     void shouldReturnAllMedicalSpecialists() {
-        List<MedicalSpecialist> specialists =
-                employeeService.findAllMedicalSpecialists();
+        // Arrange
+        MedicalSpecialist doctor = new MedicalSpecialist();
+        Secretary secretary = new Secretary();
 
-        assertNotNull(specialists);
-        assertEquals(3, specialists.size());
+        when(employeeRepository.findAll())
+                .thenReturn(List.of(doctor, secretary));
+
+        // Act
+        List<MedicalSpecialist> result = service.findAllMedicalSpecialists();
+
+        // Assert
+        assertEquals(1, result.size());
+
+        verify(employeeRepository).findAll();
     }
 
     @Test
     void shouldReturnAllSecretaries() {
-        List<Secretary> secretaries =
-                employeeService.findAllSecretaries();
+        // Arrange
+        MedicalSpecialist doctor = new MedicalSpecialist();
+        Secretary secretary = new Secretary();
 
-        assertNotNull(secretaries);
-        assertEquals(2, secretaries.size());
+        when(employeeRepository.findAll())
+                .thenReturn(List.of(doctor, secretary));
+
+        // Act
+        List<Secretary> result = service.findAllSecretaries();
+
+        // Assert
+        assertEquals(1, result.size());
+
+        verify(employeeRepository).findAll();
     }
 
     @Test
     void shouldReturnAllTechnicians() {
-        List<Technician> technicians =
-                employeeService.findAllTechnicians();
+        // Arrange
+        Technician technician = new Technician();
+        Buyer buyer = new Buyer();
 
-        assertNotNull(technicians);
-        assertEquals(2, technicians.size());
+        when(employeeRepository.findAll())
+                .thenReturn(List.of(technician, buyer));
+
+        // Act
+        List<Technician> result = service.findAllTechnicians();
+
+        // Assert
+        assertEquals(1, result.size());
+
+        verify(employeeRepository).findAll();
     }
 
     @Test
     void shouldReturnAllBuyers() {
-        List<Buyer> buyers =
-                employeeService.findAllBuyers();
+        // Arrange
+        Technician technician = new Technician();
+        Buyer buyer = new Buyer();
 
-        assertNotNull(buyers);
-        assertEquals(2, buyers.size());
+        when(employeeRepository.findAll())
+                .thenReturn(List.of(technician, buyer));
+
+        // Act
+        List<Buyer> result = service.findAllBuyers();
+
+        // Assert
+        assertEquals(1, result.size());
+
+        verify(employeeRepository).findAll();
     }
 
     @Test
     void shouldReturnAllStaffManagers() {
-        List<StaffManager> staffManagers =
-                employeeService.findAllStaffManagers();
+        // Arrange
+        StaffManager manager = new StaffManager();
+        Buyer buyer = new Buyer();
 
-        assertNotNull(staffManagers);
-        assertEquals(2, staffManagers.size());
+        when(employeeRepository.findAll())
+                .thenReturn(List.of(manager, buyer));
+
+        // Act
+        List<StaffManager> result = service.findAllStaffManagers();
+
+        // Assert
+        assertEquals(1, result.size());
+
+        verify(employeeRepository).findAll();
     }
 
     @Test
     void shouldReturnTotalEmployeeCount() {
-        long count = employeeService.getTotalEmployeeCount();
+        // Arrange
+        when(employeeRepository.count())
+                .thenReturn(5L);
 
-        assertEquals(11, count);
+        // Act
+        long result = service.getTotalEmployeeCount();
+
+        // Assert
+        assertEquals(5L, result);
+
+        verify(employeeRepository).count();
     }
 
     @Test
     void shouldReturnActiveEmployeeCount() {
-        long count = employeeService.getActiveEmployeeCount();
+        // Arrange
+        when(employeeRepository.count())
+                .thenReturn(5L);
 
-        assertEquals(11, count);
+        // Act
+        long result = service.getActiveEmployeeCount();
+
+        // Assert
+        assertEquals(5L, result);
+
+        verify(employeeRepository).count();
+    }
+
+    @Test
+    void shouldCreateEmployeeSuccessfully() throws Exception {
+        // Arrange
+        MedicalSpecialist employee = new MedicalSpecialist();
+        employee.setId(1L);
+        employee.setName("Marco");
+        employee.setSurname("Rossi");
+        employee.setEmail("marco@test.com");
+        employee.setHireDate(LocalDate.now());
+
+        when(firebaseAuthService.createUser("marco@test.com", "ChangeMe123!"))
+                .thenReturn("firebase123");
+
+        when(employeeRepository.save(employee))
+                .thenReturn(employee);
+
+        // Act
+        Employee result = service.createEmployee(employee);
+
+        // Assert
+        assertNotNull(result);
+        assertEquals("firebase123", result.getFirebaseUid());
+
+        verify(firebaseAuthService).createUser("marco@test.com", "ChangeMe123!");
+        verify(employeeRepository).save(employee);
+        verify(auditService).log(anyString(), anyString(), anyString(), anyString());
+    }
+
+    @Test
+    void shouldThrowExceptionWhenCreatingEmployeeWithoutEmail() {
+        // Arrange
+        MedicalSpecialist employee = new MedicalSpecialist();
+        employee.setName("NoEmail");
+
+        // Act + Assert
+        RuntimeException exception = assertThrows(
+                RuntimeException.class,
+                () -> service.createEmployee(employee)
+        );
+
+        assertTrue(exception.getMessage().contains("Employee email is required"));
+
+        verifyNoInteractions(firebaseAuthService);
+        verifyNoInteractions(employeeRepository);
+    }
+
+    @Test
+    void shouldThrowExceptionWhenFirebaseCreateFails() throws Exception {
+        // Arrange
+        MedicalSpecialist employee = new MedicalSpecialist();
+        employee.setEmail("fail@test.com");
+
+        when(firebaseAuthService.createUser("fail@test.com", "ChangeMe123!"))
+                .thenThrow(new RuntimeException("Firebase failed"));
+
+        // Act + Assert
+        RuntimeException exception = assertThrows(
+                RuntimeException.class,
+                () -> service.createEmployee(employee)
+        );
+
+        assertTrue(exception.getMessage().contains("Firebase error"));
+
+        verify(firebaseAuthService).createUser("fail@test.com", "ChangeMe123!");
+        verify(employeeRepository, never()).save(any());
     }
 
     @Test
     void shouldUpdateEmployee() {
-        Employee updatedData = new MedicalSpecialist();
-        updatedData.setName("UpdatedName");
-        updatedData.setSurname("UpdatedSurname");
-        updatedData.setEmail("updated.employee@vixhealth.com");
+        // Arrange
+        MedicalSpecialist existing = new MedicalSpecialist();
+        existing.setId(1L);
+        existing.setName("Old");
+        existing.setSurname("Name");
 
-        Employee updated = employeeService.updateEmployee(1L, updatedData);
+        MedicalSpecialist updatedData = new MedicalSpecialist();
+        updatedData.setName("New");
+        updatedData.setSurname("Surname");
+        updatedData.setEmail("new@test.com");
 
-        assertNotNull(updated);
-        assertEquals("UpdatedName", updated.getName());
-        assertEquals("UpdatedSurname", updated.getSurname());
-        assertEquals("updated.employee@vixhealth.com", updated.getEmail());
+        when(employeeRepository.findById(1L))
+                .thenReturn(Optional.of(existing));
+
+        when(employeeRepository.save(existing))
+                .thenReturn(existing);
+
+        // Act
+        Employee result = service.updateEmployee(1L, updatedData);
+
+        // Assert
+        assertEquals("New", result.getName());
+        assertEquals("Surname", result.getSurname());
+        assertEquals("new@test.com", result.getEmail());
+
+        verify(employeeRepository).findById(1L);
+        verify(employeeRepository).save(existing);
+        verify(auditService).log(anyString(), anyString(), anyString(), anyString());
     }
 
     @Test
-    void shouldThrowExceptionWhenUpdatingEmployeeThatDoesNotExist() {
-        Employee updatedData = new MedicalSpecialist();
-        updatedData.setName("Nobody");
+    void shouldRequestEmployeePasswordReset() throws Exception {
+        // Arrange
+        MedicalSpecialist employee = new MedicalSpecialist();
+        employee.setId(1L);
+        employee.setName("Marco");
+        employee.setSurname("Rossi");
+        employee.setEmail("marco@test.com");
 
+        when(employeeRepository.findById(1L))
+                .thenReturn(Optional.of(employee));
+
+        when(firebaseAuthService.generatePasswordResetLink("marco@test.com"))
+                .thenReturn("reset-link");
+
+        // Act
+        service.requestEmployeePasswordReset(1L);
+
+        // Assert
+        verify(employeeRepository).findById(1L);
+        verify(firebaseAuthService).generatePasswordResetLink("marco@test.com");
+        verify(auditService).log(anyString(), anyString(), anyString(), anyString());
+    }
+
+    @Test
+    void shouldThrowExceptionWhenPasswordResetEmployeeHasNoEmail() {
+        // Arrange
+        MedicalSpecialist employee = new MedicalSpecialist();
+        employee.setId(1L);
+        employee.setEmail("");
+
+        when(employeeRepository.findById(1L))
+                .thenReturn(Optional.of(employee));
+
+        // Act + Assert
         RuntimeException exception = assertThrows(
                 RuntimeException.class,
-                () -> employeeService.updateEmployee(999L, updatedData)
+                () -> service.requestEmployeePasswordReset(1L)
         );
 
-        assertTrue(exception.getMessage().contains("Employee not found"));
-    }
+        assertTrue(exception.getMessage().contains("Employee does not have an email address"));
 
-    /*@Test
-    void shouldCreateEmployeeWithFirebaseAccount() {
-        MedicalSpecialist employee = new MedicalSpecialist();
-
-        long unique = System.currentTimeMillis();
-
-        employee.setName("Test");
-        employee.setSurname("Doctor");
-        employee.setEmail("test.doctor." + unique + "@vixhealth.com");
-        employee.setHireDate(LocalDate.now());
-        employee.setSpecialty("Test Specialty");
-        employee.setLicenseNumber("TEST-LIC-" + unique);
-
-        Employee saved = employeeService.createEmployee(employee);
-
-        assertNotNull(saved);
-        assertNotNull(saved.getId());
-        assertNotNull(saved.getFirebaseUid());
-        assertEquals("Test", saved.getName());
-        assertEquals("Doctor", saved.getSurname());
-    }*/
-
-    @Test
-    void shouldThrowExceptionWhenCreatingEmployeeWithoutEmail() {
-        MedicalSpecialist employee = new MedicalSpecialist();
-
-        employee.setName("No");
-        employee.setSurname("Email");
-        employee.setHireDate(LocalDate.now());
-
-        RuntimeException exception = assertThrows(
-                RuntimeException.class,
-                () -> employeeService.createEmployee(employee)
-        );
-
-        assertTrue(exception.getMessage().contains("Employee email is required"));
-    }
-
-    @Test
-    void shouldRequestEmployeePasswordReset() {
-        assertDoesNotThrow(() ->
-                employeeService.requestEmployeePasswordReset(1L)
-        );
+        verify(employeeRepository).findById(1L);
+        verifyNoInteractions(firebaseAuthService);
     }
 
     @Test
     void shouldChangeDepartment() {
-        assertDoesNotThrow(() ->
-                employeeService.changeDepartment(1L, 2L)
+        // Arrange
+        MedicalSpecialist employee = new MedicalSpecialist();
+        employee.setId(1L);
+
+        when(employeeRepository.findById(1L))
+                .thenReturn(Optional.of(employee));
+
+        // Act
+        service.changeDepartment(1L, 2L);
+
+        // Assert
+        verify(employeeRepository).findById(1L);
+        verify(auditService).log(
+                eq("REQUEST_DEPARTMENT_CHANGE"),
+                eq("Employee"),
+                eq("1"),
+                eq("Department change requested to ID: 2")
         );
     }
 
-    /*@Test
-    void shouldDeleteEmployee() {
+    @Test
+    void shouldDeleteEmployeeWithoutFirebaseUid() throws Exception {
+        // Arrange
         MedicalSpecialist employee = new MedicalSpecialist();
+        employee.setId(1L);
+        employee.setName("Marco");
+        employee.setSurname("Rossi");
 
-        long unique = System.currentTimeMillis();
+        when(employeeRepository.findById(1L))
+                .thenReturn(Optional.of(employee));
 
-        employee.setName("Delete");
-        employee.setSurname("Me");
-        employee.setEmail("delete.me." + unique + "@vixhealth.com");
-        employee.setHireDate(LocalDate.now());
-        employee.setSpecialty("Temporary");
-        employee.setLicenseNumber("DEL-LIC-" + unique);
+        // Act
+        service.deleteEmployee(1L);
 
-        Employee saved = employeeService.createEmployee(employee);
-
-        assertNotNull(saved.getId());
-
-        assertDoesNotThrow(() ->
-                employeeService.deleteEmployee(saved.getId())
-        );
-
-        assertTrue(employeeService.findByIdOptional(saved.getId()).isEmpty());
-    }*/
+        // Assert
+        verify(employeeRepository).findById(1L);
+        verify(firebaseAuthService, never()).deleteUser(anyString());
+        verify(employeeRepository).delete(employee);
+        verify(auditService).log(anyString(), anyString(), anyString(), anyString());
+    }
 
     @Test
-    void shouldThrowExceptionWhenDeletingEmployeeThatDoesNotExist() {
+    void shouldDeleteEmployeeWithFirebaseUid() throws Exception {
+        // Arrange
+        MedicalSpecialist employee = new MedicalSpecialist();
+        employee.setId(1L);
+        employee.setName("Marco");
+        employee.setSurname("Rossi");
+        employee.setFirebaseUid("firebase123");
+
+        when(employeeRepository.findById(1L))
+                .thenReturn(Optional.of(employee));
+
+        // Act
+        service.deleteEmployee(1L);
+
+        // Assert
+        verify(employeeRepository).findById(1L);
+        verify(firebaseAuthService).deleteUser("firebase123");
+        verify(employeeRepository).delete(employee);
+        verify(auditService).log(anyString(), anyString(), anyString(), anyString());
+    }
+
+    @Test
+    void shouldThrowExceptionWhenFirebaseDeleteFails() throws Exception {
+        // Arrange
+        MedicalSpecialist employee = new MedicalSpecialist();
+        employee.setId(1L);
+        employee.setFirebaseUid("firebase123");
+
+        when(employeeRepository.findById(1L))
+                .thenReturn(Optional.of(employee));
+
+        doThrow(new RuntimeException("Firebase delete failed"))
+                .when(firebaseAuthService).deleteUser("firebase123");
+
+        // Act + Assert
         RuntimeException exception = assertThrows(
                 RuntimeException.class,
-                () -> employeeService.deleteEmployee(999L)
+                () -> service.deleteEmployee(1L)
         );
 
-        assertTrue(exception.getMessage().contains("Employee not found"));
+        assertTrue(exception.getMessage().contains("Unable to delete Firebase account"));
+
+        verify(firebaseAuthService).deleteUser("firebase123");
+        verify(employeeRepository, never()).delete(any());
     }
 }

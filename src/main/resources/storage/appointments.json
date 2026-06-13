@@ -129,5 +129,38 @@
     "appointments" : [ ]
   },
   "paymentStatus" : true,
-  "status" : "CONFIRMED"
+  "status" : "PENDING"
+}, {
+  "id" : 5,
+  "dateTime" : "2026-06-15T10:00:00",
+  "duration" : 30,
+  "notes" : "Booked via patient portal",
+  "patient" : {
+    "name" : "Mario",
+    "surname" : "Rossi",
+    "birthDate" : "1980-01-01",
+    "birthPlace" : "Milano",
+    "gender" : "M",
+    "email" : "mario.rossi@email.com",
+    "phoneNumber" : "+393441111111",
+    "id" : 1,
+    "fiscalCode" : "RSSMRA80A01F205X"
+  },
+  "medicalSpecialist" : {
+    "name" : "Marco",
+    "surname" : "Rossi",
+    "birthDate" : "1980-03-12",
+    "birthPlace" : "Milano",
+    "gender" : "M",
+    "email" : "marco.rossi@vixhealth.com",
+    "phoneNumber" : "+393331111111",
+    "id" : 1,
+    "firebaseUid" : "k1bFTJFXoPNkGase8Of29UqBEef2",
+    "hireDate" : "2015-09-01",
+    "specialty" : "Cardiology",
+    "licenseNumber" : "LIC-CARD-001",
+    "appointments" : [ ]
+  },
+  "paymentStatus" : false,
+  "status" : "PENDING"
 } ]

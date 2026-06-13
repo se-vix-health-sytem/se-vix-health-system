@@ -5,6 +5,8 @@ import com.nvivx.vixhealthsystem.model.person.Patient;
 import com.nvivx.vixhealthsystem.model.person.employee.*;
 import com.nvivx.vixhealthsystem.service.core.EmployeeService;
 import com.nvivx.vixhealthsystem.service.core.PatientService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -33,6 +35,12 @@ class AuthControllerTest {
     @Mock
     private HttpSession session;
 
+    @Mock
+    private HttpServletRequest request;
+
+    @Mock
+    private HttpServletResponse response;
+
     @InjectMocks
     private AuthController controller;
 
@@ -60,6 +68,8 @@ class AuthControllerTest {
                 "doc@test.com",
                 "pass",
                 session,
+                request,
+                response,
                 model
         );
 
@@ -78,6 +88,8 @@ class AuthControllerTest {
                 "tech@test.com",
                 "pass",
                 session,
+                request,
+                response,
                 model
         );
 
@@ -94,6 +106,8 @@ class AuthControllerTest {
                 "buyer@test.com",
                 "pass",
                 session,
+                request,
+                response,
                 model
         );
 
@@ -114,6 +128,8 @@ class AuthControllerTest {
                 "pat@test.com",
                 "pass",
                 session,
+                request,
+                response,
                 model
         );
 
@@ -134,6 +150,8 @@ class AuthControllerTest {
                 "wrong",
                 "wrong",
                 session,
+                request,
+                response,
                 model
         );
 

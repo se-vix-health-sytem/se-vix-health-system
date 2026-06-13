@@ -1,173 +1,427 @@
 package com.nvivx.vixhealthsystem.service.core;
 
 import com.nvivx.vixhealthsystem.model.facility.Department;
+import com.nvivx.vixhealthsystem.model.person.employee.Employee;
 import com.nvivx.vixhealthsystem.model.person.employee.MedicalSpecialist;
+import com.nvivx.vixhealthsystem.repository.DepartmentRepository;
+import com.nvivx.vixhealthsystem.repository.EmployeeRepository;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
-@SpringBootTest
-public class DepartmentServiceTest {
+/**
+ *
+ * These tests do not start Spring Boot and do not use the real database.
+ * Instead, DepartmentRepository and EmployeeRepository are mocked with Mockito.
+ *
+ * This allows to test only the logic inside DepartmentService.
+ * Arrange = prepare fake data and mock behavior
+ * Act = call the method being tested
+ * Assert = check the result
+ * Verify = check that mocks were called correctly
+ */
+@ExtendWith(MockitoExtension.class)
+class DepartmentServiceTest {
 
-    @Autowired
-    private DepartmentService departmentService;
+    @Mock
+    private DepartmentRepository departmentRepository;
 
+    @Mock
+    private EmployeeRepository employeeRepository;
+
+    @InjectMocks
+    private DepartmentService service;
+
+    /**
+     * Tests that getAllDepartments() returns all departments
+     * provided by the mocked DepartmentRepository.
+     */
     @Test
-    void shouldReturnAllDepartmentsFromDatabase() {
-        List<Department> departments = departmentService.getAllDepartments();
+    void shouldReturnAllDepartments() {
+        // Arrange
+        Department d1 = new Department();
+        d1.setId(1L);
+        d1.setName("Cardiology");
 
-        assertNotNull(departments);
-        assertFalse(departments.isEmpty());
-        assertTrue(departments.size() >= 6);
+        Department d2 = new Department();
+        d2.setId(2L);
+        d2.setName("Neurology");
+
+        when(departmentRepository.findAll())
+                .thenReturn(List.of(d1, d2));
+
+        // Act
+        List<Department> result = service.getAllDepartments();
+
+        // Assert
+        assertEquals(2, result.size());
+        assertEquals("Cardiology", result.get(0).getName());
+        assertEquals("Neurology", result.get(1).getName());
+
+        //Verify
+        verify(departmentRepository).findAll();
     }
 
+    /**
+     * Tests that getDepartmentById(Long) returns the correct department
+     * when the department exists.
+     */
     @Test
-    void shouldFindCardiologyDepartmentById() {
-        Department department = departmentService.getDepartmentById(1L);
+    void shouldFindDepartmentById() {
+        // Arrange
+        Department department = new Department();
+        department.setId(1L);
+        department.setName("Cardiology");
 
-        assertNotNull(department);
-        assertEquals(1L, department.getId());
-        assertEquals("Cardiology", department.getName());
-        assertEquals("cardiology@vixhealth.com", department.getEmail());
+        when(departmentRepository.findById(1L))
+                .thenReturn(Optional.of(department));
+
+        // Act
+        Department result = service.getDepartmentById(1L);
+
+        // Assert
+        assertNotNull(result);
+        assertEquals(1L, result.getId());
+        assertEquals("Cardiology", result.getName());
+
+        //Verify
+        verify(departmentRepository).findById(1L);
     }
 
+    /**
+     * Tests that getDepartmentById(Long) returns null
+     * when the department does not exist.
+     */
     @Test
-    void shouldReturnNullWhenDepartmentIdDoesNotExist() {
-        Department department = departmentService.getDepartmentById(999L);
+    void shouldReturnNullWhenDepartmentDoesNotExist() {
+        // Arrange
+        when(departmentRepository.findById(99L))
+                .thenReturn(Optional.empty());
 
-        assertNull(department);
+        // Act
+        Department result = service.getDepartmentById(99L);
+
+        // Assert
+        assertNull(result);
+
+        //Verify
+        verify(departmentRepository).findById(99L);
     }
 
+    /**
+     * Tests that getDepartmentById(String) correctly converts
+     * a valid String ID into a Long and returns the department.
+     */
     @Test
-    void shouldFindNeurologyDepartmentByStringId() {
-        Department department = departmentService.getDepartmentById("2");
+    void shouldFindDepartmentByStringId() {
+        // Arrange
+        Department department = new Department();
+        department.setId(2L);
+        department.setName("Neurology");
 
-        assertNotNull(department);
-        assertEquals(2L, department.getId());
-        assertEquals("Neurology", department.getName());
+        when(departmentRepository.findById(2L))
+                .thenReturn(Optional.of(department));
+
+        // Act
+        Department result = service.getDepartmentById("2");
+
+        // Assert
+        assertNotNull(result);
+        assertEquals(2L, result.getId());
+        assertEquals("Neurology", result.getName());
+
+        //Verify
+        verify(departmentRepository).findById(2L);
     }
 
+    /**
+     * Tests that getDepartmentById(String) returns null
+     * when the String cannot be converted to a number.
+     */
     @Test
     void shouldReturnNullWhenStringIdIsInvalid() {
-        Department department = departmentService.getDepartmentById("abc");
+        // Act
+        Department result = service.getDepartmentById("abc");
 
-        assertNull(department);
+        // Assert
+        assertNull(result);
+
+
+        verifyNoInteractions(departmentRepository);
     }
 
+    /**
+     * Tests that getDoctorsByDepartment(Long) returns only
+     * MedicalSpecialists from the requested department.
+     */
     @Test
-    void shouldReturnDoctorsByDepartmentId() {
-        List<MedicalSpecialist> doctors =
-                departmentService.getDoctorsByDepartment(1L);
+    void shouldReturnDoctorsByDepartment() {
+        // Arrange
+        Department cardiology = new Department();
+        cardiology.setId(1L);
 
-        assertNotNull(doctors);
-        assertFalse(doctors.isEmpty());
+        Department neurology = new Department();
+        neurology.setId(2L);
 
-        assertTrue(doctors.stream()
-                .allMatch(d -> d.getDepartment() != null
-                        && d.getDepartment().getId().equals(1L)));
+        MedicalSpecialist doctor1 = new MedicalSpecialist();
+        doctor1.setId(10L);
+        doctor1.setName("Marco");
+        doctor1.setEmail("marco.rossi@vixhealth.com");
+        doctor1.setDepartment(cardiology);
 
-        assertTrue(doctors.stream()
-                .anyMatch(d -> d.getEmail().equals("marco.rossi@vixhealth.com")));
+        MedicalSpecialist doctor2 = new MedicalSpecialist();
+        doctor2.setId(20L);
+        doctor2.setName("Elena");
+        doctor2.setDepartment(neurology);
+
+        Employee normalEmployee = mock(Employee.class);
+
+        when(employeeRepository.findAll())
+                .thenReturn(List.of(doctor1, doctor2, normalEmployee));
+
+        // Act
+        List<MedicalSpecialist> result =
+                service.getDoctorsByDepartment(1L);
+
+        // Assert
+        assertEquals(1, result.size());
+        assertEquals("Marco", result.get(0).getName());
+        assertEquals(1L, result.get(0).getDepartment().getId());
+
+        //Verify
+        verify(employeeRepository).findAll();
     }
 
+    /**
+     * Tests that an empty list is returned when no doctors
+     * belong to the requested department.
+     */
     @Test
-    void shouldReturnDoctorsByStringDepartmentId() {
-        List<MedicalSpecialist> doctors =
-                departmentService.getDoctorsByDepartment("2");
+    void shouldReturnEmptyDoctorsListWhenDepartmentHasNoDoctors() {
+        // Arrange
+        Department neurology = new Department();
+        neurology.setId(2L);
 
-        assertNotNull(doctors);
-        assertFalse(doctors.isEmpty());
+        MedicalSpecialist doctor = new MedicalSpecialist();
+        doctor.setId(20L);
+        doctor.setDepartment(neurology);
 
-        assertTrue(doctors.stream()
-                .allMatch(d -> d.getDepartment() != null
-                        && d.getDepartment().getId().equals(2L)));
+        when(employeeRepository.findAll())
+                .thenReturn(List.of(doctor));
 
-        assertTrue(doctors.stream()
-                .anyMatch(d -> d.getEmail().equals("elena.bianchi@vixhealth.com")));
+        // Act
+        List<MedicalSpecialist> result =
+                service.getDoctorsByDepartment(1L);
+
+        // Assert
+        assertTrue(result.isEmpty());
+
+        //Verify
+        verify(employeeRepository).findAll();
     }
 
+    /**
+     * Tests that getDoctorsByDepartment(String) returns an empty list
+     * when the String ID is invalid.
+     */
     @Test
-    void shouldReturnEmptyDoctorListWhenDepartmentHasNoMedicalSpecialists() {
-        List<MedicalSpecialist> doctors =
-                departmentService.getDoctorsByDepartment(4L);
+    void shouldReturnEmptyDoctorsListWhenStringIdIsInvalid() {
+        // Act
+        List<MedicalSpecialist> result =
+                service.getDoctorsByDepartment("invalid");
 
-        assertNotNull(doctors);
-        assertTrue(doctors.isEmpty());
+        // Assert
+        assertTrue(result.isEmpty());
+
+        verifyNoInteractions(employeeRepository);
     }
 
-    @Test
-    void shouldReturnEmptyDoctorListWhenStringDepartmentIdIsInvalid() {
-        List<MedicalSpecialist> doctors =
-                departmentService.getDoctorsByDepartment("invalid");
-
-        assertNotNull(doctors);
-        assertTrue(doctors.isEmpty());
-    }
-
+    /**
+     * Tests that Cardiology services are returned correctly.
+     */
     @Test
     void shouldReturnCardiologyServices() {
-        List<String> services =
-                departmentService.getServicesByDepartment(1L);
+        // Arrange
+        Department department = new Department();
+        department.setId(1L);
+        department.setName("Cardiology");
 
-        assertNotNull(services);
+        when(departmentRepository.findById(1L))
+                .thenReturn(Optional.of(department));
+
+        // Act
+        List<String> services =
+                service.getServicesByDepartment(1L);
+
+        // Assert
         assertEquals(5, services.size());
         assertTrue(services.contains("ECG/EKG - Electrocardiogram"));
         assertTrue(services.contains("Cardiac Consultation"));
+
+        //Verify
+        verify(departmentRepository).findById(1L);
     }
 
+    /**
+     * Tests service lookup using a department name instead of an ID.
+     */
     @Test
-    void shouldReturnNeurologyServices() {
+    void shouldReturnNeurologyServicesFromStringName() {
+        // Act
         List<String> services =
-                departmentService.getServicesByDepartment(2L);
+                service.getServicesByDepartment("neurology");
 
-        assertNotNull(services);
+        // Assert
         assertEquals(5, services.size());
         assertTrue(services.contains("EEG - Electroencephalogram"));
         assertTrue(services.contains("Memory Clinic"));
+
+        verifyNoInteractions(departmentRepository);
     }
 
+    /**
+     * Tests that unknown department names return default services.
+     */
     @Test
-    void shouldReturnRadiologyServices() {
+    void shouldReturnDefaultServicesForUnknownDepartmentName() {
+        // Act
         List<String> services =
-                departmentService.getServicesByDepartment(3L);
+                service.getServicesByDepartment("unknown");
 
-        assertNotNull(services);
-        assertEquals(5, services.size());
-        assertTrue(services.contains("MRI - Magnetic Resonance Imaging"));
-        assertTrue(services.contains("CT Scan - Computed Tomography"));
-    }
-
-    @Test
-    void shouldReturnAdministrationServices() {
-        List<String> services =
-                departmentService.getServicesByDepartment(4L);
-
-        assertNotNull(services);
+        // Assert
         assertEquals(4, services.size());
-        assertTrue(services.contains("Patient Registration"));
-        assertTrue(services.contains("Appointment Scheduling"));
+        assertTrue(services.contains("General Consultation"));
     }
 
+    /**
+     * Tests that an empty service list is returned when
+     * a department ID does not exist.
+     */
     @Test
     void shouldReturnEmptyServicesWhenDepartmentDoesNotExist() {
-        List<String> services =
-                departmentService.getServicesByDepartment(999L);
+        // Arrange
+        when(departmentRepository.findById(999L))
+                .thenReturn(Optional.empty());
 
+        // Act
+        List<String> services =
+                service.getServicesByDepartment(999L);
+
+        // Assert
         assertNotNull(services);
         assertTrue(services.isEmpty());
+
+        //Verify
+        verify(departmentRepository).findById(999L);
     }
 
+    /**
+     * Tests that image paths are generated correctly for doctors
+     * inside one department.
+     */
     @Test
-    void shouldReturnServicesWhenDepartmentStringIsName() {
-        List<String> services =
-                departmentService.getServicesByDepartment("cardiology");
+    void shouldReturnDoctorImageMapForDepartment() {
+        // Arrange
+        Department cardiology = new Department();
+        cardiology.setId(1L);
+        cardiology.setName("Cardiology");
 
-        assertNotNull(services);
-        assertEquals(5, services.size());
-        assertTrue(services.contains("Echocardiogram - Heart Ultrasound"));
+        MedicalSpecialist doctor1 = new MedicalSpecialist();
+        doctor1.setId(10L);
+        doctor1.setDepartment(cardiology);
+
+        MedicalSpecialist doctor2 = new MedicalSpecialist();
+        doctor2.setId(20L);
+        doctor2.setDepartment(cardiology);
+
+        when(departmentRepository.findById(1L))
+                .thenReturn(Optional.of(cardiology));
+
+        when(employeeRepository.findAll())
+                .thenReturn(List.of(doctor2, doctor1));
+
+        // Act
+        Map<Long, String> imageMap =
+                service.getDoctorImageMap(1L);
+
+        // Assert
+        assertEquals(2, imageMap.size());
+        assertEquals("/images/doctors/cardiology_m1.jpg", imageMap.get(10L));
+        assertEquals("/images/doctors/cardiology_f1.jpg", imageMap.get(20L));
+
+        verify(departmentRepository).findById(1L);
+        verify(employeeRepository).findAll();
+    }
+
+    /**
+     * Tests that an empty image map is returned when
+     * the department does not exist.
+     */
+    @Test
+    void shouldReturnEmptyImageMapWhenDepartmentDoesNotExist() {
+        // Arrange
+        when(departmentRepository.findById(99L))
+                .thenReturn(Optional.empty());
+
+        // Act
+        Map<Long, String> imageMap =
+                service.getDoctorImageMap(99L);
+
+        // Assert
+        assertTrue(imageMap.isEmpty());
+
+        verify(departmentRepository).findById(99L);
+        verifyNoInteractions(employeeRepository);
+    }
+
+    /**
+     * Tests that image paths are generated for doctors
+     * across all departments.
+     */
+    @Test
+    void shouldReturnAllDoctorImageMap() {
+        // Arrange
+        Department cardiology = new Department();
+        cardiology.setId(1L);
+        cardiology.setName("Cardiology");
+
+        Department neurology = new Department();
+        neurology.setId(2L);
+        neurology.setName("Neurology");
+
+        MedicalSpecialist doctor1 = new MedicalSpecialist();
+        doctor1.setId(10L);
+        doctor1.setDepartment(cardiology);
+
+        MedicalSpecialist doctor2 = new MedicalSpecialist();
+        doctor2.setId(20L);
+        doctor2.setDepartment(neurology);
+
+        when(departmentRepository.findAll())
+                .thenReturn(List.of(cardiology, neurology));
+
+        when(employeeRepository.findAll())
+                .thenReturn(List.of(doctor1, doctor2));
+
+        // Act
+        Map<Long, String> imageMap =
+                service.getAllDoctorImageMap();
+
+        // Assert
+        assertEquals(2, imageMap.size());
+        assertEquals("/images/doctors/cardiology_m1.jpg", imageMap.get(10L));
+        assertEquals("/images/doctors/neurology_f1.jpg", imageMap.get(20L));
+
+        verify(departmentRepository).findAll();
+        verify(employeeRepository).findAll();
     }
 }
