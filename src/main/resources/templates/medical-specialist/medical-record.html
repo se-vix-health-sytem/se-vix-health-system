@@ -80,51 +80,52 @@
                 <div class="card mb-3">
                     <div class="card-header d-flex justify-content-between align-items-center">
                         <span><i class="bi bi-clipboard2-pulse me-2"></i>Diagnoses</span>
-                        <button class="btn btn-sm btn-light rounded-pill" data-bs-toggle="collapse"
-                                data-bs-target="#diagnosisForm">
+                        <button class="btn btn-sm btn-light rounded-pill" data-bs-toggle="collapse" data-bs-target="#diagnosisForm">
                             <i class="bi bi-plus-circle me-1"></i>Add
                         </button>
                     </div>
                     <div class="collapse" id="diagnosisForm">
                         <div class="card-body border-bottom bg-light">
-                            <form th:action="@{/medical-specialist/patients/{id}/add-diagnosis(id=${patientId})}"
-                                  method="post" class="row g-2">
-                                <div class="col-md-6">
+                            <form th:action="@{/medical-specialist/patients/{id}/add-diagnosis(id=${patientId})}" method="post" class="row g-2">
+                                <div class="col-12">
                                     <input type="text" name="diagnosisName" class="form-control form-control-sm"
-                                           placeholder="Diagnosis name" required>
+                                           placeholder="Diagnosis name (e.g. Hypertension, Diabetes Type 2)" required>
+                                    <small class="text-muted d-block mt-1">Enter the medical condition being diagnosed</small>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-4">
                                     <select name="severity" class="form-select form-select-sm">
-                                        <option value="low">Low</option>
-                                        <option value="medium">Medium</option>
-                                        <option value="high">High</option>
+                                        <option value="low">Low Severity</option>
+                                        <option value="medium" selected>Medium Severity</option>
+                                        <option value="high">High Severity</option>
                                     </select>
                                 </div>
-                                <div class="col-md-3">
-                                    <button type="submit" class="btn btn-primary btn-sm w-100 rounded-pill">Save</button>
+                                <div class="col-md-8">
+                                    <input type="text" name="description" class="form-control form-control-sm"
+                                           placeholder="Brief description (optional)">
                                 </div>
                                 <div class="col-12">
-                                    <textarea name="description" class="form-control form-control-sm"
-                                              rows="2" placeholder="Description (optional)"></textarea>
+                                    <button type="submit" class="btn btn-primary btn-sm rounded-pill px-4">Save Diagnosis</button>
                                 </div>
                             </form>
                         </div>
                     </div>
                     <div class="card-body">
                         <div th:if="${medicalRecord?.conditions != null and !medicalRecord.conditions.isEmpty()}">
-                            <div th:each="c : ${medicalRecord.conditions}"
-                                 class="d-flex justify-content-between border-bottom pb-2 mb-2 small">
-                                <div>
-                                    <strong th:text="${c.name}">-</strong>
-                                    <span class="badge bg-secondary ms-1" th:text="${c.type}">-</span><br>
-                                    <span class="text-muted" th:text="${c.description}">-</span>
+                            <div th:each="c : ${medicalRecord.conditions}">
+                                <div class="d-flex justify-content-between border-bottom pb-2 mb-2 small">
+                                    <div>
+                                        <strong th:text="${c.name}">-</strong>
+                                        <span class="badge bg-secondary ms-1" th:text="${c.type}">-</span><br>
+                                        <span class="text-muted" th:text="${c.description}">-</span>
+                                    </div>
+                                    <small class="text-muted text-nowrap ms-3"
+                                           th:text="${c.dateOfDiagnosis != null ? #temporals.format(c.dateOfDiagnosis,'dd/MM/yy') : '-'}">-</small>
                                 </div>
-                                <small class="text-muted text-nowrap ms-3"
-                                       th:text="${c.dateOfDiagnosis != null ? #temporals.format(c.dateOfDiagnosis,'dd/MM/yy') : '-'}">-</small>
                             </div>
                         </div>
-                        <p th:if="${medicalRecord?.conditions == null or medicalRecord.conditions.isEmpty()}"
-                           class="text-muted small mb-0">No diagnoses on record.</p>
+                        <p th:if="${medicalRecord?.conditions == null or medicalRecord.conditions.isEmpty()}" class="text-muted small mb-0">
+                            No diagnoses on record. Click "Add" to add a diagnosis.
+                        </p>
                     </div>
                 </div>
 
@@ -132,43 +133,45 @@
                 <div class="card mb-3">
                     <div class="card-header d-flex justify-content-between align-items-center">
                         <span><i class="bi bi-capsule me-2"></i>Prescriptions</span>
-                        <button class="btn btn-sm btn-light rounded-pill" data-bs-toggle="collapse"
-                                data-bs-target="#prescriptionForm">
+                        <button class="btn btn-sm btn-light rounded-pill" data-bs-toggle="collapse" data-bs-target="#prescriptionForm">
                             <i class="bi bi-plus-circle me-1"></i>Add
                         </button>
                     </div>
                     <div class="collapse" id="prescriptionForm">
                         <div class="card-body border-bottom bg-light">
-                            <form th:action="@{/medical-specialist/patients/{id}/add-prescription(id=${patientId})}"
-                                  method="post" class="row g-2">
-                                <div class="col-md-5">
+                            <form th:action="@{/medical-specialist/patients/{id}/add-prescription(id=${patientId})}" method="post" class="row g-2">
+                                <div class="col-md-6">
                                     <input type="text" name="medication" class="form-control form-control-sm"
-                                           placeholder="Medication name" required>
+                                           placeholder="Medication name (e.g. Amoxicillin, Lisinopril)" required>
+                                    <small class="text-muted">Name of the prescribed drug</small>
                                 </div>
-                                <div class="col-md-5">
+                                <div class="col-md-6">
                                     <input type="text" name="dosage" class="form-control form-control-sm"
-                                           placeholder="Dosage (e.g. 500mg twice daily)" required>
+                                           placeholder="Dosage (e.g. 500mg twice daily, 10mg once daily)" required>
+                                    <small class="text-muted">Frequency and strength</small>
                                 </div>
-                                <div class="col-md-2">
-                                    <button type="submit" class="btn btn-primary btn-sm w-100 rounded-pill">Save</button>
+                                <div class="col-12">
+                                    <button type="submit" class="btn btn-primary btn-sm rounded-pill px-4">Save Prescription</button>
                                 </div>
                             </form>
                         </div>
                     </div>
                     <div class="card-body">
                         <div th:if="${medicalRecord?.prescriptions != null and !medicalRecord.prescriptions.isEmpty()}">
-                            <div th:each="rx : ${medicalRecord.prescriptions}"
-                                 class="border-bottom pb-2 mb-2 small">
-                                <strong th:text="${rx.medication}">-</strong><br>
-                                <span class="text-muted">
-                                    Dr. <span th:text="${rx.medicalSpecialist?.name + ' ' + rx.medicalSpecialist?.surname}">-</span>
-                                    &nbsp;·&nbsp;
-                                    <span th:text="${rx.dateTime != null ? #temporals.format(rx.dateTime,'dd/MM/yyyy') : '-'}">-</span>
-                                </span>
+                            <div th:each="rx : ${medicalRecord.prescriptions}">
+                                <div class="border-bottom pb-2 mb-2 small">
+                                    <strong th:text="${rx.medication}">-</strong><br>
+                                    <span class="text-muted">
+                        Prescribed by: Dr. <span th:text="${rx.medicalSpecialist?.name + ' ' + rx.medicalSpecialist?.surname}">-</span>
+                        &nbsp;·&nbsp;
+                        <span th:text="${rx.dateTime != null ? #temporals.format(rx.dateTime,'dd/MM/yyyy') : '-'}">-</span>
+                    </span>
+                                </div>
                             </div>
                         </div>
-                        <p th:if="${medicalRecord?.prescriptions == null or medicalRecord.prescriptions.isEmpty()}"
-                           class="text-muted small mb-0">No prescriptions on record.</p>
+                        <p th:if="${medicalRecord?.prescriptions == null or medicalRecord.prescriptions.isEmpty()}" class="text-muted small mb-0">
+                            No prescriptions on record. Click "Add" to prescribe medication.
+                        </p>
                     </div>
                 </div>
 
@@ -176,87 +179,89 @@
                 <div class="card mb-3">
                     <div class="card-header d-flex justify-content-between align-items-center">
                         <span><i class="bi bi-scissors me-2"></i>Surgeries</span>
-                        <button class="btn btn-sm btn-light rounded-pill" data-bs-toggle="collapse"
-                                data-bs-target="#surgeryForm">
+                        <button class="btn btn-sm btn-light rounded-pill" data-bs-toggle="collapse" data-bs-target="#surgeryForm">
                             <i class="bi bi-plus-circle me-1"></i>Schedule
                         </button>
                     </div>
                     <div class="collapse" id="surgeryForm">
                         <div class="card-body border-bottom bg-light">
-                            <form th:action="@{/medical-specialist/patients/{id}/add-surgery(id=${patientId})}"
-                                  method="post" class="row g-2">
+                            <form th:action="@{/medical-specialist/patients/{id}/add-surgery(id=${patientId})}" method="post" class="row g-2">
                                 <div class="col-md-6">
                                     <input type="text" name="surgeryName" class="form-control form-control-sm"
-                                           placeholder="Surgery name (e.g. Appendectomy)" required>
+                                           placeholder="Surgery name (e.g. Appendectomy, Knee Arthroscopy)" required>
+                                    <small class="text-muted">Name of the surgical procedure</small>
                                 </div>
                                 <div class="col-md-6">
-                                    <select name="roomId" class="form-select form-select-sm" required>
+                                    <select name="roomId" class="form-select form-select-sm">
                                         <option value="">Select operating room…</option>
-                                        <option th:each="r : ${specializedRooms}"
-                                                th:value="${r.id}"
-                                                th:text="${r.name ?: 'Room #' + r.id} + ' (' + (${r.specialization ?: 'Surgery'}) + ')'">Room</option>
+                                        <option th:each="r : ${specializedRooms}" th:value="${r.id}"
+                                                th:text="${r.number ?: 'Room #' + r.id} + ' - ' + (${r.specialization ?: 'Surgery'})">Room</option>
                                     </select>
+                                    <small class="text-muted">Leave empty to assign later</small>
                                 </div>
                                 <div class="col-md-6">
                                     <input type="datetime-local" name="surgeryDateTime" class="form-control form-control-sm" required>
+                                    <small class="text-muted">Date and time of surgery</small>
                                 </div>
-                                <div class="col-md-6">
-                                    <button type="submit" class="btn btn-primary btn-sm w-100 rounded-pill">Schedule Surgery</button>
+                                <div class="col-md-12">
+                    <textarea name="surgeryDescription" class="form-control form-control-sm"
+                              rows="2" placeholder="Description / Notes (optional)"></textarea>
                                 </div>
                                 <div class="col-12">
-                                    <textarea name="surgeryDescription" class="form-control form-control-sm"
-                                              rows="2" placeholder="Description (optional)"></textarea>
+                                    <button type="submit" class="btn btn-primary btn-sm rounded-pill px-4">Schedule Surgery</button>
                                 </div>
                             </form>
                         </div>
                     </div>
                     <div class="card-body">
                         <div th:if="${medicalRecord?.surgeries != null and !medicalRecord.surgeries.isEmpty()}">
-                            <div th:each="s : ${medicalRecord.surgeries}"
-                                 class="d-flex justify-content-between align-items-start border-bottom pb-2 mb-2 small">
-                                <div>
-                                    <strong th:text="${s.name}">-</strong>
-                                    <span class="badge ms-1"
-                                          th:classappend="${s.dateTime != null and s.dateTime.isBefore(T(java.time.LocalDateTime).now())} ? 'bg-success' : 'bg-primary'"
-                                          th:text="${s.dateTime != null and s.dateTime.isBefore(T(java.time.LocalDateTime).now())} ? 'Completed' : 'Scheduled'">-</span><br>
-                                    <span class="text-muted" th:text="${s.description ?: ''}"></span>
+                            <div th:each="s : ${medicalRecord.surgeries}">
+                                <div class="d-flex justify-content-between align-items-start border-bottom pb-2 mb-2 small">
+                                    <div>
+                                        <strong th:text="${s.name}">-</strong>
+                                        <span class="badge ms-1"
+                                              th:classappend="${s.dateTime != null and s.dateTime.isBefore(T(java.time.LocalDateTime).now())} ? 'bg-secondary' : 'bg-primary'"
+                                              th:text="${s.dateTime != null and s.dateTime.isBefore(T(java.time.LocalDateTime).now())} ? 'Performed' : 'Scheduled'">-</span><br>
+                                        <span class="text-muted" th:text="${s.description ?: ''}"></span>
+                                    </div>
+                                    <small class="text-muted text-nowrap ms-3"
+                                           th:text="${s.dateTime != null ? #temporals.format(s.dateTime, 'dd/MM/yyyy HH:mm') : '-'}">-</small>
                                 </div>
-                                <small class="text-muted text-nowrap ms-3"
-                                       th:text="${s.dateTime != null ? #temporals.format(s.dateTime, 'dd/MM/yyyy HH:mm') : '-'}">-</small>
                             </div>
                         </div>
-                        <p th:if="${medicalRecord?.surgeries == null or medicalRecord.surgeries.isEmpty()}"
-                           class="text-muted small mb-0">No surgeries on record.</p>
+                        <p th:if="${medicalRecord?.surgeries == null or medicalRecord.surgeries.isEmpty()}" class="text-muted small mb-0">
+                            No surgeries on record. Click "Schedule" to add a surgery.
+                        </p>
                     </div>
                 </div>
 
                 <!-- Exam Results -->
                 <div class="card">
                     <div class="card-header d-flex justify-content-between align-items-center">
-                        <span><i class="bi bi-file-earmark-medical me-2"></i>Exam Results / Surgeries</span>
-                        <button class="btn btn-sm btn-light rounded-pill" data-bs-toggle="collapse"
-                                data-bs-target="#examForm">
+                        <span><i class="bi bi-file-earmark-medical me-2"></i>Exam Results</span>
+                        <button class="btn btn-sm btn-light rounded-pill" data-bs-toggle="collapse" data-bs-target="#examForm">
                             <i class="bi bi-plus-circle me-1"></i>Add
                         </button>
                     </div>
                     <div class="collapse" id="examForm">
                         <div class="card-body border-bottom bg-light">
-                            <form th:action="@{/medical-specialist/patients/{id}/add-exam-result(id=${patientId})}"
-                                  method="post" class="row g-2">
+                            <form th:action="@{/medical-specialist/patients/{id}/add-exam-result(id=${patientId})}" method="post" class="row g-2">
                                 <div class="col-md-4">
                                     <input type="text" name="examType" class="form-control form-control-sm"
-                                           placeholder="Exam type (e.g. Blood test)" required>
+                                           placeholder="Exam type (e.g. Blood Test, X-Ray, MRI)" required>
+                                    <small class="text-muted">Type of examination</small>
                                 </div>
                                 <div class="col-md-4">
                                     <input type="text" name="result" class="form-control form-control-sm"
-                                           placeholder="Result" required>
+                                           placeholder="Result (e.g. Normal, Positive, 120/80)" required>
+                                    <small class="text-muted">Findings or measurements</small>
                                 </div>
-                                <div class="col-md-4">
-                                    <button type="submit" class="btn btn-primary btn-sm w-100 rounded-pill">Save</button>
+                                <div class="col-md-12">
+                                    <input type="text" name="notes" class="form-control form-control-sm"
+                                           placeholder="Additional notes (optional)">
                                 </div>
                                 <div class="col-12">
-                                    <input type="text" name="notes" class="form-control form-control-sm"
-                                           placeholder="Notes (optional)">
+                                    <button type="submit" class="btn btn-primary btn-sm rounded-pill px-4">Save Result</button>
                                 </div>
                             </form>
                         </div>
@@ -264,19 +269,21 @@
                     <div class="card-body">
                         <div th:with="examResults=${medicalRecord?.conditions?.?[type == 'EXAM_RESULT']}">
                             <div th:if="${examResults != null and !examResults.isEmpty()}">
-                                <div th:each="e : ${examResults}"
-                                     class="border-bottom pb-2 mb-2 small">
-                                    <strong th:text="${e.name}">-</strong>
-                                    <small class="text-muted ms-2"
-                                           th:text="${e.dateOfDiagnosis != null ? #temporals.format(e.dateOfDiagnosis,'dd/MM/yyyy') : '-'}">-</small><br>
-                                    <span class="text-muted" th:text="${e.description}">-</span>
+                                <div th:each="e : ${examResults}">
+                                    <div class="border-bottom pb-2 mb-2 small">
+                                        <strong th:text="${e.name}">-</strong>
+                                        <small class="text-muted ms-2" th:text="${e.dateOfDiagnosis != null ? #temporals.format(e.dateOfDiagnosis,'dd/MM/yyyy') : '-'}">-</small><br>
+                                        <span class="text-muted" th:text="${e.description}">-</span>
+                                    </div>
                                 </div>
                             </div>
-                            <p th:if="${examResults == null or examResults.isEmpty()}"
-                               class="text-muted small mb-0">No exam results on record.</p>
+                            <p th:if="${examResults == null or examResults.isEmpty()}" class="text-muted small mb-0">
+                                No exam results on record. Click "Add" to record test results.
+                            </p>
                         </div>
                     </div>
                 </div>
+
             </div>
         </div>
     </div>

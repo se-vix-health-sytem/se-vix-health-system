@@ -16,11 +16,14 @@
             </div>
             <span class="badge rounded-pill fs-6 px-3 py-2"
                   style="background: var(--vix-crimson);"
-                  th:text="${surgeries.size()} + ' procedure(s)'">0 procedure(s)</span>
+                  th:text="${surgeries != null ? surgeries.size() + ' procedure(s)' : '0 procedure(s)'}">0 procedure(s)</span>
         </div>
 
+        <div th:if="${message != null}" class="alert alert-info" th:text="${message}"></div>
+        <div th:if="${error != null}" class="alert alert-danger" th:text="${error}"></div>
+
         <!-- Surgeries list -->
-        <div th:if="${!surgeries.isEmpty()}">
+        <div th:if="${surgeries != null and !surgeries.isEmpty()}">
             <div class="row g-4">
                 <div class="col-12" th:each="s : ${surgeries}">
                     <div class="card border-0 shadow-sm">
@@ -48,9 +51,13 @@
 
                                     <div th:if="${s.specializedRoom != null}" class="small">
                                         <i class="bi bi-door-open me-1" style="color: var(--vix-gold);"></i>
-                                        <span th:text="'Room: ' + ${s.specializedRoom.name ?: 'Room #' + s.specializedRoom.id}">Room</span>
+                                        <span th:text="'Room: ' + ${s.specializedRoom.number ?: 'Room #' + s.specializedRoom.id}">Room</span>
                                     </div>
-                                    <div th:if="${s.medicalRecord != null}" class="small mt-1">
+                                    <div th:unless="${s.specializedRoom != null}" class="small text-muted">
+                                        <i class="bi bi-door-open me-1"></i>
+                                        <span>Room: Not assigned yet</span>
+                                    </div>
+                                    <div class="small mt-1">
                                         <i class="bi bi-file-medical me-1" style="color: var(--vix-gold);"></i>
                                         <span th:text="'Medical Record #' + ${s.medicalRecord.id}">Record</span>
                                     </div>
@@ -59,10 +66,26 @@
                                 <!-- Status column -->
                                 <div class="col-md-3 text-md-end">
                                     <span class="badge rounded-pill px-3 py-2"
-                                          th:classappend="${s.dateTime != null and s.dateTime.isBefore(T(java.time.LocalDateTime).now())} ? 'bg-success' : 'bg-primary'"
+                                          th:classappend="${s.dateTime != null and s.dateTime.isBefore(T(java.time.LocalDateTime).now())} ? 'bg-secondary' : 'bg-primary'"
                                           th:text="${s.dateTime != null and s.dateTime.isBefore(T(java.time.LocalDateTime).now())} ? 'Completed' : 'Scheduled'">
                                         Status
                                     </span>
+                                    <div class="small text-muted mt-2" th:if="${s.dateTime != null and s.dateTime.isAfter(T(java.time.LocalDateTime).now())}">
+                                        <i class="bi bi-calendar me-1"></i>
+                                        Upcoming
+                                    </div>
+                                    <div class="small text-muted mt-2" th:if="${s.dateTime != null and s.dateTime.isBefore(T(java.time.LocalDateTime).now())}">
+                                        <i class="bi bi-check-circle me-1"></i>
+                                        Performed
+                                    </div>
+                                </div>
+
+                                <!-- Patient info -->
+                                <div class="col-12 mt-2 pt-2 border-top">
+                                    <div class="small text-muted">
+                                        <i class="bi bi-person me-1"></i>
+                                        Patient: <strong th:text="${s.medicalRecord?.patient?.name + ' ' + s.medicalRecord?.patient?.surname ?: 'Unknown'}">-</strong>
+                                    </div>
                                 </div>
 
                             </div>
@@ -73,13 +96,16 @@
         </div>
 
         <!-- Empty state -->
-        <div th:if="${surgeries.isEmpty()}" class="text-center py-5">
+        <div th:if="${surgeries == null or surgeries.isEmpty()}" class="text-center py-5">
             <div class="rounded-circle mx-auto d-flex align-items-center justify-content-center mb-4"
                  style="width:90px;height:90px;background:var(--vix-cream);">
                 <i class="bi bi-scissors fs-1" style="color:var(--vix-crimson);opacity:.5;"></i>
             </div>
             <h5 class="font-display text-muted">No surgeries recorded yet</h5>
-            <p class="text-muted small">Surgeries assigned to you will appear here.</p>
+            <p class="text-muted small">Surgeries you schedule for patients will appear here.</p>
+            <a th:href="@{/medical-specialist/patients/search}" class="btn btn-primary rounded-pill mt-2">
+                <i class="bi bi-search me-2"></i>Find a Patient to Schedule Surgery
+            </a>
         </div>
 
     </div>

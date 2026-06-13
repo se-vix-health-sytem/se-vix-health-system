@@ -5,67 +5,173 @@
 <div th:replace="~{fragments/dashboard-nav :: dashboardNav}"></div>
 
 <div class="dashboard-content" style="margin-left: 280px;">
-    <div class="container p-4">
-        <div class="card">
-            <div class="card-header d-flex justify-content-between align-items-center">
-                <h3 class="mb-0 font-display"><i class="bi bi-calendar3 me-2"></i>My Calendar</h3>
-                <span class="badge rounded-pill px-3" style="background:var(--vix-crimson);">
-                    Dr. <span th:text="${session.user.name + ' ' + session.user.surname}">-</span>
-                </span>
-            </div>
-            <div class="card-body">
+    <div class="container p-4" style="max-width: 900px;">
 
-                <p class="text-muted small mb-3">Showing upcoming shifts from today onwards, grouped by month.</p>
+        <!-- Month Navigation -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <a th:href="@{/medical-specialist/calendar(month=${prevMonth})}"
+               class="btn btn-outline-secondary rounded-pill px-3">
+                <i class="bi bi-chevron-left"></i>
+            </a>
+            <h3 class="font-display mb-0" style="color: var(--vix-crimson);">
+                <i class="bi bi-calendar3 me-2"></i>
+                <span th:text="${monthLabel}">Month Year</span>
+            </h3>
+            <a th:href="@{/medical-specialist/calendar(month=${nextMonth})}"
+               class="btn btn-outline-secondary rounded-pill px-3">
+                <i class="bi bi-chevron-right"></i>
+            </a>
+        </div>
 
-                <div th:if="${shiftsByMonth != null and !shiftsByMonth.isEmpty()}">
-                    <div th:each="entry : ${shiftsByMonth}" class="mb-4">
-                        <h6 class="fw-bold mb-2 px-1"
-                            style="color: var(--vix-crimson); border-bottom: 2px solid var(--vix-cream); padding-bottom: 4px;">
-                            <i class="bi bi-calendar3 me-1"></i>
-                            <span th:text="${entry.key}">Month</span>
-                        </h6>
-                        <div class="table-responsive">
-                            <table class="table table-hover mb-0">
-                                <thead style="background: var(--vix-cream);">
-                                    <tr>
-                                        <th>Date</th>
-                                        <th>Shift</th>
-                                        <th>Notes</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr th:each="shift : ${entry.value}">
-                                        <td th:text="${shift.date != null ? #temporals.format(shift.date,'EEE dd/MM/yyyy') : '-'}">-</td>
-                                        <td>
-                                            <span class="badge rounded-pill"
-                                                  th:classappend="${shift.shiftType == 'MORNING' ? 'bg-warning text-dark' :
-                                                                   shift.shiftType == 'AFTERNOON' ? 'bg-info text-dark' : 'bg-dark'}"
-                                                  th:text="${shift.shiftType}">-</span>
-                                        </td>
-                                        <td class="small text-muted" th:text="${shift.notes ?: '-'}">-</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
+        <!-- Legend -->
+        <div class="d-flex flex-wrap gap-3 mb-3 justify-content-center small">
+            <span><span style="background:#0d6efd; width:10px; height:10px; display:inline-block; border-radius:50%;"></span> Shift</span>
+            <span><span style="background:#198754; width:10px; height:10px; display:inline-block; border-radius:50%;"></span> Appointment</span>
+            <span><span style="background:#dc3545; width:10px; height:10px; display:inline-block; border-radius:50%;"></span> Surgery</span>
+            <span><span style="background:#6c757d; width:10px; height:10px; display:inline-block; border-radius:50%;"></span> Vacation</span>
+        </div>
+
+        <!-- Calendar Grid -->
+        <div class="card shadow-sm">
+            <div class="card-body p-3">
+                <!-- Day Headers (hardcoded) -->
+                <div class="row g-0 mb-2">
+                    <div class="col text-center small fw-semibold text-muted">Mon</div>
+                    <div class="col text-center small fw-semibold text-muted">Tue</div>
+                    <div class="col text-center small fw-semibold text-muted">Wed</div>
+                    <div class="col text-center small fw-semibold text-muted">Thu</div>
+                    <div class="col text-center small fw-semibold text-muted">Fri</div>
+                    <div class="col text-center small fw-semibold text-muted">Sat</div>
+                    <div class="col text-center small fw-semibold text-muted">Sun</div>
                 </div>
-
-                <div th:if="${shiftsByMonth == null or shiftsByMonth.isEmpty()}"
-                     class="text-center py-4 text-muted">
-                    <i class="bi bi-calendar-check fs-1"></i>
-                    <p class="mt-3 mb-1">No upcoming shifts.</p>
-                    <p class="small mb-4">All past shifts are visible in My Schedule.</p>
-                    <a th:href="@{/medical-specialist/my-schedule}" class="btn btn-outline-primary rounded-pill">
-                        <i class="bi bi-clock me-1"></i>My Schedule
-                    </a>
-                </div>
-
+                <!-- JS renders the grid here -->
+                <div id="calendar-grid"></div>
             </div>
+        </div>
+
+        <!-- Navigation buttons -->
+        <div class="d-flex gap-3 mt-4 justify-content-center">
+            <a th:href="@{/medical-specialist/my-schedule}" class="btn btn-outline-secondary rounded-pill">
+                <i class="bi bi-clock me-1"></i>Daily Schedule
+            </a>
+            <a th:href="@{/medical-specialist/appointments}" class="btn btn-outline-secondary rounded-pill">
+                <i class="bi bi-calendar-check me-1"></i>All Appointments
+            </a>
+            <a th:href="@{/medical-specialist/dashboard}" class="btn btn-outline-primary rounded-pill">
+                <i class="bi bi-speedometer2 me-1"></i>Dashboard
+            </a>
         </div>
     </div>
 </div>
 
 <div th:replace="~{fragments/footer :: footer}"></div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    const CAL_YEAR      = /*[[${calYear}]]*/   2026;
+    const CAL_MONTH     = /*[[${calMonth}]]*/  6;
+    const SHIFT_DATES   = /*[[${shiftDates}]]*/   [];
+    const APPT_DATES    = /*[[${apptDates}]]*/    [];
+    const SURGERY_DATES = /*[[${surgeryDates}]]*/ [];
+    const VAC_RANGES    = /*[[${vacRanges}]]*/    [];
+
+    function isOnVacation(dateStr) {
+        for (var i = 0; i < VAC_RANGES.length; i++) {
+            var v = VAC_RANGES[i];
+            if (dateStr >= v.start && dateStr <= v.end) return true;
+        }
+        return false;
+    }
+
+    function pad2(n) { return n < 10 ? '0' + n : '' + n; }
+
+    function buildCalendar() {
+        var year  = CAL_YEAR;
+        var month = CAL_MONTH; // 1-indexed
+
+        var daysInMonth = new Date(year, month, 0).getDate();
+        var firstDay    = new Date(year, month - 1, 1);
+
+        // Monday-start: JS getDay() 0=Sun,1=Mon,...,6=Sat → convert to 0=Mon,...,6=Sun
+        var dow = firstDay.getDay(); // 0=Sun … 6=Sat
+        var startPad = (dow === 0) ? 6 : dow - 1; // 0=Mon … 6=Sun
+
+        var todayStr = new Date().toISOString().slice(0, 10);
+
+        var html = '';
+        var cellCount = startPad;
+
+        // Open first row
+        html += '<div class="row g-1 mb-1">';
+
+        // Leading empty pads
+        for (var p = 0; p < startPad; p++) {
+            html += '<div class="col p-0"><div style="min-height:64px;"></div></div>';
+        }
+
+        for (var day = 1; day <= daysInMonth; day++) {
+            // New row every 7 cells
+            if (cellCount > 0 && cellCount % 7 === 0) {
+                html += '</div><div class="row g-1 mb-1">';
+            }
+
+            var dateStr = year + '-' + pad2(month) + '-' + pad2(day);
+            var isToday    = (dateStr === todayStr);
+            var isVacation = isOnVacation(dateStr);
+            var hasShift   = SHIFT_DATES.indexOf(dateStr) >= 0;
+            var hasAppt    = APPT_DATES.indexOf(dateStr) >= 0;
+            var hasSurg    = SURGERY_DATES.indexOf(dateStr) >= 0;
+
+            // Cell background
+            var cellStyle = 'min-height:64px; cursor:pointer; ';
+            var numColor  = '#333';
+            if (isToday) {
+                cellStyle += 'background:#fdf6ec; outline:2px solid var(--vix-crimson,#8b0000);';
+                numColor   = 'var(--vix-crimson,#8b0000)';
+            } else if (isVacation) {
+                cellStyle += 'background:#e9ecef;';
+            }
+
+            // Dots
+            var dots = '';
+            if (isVacation) {
+                dots += '<span style="width:8px;height:8px;background:#6c757d;border-radius:50%;display:inline-block;" title="Vacation"></span>';
+            }
+            if (!isVacation && hasShift) {
+                dots += '<span style="width:8px;height:8px;background:#0d6efd;border-radius:50%;display:inline-block;" title="Shift"></span>';
+            }
+            if (hasAppt) {
+                dots += '<span style="width:8px;height:8px;background:#198754;border-radius:50%;display:inline-block;" title="Appointment"></span>';
+            }
+            if (hasSurg) {
+                dots += '<span style="width:8px;height:8px;background:#dc3545;border-radius:50%;display:inline-block;" title="Surgery"></span>';
+            }
+
+            html += '<div class="col p-0">'
+                  + '<div class="border rounded-2 p-1 text-center" style="' + cellStyle + '" '
+                  + 'onclick="window.location=\'/medical-specialist/my-schedule?date=' + dateStr + '\'">'
+                  + '<div class="small fw-semibold" style="color:' + numColor + ';">' + day + '</div>'
+                  + '<div class="d-flex justify-content-center gap-1 mt-1 flex-wrap">' + dots + '</div>'
+                  + '</div>'
+                  + '</div>';
+
+            cellCount++;
+        }
+
+        // Trailing pads to complete last row
+        while (cellCount % 7 !== 0) {
+            html += '<div class="col p-0"><div style="min-height:64px;"></div></div>';
+            cellCount++;
+        }
+
+        html += '</div>'; // close last row
+
+        document.getElementById('calendar-grid').innerHTML = html;
+    }
+
+    buildCalendar();
+    /*]]>*/
+</script>
 </body>
 </html>
