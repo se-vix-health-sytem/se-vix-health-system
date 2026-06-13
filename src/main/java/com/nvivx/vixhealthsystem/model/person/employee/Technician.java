@@ -41,13 +41,4 @@ public class Technician extends Employee {
 
         return null;
     }
-
-    /**
-     * Assists an employee with credential recovery.
-     *
-     * @param e employee requiring credential recovery
-     */
-    public void credentialsRecovery(Employee e) {
-
-    }
 }
