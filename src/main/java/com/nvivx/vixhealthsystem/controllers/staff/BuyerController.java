@@ -171,13 +171,15 @@ public class BuyerController {
     public String updateQuantity(@RequestParam Long resourceId,
                                  @RequestParam int quantity,
                                  @RequestParam String action,
+                                 HttpSession session,
                                  Model model) {
         try {
+            Buyer buyer = getBuyerFromSession(session);
             if ("add".equals(action)) {
-                inventoryService.addResourceToStorage(1L, resourceId, quantity);
+                inventoryService.addResourceToStorage(buyer, resourceId, quantity);
                 model.addAttribute("message", "✅ Added " + quantity + " units to inventory!");
             } else if ("remove".equals(action)) {
-                inventoryService.removeResourceFromStorage(1L, resourceId, quantity);
+                inventoryService.removeResourceFromStorage(buyer, resourceId, quantity);
                 model.addAttribute("message", "✅ Removed " + quantity + " units from inventory!");
             }
             model.addAttribute("pageTitle", "Inventory Updated");

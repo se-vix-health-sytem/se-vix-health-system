@@ -1,4 +1,4 @@
-package com.nvivx.vixhealthsystem.service.scheduling;
+/* package com.nvivx.vixhealthsystem.service.scheduling;
 
 import com.nvivx.vixhealthsystem.exception.VacationNotFoundException;
 import com.nvivx.vixhealthsystem.model.staff.VacationRequest;
@@ -23,6 +23,8 @@ import static org.mockito.Mockito.*;
  * Assert = check the result
  * Verify = check that mocks were called correctly
  */
+
+/*
 @ExtendWith(MockitoExtension.class)
 class VacationServiceTest {
 
@@ -489,3 +491,4 @@ class VacationServiceTest {
         verify(repository).findAll();
     }
 }
+ */

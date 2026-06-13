@@ -59,7 +59,6 @@ public class EmployeeResourceController {
     /** Process a resource take request. */
     @PostMapping("/take")
     public String takeResource(@RequestParam Long resourceId,
-                               @RequestParam Long storageId,
                                @RequestParam int quantity,
                                HttpSession session,
                                RedirectAttributes redirectAttributes) {

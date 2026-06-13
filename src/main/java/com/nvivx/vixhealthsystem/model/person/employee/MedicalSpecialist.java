@@ -162,6 +162,6 @@ public class MedicalSpecialist extends Employee {
 
     public void scheduleSurgeryForPatient(Patient p, Surgery s) {
         s.setMedicalSpecialist(this);
-        s.setMedicalRecord(p.getMedicalRecord());
+        p.getMedicalRecord().addSurgery(s);
     }
 }
