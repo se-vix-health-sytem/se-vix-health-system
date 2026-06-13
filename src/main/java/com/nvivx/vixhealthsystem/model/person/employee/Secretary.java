@@ -7,6 +7,7 @@ import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * Handles administrative tasks such as appointment scheduling,
@@ -117,8 +118,8 @@ public class Secretary extends Employee {
     /**
      * Displays room availability across the facility.
      */
-    public void getRoomAvailability() {
-
+    public List<InternationRoom> getRoomAvailability() {
+        return null;
     }
 
     /**
