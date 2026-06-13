@@ -10,14 +10,21 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.ui.Model;
-
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import java.util.Optional;
-
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+
 @ExtendWith(MockitoExtension.class)
 class PatientAuthControllerTest {
+
+    @Mock
+    private HttpServletRequest request;
+
+    @Mock
+    private HttpServletResponse response;
 
     @Mock
     private PatientService patientService;
@@ -44,7 +51,14 @@ class PatientAuthControllerTest {
         when(patientService.findByFiscalCode("BAD"))
                 .thenReturn(Optional.empty());
 
-        String view = controller.authenticate("BAD", null, session, model);
+        String view = controller.authenticate(
+                "GOOD",
+                null,
+                session,
+                request,
+                response,
+                model
+        );
 
         assertEquals("patient/login", view);
         verify(model).addAttribute(eq("error"), anyString());
@@ -59,7 +73,14 @@ class PatientAuthControllerTest {
         when(patientService.findByFiscalCode("GOOD"))
                 .thenReturn(Optional.of(patient));
 
-        String view = controller.authenticate("GOOD", null, session, model);
+        String view = controller.authenticate(
+                "BAD",
+                null,
+                session,
+                request,
+                response,
+                model
+        );
 
         assertEquals("redirect:/patient/dashboard", view);
         verify(session).setAttribute("patient", patient);

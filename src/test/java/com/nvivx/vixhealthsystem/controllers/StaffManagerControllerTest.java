@@ -4,10 +4,11 @@ import com.nvivx.vixhealthsystem.controllers.staff.StaffManagerController;
 import com.nvivx.vixhealthsystem.model.person.employee.Employee;
 import com.nvivx.vixhealthsystem.model.person.employee.MedicalSpecialist;
 import com.nvivx.vixhealthsystem.model.person.employee.Secretary;
-import com.nvivx.vixhealthsystem.service.core.EmployeeService;
-import com.nvivx.vixhealthsystem.service.scheduling.VacationService;
-import com.nvivx.vixhealthsystem.service.scheduling.ShiftService;
+import com.nvivx.vixhealthsystem.repository.JsonAppointmentRepository;
 import com.nvivx.vixhealthsystem.service.AuditService;
+import com.nvivx.vixhealthsystem.service.core.EmployeeService;
+import com.nvivx.vixhealthsystem.service.scheduling.ShiftService;
+import com.nvivx.vixhealthsystem.service.scheduling.VacationService;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.ui.ExtendedModelMap;
@@ -15,17 +16,33 @@ import org.springframework.ui.ExtendedModelMap;
 import java.time.LocalDate;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class StaffManagerControllerTest {
 
-    private final EmployeeService employeeService = Mockito.mock(EmployeeService.class);
-    private final VacationService vacationService = Mockito.mock(VacationService.class);
-    private final ShiftService shiftService = Mockito.mock(ShiftService.class);
-    private final AuditService auditService = Mockito.mock(AuditService.class);
+    private final EmployeeService employeeService =
+            Mockito.mock(EmployeeService.class);
+
+    private final VacationService vacationService =
+            Mockito.mock(VacationService.class);
+
+    private final ShiftService shiftService =
+            Mockito.mock(ShiftService.class);
+
+    private final AuditService auditService =
+            Mockito.mock(AuditService.class);
+
+    private final JsonAppointmentRepository appointmentRepository =
+            Mockito.mock(JsonAppointmentRepository.class);
 
     private final StaffManagerController controller =
-            new StaffManagerController(employeeService, vacationService, shiftService, auditService);
+            new StaffManagerController(
+                    employeeService,
+                    vacationService,
+                    shiftService,
+                    auditService,
+                    appointmentRepository
+            );
 
     // ================= DASHBOARD =================
 
@@ -33,14 +50,19 @@ class StaffManagerControllerTest {
     void shouldLoadDashboard() {
         ExtendedModelMap model = new ExtendedModelMap();
 
-        Mockito.when(employeeService.getTotalEmployeeCount()).thenReturn(10L); // FIXED (Long)
-        Mockito.when(vacationService.getPendingRequests()).thenReturn(List.of());
-        Mockito.when(auditService.getRecentLogs(10)).thenReturn(List.of());
+        Mockito.when(employeeService.getTotalEmployeeCount())
+                .thenReturn(10L);
+
+        Mockito.when(vacationService.getPendingRequests())
+                .thenReturn(List.of());
+
+        Mockito.when(auditService.getRecentLogs(10))
+                .thenReturn(List.of());
 
         String view = controller.dashboard(model);
 
         assertEquals("staff-manager/dashboard", view);
-        assertEquals(10L, model.get("totalEmployees")); // FIXED (Long)
+        assertEquals(10L, model.get("totalEmployees"));
         assertEquals(0, model.get("pendingVacations"));
     }
 
