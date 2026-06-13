@@ -17,6 +17,7 @@ import com.nvivx.vixhealthsystem.service.core.EmployeeService;
 import com.nvivx.vixhealthsystem.service.scheduling.VacationService;
 import com.nvivx.vixhealthsystem.service.scheduling.ShiftService;
 import com.nvivx.vixhealthsystem.service.AuditService;
+import com.nvivx.vixhealthsystem.service.resources.ResourceTakeLogStore;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -25,6 +26,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.ArrayList;
 
 @Controller
 @RequestMapping("/staff-manager")
@@ -35,17 +37,20 @@ public class StaffManagerController {
     private final ShiftService shiftService;
     private final AuditService auditService;
     private final JsonAppointmentRepository appointmentRepository;
+    private final ResourceTakeLogStore takeLogStore;
 
     public StaffManagerController(EmployeeService employeeService,
                                   VacationService vacationService,
                                   ShiftService shiftService,
                                   AuditService auditService,
-                                  JsonAppointmentRepository appointmentRepository) {
+                                  JsonAppointmentRepository appointmentRepository,
+                                  ResourceTakeLogStore takeLogStore) {
         this.employeeService = employeeService;
         this.vacationService = vacationService;
         this.shiftService = shiftService;
         this.auditService = auditService;
         this.appointmentRepository = appointmentRepository;
+        this.takeLogStore = takeLogStore;
     }
 
     @GetMapping("/dashboard")
@@ -118,6 +123,10 @@ public class StaffManagerController {
                                  @RequestParam(required = false) String licenseNumber,
                                  @RequestParam(required = false) Long departmentId,
                                  @RequestParam(required = false) String hireDate,
+                                 @RequestParam(required = false) String gender,
+                                 @RequestParam(required = false) String phone,
+                                 @RequestParam(required = false) String birthDate,
+                                 @RequestParam(required = false) String birthPlace,
                                  HttpSession session,
                                  Model model) {
         try {
@@ -152,6 +161,10 @@ public class StaffManagerController {
             employee.setName(name);
             employee.setSurname(surname);
             employee.setEmail(email);
+            if (gender != null && !gender.isEmpty()) employee.setGender(gender.charAt(0));
+            if (phone != null && !phone.isEmpty()) employee.setPhoneNumber(phone);
+            if (birthDate != null && !birthDate.isEmpty()) employee.setBirthDate(LocalDate.parse(birthDate));
+            if (birthPlace != null && !birthPlace.isEmpty()) employee.setBirthPlace(birthPlace);
             employee.setHireDate(hireDate != null && !hireDate.isEmpty()
                     ? LocalDate.parse(hireDate) : LocalDate.now());
             if (departmentId != null) {
@@ -191,16 +204,14 @@ public class StaffManagerController {
             employeeService.requestEmployeePasswordReset(employeeId);
 
             model.addAttribute("pageTitle", "Password Reset Requested");
-            model.addAttribute("message", "✅ Password reset link generated. Check the console.");
+            model.addAttribute("message",
+                    "✅ Password reset link generated and sent (simulated).\n\n" +
+                    "Check the server console for the link.\n" +
+                    "The link is also saved to the Staff Login dev board.");
 
         } catch (Exception e) {
             model.addAttribute("pageTitle", "Error");
             model.addAttribute("message", "❌ Error: " + e.getMessage());
-
-            throw new RuntimeException(
-                    "Unable to generate password reset link: " + e.getMessage(),
-                    e
-            );
         }
 
         return "staff-manager/result";
@@ -416,4 +427,76 @@ public class StaffManagerController {
         model.addAttribute("currentPage", "auditLogs");
         return "staff-manager/audit-logs";
     }
+
+    @GetMapping("/profile")
+    public String viewProfile(HttpSession session, Model model) {
+        Employee sessionUser = (Employee) session.getAttribute("user");
+        if (sessionUser == null) {
+            return "redirect:/login";
+        }
+        try {
+            Employee fresh = employeeService.findById(sessionUser.getId());
+            model.addAttribute("employee", fresh);
+            model.addAttribute("roleLabel", "Staff Manager");
+            model.addAttribute("dashboardLink", "/staff-manager/dashboard");
+            model.addAttribute("isSpecialist", false);
+            model.addAttribute("currentPage", "profile");  // CRITICAL: must be set
+            model.addAttribute("pageTitle", "My Profile");
+        } catch (Exception e) {
+            model.addAttribute("employee", sessionUser);
+            model.addAttribute("currentPage", "profile");
+        }
+        return "employee/profile";
+    }
+
+    @GetMapping("/resource-log")
+    public String viewResourceLog(Model model) {
+        model.addAttribute("logs", takeLogStore.getAll());
+        model.addAttribute("pageTitle", "Resource Take Log");
+        model.addAttribute("currentPage", "resourceLog");
+        return "staff-manager/resource-log";
+    }
+
+    @GetMapping("/employees/{id}")
+    public String viewEmployeeDetail(@PathVariable Long id, Model model, HttpSession session) {
+        Employee sessionUser = (Employee) session.getAttribute("user");
+        if (sessionUser == null) {
+            return "redirect:/login";
+        }
+        try {
+            Employee employee = employeeService.findById(id);
+            if (employee == null) {
+                return "redirect:/staff-manager/employees";
+            }
+
+            // Get shifts for this employee
+            List<Shift> shifts = shiftService.getShiftsForEmployee(id);
+
+            // Get approved vacations
+            List<VacationRequest> vacations = vacationService.getApprovedRequestsForEmployee(id.intValue());
+
+            // Get appointments if medical specialist
+            List<Appointment> appointments = new ArrayList<>();
+            if (employee instanceof MedicalSpecialist) {
+                appointments = appointmentRepository.findAll().stream()
+                        .filter(a -> a.getMedicalSpecialist() != null
+                                && a.getMedicalSpecialist().getId().equals(id)
+                                && !"CANCELLED".equals(a.getStatus()))
+                        .sorted(java.util.Comparator.comparing(a -> a.getDateTime()))
+                        .collect(Collectors.toList());
+            }
+
+            model.addAttribute("employee", employee);
+            model.addAttribute("shifts", shifts);
+            model.addAttribute("vacations", vacations);
+            model.addAttribute("appointments", appointments);
+            model.addAttribute("roleLabel", employee.getClass().getSimpleName());
+            model.addAttribute("pageTitle", "Employee Details - " + employee.getName() + " " + employee.getSurname());
+            model.addAttribute("currentPage", "employees");
+            return "staff-manager/employee-detail";
+        } catch (Exception e) {
+            return "redirect:/staff-manager/employees";
+        }
+    }
+
 }

@@ -2,14 +2,21 @@ package com.nvivx.vixhealthsystem.controllers.staff;
 
 import com.nvivx.vixhealthsystem.model.person.employee.Buyer;
 import com.nvivx.vixhealthsystem.model.person.employee.Employee;
+import com.nvivx.vixhealthsystem.model.staff.VacationRequest;
 import com.nvivx.vixhealthsystem.service.resources.InventoryService;
+import com.nvivx.vixhealthsystem.service.resources.ResourceTakeLogStore;
 import com.nvivx.vixhealthsystem.service.core.EmployeeService;
+import com.nvivx.vixhealthsystem.service.scheduling.ShiftService;
+import com.nvivx.vixhealthsystem.service.scheduling.VacationService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/buyer")
@@ -17,11 +24,20 @@ public class BuyerController {
 
     private final InventoryService inventoryService;
     private final EmployeeService employeeService;
+    private final ResourceTakeLogStore takeLogStore;
+    private final ShiftService shiftService;
+    private final VacationService vacationService;
 
     public BuyerController(InventoryService inventoryService,
-                           EmployeeService employeeService) {
+                           EmployeeService employeeService,
+                           ResourceTakeLogStore takeLogStore,
+                           ShiftService shiftService,
+                           VacationService vacationService) {
         this.inventoryService = inventoryService;
         this.employeeService = employeeService;
+        this.takeLogStore = takeLogStore;
+        this.shiftService = shiftService;
+        this.vacationService = vacationService;
     }
 
     @GetMapping("/dashboard")
@@ -43,25 +59,31 @@ public class BuyerController {
     }
 
     @GetMapping("/inventory")
-    public String viewInventory(Model model) {
-        var resourcesWithQuantity = inventoryService.getTotalInventory();
+    public String viewInventory(Model model, HttpSession session) {
+        try {
+            var totalInventory = inventoryService.getTotalInventory();
 
-        // Convert to list format for template
-        var resourceList = resourcesWithQuantity.entrySet().stream()
-                .map(entry -> new InventoryItem(
-                        entry.getKey().getId(),
-                        entry.getKey().getName(),
-                        entry.getKey().getDescription(),
-                        entry.getValue(),
-                        entry.getValue() < 50, // low stock threshold
-                        entry.getKey().getPrice(),
-                        "units" // default unit, can be enhanced later
-                ))
-                .toList();
+            var resourceList = totalInventory.entrySet().stream()
+                    .map(entry -> new InventoryItem(
+                            entry.getKey().getId(),
+                            entry.getKey().getName(),
+                            entry.getKey().getDescription(),
+                            entry.getValue(),
+                            entry.getValue() < 50,
+                            entry.getKey().getPrice(),
+                            "units"
+                    ))
+                    .sorted((a, b) -> a.getName().compareToIgnoreCase(b.getName()))
+                    .collect(Collectors.toList());
 
-        model.addAttribute("pageTitle", "Inventory Management");
-        model.addAttribute("currentPage", "inventory");
-        model.addAttribute("resources", resourceList);
+            model.addAttribute("resources", resourceList);
+            model.addAttribute("pageTitle", "Inventory Management");
+            model.addAttribute("currentPage", "inventory");
+            model.addAttribute("isLowStockView", false);
+        } catch (Exception e) {
+            model.addAttribute("resources", new ArrayList<>());
+            model.addAttribute("error", "Could not load inventory: " + e.getMessage());
+        }
         return "buyer/inventory";
     }
 
@@ -164,6 +186,52 @@ public class BuyerController {
             model.addAttribute("message", "❌ Error: " + e.getMessage());
         }
         return "buyer/result";
+    }
+
+    // ========== PROFILE ==========
+
+    @GetMapping("/my-shifts")
+    public String viewMyShifts(HttpSession session, Model model) {
+        Employee user = (Employee) session.getAttribute("user");
+        if (user == null) return "redirect:/login";
+        List<VacationRequest> vacations = vacationService.getApprovedRequestsForEmployee(user.getId().intValue());
+        model.addAttribute("shifts", shiftService.getShiftsForEmployee(user.getId()));
+        model.addAttribute("vacations", vacations);
+        model.addAttribute("dashboardLink", "/buyer/dashboard");
+        model.addAttribute("pageTitle", "My Shifts");
+        model.addAttribute("currentPage", "myShifts");
+        return "employee/my-shifts";
+    }
+
+    @GetMapping("/profile")
+    public String viewProfile(HttpSession session, Model model) {
+        Employee sessionUser = (Employee) session.getAttribute("user");
+        if (sessionUser == null) {
+            return "redirect:/login";
+        }
+        try {
+            Employee fresh = employeeService.findById(sessionUser.getId());
+            model.addAttribute("employee", fresh);
+            model.addAttribute("pageTitle", "My Profile");
+            model.addAttribute("currentPage", "profile");
+            model.addAttribute("roleLabel", "Buyer");
+            model.addAttribute("dashboardLink", "/buyer/dashboard");
+            model.addAttribute("isSpecialist", false);
+        } catch (Exception e) {
+            model.addAttribute("employee", sessionUser);
+            model.addAttribute("currentPage", "profile");
+        }
+        return "employee/profile";
+    }
+
+    // ========== RESOURCE TAKE LOG ==========
+
+    @GetMapping("/resource-log")
+    public String viewResourceLog(Model model) {
+        model.addAttribute("logs", takeLogStore.getAll());
+        model.addAttribute("pageTitle", "Resource Take Log");
+        model.addAttribute("currentPage", "inventory");
+        return "buyer/resource-log";
     }
 
     // ========== HELPERS ==========

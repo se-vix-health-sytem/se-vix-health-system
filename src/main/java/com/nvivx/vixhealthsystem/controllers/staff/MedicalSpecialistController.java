@@ -12,9 +12,12 @@ import com.nvivx.vixhealthsystem.repository.JsonAppointmentRepository;
 import com.nvivx.vixhealthsystem.repository.RoomRepository;
 import com.nvivx.vixhealthsystem.repository.SurgeryRepository;
 import com.nvivx.vixhealthsystem.service.AuditService;
+import com.nvivx.vixhealthsystem.service.core.EmployeeService;
 import com.nvivx.vixhealthsystem.service.medical.MedicalRecordService;
 import com.nvivx.vixhealthsystem.service.core.PatientService;
 import com.nvivx.vixhealthsystem.service.scheduling.ShiftService;
+import com.nvivx.vixhealthsystem.service.scheduling.VacationService;
+import com.nvivx.vixhealthsystem.model.staff.VacationRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,10 +26,17 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDateTime;
 import java.time.LocalDate;
+import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
+import java.time.format.TextStyle;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Controller
@@ -36,25 +46,31 @@ public class MedicalSpecialistController {
     private final MedicalRecordService medicalRecordService;
     private final PatientService patientService;
     private final ShiftService shiftService;
+    private final VacationService vacationService;
     private final SurgeryRepository surgeryRepository;
     private final RoomRepository roomRepository;
     private final JsonAppointmentRepository appointmentRepository;
     private final AuditService auditService;
+    private final EmployeeService employeeService;
 
     public MedicalSpecialistController(MedicalRecordService medicalRecordService,
                                        PatientService patientService,
                                        ShiftService shiftService,
+                                       VacationService vacationService,
                                        SurgeryRepository surgeryRepository,
                                        RoomRepository roomRepository,
                                        JsonAppointmentRepository appointmentRepository,
-                                       AuditService auditService) {
+                                       AuditService auditService,
+                                       EmployeeService employeeService) {
         this.medicalRecordService = medicalRecordService;
         this.patientService = patientService;
         this.shiftService = shiftService;
+        this.vacationService = vacationService;
         this.surgeryRepository = surgeryRepository;
         this.roomRepository = roomRepository;
         this.appointmentRepository = appointmentRepository;
         this.auditService = auditService;
+        this.employeeService = employeeService;
     }
 
     @GetMapping("/dashboard")
@@ -105,7 +121,7 @@ public class MedicalSpecialistController {
                              @RequestParam String surgeryName,
                              @RequestParam(required = false) String surgeryDescription,
                              @RequestParam String surgeryDateTime,
-                             @RequestParam Long roomId,
+                             @RequestParam(required = false) Long roomId,
                              HttpSession session,
                              RedirectAttributes redirectAttributes) {
         try {
@@ -113,28 +129,43 @@ public class MedicalSpecialistController {
             if (patient.getMedicalRecord() == null) {
                 throw new RuntimeException("Patient has no medical record");
             }
-            Room roomEntity = roomRepository.findById(roomId)
-                .orElseThrow(() -> new RuntimeException("Room not found: " + roomId));
-            if (!(roomEntity instanceof SpecializedRoom)) {
-                throw new RuntimeException("Selected room is not a specialized operating room");
+
+            SpecializedRoom specializedRoom = null;
+            if (roomId != null) {
+                Room roomEntity = roomRepository.findById(roomId)
+                        .orElseThrow(() -> new RuntimeException("Room not found: " + roomId));
+                if (!(roomEntity instanceof SpecializedRoom)) {
+                    throw new RuntimeException("Selected room is not a specialized operating room");
+                }
+                specializedRoom = (SpecializedRoom) roomEntity;
             }
+
             Employee user = (Employee) session.getAttribute("user");
-            MedicalSpecialist specialist = (user instanceof MedicalSpecialist ms) ? ms : null;
+            MedicalSpecialist specialist = null;
+            if (user != null) {
+                Employee fresh = employeeService.findById(user.getId());
+                if (fresh instanceof MedicalSpecialist ms) specialist = ms;
+            }
 
             Surgery surgery = new Surgery();
             surgery.setName(surgeryName);
-            surgery.setDescription(surgeryDescription);
+            surgery.setDescription(surgeryDescription != null ? surgeryDescription : "");
             surgery.setDateTime(LocalDateTime.parse(surgeryDateTime, DT_FORM));
-            surgery.setSpecializedRoom((SpecializedRoom) roomEntity);
-            surgery.setMedicalSpecialist(specialist);
-            surgery.setMedicalRecord(patient.getMedicalRecord());
+            surgery.setSpecializedRoom(specializedRoom);
+
+            if (specialist != null) {
+                specialist.scheduleSurgeryForPatient(patient, surgery);
+            } else {
+                surgery.setMedicalRecord(patient.getMedicalRecord());
+            }
+
             surgeryRepository.save(surgery);
             auditService.log("ADD_SURGERY", "MedicalRecord",
-                String.valueOf(patient.getMedicalRecord().getId()),
-                "Scheduled surgery '" + surgeryName + "' for patient " + patientId);
-            redirectAttributes.addFlashAttribute("successMessage", "Surgery scheduled successfully!");
+                    String.valueOf(patient.getMedicalRecord().getId()),
+                    "Scheduled surgery '" + surgeryName + "' for patient " + patientId);
+            redirectAttributes.addFlashAttribute("successMessage", "✅ Surgery scheduled successfully!");
         } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("errorMessage", "Error scheduling surgery: " + e.getMessage());
+            redirectAttributes.addFlashAttribute("errorMessage", "❌ Error scheduling surgery: " + e.getMessage());
         }
         return "redirect:/medical-specialist/patients/" + patientId + "/record";
     }
@@ -146,10 +177,11 @@ public class MedicalSpecialistController {
                                @RequestParam String severity,
                                RedirectAttributes redirectAttributes) {
         try {
-            medicalRecordService.addDiagnosis(patientId, diagnosisName, description != null ? description : "", severity);
-            redirectAttributes.addFlashAttribute("successMessage", "Diagnosis added successfully!");
+            String desc = (description != null && !description.isEmpty()) ? description : "No description provided";
+            medicalRecordService.addDiagnosis(patientId, diagnosisName, desc, severity);
+            redirectAttributes.addFlashAttribute("successMessage", "✅ Diagnosis added successfully!");
         } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("errorMessage", "Error: " + e.getMessage());
+            redirectAttributes.addFlashAttribute("errorMessage", "❌ Error: " + e.getMessage());
         }
         return "redirect:/medical-specialist/patients/" + patientId + "/record";
     }
@@ -162,11 +194,18 @@ public class MedicalSpecialistController {
                                   RedirectAttributes redirectAttributes) {
         try {
             Employee user = (Employee) session.getAttribute("user");
-            Long specialistId = (user != null) ? user.getId() : 1L;
-            medicalRecordService.addPrescription(patientId, specialistId, medication + " - " + dosage);
-            redirectAttributes.addFlashAttribute("successMessage", "Prescription added successfully!");
+            if (user == null) {
+                redirectAttributes.addFlashAttribute("errorMessage", "Not logged in.");
+                return "redirect:/login";
+            }
+
+            Long specialistId = user.getId();
+            String fullMedication = medication + " - " + dosage;
+
+            medicalRecordService.addPrescription(patientId, specialistId, fullMedication);
+            redirectAttributes.addFlashAttribute("successMessage", "✅ Prescription added successfully!");
         } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("errorMessage", "Error: " + e.getMessage());
+            redirectAttributes.addFlashAttribute("errorMessage", "❌ Error: " + e.getMessage());
         }
         return "redirect:/medical-specialist/patients/" + patientId + "/record";
     }
@@ -179,9 +218,9 @@ public class MedicalSpecialistController {
                                 RedirectAttributes redirectAttributes) {
         try {
             medicalRecordService.addExamResult(patientId, examType, result, notes);
-            redirectAttributes.addFlashAttribute("successMessage", "Exam result added successfully!");
+            redirectAttributes.addFlashAttribute("successMessage", "✅ Exam result added successfully!");
         } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("errorMessage", "Error: " + e.getMessage());
+            redirectAttributes.addFlashAttribute("errorMessage", "❌ Error: " + e.getMessage());
         }
         return "redirect:/medical-specialist/patients/" + patientId + "/record";
     }
@@ -208,50 +247,152 @@ public class MedicalSpecialistController {
     }
 
     @GetMapping("/calendar")
-    public String viewCalendar(HttpSession session, Model model) {
-        com.nvivx.vixhealthsystem.model.person.employee.Employee user =
-                (com.nvivx.vixhealthsystem.model.person.employee.Employee) session.getAttribute("user");
-        if (user != null) {
-            LocalDate today = LocalDate.now();
-            List<Shift> upcoming = shiftService.getShiftsForEmployee(user.getId()).stream()
-                    .filter(s -> s.getDate() != null && !s.getDate().isBefore(today))
-                    .sorted(java.util.Comparator.comparing(Shift::getDate))
-                    .collect(Collectors.toList());
-            // Group by "MMMM yyyy" label for section headers
-            Map<String, List<Shift>> shiftsByMonth = upcoming.stream()
-                    .collect(Collectors.groupingBy(
-                            s -> s.getDate().getMonth().getDisplayName(
-                                    java.time.format.TextStyle.FULL, java.util.Locale.ENGLISH)
-                                    + " " + s.getDate().getYear(),
-                            LinkedHashMap::new,
-                            Collectors.toList()));
-            model.addAttribute("shiftsByMonth", shiftsByMonth);
+    public String viewCalendar(@RequestParam(required = false) String month,
+                               HttpSession session, Model model) {
+        Employee user = (Employee) session.getAttribute("user");
+        if (user == null) return "redirect:/login";
+
+        YearMonth ymTemp;
+        try {
+            ymTemp = (month != null && !month.isBlank()) ? YearMonth.parse(month) : YearMonth.now();
+        } catch (Exception e) {
+            ymTemp = YearMonth.now();
         }
+        final YearMonth ym = ymTemp;
+
+        YearMonth prev = ym.minusMonths(1);
+        YearMonth next = ym.plusMonths(1);
+
+        // Collect event dates for the month
+        Set<LocalDate> shiftDates = shiftService.getShiftsForEmployee(user.getId()).stream()
+                .filter(s -> s.getDate() != null && YearMonth.from(s.getDate()).equals(ym))
+                .map(Shift::getDate).collect(Collectors.toSet());
+
+        Set<LocalDate> apptDates = appointmentRepository.findAll().stream()
+                .filter(a -> a.getMedicalSpecialist() != null
+                        && a.getMedicalSpecialist().getId().equals(user.getId())
+                        && !"CANCELLED".equals(a.getStatus())
+                        && a.getDateTime() != null
+                        && YearMonth.from(a.getDateTime().toLocalDate()).equals(ym))
+                .map(a -> a.getDateTime().toLocalDate()).collect(Collectors.toSet());
+
+        Set<LocalDate> surgeryDates = surgeryRepository.findByMedicalSpecialistId(user.getId()).stream()
+                .filter(s -> s.getDateTime() != null
+                        && YearMonth.from(s.getDateTime().toLocalDate()).equals(ym))
+                .map(s -> s.getDateTime().toLocalDate()).collect(Collectors.toSet());
+
+        List<VacationRequest> vacations = vacationService.getApprovedRequestsForEmployee(user.getId().intValue());
+
+        // Pass date sets as simple String lists — JavaScript builds the grid
+        List<String> shiftDatesList   = shiftDates.stream().map(LocalDate::toString).collect(Collectors.toList());
+        List<String> apptDatesList    = apptDates.stream().map(LocalDate::toString).collect(Collectors.toList());
+        List<String> surgeryDatesList = surgeryDates.stream().map(LocalDate::toString).collect(Collectors.toList());
+        List<Map<String, String>> vacRanges = vacations.stream()
+                .filter(v -> v.getStartDate() != null && v.getEndDate() != null)
+                .map(v -> {
+                    Map<String, String> m = new HashMap<>();
+                    m.put("start", v.getStartDate().toString());
+                    m.put("end",   v.getEndDate().toString());
+                    return m;
+                }).collect(Collectors.toList());
+
+        model.addAttribute("calYear",       ym.getYear());
+        model.addAttribute("calMonth",      ym.getMonthValue());
+        model.addAttribute("monthLabel",    ym.getMonth().getDisplayName(TextStyle.FULL, Locale.ENGLISH) + " " + ym.getYear());
+        model.addAttribute("prevMonth",     prev.toString());
+        model.addAttribute("nextMonth",     next.toString());
+        model.addAttribute("shiftDates",    shiftDatesList);
+        model.addAttribute("apptDates",     apptDatesList);
+        model.addAttribute("surgeryDates",  surgeryDatesList);
+        model.addAttribute("vacRanges",     vacRanges);
         model.addAttribute("pageTitle", "My Calendar");
         model.addAttribute("currentPage", "calendar");
         return "medical-specialist/calendar";
     }
 
     @GetMapping("/my-schedule")
-    public String viewMySchedule(HttpSession session, Model model) {
+    public String viewMySchedule(@RequestParam(required = false) String date,
+                                 HttpSession session, Model model) {
         Employee user = (Employee) session.getAttribute("user");
-        if (user != null) {
-            List<Shift> shifts = shiftService.getShiftsForEmployee(user.getId());
-            model.addAttribute("shifts", shifts);
+        if (user == null) return "redirect:/login";
+
+        LocalDate sdTemp;
+        try {
+            sdTemp = (date != null && !date.isBlank()) ? LocalDate.parse(date) : LocalDate.now();
+        } catch (Exception e) {
+            sdTemp = LocalDate.now();
         }
+        final LocalDate selectedDate = sdTemp;
+
+        LocalDate prev = selectedDate.minusDays(1);
+        LocalDate next = selectedDate.plusDays(1);
+
+        List<Shift> todayShifts = shiftService.getShiftsForEmployee(user.getId()).stream()
+                .filter(s -> s.getDate() != null && s.getDate().equals(selectedDate))
+                .collect(Collectors.toList());
+
+        List<Appointment> todayAppts = appointmentRepository.findAll().stream()
+                .filter(a -> a.getMedicalSpecialist() != null
+                        && a.getMedicalSpecialist().getId().equals(user.getId())
+                        && !"CANCELLED".equals(a.getStatus())
+                        && a.getDateTime() != null
+                        && a.getDateTime().toLocalDate().equals(selectedDate))
+                .sorted(java.util.Comparator.comparing(Appointment::getDateTime))
+                .collect(Collectors.toList());
+
+        List<Surgery> todaySurgeries = surgeryRepository.findByMedicalSpecialistId(user.getId()).stream()
+                .filter(s -> s.getDateTime() != null && s.getDateTime().toLocalDate().equals(selectedDate))
+                .sorted(java.util.Comparator.comparing(Surgery::getDateTime))
+                .collect(Collectors.toList());
+
+        List<VacationRequest> vacations = vacationService.getApprovedRequestsForEmployee(user.getId().intValue());
+        boolean onVacation = vacations.stream().anyMatch(v ->
+                v.getStartDate() != null && v.getEndDate() != null
+                && !selectedDate.isBefore(v.getStartDate()) && !selectedDate.isAfter(v.getEndDate()));
+
+        model.addAttribute("selectedDate", selectedDate);
+        model.addAttribute("selectedDateLabel", selectedDate.getDayOfWeek().getDisplayName(TextStyle.FULL, Locale.ENGLISH)
+                + ", " + selectedDate.format(DateTimeFormatter.ofPattern("dd MMMM yyyy")));
+        model.addAttribute("prevDate", prev.toString());
+        model.addAttribute("nextDate", next.toString());
+        model.addAttribute("todayShifts", todayShifts);
+        model.addAttribute("todayAppts", todayAppts);
+        model.addAttribute("todaySurgeries", todaySurgeries);
+        model.addAttribute("onVacation", onVacation);
         model.addAttribute("pageTitle", "My Schedule");
         model.addAttribute("currentPage", "schedule");
         return "medical-specialist/schedule";
     }
 
+    @GetMapping("/profile")
+    public String viewProfile(HttpSession session, Model model) {
+        Employee sessionUser = (Employee) session.getAttribute("user");
+        if (sessionUser == null) {
+            return "redirect:/login";
+        }
+        try {
+            Employee fresh = employeeService.findById(sessionUser.getId());
+            model.addAttribute("employee", fresh);
+            model.addAttribute("pageTitle", "My Profile");
+            model.addAttribute("currentPage", "profile");
+            model.addAttribute("roleLabel", "Medical Specialist");
+            model.addAttribute("dashboardLink", "/medical-specialist/dashboard");
+            model.addAttribute("isSpecialist", true);
+        } catch (Exception e) {
+            model.addAttribute("employee", sessionUser);
+            model.addAttribute("currentPage", "profile");
+        }
+        return "employee/profile";
+    }
+
     @GetMapping("/surgeries")
     public String viewSurgeries(HttpSession session, Model model) {
         Employee user = (Employee) session.getAttribute("user");
-        List<Surgery> surgeries = new java.util.ArrayList<>();
-        if (user != null) {
-            surgeries = surgeryRepository.findByMedicalSpecialistId(user.getId());
+        if (user == null) {
+            return "redirect:/login";
         }
-        model.addAttribute("surgeries", surgeries);
+        List<Surgery> surgeries = surgeryRepository.findByMedicalSpecialistId(user.getId());
+        model.addAttribute("surgeries", surgeries != null ? surgeries : new ArrayList<>());
         model.addAttribute("pageTitle", "My Surgeries");
         model.addAttribute("currentPage", "surgeries");
         return "medical-specialist/surgeries";

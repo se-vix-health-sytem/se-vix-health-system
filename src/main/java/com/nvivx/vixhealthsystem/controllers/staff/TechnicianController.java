@@ -3,12 +3,17 @@ package com.nvivx.vixhealthsystem.controllers.staff;
 import com.nvivx.vixhealthsystem.model.enums.MachineStatus;
 import com.nvivx.vixhealthsystem.model.person.employee.Employee;
 import com.nvivx.vixhealthsystem.model.person.employee.Technician;
+import com.nvivx.vixhealthsystem.model.staff.VacationRequest;
 import com.nvivx.vixhealthsystem.service.core.EmployeeService;
 import com.nvivx.vixhealthsystem.service.resources.MachineryService;
+import com.nvivx.vixhealthsystem.service.scheduling.ShiftService;
+import com.nvivx.vixhealthsystem.service.scheduling.VacationService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("/technician")
@@ -16,11 +21,17 @@ public class TechnicianController {
 
     private final MachineryService machineryService;
     private final EmployeeService employeeService;
+    private final ShiftService shiftService;
+    private final VacationService vacationService;
 
     public TechnicianController(MachineryService machineryService,
-                                EmployeeService employeeService) {
+                                EmployeeService employeeService,
+                                ShiftService shiftService,
+                                VacationService vacationService) {
         this.machineryService = machineryService;
         this.employeeService = employeeService;
+        this.shiftService = shiftService;
+        this.vacationService = vacationService;
     }
 
     @GetMapping("/dashboard")
@@ -100,6 +111,40 @@ public class TechnicianController {
         model.addAttribute("alerts", activeAlerts);
         model.addAttribute("alertCount", activeAlerts.size());
         return "technician/alerts";
+    }
+
+    @GetMapping("/my-shifts")
+    public String viewMyShifts(HttpSession session, Model model) {
+        Employee user = (Employee) session.getAttribute("user");
+        if (user == null) return "redirect:/login";
+        List<VacationRequest> vacations = vacationService.getApprovedRequestsForEmployee(user.getId().intValue());
+        model.addAttribute("shifts", shiftService.getShiftsForEmployee(user.getId()));
+        model.addAttribute("vacations", vacations);
+        model.addAttribute("dashboardLink", "/technician/dashboard");
+        model.addAttribute("pageTitle", "My Shifts");
+        model.addAttribute("currentPage", "myShifts");
+        return "employee/my-shifts";
+    }
+
+    @GetMapping("/profile")
+    public String viewProfile(HttpSession session, Model model) {
+        Employee sessionUser = (Employee) session.getAttribute("user");
+        if (sessionUser == null) {
+            return "redirect:/login";
+        }
+        try {
+            Employee fresh = employeeService.findById(sessionUser.getId());
+            model.addAttribute("employee", fresh);
+            model.addAttribute("pageTitle", "My Profile");
+            model.addAttribute("currentPage", "profile");
+            model.addAttribute("roleLabel", "Technician");
+            model.addAttribute("dashboardLink", "/technician/dashboard");
+            model.addAttribute("isSpecialist", false);
+        } catch (Exception e) {
+            model.addAttribute("employee", sessionUser);
+            model.addAttribute("currentPage", "profile");
+        }
+        return "employee/profile";
     }
 
     // ========== HELPERS ==========

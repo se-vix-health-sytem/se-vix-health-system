@@ -120,6 +120,9 @@ public class MedicalRecordService {
 
         if (record == null) {
             record = createMedicalRecord(patientId, null, null, null);
+            // Reload patient so the new record is attached to the same in-memory object
+            patient = patientRepository.findById(patientId)
+                    .orElseThrow(() -> new RuntimeException("Patient not found: " + patientId));
         }
 
         Prescription prescription = new Prescription();
@@ -129,7 +132,7 @@ public class MedicalRecordService {
         // Domain: specialist issues prescription for patient via model method,
         // which sets the specialist back-reference and adds to the medical record
         specialist.appPrescriptionForPatient(patient, prescription);
-        medicalRecordRepository.save(record);
+        medicalRecordRepository.save(patient.getMedicalRecord());
 
         auditService.log("ADD_PRESCRIPTION", "MedicalRecord", String.valueOf(record.getId()),
                 "Added prescription: " + medication + " for patient: " + patientId + " by specialist: " + medicalSpecialistId);

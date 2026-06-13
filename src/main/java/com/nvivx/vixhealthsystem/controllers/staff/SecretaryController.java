@@ -7,12 +7,15 @@ import com.nvivx.vixhealthsystem.model.person.Patient;
 import com.nvivx.vixhealthsystem.model.person.employee.Employee;
 import com.nvivx.vixhealthsystem.model.person.employee.MedicalSpecialist;
 import com.nvivx.vixhealthsystem.model.person.employee.Secretary;
+import com.nvivx.vixhealthsystem.model.staff.VacationRequest;
 import com.nvivx.vixhealthsystem.repository.JsonAppointmentRepository;
 import com.nvivx.vixhealthsystem.service.AuditService;
 import com.nvivx.vixhealthsystem.service.core.EmployeeService;
 import com.nvivx.vixhealthsystem.service.core.PatientService;
 import com.nvivx.vixhealthsystem.service.medical.AppointmentService;
 import com.nvivx.vixhealthsystem.service.resources.RoomService;
+import com.nvivx.vixhealthsystem.service.scheduling.ShiftService;
+import com.nvivx.vixhealthsystem.service.scheduling.VacationService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -38,19 +41,25 @@ public class SecretaryController {
     private final AppointmentService appointmentService;
     private final JsonAppointmentRepository appointmentRepository;
     private final AuditService auditService;
+    private final ShiftService shiftService;
+    private final VacationService vacationService;
 
     public SecretaryController(RoomService roomService,
                                EmployeeService employeeService,
                                PatientService patientService,
                                AppointmentService appointmentService,
                                JsonAppointmentRepository appointmentRepository,
-                               AuditService auditService) {
+                               AuditService auditService,
+                               ShiftService shiftService,
+                               VacationService vacationService) {
         this.roomService = roomService;
         this.employeeService = employeeService;
         this.patientService = patientService;
         this.appointmentService = appointmentService;
         this.appointmentRepository = appointmentRepository;
         this.auditService = auditService;
+        this.shiftService = shiftService;
+        this.vacationService = vacationService;
     }
 
     @GetMapping("/dashboard")
@@ -91,6 +100,7 @@ public class SecretaryController {
         model.addAttribute("rooms", rooms);
         model.addAttribute("patients", patients);
         model.addAttribute("pageTitle", "All Rooms");
+        model.addAttribute("currentPage", "rooms");
         return "secretary/rooms";
     }
 
@@ -103,6 +113,7 @@ public class SecretaryController {
         model.addAttribute("patients", patients);
         model.addAttribute("pageTitle", "Available Rooms");
         model.addAttribute("isAvailableView", true);
+        model.addAttribute("currentPage", "rooms");
         return "secretary/rooms";
     }
 
@@ -156,6 +167,7 @@ public class SecretaryController {
         model.addAttribute("patients", patients);
         model.addAttribute("specialists", specialists);
         model.addAttribute("pageTitle", "Manage Appointments");
+        model.addAttribute("currentPage", "appointments");
         return "secretary/manage-appointments";
     }
 
@@ -251,20 +263,38 @@ public class SecretaryController {
 
     // ========== PERSONAL PROFILE ==========
 
+    @GetMapping("/my-shifts")
+    public String viewMyShifts(HttpSession session, Model model) {
+        Employee user = (Employee) session.getAttribute("user");
+        if (user == null) return "redirect:/login";
+        List<VacationRequest> vacations = vacationService.getApprovedRequestsForEmployee(user.getId().intValue());
+        model.addAttribute("shifts", shiftService.getShiftsForEmployee(user.getId()));
+        model.addAttribute("vacations", vacations);
+        model.addAttribute("dashboardLink", "/secretary/dashboard");
+        model.addAttribute("pageTitle", "My Shifts");
+        model.addAttribute("currentPage", "myShifts");
+        return "employee/my-shifts";
+    }
+
     @GetMapping("/profile")
     public String viewProfile(HttpSession session, Model model) {
         Employee sessionUser = (Employee) session.getAttribute("user");
-        if (sessionUser != null) {
-            try {
-                Employee freshUser = employeeService.findById(sessionUser.getId());
-                model.addAttribute("employee", freshUser);
-            } catch (Exception ignored) {
-                model.addAttribute("employee", sessionUser);
-            }
+        if (sessionUser == null) {
+            return "redirect:/login";
         }
-        model.addAttribute("pageTitle", "My Profile");
-        model.addAttribute("currentPage", "profile");
-        return "secretary/profile";
+        try {
+            Employee fresh = employeeService.findById(sessionUser.getId());
+            model.addAttribute("employee", fresh);
+            model.addAttribute("pageTitle", "My Profile");
+            model.addAttribute("currentPage", "profile");
+            model.addAttribute("roleLabel", "Secretary");
+            model.addAttribute("dashboardLink", "/secretary/dashboard");
+            model.addAttribute("isSpecialist", false);
+        } catch (Exception e) {
+            model.addAttribute("employee", sessionUser);
+            model.addAttribute("currentPage", "profile");
+        }
+        return "employee/profile";
     }
 
     // ========== PATIENT SEARCH ==========
@@ -272,6 +302,7 @@ public class SecretaryController {
     @GetMapping("/patients/search")
     public String showPatientSearchForm(Model model) {
         model.addAttribute("pageTitle", "Search Patients");
+        model.addAttribute("currentPage", "patients");
         return "secretary/patient-search";
     }
 
@@ -294,6 +325,7 @@ public class SecretaryController {
         model.addAttribute("patients", patients);
         model.addAttribute("query", query);
         model.addAttribute("pageTitle", "Search Results");
+        model.addAttribute("currentPage", "patients");
         return "secretary/patient-search-results";
     }
 
