@@ -1,5 +1,7 @@
 package com.nvivx.vixhealthsystem.service.resources;
 
+import com.nvivx.vixhealthsystem.model.person.employee.Buyer;
+import com.nvivx.vixhealthsystem.model.person.employee.Employee;
 import com.nvivx.vixhealthsystem.model.resource.Resource;
 import com.nvivx.vixhealthsystem.model.resource.Storage;
 import com.nvivx.vixhealthsystem.repository.ResourceRepository;
@@ -174,10 +176,11 @@ public class InventoryService {
     }
 
     /**
-     * Add quantity to a resource in storage (when new supplies arrive)
+     * Add quantity to a resource in storage via a buyer (UC27).
+     * Uses the Buyer domain method, which delegates to Storage domain logic.
      */
     @Transactional
-    public void addResourceToStorage(Long storageId, Long resourceId, int quantity) {
+    public void addResourceToStorage(Buyer buyer, Long storageId, Long resourceId, int quantity) {
         if (quantity <= 0) {
             throw new IllegalArgumentException("Quantity must be positive");
         }
@@ -187,7 +190,8 @@ public class InventoryService {
 
         Resource resource = getResourceById(resourceId);
 
-        storage.addResource(resource, quantity);
+        // Domain: buyer adds resource to storage via model method
+        buyer.addResource(storage, resource, quantity);
         storageRepository.save(storage);
 
         auditService.log("ADD_RESOURCE_TO_STORAGE", "Storage", String.valueOf(storageId),
@@ -195,10 +199,28 @@ public class InventoryService {
     }
 
     /**
-     * Remove quantity from a resource in storage (when resources are used)
+     * Overload kept for internal/system use where no specific buyer actor is present.
      */
     @Transactional
-    public void removeResourceFromStorage(Long storageId, Long resourceId, int quantity) {
+    public void addResourceToStorage(Long storageId, Long resourceId, int quantity) {
+        if (quantity <= 0) {
+            throw new IllegalArgumentException("Quantity must be positive");
+        }
+        Storage storage = storageRepository.findById(storageId)
+                .orElseThrow(() -> new RuntimeException("Storage not found: " + storageId));
+        Resource resource = getResourceById(resourceId);
+        storage.addResource(resource, quantity);
+        storageRepository.save(storage);
+        auditService.log("ADD_RESOURCE_TO_STORAGE", "Storage", String.valueOf(storageId),
+                "Added " + quantity + " units of " + resource.getName() + " to storage");
+    }
+
+    /**
+     * Remove quantity from a resource in storage via an employee (UC25).
+     * Uses the Employee domain method, which delegates to Storage domain logic.
+     */
+    @Transactional
+    public void removeResourceFromStorage(Employee employee, Long storageId, Long resourceId, int quantity) {
         if (quantity <= 0) {
             throw new IllegalArgumentException("Quantity must be positive");
         }
@@ -209,9 +231,31 @@ public class InventoryService {
         Resource resource = getResourceById(resourceId);
 
         try {
-            storage.removeResource(resource, quantity);
+            // Domain: employee takes resource from storage via model method
+            employee.takeResource(storage, resource, quantity);
             storageRepository.save(storage);
 
+            auditService.log("REMOVE_RESOURCE_FROM_STORAGE", "Storage", String.valueOf(storageId),
+                    "Removed " + quantity + " units of " + resource.getName() + " from storage");
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to remove resource: " + e.getMessage(), e);
+        }
+    }
+
+    /**
+     * Overload kept for internal/system use where no specific employee actor is present.
+     */
+    @Transactional
+    public void removeResourceFromStorage(Long storageId, Long resourceId, int quantity) {
+        if (quantity <= 0) {
+            throw new IllegalArgumentException("Quantity must be positive");
+        }
+        Storage storage = storageRepository.findById(storageId)
+                .orElseThrow(() -> new RuntimeException("Storage not found: " + storageId));
+        Resource resource = getResourceById(resourceId);
+        try {
+            storage.removeResource(resource, quantity);
+            storageRepository.save(storage);
             auditService.log("REMOVE_RESOURCE_FROM_STORAGE", "Storage", String.valueOf(storageId),
                     "Removed " + quantity + " units of " + resource.getName() + " from storage");
         } catch (Exception e) {

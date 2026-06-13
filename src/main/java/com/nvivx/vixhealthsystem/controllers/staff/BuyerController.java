@@ -1,7 +1,10 @@
 package com.nvivx.vixhealthsystem.controllers.staff;
 
+import com.nvivx.vixhealthsystem.model.person.employee.Buyer;
+import com.nvivx.vixhealthsystem.model.person.employee.Employee;
 import com.nvivx.vixhealthsystem.service.resources.InventoryService;
 import com.nvivx.vixhealthsystem.service.core.EmployeeService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -97,14 +100,15 @@ public class BuyerController {
                               @RequestParam int quantity,
                               @RequestParam float price,
                               @RequestParam String unit,
+                              HttpSession session,
                               Model model) {
         try {
+            Buyer buyer = getBuyerFromSession(session);
             BigDecimal bigDecimalPrice = BigDecimal.valueOf(price);
             var newResource = inventoryService.createResource(name, description, bigDecimalPrice);
 
-            // Add to storage (using storage ID 1 as default - main hospital)
-            // In production, you'd get the correct storage ID from the buyer's facility
-            inventoryService.addResourceToStorage(1L, newResource.getId(), quantity);
+            // Domain: buyer adds resource to storage via model method
+            inventoryService.addResourceToStorage(buyer, 1L, newResource.getId(), quantity);
 
             model.addAttribute("pageTitle", "Resource Added Successfully");
             model.addAttribute("message",
@@ -160,6 +164,19 @@ public class BuyerController {
             model.addAttribute("message", "❌ Error: " + e.getMessage());
         }
         return "buyer/result";
+    }
+
+    // ========== HELPERS ==========
+
+    private Buyer getBuyerFromSession(HttpSession session) {
+        Employee user = (Employee) session.getAttribute("user");
+        if (user instanceof Buyer b) {
+            Employee fresh = employeeService.findById(b.getId());
+            if (fresh instanceof Buyer buyer) {
+                return buyer;
+            }
+        }
+        return new Buyer();
     }
 
     // Inner class for inventory display

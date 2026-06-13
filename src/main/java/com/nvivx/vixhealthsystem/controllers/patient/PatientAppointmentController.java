@@ -145,15 +145,11 @@ public class PatientAppointmentController {
                 throw new RuntimeException("Selected time slot is no longer available");
             }
 
-            // Create new appointment
-            Appointment appointment = new Appointment(
-                    0, // ID will be generated
-                    appointmentTime,
-                    30, // default 30 minutes
-                    "Booked via patient portal"
-            );
-            appointment.setPatient(patient);
-            appointment.setMedicalSpecialist(specialist);
+            // Domain: patient creates their own appointment via model method
+            Appointment appointment = patient.makeAppointment(specialist, appointmentTime);
+            appointment.setId((int) System.currentTimeMillis());
+            appointment.setDuration(30);
+            appointment.setNotes("Booked via patient portal");
             appointment.setPaymentStatus(false);
             appointment.setStatus("PENDING");
 
@@ -206,8 +202,8 @@ public class PatientAppointmentController {
             }
 
             LocalDateTime oldTime = appointment.getDateTime();
-            appointment.setDateTime(newTime);
-            appointment.setStatus("RESCHEDULED");
+            // Domain: appointment reschedules itself via its own domain method
+            appointment.reschedule(newTime);
             appointmentRepository.save(appointment);
             auditService.log("RESCHEDULE_APPOINTMENT", "Appointment", String.valueOf(apptId),
                 "Patient " + patient.getFiscalCode() + " rescheduled appointment from "
@@ -246,7 +242,8 @@ public class PatientAppointmentController {
                 throw new RuntimeException("You don't have permission to cancel this appointment");
             }
 
-            appointment.setStatus("CANCELLED");
+            // Domain: appointment cancels itself via its own domain method
+            appointment.cancel();
             appointmentRepository.save(appointment);
             auditService.log("CANCEL_APPOINTMENT", "Appointment", String.valueOf(apptId),
                 "Patient " + patient.getFiscalCode() + " cancelled their appointment");

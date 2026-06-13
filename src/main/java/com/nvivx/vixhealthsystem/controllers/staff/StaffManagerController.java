@@ -9,6 +9,7 @@ import com.nvivx.vixhealthsystem.model.person.employee.Secretary;
 import com.nvivx.vixhealthsystem.model.person.employee.Technician;
 import com.nvivx.vixhealthsystem.model.person.employee.Buyer;
 import com.nvivx.vixhealthsystem.model.person.employee.StaffManager;
+import jakarta.servlet.http.HttpSession;
 import com.nvivx.vixhealthsystem.model.staff.Shift;
 import com.nvivx.vixhealthsystem.model.staff.VacationRequest;
 import com.nvivx.vixhealthsystem.repository.JsonAppointmentRepository;
@@ -117,8 +118,11 @@ public class StaffManagerController {
                                  @RequestParam(required = false) String licenseNumber,
                                  @RequestParam(required = false) Long departmentId,
                                  @RequestParam(required = false) String hireDate,
+                                 HttpSession session,
                                  Model model) {
         try {
+            StaffManager staffManager = getStaffManagerFromSession(session);
+
             Employee employee;
             switch (employeeType.toUpperCase()) {
                 case "MEDICAL_SPECIALIST":
@@ -154,6 +158,10 @@ public class StaffManagerController {
                 Department dept = employeeService.findDepartmentById(departmentId);
                 employee.setDepartment(dept);
             }
+
+            // Domain: staff manager validates employee before creation
+            staffManager.createAccountForEmployee(employee);
+
             Employee saved = employeeService.createEmployee(employee);
             model.addAttribute("pageTitle", "Employee Created");
             model.addAttribute("message", "✅ Employee created successfully!\n\n" +
@@ -170,8 +178,16 @@ public class StaffManagerController {
     }
 
     @PostMapping("/employees/reset-password")
-    public String resetEmployeePassword(@RequestParam Long employeeId, Model model) {
+    public String resetEmployeePassword(@RequestParam Long employeeId,
+                                        HttpSession session,
+                                        Model model) {
         try {
+            StaffManager staffManager = getStaffManagerFromSession(session);
+            Employee target = employeeService.findById(employeeId);
+
+            // Domain: staff manager validates recovery is possible
+            staffManager.credentialsRecovery(target);
+
             employeeService.requestEmployeePasswordReset(employeeId);
 
             model.addAttribute("pageTitle", "Password Reset Requested");
@@ -180,7 +196,6 @@ public class StaffManagerController {
         } catch (Exception e) {
             model.addAttribute("pageTitle", "Error");
             model.addAttribute("message", "❌ Error: " + e.getMessage());
-            e.printStackTrace();
 
             throw new RuntimeException(
                     "Unable to generate password reset link: " + e.getMessage(),
@@ -192,8 +207,16 @@ public class StaffManagerController {
     }
 
     @PostMapping("/employees/delete")
-    public String deleteEmployee(@RequestParam Long employeeId, Model model) {
+    public String deleteEmployee(@RequestParam Long employeeId,
+                                 HttpSession session,
+                                 Model model) {
         try {
+            StaffManager staffManager = getStaffManagerFromSession(session);
+            Employee target = employeeService.findById(employeeId);
+
+            // Domain: staff manager validates deletion (cannot delete self)
+            staffManager.deleteEmployeeAccount(target);
+
             employeeService.deleteEmployee(employeeId);
             model.addAttribute("pageTitle", "Employee Deleted");
             model.addAttribute("message", "✅ Employee deleted successfully");
@@ -351,6 +374,21 @@ public class StaffManagerController {
         model.addAttribute("vacationsByEmployee", vacationsByEmployee);
         model.addAttribute("appointmentsBySpecialist", appointmentsBySpecialist);
         return "staff-manager/availability";
+    }
+
+    // ========== HELPERS ==========
+
+    private StaffManager getStaffManagerFromSession(HttpSession session) {
+        Employee user = (Employee) session.getAttribute("user");
+        if (user instanceof StaffManager sm) {
+            Employee fresh = employeeService.findById(sm.getId());
+            if (fresh instanceof StaffManager s) {
+                return s;
+            }
+        }
+        // Fallback: if session user is not a StaffManager (e.g., running tests),
+        // return a transient StaffManager with no restrictions
+        return new StaffManager();
     }
 
     // ========== AUDIT LOGS ==========

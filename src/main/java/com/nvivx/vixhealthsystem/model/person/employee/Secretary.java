@@ -1,6 +1,7 @@
 package com.nvivx.vixhealthsystem.model.person.employee;
 
 import com.nvivx.vixhealthsystem.model.facility.InternationRoom;
+import com.nvivx.vixhealthsystem.model.medical.Appointment;
 import com.nvivx.vixhealthsystem.model.person.Patient;
 import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorValue;
@@ -68,22 +69,25 @@ public class Secretary extends Employee {
     // =====================================================
 
     /**
-     * Books an appointment for a patient with a specific specialist.
+     * Books an appointment for a patient with a specific specialist on behalf of the patient.
+     * Delegates to the patient's own appointment-creation logic.
      *
      * @param p  the patient
      * @param m  the medical specialist
      * @param dt the appointment date and time
+     * @return the newly created appointment
      */
-    public void makeAppointmentForPatient(
+    public Appointment makeAppointmentForPatient(
             Patient p,
             MedicalSpecialist m,
             LocalDateTime dt
     ) {
-
+        return p.makeAppointment(m, dt);
     }
 
     /**
-     * Reschedules an existing appointment to a new date.
+     * Reschedules an existing appointment to a new date on behalf of a patient.
+     * Delegates to the patient's own reschedule logic.
      *
      * @param p     the patient
      * @param dtOld the current appointment date and time
@@ -94,11 +98,12 @@ public class Secretary extends Employee {
             LocalDateTime dtOld,
             LocalDateTime dtNew
     ) {
-
+        p.rescheduleAppointment(dtOld, dtNew);
     }
 
     /**
-     * Cancels an appointment for a patient.
+     * Cancels an appointment on behalf of a patient.
+     * Delegates to the patient's own cancellation logic.
      *
      * @param p  the patient
      * @param dt the appointment date and time to cancel
@@ -107,7 +112,7 @@ public class Secretary extends Employee {
             Patient p,
             LocalDateTime dt
     ) {
-
+        p.cancelAppointment(dt);
     }
 
     // =====================================================
@@ -115,33 +120,32 @@ public class Secretary extends Employee {
     // =====================================================
 
     /**
-     * Displays room availability across the facility.
-     */
-    public void getRoomAvailability() {
-
-    }
-
-    /**
      * Assigns a patient to an inpatient room.
+     * Delegates to the room's own admission logic.
      *
-     * @param ir the inpatient room
+     * @param ir the inpatient room to assign the patient to
      * @param p  the patient to assign
+     * @throws Exception if the room is full
      */
     public void setPatientInRoom(
             InternationRoom ir,
             Patient p
-    ) {
-
+    ) throws Exception {
+        ir.addPatient(p);
     }
 
     /**
-     * Discharges a patient from the facility.
+     * Discharges a patient from an inpatient room.
+     * Delegates to the room's own removal logic.
      *
-     * @param p the patient to discharge
+     * @param ir the inpatient room the patient is currently in
+     * @param p  the patient to discharge
+     * @throws Exception if the patient is not in the room
      */
     public void dismissPatient(
+            InternationRoom ir,
             Patient p
-    ) {
-
+    ) throws Exception {
+        ir.removePatient(p);
     }
 }

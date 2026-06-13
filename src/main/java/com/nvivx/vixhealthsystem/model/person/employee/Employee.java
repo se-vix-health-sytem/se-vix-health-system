@@ -5,10 +5,10 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.nvivx.vixhealthsystem.model.facility.Department;
 import com.nvivx.vixhealthsystem.model.person.Person;
 import com.nvivx.vixhealthsystem.model.resource.Resource;
+import com.nvivx.vixhealthsystem.model.resource.Storage;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
-import java.util.List;
 
 /**
  * Represents a generic employee in the system.
@@ -146,22 +146,16 @@ public abstract class Employee extends Person {
     // =====================================================
 
     /**
-     * Returns the list of resources accessible by the employee.
+     * Takes a quantity of a resource from a storage unit.
+     * Delegates to the storage's removal logic, which enforces
+     * that sufficient stock exists before deducting.
      *
-     * @return list of available resources, or null if not implemented yet
+     * @param storage the storage to take from
+     * @param r       the resource to take
+     * @param q       the quantity to take
+     * @throws Exception if the storage has insufficient stock
      */
-    protected List<Resource> viewResources() {
-        return null;
-    }
-
-    /**
-     * Allows an employee to take or borrow a resource from storage.
-     *
-     * @param r the resource to take
-     * @param q quantity to take
-     * @throws Exception if the resource cannot be taken
-     */
-    protected void takeResource(Resource r, int q) throws Exception {
-
+    public void takeResource(Storage storage, Resource r, int q) throws Exception {
+        storage.removeResource(r, q);
     }
 }

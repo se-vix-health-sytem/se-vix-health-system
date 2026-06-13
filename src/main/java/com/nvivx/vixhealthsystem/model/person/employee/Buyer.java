@@ -1,6 +1,7 @@
 package com.nvivx.vixhealthsystem.model.person.employee;
 
 import com.nvivx.vixhealthsystem.model.resource.Resource;
+import com.nvivx.vixhealthsystem.model.resource.Storage;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 
@@ -23,14 +24,16 @@ public class Buyer extends Employee {
     // =====================================================
 
     /**
-     * Adds a new resource to the system.
-     * If the resource already exists, this may increase its quantity.
+     * Adds a quantity of a resource to a storage unit.
+     * Delegates to the storage's own addition logic, which
+     * increases the existing quantity or creates a new entry.
+     * Actual persistence is handled by the service layer.
      *
-     * Actual persistence is handled by the service/repository layer.
-     *
-     * @param r resource to add
+     * @param storage  the storage unit to add the resource to
+     * @param resource the resource to add
+     * @param quantity the quantity to add
      */
-    public void addResource(Resource r) {
-
+    public void addResource(Storage storage, Resource resource, int quantity) {
+        storage.addResource(resource, quantity);
     }
 }

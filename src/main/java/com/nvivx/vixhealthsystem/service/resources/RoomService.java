@@ -3,6 +3,7 @@ package com.nvivx.vixhealthsystem.service.resources;
 import com.nvivx.vixhealthsystem.model.facility.Room;
 import com.nvivx.vixhealthsystem.model.facility.InternationRoom;
 import com.nvivx.vixhealthsystem.model.person.Patient;
+import com.nvivx.vixhealthsystem.model.person.employee.Secretary;
 import com.nvivx.vixhealthsystem.repository.RoomRepository;
 import com.nvivx.vixhealthsystem.repository.PatientRepository;
 import com.nvivx.vixhealthsystem.service.AuditService;
@@ -90,10 +91,11 @@ public class RoomService {
     }
 
     /**
-     * Admit a patient to a room (UC22 - Triage)
+     * Admit a patient to a room via a secretary (UC22 - Triage).
+     * Uses the Secretary domain method, which delegates to InternationRoom domain logic.
      */
     @Transactional
-    public void admitPatient(Long patientId, Long roomId) {
+    public void admitPatient(Secretary secretary, Long patientId, Long roomId) {
         Patient patient = patientRepository.findById(patientId)
                 .orElseThrow(() -> new RuntimeException("Patient not found with id: " + patientId));
 
@@ -110,7 +112,8 @@ public class RoomService {
         }
 
         try {
-            inpatientRoom.addPatient(patient);
+            // Domain: secretary assigns patient to room via model methods
+            secretary.setPatientInRoom(inpatientRoom, patient);
             roomRepository.save(inpatientRoom);
 
             auditService.log("ADMIT_PATIENT", "Patient", String.valueOf(patientId),
@@ -121,10 +124,11 @@ public class RoomService {
     }
 
     /**
-     * Dismiss a patient from a room (UC23 - Patient Dismissal)
+     * Dismiss a patient from a room via a secretary (UC23 - Patient Dismissal).
+     * Uses the Secretary domain method, which delegates to InternationRoom domain logic.
      */
     @Transactional
-    public void dismissPatient(Long patientId, Long roomId) {
+    public void dismissPatient(Secretary secretary, Long patientId, Long roomId) {
         Patient patient = patientRepository.findById(patientId)
                 .orElseThrow(() -> new RuntimeException("Patient not found with id: " + patientId));
 
@@ -141,7 +145,8 @@ public class RoomService {
         }
 
         try {
-            inpatientRoom.removePatient(patient);
+            // Domain: secretary dismisses patient from room via model methods
+            secretary.dismissPatient(inpatientRoom, patient);
             roomRepository.save(inpatientRoom);
 
             auditService.log("DISMISS_PATIENT", "Patient", String.valueOf(patientId),

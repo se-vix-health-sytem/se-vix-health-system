@@ -5,11 +5,11 @@ import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Responsible for managing and maintaining medical machinery.
- * Technicians can monitor equipment, identify faulty machines
- * and assist employees with credential recovery.
+ * Technicians can monitor equipment and identify faulty machines.
  *
  * @see Employee
  * @see Machinery
@@ -23,31 +23,15 @@ public class Technician extends Employee {
     // =====================================================
 
     /**
-     * Returns all machines available in the facility.
+     * Filters a list of machines and returns only those currently marked as faulty.
+     * Uses each machine's own {@link Machinery#isFaulty()} domain method.
      *
-     * @return list of machines
+     * @param allMachines the full list of machines to inspect
+     * @return list containing only faulty machines
      */
-    public List<Machinery> getMachineList() {
-
-        return null;
-    }
-
-    /**
-     * Returns only machines currently marked as faulty.
-     *
-     * @return list of faulty machines
-     */
-    public List<Machinery> getFaultyMachineList() {
-
-        return null;
-    }
-
-    /**
-     * Assists an employee with credential recovery.
-     *
-     * @param e employee requiring credential recovery
-     */
-    public void credentialsRecovery(Employee e) {
-
+    public List<Machinery> getFaultyMachineList(List<Machinery> allMachines) {
+        return allMachines.stream()
+                .filter(Machinery::isFaulty)
+                .collect(Collectors.toList());
     }
 }

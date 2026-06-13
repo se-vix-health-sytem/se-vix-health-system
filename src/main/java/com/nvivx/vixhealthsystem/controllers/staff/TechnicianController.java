@@ -1,7 +1,11 @@
 package com.nvivx.vixhealthsystem.controllers.staff;
 
 import com.nvivx.vixhealthsystem.model.enums.MachineStatus;
+import com.nvivx.vixhealthsystem.model.person.employee.Employee;
+import com.nvivx.vixhealthsystem.model.person.employee.Technician;
+import com.nvivx.vixhealthsystem.service.core.EmployeeService;
 import com.nvivx.vixhealthsystem.service.resources.MachineryService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -11,9 +15,12 @@ import org.springframework.web.bind.annotation.*;
 public class TechnicianController {
 
     private final MachineryService machineryService;
+    private final EmployeeService employeeService;
 
-    public TechnicianController(MachineryService machineryService) {
+    public TechnicianController(MachineryService machineryService,
+                                EmployeeService employeeService) {
         this.machineryService = machineryService;
+        this.employeeService = employeeService;
     }
 
     @GetMapping("/dashboard")
@@ -39,8 +46,10 @@ public class TechnicianController {
     }
 
     @GetMapping("/machines/faulty")
-    public String viewFaultyMachines(Model model) {
-        var faultyMachines = machineryService.getFaultyMachines();
+    public String viewFaultyMachines(HttpSession session, Model model) {
+        // Domain: technician filters faulty machines via model method
+        var faultyMachines = machineryService.getFaultyMachinesForTechnician(
+                getTechnicianFromSession(session));
         model.addAttribute("pageTitle", "Faulty Machines");
         model.addAttribute("currentPage", "faultyMachines");
         model.addAttribute("machines", faultyMachines);
@@ -91,6 +100,19 @@ public class TechnicianController {
         model.addAttribute("alerts", activeAlerts);
         model.addAttribute("alertCount", activeAlerts.size());
         return "technician/alerts";
+    }
+
+    // ========== HELPERS ==========
+
+    private Technician getTechnicianFromSession(HttpSession session) {
+        Employee user = (Employee) session.getAttribute("user");
+        if (user instanceof Technician t) {
+            Employee fresh = employeeService.findById(t.getId());
+            if (fresh instanceof Technician tech) {
+                return tech;
+            }
+        }
+        return new Technician();
     }
 
     @GetMapping("/machines/maintenance-history")

@@ -1,6 +1,7 @@
 package com.nvivx.vixhealthsystem.service.resources;
 
 import com.nvivx.vixhealthsystem.model.enums.MachineStatus;
+import com.nvivx.vixhealthsystem.model.person.employee.Technician;
 import com.nvivx.vixhealthsystem.model.resource.Machinery;
 import com.nvivx.vixhealthsystem.repository.MachineryRepository;
 import com.nvivx.vixhealthsystem.service.AuditService;
@@ -58,10 +59,23 @@ public class MachineryService {
     }
 
     /**
-     * Get all faulty machines (UC24, FR5.4 - Machine malfunction alert)
+     * Get all faulty machines (UC24, FR5.4 - Machine malfunction alert).
+     * Uses DB query directly for efficiency; see also
+     * {@link #getFaultyMachinesForTechnician(Technician)} for the domain-method path.
      */
     public List<Machinery> getFaultyMachines() {
         return machineryRepository.findByStatus(MachineStatus.FAULTY);
+    }
+
+    /**
+     * Returns all faulty machines as identified by the given technician.
+     * Uses the Technician domain method, which filters by each machine's
+     * own {@link Machinery#isFaulty()} logic.
+     * Called from the TechnicianController where the acting technician is known.
+     */
+    public List<Machinery> getFaultyMachinesForTechnician(Technician technician) {
+        List<Machinery> all = getAllMachines();
+        return technician.getFaultyMachineList(all);
     }
 
     /**

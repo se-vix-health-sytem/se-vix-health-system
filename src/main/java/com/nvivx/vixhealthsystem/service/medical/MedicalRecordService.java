@@ -125,9 +125,10 @@ public class MedicalRecordService {
         Prescription prescription = new Prescription();
         prescription.setMedication(medication);
         prescription.setDateTime(LocalDateTime.now());
-        prescription.setMedicalSpecialist(specialist);
 
-        record.addPrescription(prescription);
+        // Domain: specialist issues prescription for patient via model method,
+        // which sets the specialist back-reference and adds to the medical record
+        specialist.appPrescriptionForPatient(patient, prescription);
         medicalRecordRepository.save(record);
 
         auditService.log("ADD_PRESCRIPTION", "MedicalRecord", String.valueOf(record.getId()),

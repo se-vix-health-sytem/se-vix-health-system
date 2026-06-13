@@ -97,7 +97,10 @@ public class PatientService {
         // Store original name for audit log
         String originalName = patient.getName() + " " + patient.getSurname();
 
-        // Anonymize personal data (GDPR compliance)
+        // Domain: patient clears their own transient state (appointments list, medical record ref)
+        patient.deleteAccount();
+
+        // Anonymize persistent personal data (GDPR compliance)
         patient.setName("ANONYMIZED");
         patient.setSurname("ANONYMIZED");
         patient.setEmail(null);

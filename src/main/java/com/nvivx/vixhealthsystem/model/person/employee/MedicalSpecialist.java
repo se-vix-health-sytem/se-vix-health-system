@@ -137,17 +137,18 @@ public class MedicalSpecialist extends Employee {
     // =====================================================
 
     /**
-     * Issues a prescription for a patient.
-     * <p>
-     * The actual persistence is handled by the service layer.
+     * Issues a prescription for a patient by adding it to their medical record.
+     * Delegates to the medical record's own prescription-addition logic,
+     * which also sets the back-reference on the prescription.
      *
      * @param p  the patient receiving the prescription
-     * @param pr the prescription details
+     * @param pr the prescription to issue
      */
     public void appPrescriptionForPatient(
             Patient p,
             Prescription pr
     ) {
-
+        pr.setMedicalSpecialist(this);
+        p.getMedicalRecord().addPrescription(pr);
     }
 }

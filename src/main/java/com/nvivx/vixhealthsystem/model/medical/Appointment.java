@@ -298,4 +298,34 @@ public class Appointment {
                 && !"CANCELLED".equals(status)
                 && !"COMPLETED".equals(status);
     }
+
+    /**
+     * Cancels this appointment.
+     *
+     * @throws IllegalStateException if the appointment cannot be cancelled
+     */
+    public void cancel() {
+        if (!isCancellable()) {
+            throw new IllegalStateException(
+                    "Appointment cannot be cancelled: current status is " + status
+            );
+        }
+        this.status = "CANCELLED";
+    }
+
+    /**
+     * Reschedules this appointment to a new date and time.
+     *
+     * @param newDateTime the new scheduled date and time
+     * @throws IllegalStateException if the appointment is cancelled or completed
+     */
+    public void reschedule(LocalDateTime newDateTime) {
+        if (!isActive()) {
+            throw new IllegalStateException(
+                    "Appointment cannot be rescheduled: current status is " + status
+            );
+        }
+        this.dateTime = newDateTime;
+        this.status = "RESCHEDULED";
+    }
 }
