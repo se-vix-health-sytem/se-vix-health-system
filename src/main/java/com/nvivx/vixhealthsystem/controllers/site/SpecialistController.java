@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/specialists")
@@ -26,7 +27,14 @@ public class SpecialistController {
     @GetMapping
     public String listSpecialists(Model model) {
         List<MedicalSpecialist> specialists = employeeService.findAllMedicalSpecialists();
+        long departmentCount = specialists.stream()
+                .map(MedicalSpecialist::getDepartment)
+                .filter(d -> d != null)
+                .map(d -> d.getId())
+                .distinct()
+                .count();
         model.addAttribute("specialists", specialists);
+        model.addAttribute("departmentCount", departmentCount);
         model.addAttribute("doctorImages", departmentService.getAllDoctorImageMap());
         model.addAttribute("pageTitle", "Our Medical Specialists");
         return "site/specialists/list";

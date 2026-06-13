@@ -22,7 +22,7 @@
         <div class="col-md-4">
             <div class="card border-0 shadow-sm text-center p-3">
                 <div class="display-6 fw-bold" style="color: var(--vix-crimson);"
-                     th:text="${specialists != null ? specialists.?[specialty != null].size() : 0}">0</div>
+                     th:text="${departmentCount ?: 0}">0</div>
                 <div class="text-muted small">Departments Covered</div>
             </div>
         </div>

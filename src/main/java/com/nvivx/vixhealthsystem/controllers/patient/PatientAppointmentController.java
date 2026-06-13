@@ -22,6 +22,8 @@ import java.util.stream.Collectors;
 @RequestMapping("/patient")
 public class PatientAppointmentController {
 
+    private static final DateTimeFormatter DT_FORM = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm[:ss]");
+
     private final JsonAppointmentRepository appointmentRepository;
     private final PatientService patientService;
     private final EmployeeService employeeService;
@@ -129,7 +131,7 @@ public class PatientAppointmentController {
             return "redirect:/patient/login";
         }
 
-        LocalDateTime appointmentTime = LocalDateTime.parse(dateTime, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+        LocalDateTime appointmentTime = LocalDateTime.parse(dateTime, DT_FORM);
 
         try {
             // Get the specialist
@@ -185,7 +187,7 @@ public class PatientAppointmentController {
             return "redirect:/patient/login";
         }
 
-        LocalDateTime newTime = LocalDateTime.parse(newDateTime, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+        LocalDateTime newTime = LocalDateTime.parse(newDateTime, DT_FORM);
 
         try {
             Appointment appointment = appointmentRepository.findById(apptId);

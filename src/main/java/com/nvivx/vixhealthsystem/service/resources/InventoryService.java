@@ -116,7 +116,17 @@ public class InventoryService {
         Storage storage = storageRepository.findById(storageId)
                 .orElseThrow(() -> new RuntimeException("Storage not found with id: " + storageId));
 
-        return storage.getResources();
+        Map<Long, Resource> resourceById = resourceRepository.findAll().stream()
+                .collect(Collectors.toMap(Resource::getId, r -> r));
+
+        Map<Resource, Integer> result = new HashMap<>();
+        for (Map.Entry<Resource, Integer> entry : storage.getResources().entrySet()) {
+            Resource fullyLoaded = resourceById.get(entry.getKey().getId());
+            if (fullyLoaded != null) {
+                result.put(fullyLoaded, entry.getValue());
+            }
+        }
+        return result;
     }
 
     /**
@@ -124,15 +134,21 @@ public class InventoryService {
      * Used for FR7.2 - Compound resource availability
      */
     public Map<Resource, Integer> getTotalInventory() {
+        // Load all Resource entities fully within this transaction so they are not
+        // Hibernate proxies when accessed by the controller after the session closes.
+        Map<Long, Resource> resourceById = resourceRepository.findAll().stream()
+                .collect(Collectors.toMap(Resource::getId, r -> r));
+
         Map<Resource, Integer> totalInventory = new HashMap<>();
 
-        List<Storage> allStorages = storageRepository.findAll();
-
-        for (Storage storage : allStorages) {
+        for (Storage storage : storageRepository.findAll()) {
             for (Map.Entry<Resource, Integer> entry : storage.getResources().entrySet()) {
-                Resource resource = entry.getKey();
-                Integer quantity = entry.getValue();
-                totalInventory.merge(resource, quantity, Integer::sum);
+                // entry.getKey() may be a proxy; get its ID (safe without initialization)
+                Long id = entry.getKey().getId();
+                Resource fullyLoaded = resourceById.get(id);
+                if (fullyLoaded != null) {
+                    totalInventory.merge(fullyLoaded, entry.getValue(), Integer::sum);
+                }
             }
         }
 

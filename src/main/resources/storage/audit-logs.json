@@ -342,4 +342,52 @@
   "username" : "RSSMRA80A01F205X",
   "details" : "Payment of €85.00 processed. Transaction: TXN-25B47F4B",
   "timestamp" : "2026-06-13T05:22:26.0480058"
+}, {
+  "id" : 44,
+  "action" : "PATIENT_LOGIN",
+  "entityType" : "Patient",
+  "entityId" : "1",
+  "username" : "RSSMRA80A01F205X",
+  "details" : "Patient RSSMRA80A01F205X logged in",
+  "timestamp" : "2026-06-13T08:31:56.0186176"
+}, {
+  "id" : 45,
+  "action" : "BOOK_APPOINTMENT",
+  "entityType" : "Appointment",
+  "entityId" : "4",
+  "username" : "RSSMRA80A01F205X",
+  "details" : "Patient RSSMRA80A01F205X booked appointment with Dr. Marco Rossi on 19/06/2026 09:00",
+  "timestamp" : "2026-06-13T08:32:16.3940663"
+}, {
+  "id" : 46,
+  "action" : "PROCESS_PAYMENT",
+  "entityType" : "Appointment",
+  "entityId" : "4",
+  "username" : "RSSMRA80A01F205X",
+  "details" : "Payment of €85.00 processed. Transaction: TXN-D90FE367",
+  "timestamp" : "2026-06-13T08:32:37.164775"
+}, {
+  "id" : 47,
+  "action" : "CREATE_EMPLOYEE",
+  "entityType" : "Employee",
+  "entityId" : "100",
+  "username" : "alessia.moretti@vixhealth.com",
+  "details" : "Created employee: Alex Moore (Type: MedicalSpecialist)",
+  "timestamp" : "2026-06-13T08:35:44.2343829"
+}, {
+  "id" : 48,
+  "action" : "ASSIGN_SHIFT",
+  "entityType" : "Shift",
+  "entityId" : "4",
+  "username" : "alessia.moretti@vixhealth.com",
+  "details" : "Assigned AFTERNOON shift to employee 100 on 2026-06-14",
+  "timestamp" : "2026-06-13T08:36:09.4127072"
+}, {
+  "id" : 49,
+  "action" : "APPROVE_VACATION",
+  "entityType" : "VacationRequest",
+  "entityId" : "2",
+  "username" : "alessia.moretti@vixhealth.com",
+  "details" : "Approved vacation for employee: Luca Verdi",
+  "timestamp" : "2026-06-13T08:36:22.1395664"
 } ]

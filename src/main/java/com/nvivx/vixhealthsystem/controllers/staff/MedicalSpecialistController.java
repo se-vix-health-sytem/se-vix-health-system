@@ -19,10 +19,11 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDateTime;
-
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -96,6 +97,9 @@ public class MedicalSpecialistController {
         return "medical-specialist/medical-record";
     }
 
+    // datetime-local inputs send "yyyy-MM-ddTHH:mm" (no seconds); handle both formats
+    private static final DateTimeFormatter DT_FORM = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm[:ss]");
+
     @PostMapping("/patients/{patientId}/add-surgery")
     public String addSurgery(@PathVariable Long patientId,
                              @RequestParam String surgeryName,
@@ -103,7 +107,7 @@ public class MedicalSpecialistController {
                              @RequestParam String surgeryDateTime,
                              @RequestParam Long roomId,
                              HttpSession session,
-                             Model model) {
+                             RedirectAttributes redirectAttributes) {
         try {
             Patient patient = medicalRecordService.getPatientWithMedicalRecord(patientId);
             if (patient.getMedicalRecord() == null) {
@@ -120,7 +124,7 @@ public class MedicalSpecialistController {
             Surgery surgery = new Surgery();
             surgery.setName(surgeryName);
             surgery.setDescription(surgeryDescription);
-            surgery.setDateTime(LocalDateTime.parse(surgeryDateTime));
+            surgery.setDateTime(LocalDateTime.parse(surgeryDateTime, DT_FORM));
             surgery.setSpecializedRoom((SpecializedRoom) roomEntity);
             surgery.setMedicalSpecialist(specialist);
             surgery.setMedicalRecord(patient.getMedicalRecord());
@@ -128,32 +132,26 @@ public class MedicalSpecialistController {
             auditService.log("ADD_SURGERY", "MedicalRecord",
                 String.valueOf(patient.getMedicalRecord().getId()),
                 "Scheduled surgery '" + surgeryName + "' for patient " + patientId);
-
-            model.addAttribute("message", "✅ Surgery scheduled successfully for " + patient.getName() + " " + patient.getSurname() + "!");
+            redirectAttributes.addFlashAttribute("successMessage", "Surgery scheduled successfully!");
         } catch (Exception e) {
-            model.addAttribute("message", "❌ Error scheduling surgery: " + e.getMessage());
+            redirectAttributes.addFlashAttribute("errorMessage", "Error scheduling surgery: " + e.getMessage());
         }
-        model.addAttribute("pageTitle", "Surgery Scheduled");
-        model.addAttribute("currentPage", "patients");
-        return "medical-specialist/result";
+        return "redirect:/medical-specialist/patients/" + patientId + "/record";
     }
 
     @PostMapping("/patients/{patientId}/add-diagnosis")
     public String addDiagnosis(@PathVariable Long patientId,
                                @RequestParam String diagnosisName,
-                               @RequestParam String description,
+                               @RequestParam(required = false) String description,
                                @RequestParam String severity,
-                               Model model) {
+                               RedirectAttributes redirectAttributes) {
         try {
-            medicalRecordService.addDiagnosis(patientId, diagnosisName, description, severity);
-            model.addAttribute("pageTitle", "Diagnosis Added");
-            model.addAttribute("message", "✅ Diagnosis added successfully!");
+            medicalRecordService.addDiagnosis(patientId, diagnosisName, description != null ? description : "", severity);
+            redirectAttributes.addFlashAttribute("successMessage", "Diagnosis added successfully!");
         } catch (Exception e) {
-            model.addAttribute("pageTitle", "Error");
-            model.addAttribute("message", "❌ Error: " + e.getMessage());
+            redirectAttributes.addFlashAttribute("errorMessage", "Error: " + e.getMessage());
         }
-        model.addAttribute("currentPage", "patients");
-        return "medical-specialist/result";
+        return "redirect:/medical-specialist/patients/" + patientId + "/record";
     }
 
     @PostMapping("/patients/{patientId}/add-prescription")
@@ -161,21 +159,16 @@ public class MedicalSpecialistController {
                                   @RequestParam String medication,
                                   @RequestParam String dosage,
                                   HttpSession session,
-                                  Model model) {
+                                  RedirectAttributes redirectAttributes) {
         try {
-            com.nvivx.vixhealthsystem.model.person.employee.Employee user =
-                    (com.nvivx.vixhealthsystem.model.person.employee.Employee) session.getAttribute("user");
+            Employee user = (Employee) session.getAttribute("user");
             Long specialistId = (user != null) ? user.getId() : 1L;
-            String fullMedication = medication + " - " + dosage;
-            medicalRecordService.addPrescription(patientId, specialistId, fullMedication);
-            model.addAttribute("pageTitle", "Prescription Added");
-            model.addAttribute("message", "✅ Prescription added successfully!");
+            medicalRecordService.addPrescription(patientId, specialistId, medication + " - " + dosage);
+            redirectAttributes.addFlashAttribute("successMessage", "Prescription added successfully!");
         } catch (Exception e) {
-            model.addAttribute("pageTitle", "Error");
-            model.addAttribute("message", "❌ Error: " + e.getMessage());
+            redirectAttributes.addFlashAttribute("errorMessage", "Error: " + e.getMessage());
         }
-        model.addAttribute("currentPage", "patients");
-        return "medical-specialist/result";
+        return "redirect:/medical-specialist/patients/" + patientId + "/record";
     }
 
     @PostMapping("/patients/{patientId}/add-exam-result")
@@ -183,17 +176,14 @@ public class MedicalSpecialistController {
                                 @RequestParam String examType,
                                 @RequestParam String result,
                                 @RequestParam(required = false) String notes,
-                                Model model) {
+                                RedirectAttributes redirectAttributes) {
         try {
             medicalRecordService.addExamResult(patientId, examType, result, notes);
-            model.addAttribute("pageTitle", "Exam Result Added");
-            model.addAttribute("message", "✅ Exam result added successfully!");
+            redirectAttributes.addFlashAttribute("successMessage", "Exam result added successfully!");
         } catch (Exception e) {
-            model.addAttribute("pageTitle", "Error");
-            model.addAttribute("message", "❌ Error: " + e.getMessage());
+            redirectAttributes.addFlashAttribute("errorMessage", "Error: " + e.getMessage());
         }
-        model.addAttribute("currentPage", "patients");
-        return "medical-specialist/result";
+        return "redirect:/medical-specialist/patients/" + patientId + "/record";
     }
 
     @GetMapping("/appointments")

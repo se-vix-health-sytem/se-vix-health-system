@@ -21,9 +21,14 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+// HTML datetime-local sends "yyyy-MM-ddTHH:mm" (no seconds) — handle both
+
+
 @Controller
 @RequestMapping("/secretary")
 public class SecretaryController {
+
+    private static final DateTimeFormatter DT_FORM = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm[:ss]");
 
     private final RoomService roomService;
     private final EmployeeService employeeService;
@@ -158,7 +163,7 @@ public class SecretaryController {
                 throw new RuntimeException("Medical specialist not found");
             }
 
-            LocalDateTime appointmentTime = LocalDateTime.parse(dateTime, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+            LocalDateTime appointmentTime = LocalDateTime.parse(dateTime, DT_FORM);
 
             // Create new appointment
             Appointment appointment = new Appointment(
@@ -182,6 +187,25 @@ public class SecretaryController {
                     "✅ Appointment booked successfully!\nID: " + saved.getId());
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("error", "❌ Booking failed: " + e.getMessage());
+        }
+        return "redirect:/secretary/appointments";
+    }
+
+    @PostMapping("/appointments/{appointmentId}/confirm")
+    public String confirmAppointment(@PathVariable int appointmentId,
+                                     RedirectAttributes redirectAttributes) {
+        try {
+            Appointment appointment = appointmentRepository.findById(appointmentId);
+            if (appointment != null) {
+                appointment.setStatus("CONFIRMED");
+                appointmentRepository.save(appointment);
+                String patientInfo = appointment.getPatient() != null ? appointment.getPatient().getFiscalCode() : "unknown";
+                auditService.log("CONFIRM_APPOINTMENT", "Appointment", String.valueOf(appointmentId),
+                    "Secretary confirmed appointment for patient " + patientInfo);
+            }
+            redirectAttributes.addFlashAttribute("message", "✅ Appointment confirmed successfully!");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("error", "❌ Confirmation failed: " + e.getMessage());
         }
         return "redirect:/secretary/appointments";
     }
@@ -215,7 +239,7 @@ public class SecretaryController {
                 throw new RuntimeException("Appointment not found");
             }
 
-            LocalDateTime newTime = LocalDateTime.parse(newDateTime, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+            LocalDateTime newTime = LocalDateTime.parse(newDateTime, DT_FORM);
             LocalDateTime oldTime = appointment.getDateTime();
             appointment.setDateTime(newTime);
             appointment.setStatus("RESCHEDULED");
