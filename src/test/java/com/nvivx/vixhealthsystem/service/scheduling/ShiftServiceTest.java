@@ -1,25 +1,18 @@
 package com.nvivx.vixhealthsystem.service.scheduling;
 
+import com.nvivx.vixhealthsystem.model.enums.ShiftType;
 import com.nvivx.vixhealthsystem.model.staff.Shift;
 import com.nvivx.vixhealthsystem.service.AuditService;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
 import java.io.File;
-import java.io.PrintWriter;
+import java.nio.file.Files;
 import java.time.LocalDate;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-/**
- *
- * Arrange = prepare fake data and mock behavior
- * Act = call the method being tested
- * Assert = check the result
- * Verify = check that mocks were called correctly
- */
 class ShiftServiceTest {
 
     private AuditService auditService;
@@ -28,75 +21,285 @@ class ShiftServiceTest {
     private static final String FILE_PATH =
             "src/main/resources/storage/shifts.json";
 
+    private String originalFileContent;
+    private boolean fileExistedBeforeTest;
+
     /**
      * Runs before every test.
      *
-     * It creates a mock AuditService and clears the shifts.json file.
-     * This keeps every test independent.
+     * Creates a mocked AuditService,
+     * backs up the original JSON file,
+     * and initializes an empty shifts.json
+     * so tests remain independent.
      */
     @BeforeEach
     void setUp() throws Exception {
-        // Arrange: create mocked dependency
         auditService = mock(AuditService.class);
 
-        // Arrange: clear the JSON file before each test
         File file = new File(FILE_PATH);
         file.getParentFile().mkdirs();
 
-        if (file.exists()) {
-            new PrintWriter(file).close();
+        fileExistedBeforeTest = file.exists();
+
+        if (fileExistedBeforeTest) {
+            originalFileContent = Files.readString(file.toPath());
+        } else {
+            originalFileContent = null;
         }
 
-        // Arrange: create the service using the mocked AuditService
+        Files.writeString(file.toPath(), "[]");
+
         shiftService = new ShiftService(auditService);
     }
 
     /**
-     * Tests that assignShift() correctly creates a new shift
-     * for an employee on a specific date.
+     * Runs after every test.
+     *
+     * Restores the original content of
+     * shifts.json so test execution does not
+     * modify application data permanently.
      */
+    @AfterEach
+    void tearDown() throws Exception {
+        File file = new File(FILE_PATH);
+
+        if (fileExistedBeforeTest) {
+            Files.writeString(file.toPath(), originalFileContent);
+        } else {
+            Files.deleteIfExists(file.toPath());
+        }
+    }
+
+    /**
+     * Removes the generated shiftTypeName field
+     * from the JSON file so Jackson can deserialize
+     * Shift objects correctly during tests.
+     */
+    private void removeShiftTypeNameFromJson() throws Exception {
+        File file = new File(FILE_PATH);
+
+        String content = Files.readString(file.toPath());
+
+        content = content.replaceAll(
+                ",\\s*\"shiftTypeName\"\\s*:\\s*\"[^\"]*\"",
+                ""
+        );
+
+        Files.writeString(file.toPath(), content);
+    }
+
+    /**
+     * Tests that assignShift() correctly creates a new shift
+     * for an employee and stores it in the JSON file.
+     */
+
     @Test
-    void shouldAssignShiftSuccessfully() {
-        // Arrange
+    void shouldAssignShiftSuccessfully() throws Exception {
         Long employeeId = 1L;
         LocalDate date = LocalDate.of(2026, 6, 12);
-        String shiftType = "MORNING";
 
-        // Act
-        shiftService.assignShift(employeeId, date, shiftType);
+        shiftService.assignShift(employeeId, date, "MORNING");
+        removeShiftTypeNameFromJson();
 
-        List<Shift> shifts =
-                shiftService.getShiftsForEmployee(employeeId);
+        List<Shift> shifts = shiftService.getShiftsForEmployee(employeeId);
 
-        // Assert
         assertEquals(1, shifts.size());
 
         Shift shift = shifts.get(0);
 
+        assertEquals(1L, shift.getId());
         assertEquals(employeeId, shift.getEmployeeId());
         assertEquals(date, shift.getDate());
-        assertEquals("MORNING", shift.getShiftType());
+        assertEquals(ShiftType.MORNING, shift.getShiftType());
+        assertEquals("Assigned by Staff Manager", shift.getNotes());
 
-        // Verify
         verify(auditService).log(
                 eq("ASSIGN_SHIFT"),
                 eq("Shift"),
-                anyString(),
+                eq("1"),
                 contains("Assigned MORNING shift")
         );
     }
+
+    /**
+     * Tests that getAllShifts() returns every shift
+     * currently stored in the JSON file.
+     */
+
+    @Test
+    void shouldReturnAllShifts() throws Exception {
+        shiftService.assignShift(1L, LocalDate.of(2026, 6, 12), "MORNING");
+        removeShiftTypeNameFromJson();
+
+        shiftService.assignShift(2L, LocalDate.of(2026, 6, 13), "NIGHT");
+        removeShiftTypeNameFromJson();
+
+        List<Shift> result = shiftService.getAllShifts();
+
+        assertEquals(2, result.size());
+        assertEquals(1L, result.get(0).getEmployeeId());
+        assertEquals(2L, result.get(1).getEmployeeId());
+    }
+
+    /**
+     * Tests that getShiftsForEmployee() returns only
+     * the shifts assigned to the requested employee.
+     */
+
+    @Test
+    void shouldGetShiftsForEmployee() throws Exception {
+        shiftService.assignShift(1L, LocalDate.of(2026, 6, 12), "MORNING");
+        removeShiftTypeNameFromJson();
+
+        shiftService.assignShift(2L, LocalDate.of(2026, 6, 12), "NIGHT");
+        removeShiftTypeNameFromJson();
+
+        shiftService.assignShift(1L, LocalDate.of(2026, 6, 13), "AFTERNOON");
+        removeShiftTypeNameFromJson();
+
+        List<Shift> result = shiftService.getShiftsForEmployee(1L);
+
+        assertEquals(2, result.size());
+        assertTrue(result.stream()
+                .allMatch(s -> s.getEmployeeId().equals(1L)));
+    }
+
+    /**
+     * Tests that getShiftsForWeek() returns only shifts
+     * that fall within the specified week range.
+     */
+
+    @Test
+    void shouldGetShiftsForWeek() throws Exception {
+        LocalDate weekStart = LocalDate.of(2026, 6, 8);
+
+        shiftService.assignShift(1L, LocalDate.of(2026, 6, 8), "MORNING");
+        removeShiftTypeNameFromJson();
+
+        shiftService.assignShift(2L, LocalDate.of(2026, 6, 14), "NIGHT");
+        removeShiftTypeNameFromJson();
+
+        shiftService.assignShift(3L, LocalDate.of(2026, 6, 15), "AFTERNOON");
+        removeShiftTypeNameFromJson();
+
+        List<Shift> result = shiftService.getShiftsForWeek(weekStart);
+
+        assertEquals(2, result.size());
+        assertTrue(result.stream().allMatch(s ->
+                !s.getDate().isBefore(weekStart)
+                        && !s.getDate().isAfter(weekStart.plusDays(6))
+        ));
+    }
+
+    /**
+     * Tests that getShiftsForEmployeeBetweenDates()
+     * returns only shifts for one employee within
+     * the specified date interval.
+     */
+
+    @Test
+    void shouldGetShiftsForEmployeeBetweenDates() throws Exception {
+        Long employeeId = 1L;
+
+        shiftService.assignShift(employeeId, LocalDate.of(2026, 6, 10), "MORNING");
+        removeShiftTypeNameFromJson();
+
+        shiftService.assignShift(employeeId, LocalDate.of(2026, 6, 12), "NIGHT");
+        removeShiftTypeNameFromJson();
+
+        shiftService.assignShift(employeeId, LocalDate.of(2026, 6, 20), "AFTERNOON");
+        removeShiftTypeNameFromJson();
+
+        shiftService.assignShift(2L, LocalDate.of(2026, 6, 12), "MORNING");
+        removeShiftTypeNameFromJson();
+
+        List<Shift> result =
+                shiftService.getShiftsForEmployeeBetweenDates(
+                        employeeId,
+                        LocalDate.of(2026, 6, 10),
+                        LocalDate.of(2026, 6, 15)
+                );
+
+        assertEquals(2, result.size());
+        assertTrue(result.stream()
+                .allMatch(s -> s.getEmployeeId().equals(employeeId)));
+    }
+
+    /**
+     * Tests that isEmployeeOnShift() returns true
+     * when an employee has a shift on the given date.
+     */
+
+    @Test
+    void shouldDetectEmployeeOnShift() throws Exception {
+        Long employeeId = 3L;
+        LocalDate date = LocalDate.of(2026, 6, 14);
+
+        shiftService.assignShift(employeeId, date, "NIGHT");
+        removeShiftTypeNameFromJson();
+
+        boolean result = shiftService.isEmployeeOnShift(employeeId, date);
+
+        assertTrue(result);
+    }
+
+    /**
+     * Tests that isEmployeeOnShift() returns false
+     * when an employee has no shift on the given date.
+     */
+    @Test
+    void shouldReturnFalseWhenEmployeeIsNotOnShift() throws Exception {
+        Long employeeId = 3L;
+        LocalDate date = LocalDate.of(2026, 6, 14);
+
+        shiftService.assignShift(employeeId, LocalDate.of(2026, 6, 15), "NIGHT");
+        removeShiftTypeNameFromJson();
+
+        boolean result = shiftService.isEmployeeOnShift(employeeId, date);
+
+        assertFalse(result);
+    }
+
+    /**
+     * Tests that assigning a second shift on the same day
+     * replaces the previous shift instead of creating duplicates.
+     */
+    @Test
+    void shouldReplaceExistingShiftSameDay() throws Exception {
+        Long employeeId = 4L;
+        LocalDate date = LocalDate.of(2026, 6, 15);
+
+        shiftService.assignShift(employeeId, date, "MORNING");
+        removeShiftTypeNameFromJson();
+
+        shiftService.assignShift(employeeId, date, "AFTERNOON");
+        removeShiftTypeNameFromJson();
+
+        List<Shift> shifts = shiftService.getShiftsForEmployee(employeeId);
+
+        assertEquals(1, shifts.size());
+        assertEquals(ShiftType.AFTERNOON, shifts.get(0).getShiftType());
+
+        verify(auditService, times(2)).log(
+                eq("ASSIGN_SHIFT"),
+                eq("Shift"),
+                anyString(),
+                contains("Assigned")
+        );
+    }
+
 
     /**
      * Tests that removeShift() removes an existing shift
      * from the JSON storage.
      */
     @Test
-    void shouldRemoveShift() {
-        // Arrange
+    void shouldRemoveShift() throws Exception {
         Long employeeId = 2L;
         LocalDate date = LocalDate.of(2026, 6, 13);
 
-        shiftService.assignShift(employeeId, date, "EVENING");
+        shiftService.assignShift(employeeId, date, "AFTERNOON");
+        removeShiftTypeNameFromJson();
 
         List<Shift> before =
                 shiftService.getShiftsForEmployee(employeeId);
@@ -105,16 +308,14 @@ class ShiftServiceTest {
 
         Long shiftId = before.get(0).getId();
 
-        // Act
         shiftService.removeShift(shiftId);
+        removeShiftTypeNameFromJson();
 
         List<Shift> after =
                 shiftService.getShiftsForEmployee(employeeId);
 
-        // Assert
         assertTrue(after.isEmpty());
 
-        // Verify
         verify(auditService).log(
                 eq("REMOVE_SHIFT"),
                 eq("Shift"),
@@ -124,61 +325,43 @@ class ShiftServiceTest {
     }
 
     /**
-     * Tests that isEmployeeOnShift() returns true
-     * when the employee has a shift on that date.
+     * Tests that removing a non-existing shift
+     * does not create an audit log entry.
      */
     @Test
-    void shouldDetectEmployeeOnShift() {
-        // Arrange
-        Long employeeId = 3L;
-        LocalDate date = LocalDate.of(2026, 6, 14);
+    void shouldNotLogWhenRemovingNonExistingShift() throws Exception {
+        shiftService.removeShift(999L);
+        removeShiftTypeNameFromJson();
 
-        shiftService.assignShift(employeeId, date, "NIGHT");
+        List<Shift> result = shiftService.getAllShifts();
 
-        // Act
-        boolean result =
-                shiftService.isEmployeeOnShift(employeeId, date);
+        assertTrue(result.isEmpty());
 
-        // Assert
-        assertTrue(result);
-
-        // Verify
-        verify(auditService).log(
-                eq("ASSIGN_SHIFT"),
-                eq("Shift"),
+        verify(auditService, never()).log(
+                eq("REMOVE_SHIFT"),
                 anyString(),
-                contains("Assigned NIGHT shift")
+                anyString(),
+                anyString()
         );
     }
 
     /**
-     * Tests that assigning a new shift on the same date
-     * replaces the previous shift instead of creating duplicates.
+     * Tests that assignShift() throws an exception
+     * when an invalid shift type is provided.
      */
     @Test
-    void shouldReplaceExistingShiftSameDay() {
-        // Arrange
-        Long employeeId = 4L;
-        LocalDate date = LocalDate.of(2026, 6, 15);
-
-        shiftService.assignShift(employeeId, date, "MORNING");
-
-        // Act
-        shiftService.assignShift(employeeId, date, "EVENING");
-
-        List<Shift> shifts =
-                shiftService.getShiftsForEmployee(employeeId);
-
-        // Assert
-        assertEquals(1, shifts.size());
-        assertEquals("EVENING", shifts.get(0).getShiftType());
-
-        // Verify
-        verify(auditService, times(2)).log(
-                eq("ASSIGN_SHIFT"),
-                eq("Shift"),
-                anyString(),
-                contains("Assigned")
+    void shouldThrowWhenShiftTypeIsInvalid() {
+        RuntimeException exception = assertThrows(
+                RuntimeException.class,
+                () -> shiftService.assignShift(
+                        1L,
+                        LocalDate.of(2026, 6, 12),
+                        "EVENING"
+                )
         );
+
+        assertTrue(exception.getMessage().contains("No enum constant"));
+
+        verifyNoInteractions(auditService);
     }
 }

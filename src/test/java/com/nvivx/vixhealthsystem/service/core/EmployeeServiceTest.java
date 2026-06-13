@@ -11,6 +11,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import com.nvivx.vixhealthsystem.service.DevCredentialStore;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -39,6 +40,9 @@ class EmployeeServiceTest {
 
     @Mock
     private FirebaseAuthService firebaseAuthService;
+
+    @Mock
+    private DevCredentialStore devCredentialStore;
 
     @InjectMocks
     private EmployeeService service;
@@ -418,6 +422,12 @@ class EmployeeServiceTest {
         verify(firebaseAuthService).createUser("marco@test.com", "ChangeMe123!");
         verify(employeeRepository).save(employee);
         verify(auditService).log(anyString(), anyString(), anyString(), anyString());
+        verify(devCredentialStore).store(
+                eq("marco@test.com"),
+                eq("Marco Rossi"),
+                eq("MedicalSpecialist"),
+                eq("ChangeMe123!")
+        );
     }
 
     @Test
@@ -513,6 +523,7 @@ class EmployeeServiceTest {
         verify(employeeRepository).findById(1L);
         verify(firebaseAuthService).generatePasswordResetLink("marco@test.com");
         verify(auditService).log(anyString(), anyString(), anyString(), anyString());
+        verify(devCredentialStore).markResetTriggered("marco@test.com");
     }
 
     @Test
@@ -578,6 +589,7 @@ class EmployeeServiceTest {
         verify(firebaseAuthService, never()).deleteUser(anyString());
         verify(employeeRepository).delete(employee);
         verify(auditService).log(anyString(), anyString(), anyString(), anyString());
+        verifyNoInteractions(devCredentialStore);
     }
 
     @Test
@@ -588,6 +600,7 @@ class EmployeeServiceTest {
         employee.setName("Marco");
         employee.setSurname("Rossi");
         employee.setFirebaseUid("firebase123");
+        employee.setEmail("marco@test.com");
 
         when(employeeRepository.findById(1L))
                 .thenReturn(Optional.of(employee));
@@ -600,6 +613,7 @@ class EmployeeServiceTest {
         verify(firebaseAuthService).deleteUser("firebase123");
         verify(employeeRepository).delete(employee);
         verify(auditService).log(anyString(), anyString(), anyString(), anyString());
+        verify(devCredentialStore).remove("marco@test.com");
     }
 
     @Test

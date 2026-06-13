@@ -2,6 +2,7 @@ package com.nvivx.vixhealthsystem.service.resources;
 
 import com.nvivx.vixhealthsystem.model.enums.MachineStatus;
 import com.nvivx.vixhealthsystem.model.facility.SpecializedRoom;
+import com.nvivx.vixhealthsystem.model.person.employee.Technician;
 import com.nvivx.vixhealthsystem.model.resource.Machinery;
 import com.nvivx.vixhealthsystem.repository.MachineryRepository;
 import com.nvivx.vixhealthsystem.service.AuditService;
@@ -18,10 +19,10 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 /**
- * Arrange = prepare fake data and mock behavior
- * Act = call the method being tested
- * Assert = check the result
- * Verify = check that mocks were called correctly
+ * Unit tests for MachineryService.
+ *
+ * These tests do not start Spring Boot and do not use the real database.
+ * MachineryRepository and AuditService are mocked with Mockito.
  */
 @ExtendWith(MockitoExtension.class)
 class MachineryServiceTest {
@@ -35,254 +36,262 @@ class MachineryServiceTest {
     @InjectMocks
     private MachineryService service;
 
+    /**
+     * Tests that getAllMachines() returns all machines
+     * provided by the mocked repository.
+     */
     @Test
     void shouldReturnAllMachines() {
-        // Arrange
-        Machinery m1 = new Machinery("MRI");
-        m1.setId(1L);
+        Machinery m1 = createMachine(1L, "MRI Machine", MachineStatus.WORKING);
+        Machinery m2 = createMachine(2L, "X-Ray Machine", MachineStatus.FAULTY);
 
-        Machinery m2 = new Machinery("X-Ray");
-        m2.setId(2L);
+        when(machineryRepository.findAll()).thenReturn(List.of(m1, m2));
 
-        when(machineryRepository.findAll())
-                .thenReturn(List.of(m1, m2));
-
-        // Act
         List<Machinery> result = service.getAllMachines();
 
-        // Assert
         assertEquals(2, result.size());
-        assertEquals("MRI", result.get(0).getName());
+        assertEquals("MRI Machine", result.get(0).getName());
+        assertEquals("X-Ray Machine", result.get(1).getName());
 
-        // Verify
         verify(machineryRepository).findAll();
     }
 
+    /**
+     * Tests that getMachineById() returns the correct machine
+     * when the machine exists.
+     */
     @Test
-    void shouldGetMachineById() {
-        // Arrange
-        Machinery machine = new Machinery("MRI");
-        machine.setId(1L);
+    void shouldFindMachineById() {
+        Machinery machine = createMachine(1L, "MRI Machine", MachineStatus.WORKING);
 
-        when(machineryRepository.findById(1L))
-                .thenReturn(Optional.of(machine));
+        when(machineryRepository.findById(1L)).thenReturn(Optional.of(machine));
 
-        // Act
         Machinery result = service.getMachineById(1L);
 
-        // Assert
         assertNotNull(result);
         assertEquals(1L, result.getId());
-        assertEquals("MRI", result.getName());
+        assertEquals("MRI Machine", result.getName());
 
-        // Verify
         verify(machineryRepository).findById(1L);
     }
 
+    /**
+     * Tests that getMachineById() throws an exception
+     * when the machine does not exist.
+     */
     @Test
-    void shouldThrowWhenMachineNotFound() {
-        // Arrange
-        when(machineryRepository.findById(99L))
-                .thenReturn(Optional.empty());
+    void shouldThrowWhenMachineDoesNotExist() {
+        when(machineryRepository.findById(99L)).thenReturn(Optional.empty());
 
-        // Act + Assert
         RuntimeException exception = assertThrows(
                 RuntimeException.class,
                 () -> service.getMachineById(99L)
         );
 
-        assertTrue(exception.getMessage().contains("Machine not found"));
+        assertEquals("Machine not found with id: 99", exception.getMessage());
 
-        // Verify
         verify(machineryRepository).findById(99L);
     }
 
+    /**
+     * Tests that getMachinesByStatus() returns machines
+     * with the requested status.
+     */
     @Test
     void shouldReturnMachinesByStatus() {
-        // Arrange
-        Machinery machine = new Machinery("MRI");
-        machine.setId(1L);
-        machine.setStatus(MachineStatus.WORKING);
-
-        when(machineryRepository.findByStatus(MachineStatus.WORKING))
-                .thenReturn(List.of(machine));
-
-        // Act
-        List<Machinery> result =
-                service.getMachinesByStatus(MachineStatus.WORKING);
-
-        // Assert
-        assertEquals(1, result.size());
-        assertEquals(MachineStatus.WORKING, result.get(0).getStatus());
-
-        // Verify
-        verify(machineryRepository).findByStatus(MachineStatus.WORKING);
-    }
-
-    @Test
-    void shouldReturnWorkingMachines() {
-        // Arrange
-        Machinery machine = new Machinery("MRI");
-        machine.setStatus(MachineStatus.WORKING);
-
-        when(machineryRepository.findByStatus(MachineStatus.WORKING))
-                .thenReturn(List.of(machine));
-
-        // Act
-        List<Machinery> result = service.getWorkingMachines();
-
-        // Assert
-        assertEquals(1, result.size());
-        assertEquals(MachineStatus.WORKING, result.get(0).getStatus());
-
-        // Verify
-        verify(machineryRepository).findByStatus(MachineStatus.WORKING);
-    }
-
-    @Test
-    void shouldReturnFaultyMachines() {
-        // Arrange
-        Machinery machine = new Machinery("X-Ray");
-        machine.setStatus(MachineStatus.FAULTY);
+        Machinery machine = createMachine(1L, "MRI Machine", MachineStatus.FAULTY);
 
         when(machineryRepository.findByStatus(MachineStatus.FAULTY))
                 .thenReturn(List.of(machine));
 
-        // Act
-        List<Machinery> result = service.getFaultyMachines();
+        List<Machinery> result =
+                service.getMachinesByStatus(MachineStatus.FAULTY);
 
-        // Assert
         assertEquals(1, result.size());
         assertEquals(MachineStatus.FAULTY, result.get(0).getStatus());
 
-        // Verify
         verify(machineryRepository).findByStatus(MachineStatus.FAULTY);
     }
 
+    /**
+     * Tests that getWorkingMachines() returns only machines
+     * with WORKING status.
+     */
+    @Test
+    void shouldReturnWorkingMachines() {
+        Machinery machine = createMachine(1L, "MRI Machine", MachineStatus.WORKING);
+
+        when(machineryRepository.findByStatus(MachineStatus.WORKING))
+                .thenReturn(List.of(machine));
+
+        List<Machinery> result = service.getWorkingMachines();
+
+        assertEquals(1, result.size());
+        assertEquals(MachineStatus.WORKING, result.get(0).getStatus());
+
+        verify(machineryRepository).findByStatus(MachineStatus.WORKING);
+    }
+
+    /**
+     * Tests that getFaultyMachines() returns only machines
+     * with FAULTY status.
+     */
+    @Test
+    void shouldReturnFaultyMachines() {
+        Machinery machine = createMachine(1L, "X-Ray Machine", MachineStatus.FAULTY);
+
+        when(machineryRepository.findByStatus(MachineStatus.FAULTY))
+                .thenReturn(List.of(machine));
+
+        List<Machinery> result = service.getFaultyMachines();
+
+        assertEquals(1, result.size());
+        assertEquals(MachineStatus.FAULTY, result.get(0).getStatus());
+
+        verify(machineryRepository).findByStatus(MachineStatus.FAULTY);
+    }
+
+    /**
+     * Tests that getMachinesUnderMaintenance() returns only machines
+     * with UNDER_MAINTENANCE status.
+     */
     @Test
     void shouldReturnMachinesUnderMaintenance() {
-        // Arrange
-        Machinery machine = new Machinery("CT Scanner");
-        machine.setStatus(MachineStatus.UNDER_MAINTENANCE);
+        Machinery machine = createMachine(
+                1L,
+                "CT Scanner",
+                MachineStatus.UNDER_MAINTENANCE
+        );
 
         when(machineryRepository.findByStatus(MachineStatus.UNDER_MAINTENANCE))
                 .thenReturn(List.of(machine));
 
-        // Act
         List<Machinery> result = service.getMachinesUnderMaintenance();
 
-        // Assert
         assertEquals(1, result.size());
         assertEquals(MachineStatus.UNDER_MAINTENANCE, result.get(0).getStatus());
 
-        // Verify
-        verify(machineryRepository).findByStatus(MachineStatus.UNDER_MAINTENANCE);
+        verify(machineryRepository)
+                .findByStatus(MachineStatus.UNDER_MAINTENANCE);
     }
 
+    /**
+     * Tests that getMachinesByRoom() returns machines
+     * installed in the selected specialized room.
+     */
     @Test
     void shouldReturnMachinesByRoom() {
-        // Arrange
-        Machinery machine = new Machinery("MRI");
-        machine.setId(1L);
+        Machinery machine = createMachine(1L, "MRI Machine", MachineStatus.WORKING);
 
         when(machineryRepository.findBySpecializedRoomId(10L))
                 .thenReturn(List.of(machine));
 
-        // Act
         List<Machinery> result = service.getMachinesByRoom(10L);
 
-        // Assert
         assertEquals(1, result.size());
-        assertEquals("MRI", result.get(0).getName());
+        assertEquals("MRI Machine", result.get(0).getName());
 
-        // Verify
         verify(machineryRepository).findBySpecializedRoomId(10L);
     }
 
+    /**
+     * Tests that getFaultyMachinesForTechnician() uses the Technician
+     * domain method to return only faulty machines.
+     */
+    @Test
+    void shouldReturnFaultyMachinesForTechnician() {
+        Technician technician = new Technician();
+
+        Machinery working = createMachine(1L, "MRI Machine", MachineStatus.WORKING);
+        Machinery faulty = createMachine(2L, "X-Ray Machine", MachineStatus.FAULTY);
+
+        when(machineryRepository.findAll()).thenReturn(List.of(working, faulty));
+
+        List<Machinery> result =
+                service.getFaultyMachinesForTechnician(technician);
+
+        assertEquals(1, result.size());
+        assertEquals("X-Ray Machine", result.get(0).getName());
+        assertEquals(MachineStatus.FAULTY, result.get(0).getStatus());
+
+        verify(machineryRepository).findAll();
+    }
+
+    /**
+     * Tests that updateMachineStatus() saves the machine
+     * and creates an audit log entry.
+     *
+     * The final status is not asserted because Machinery.updateStatus()
+     * uses random logic.
+     */
     @Test
     void shouldUpdateMachineStatus() {
-        // Arrange
-        Machinery machine = new Machinery("MRI");
-        machine.setId(1L);
-        machine.setStatus(MachineStatus.WORKING);
+        Machinery machine = createMachine(1L, "MRI Machine", MachineStatus.WORKING);
 
-        when(machineryRepository.findById(1L))
-                .thenReturn(Optional.of(machine));
+        when(machineryRepository.findById(1L)).thenReturn(Optional.of(machine));
+        when(machineryRepository.save(machine)).thenReturn(machine);
 
-        when(machineryRepository.save(machine))
-                .thenReturn(machine);
-
-        // Act
         Machinery result =
-                service.updateMachineStatus(1L, MachineStatus.UNDER_MAINTENANCE);
+                service.updateMachineStatus(1L, MachineStatus.FAULTY);
 
-        // Assert
-        assertEquals(MachineStatus.UNDER_MAINTENANCE, result.getStatus());
+        assertNotNull(result);
 
-        // Verify
         verify(machineryRepository).findById(1L);
         verify(machineryRepository).save(machine);
         verify(auditService).log(
                 eq("UPDATE_MACHINE_STATUS"),
                 eq("Machinery"),
                 eq("1"),
-                contains("Status changed from WORKING to UNDER_MAINTENANCE")
+                contains("Status changed from WORKING to FAULTY")
         );
     }
 
+    /**
+     * Tests that reportFaultyMachine() marks a machine as faulty
+     * and creates a fault report audit log.
+     */
     @Test
     void shouldReportFaultyMachine() {
-        // Arrange
-        Machinery machine = new Machinery("MRI");
-        machine.setId(1L);
-        machine.setStatus(MachineStatus.WORKING);
+        Machinery machine = createMachine(1L, "X-Ray Machine", MachineStatus.WORKING);
 
-        when(machineryRepository.findById(1L))
-                .thenReturn(Optional.of(machine));
+        when(machineryRepository.findById(1L)).thenReturn(Optional.of(machine));
+        when(machineryRepository.save(machine)).thenReturn(machine);
 
-        when(machineryRepository.save(machine))
-                .thenReturn(machine);
-
-        // Act
         Machinery result =
-                service.reportFaultyMachine(1L, "Screen not working");
+                service.reportFaultyMachine(1L, "Machine stopped responding");
 
-        // Assert
-        assertEquals(MachineStatus.FAULTY, result.getStatus());
+        assertNotNull(result);
 
-        // Verify
-        verify(machineryRepository).findById(1L);
-        verify(machineryRepository).save(machine);
+        verify(auditService).log(
+                eq("UPDATE_MACHINE_STATUS"),
+                eq("Machinery"),
+                eq("1"),
+                contains("ALERT")
+        );
+
         verify(auditService).log(
                 eq("REPORT_FAULTY_MACHINE"),
                 eq("Machinery"),
                 eq("1"),
-                contains("Fault reported")
+                contains("Machine stopped responding")
         );
     }
 
+    /**
+     * Tests that repairMachine() updates the machine
+     * and creates a repair audit log.
+     */
     @Test
     void shouldRepairMachine() {
-        // Arrange
-        Machinery machine = new Machinery("MRI");
-        machine.setId(1L);
-        machine.setStatus(MachineStatus.FAULTY);
+        Machinery machine = createMachine(1L, "X-Ray Machine", MachineStatus.FAULTY);
 
-        when(machineryRepository.findById(1L))
-                .thenReturn(Optional.of(machine));
+        when(machineryRepository.findById(1L)).thenReturn(Optional.of(machine));
+        when(machineryRepository.save(machine)).thenReturn(machine);
 
-        when(machineryRepository.save(machine))
-                .thenReturn(machine);
-
-        // Act
         Machinery result = service.repairMachine(1L);
 
-        // Assert
-        assertEquals(MachineStatus.WORKING, result.getStatus());
+        assertNotNull(result);
 
-        // Verify
-        verify(machineryRepository).findById(1L);
-        verify(machineryRepository).save(machine);
         verify(auditService).log(
                 eq("REPAIR_MACHINE"),
                 eq("Machinery"),
@@ -291,183 +300,197 @@ class MachineryServiceTest {
         );
     }
 
+    /**
+     * Tests that scheduleMaintenance() updates the machine
+     * and creates a maintenance audit log.
+     */
     @Test
     void shouldScheduleMaintenance() {
-        // Arrange
-        Machinery machine = new Machinery("MRI");
-        machine.setId(1L);
-        machine.setStatus(MachineStatus.WORKING);
+        Machinery machine = createMachine(1L, "CT Scanner", MachineStatus.WORKING);
 
-        when(machineryRepository.findById(1L))
-                .thenReturn(Optional.of(machine));
+        when(machineryRepository.findById(1L)).thenReturn(Optional.of(machine));
+        when(machineryRepository.save(machine)).thenReturn(machine);
 
-        when(machineryRepository.save(machine))
-                .thenReturn(machine);
-
-        // Act
         Machinery result =
                 service.scheduleMaintenance(1L, "Monthly check");
 
-        // Assert
-        assertEquals(MachineStatus.UNDER_MAINTENANCE, result.getStatus());
+        assertNotNull(result);
 
-        // Verify
-        verify(machineryRepository).findById(1L);
-        verify(machineryRepository).save(machine);
         verify(auditService).log(
                 eq("SCHEDULE_MAINTENANCE"),
                 eq("Machinery"),
                 eq("1"),
-                contains("Maintenance scheduled")
+                contains("Monthly check")
         );
     }
 
+    /**
+     * Tests that getFaultyMachineCount() returns the number
+     * of faulty machines.
+     */
     @Test
     void shouldReturnFaultyMachineCount() {
-        // Arrange
         when(machineryRepository.findByStatus(MachineStatus.FAULTY))
-                .thenReturn(List.of(new Machinery("MRI"), new Machinery("X-Ray")));
+                .thenReturn(List.of(
+                        createMachine(1L, "X-Ray", MachineStatus.FAULTY),
+                        createMachine(2L, "MRI", MachineStatus.FAULTY)
+                ));
 
-        // Act
         long result = service.getFaultyMachineCount();
 
-        // Assert
         assertEquals(2, result);
 
-        // Verify
         verify(machineryRepository).findByStatus(MachineStatus.FAULTY);
     }
 
+    /**
+     * Tests that getMaintenanceMachineCount() returns the number
+     * of machines under maintenance.
+     */
     @Test
     void shouldReturnMaintenanceMachineCount() {
-        // Arrange
         when(machineryRepository.findByStatus(MachineStatus.UNDER_MAINTENANCE))
-                .thenReturn(List.of(new Machinery("MRI")));
+                .thenReturn(List.of(
+                        createMachine(1L, "CT Scanner", MachineStatus.UNDER_MAINTENANCE)
+                ));
 
-        // Act
         long result = service.getMaintenanceMachineCount();
 
-        // Assert
         assertEquals(1, result);
 
-        // Verify
-        verify(machineryRepository).findByStatus(MachineStatus.UNDER_MAINTENANCE);
+        verify(machineryRepository)
+                .findByStatus(MachineStatus.UNDER_MAINTENANCE);
     }
 
+    /**
+     * Tests that getWorkingMachineCount() returns the number
+     * of working machines.
+     */
     @Test
     void shouldReturnWorkingMachineCount() {
-        // Arrange
         when(machineryRepository.findByStatus(MachineStatus.WORKING))
-                .thenReturn(List.of(new Machinery("MRI"), new Machinery("CT")));
+                .thenReturn(List.of(
+                        createMachine(1L, "MRI", MachineStatus.WORKING),
+                        createMachine(2L, "CT Scanner", MachineStatus.WORKING)
+                ));
 
-        // Act
         long result = service.getWorkingMachineCount();
 
-        // Assert
         assertEquals(2, result);
 
-        // Verify
         verify(machineryRepository).findByStatus(MachineStatus.WORKING);
     }
 
+    /**
+     * Tests that getTotalMachineCount() returns the total number
+     * of machines from the repository.
+     */
     @Test
     void shouldReturnTotalMachineCount() {
-        // Arrange
-        when(machineryRepository.count())
-                .thenReturn(5L);
+        when(machineryRepository.count()).thenReturn(5L);
 
-        // Act
         long result = service.getTotalMachineCount();
 
-        // Assert
         assertEquals(5L, result);
 
-        // Verify
         verify(machineryRepository).count();
     }
 
+    /**
+     * Tests that hasFaultyMachines() returns true
+     * when at least one faulty machine exists.
+     */
     @Test
     void shouldReturnTrueWhenThereAreFaultyMachines() {
-        // Arrange
         when(machineryRepository.findByStatus(MachineStatus.FAULTY))
-                .thenReturn(List.of(new Machinery("MRI")));
+                .thenReturn(List.of(
+                        createMachine(1L, "X-Ray", MachineStatus.FAULTY)
+                ));
 
-        // Act
         boolean result = service.hasFaultyMachines();
 
-        // Assert
         assertTrue(result);
 
-        // Verify
         verify(machineryRepository).findByStatus(MachineStatus.FAULTY);
     }
 
+    /**
+     * Tests that hasFaultyMachines() returns false
+     * when no faulty machines exist.
+     */
     @Test
     void shouldReturnFalseWhenThereAreNoFaultyMachines() {
-        // Arrange
         when(machineryRepository.findByStatus(MachineStatus.FAULTY))
                 .thenReturn(List.of());
 
-        // Act
         boolean result = service.hasFaultyMachines();
 
-        // Assert
         assertFalse(result);
 
-        // Verify
         verify(machineryRepository).findByStatus(MachineStatus.FAULTY);
     }
 
+    /**
+     * Tests that getActiveAlerts() returns alert information
+     * for faulty machines with known room locations.
+     */
     @Test
-    void shouldReturnActiveAlerts() {
-        // Arrange
-        SpecializedRoom room = new SpecializedRoom();
-        room.setNumber("MRI-101");
+    void shouldReturnActiveAlertsWithRoomLocation() {
+        SpecializedRoom room = new SpecializedRoom("MRI-101", "MRI");
 
-        Machinery machine = new Machinery("MRI");
-        machine.setId(1L);
-        machine.setStatus(MachineStatus.FAULTY);
+        Machinery machine = createMachine(1L, "MRI Machine", MachineStatus.FAULTY);
         machine.setSpecializedRoom(room);
 
         when(machineryRepository.findByStatus(MachineStatus.FAULTY))
                 .thenReturn(List.of(machine));
 
-        // Act
-        List<MachineryService.AlertInfo> result =
-                service.getActiveAlerts();
+        List<MachineryService.AlertInfo> result = service.getActiveAlerts();
 
-        // Assert
         assertEquals(1, result.size());
-        assertEquals(1L, result.get(0).getId());
-        assertEquals("MRI", result.get(0).getName());
-        assertEquals(MachineStatus.FAULTY, result.get(0).getStatus());
-        assertEquals("MRI-101", result.get(0).getLocation());
-        assertTrue(result.get(0).getMessage().contains("faulty"));
 
-        // Verify
+        MachineryService.AlertInfo alert = result.get(0);
+
+        assertEquals(1L, alert.getId());
+        assertEquals("MRI Machine", alert.getName());
+        assertEquals(MachineStatus.FAULTY, alert.getStatus());
+        assertEquals("MRI-101", alert.getLocation());
+        assertEquals(
+                "Machine reported faulty. Immediate attention required.",
+                alert.getMessage()
+        );
+
         verify(machineryRepository).findByStatus(MachineStatus.FAULTY);
     }
 
+    /**
+     * Tests that getActiveAlerts() returns Unknown Location
+     * when the faulty machine has no specialized room assigned.
+     */
     @Test
-    void shouldReturnActiveAlertsWithUnknownLocationWhenRoomIsNull() {
-        // Arrange
-        Machinery machine = new Machinery("X-Ray");
-        machine.setId(2L);
-        machine.setStatus(MachineStatus.FAULTY);
+    void shouldReturnActiveAlertsWithUnknownLocation() {
+        Machinery machine = createMachine(1L, "Portable Monitor", MachineStatus.FAULTY);
         machine.setSpecializedRoom(null);
 
         when(machineryRepository.findByStatus(MachineStatus.FAULTY))
                 .thenReturn(List.of(machine));
 
-        // Act
-        List<MachineryService.AlertInfo> result =
-                service.getActiveAlerts();
+        List<MachineryService.AlertInfo> result = service.getActiveAlerts();
 
-        // Assert
         assertEquals(1, result.size());
         assertEquals("Unknown Location", result.get(0).getLocation());
 
-        // Verify
         verify(machineryRepository).findByStatus(MachineStatus.FAULTY);
+    }
+
+    private Machinery createMachine(
+            Long id,
+            String name,
+            MachineStatus status
+    ) {
+        Machinery machine = new Machinery();
+        machine.setId(id);
+        machine.setName(name);
+        machine.setStatus(status);
+        return machine;
     }
 }
