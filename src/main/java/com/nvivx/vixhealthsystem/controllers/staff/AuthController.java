@@ -3,6 +3,7 @@ package com.nvivx.vixhealthsystem.controllers.staff;
 import com.nvivx.vixhealthsystem.service.core.PatientService;
 import com.nvivx.vixhealthsystem.model.person.employee.Employee;
 import com.nvivx.vixhealthsystem.service.core.EmployeeService;
+import com.nvivx.vixhealthsystem.service.DevCredentialStore;
 import com.nvivx.vixhealthsystem.service.integration.FirebaseAuthService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -23,11 +24,16 @@ public class AuthController {
     private final FirebaseAuthService firebaseAuthService;
     private final EmployeeService employeeService;
     private final PatientService patientService;
+    private final DevCredentialStore devCredentialStore;
 
-    public AuthController(FirebaseAuthService firebaseAuthService, EmployeeService employeeService, com.nvivx.vixhealthsystem.service.core.PatientService patientService) {
+    public AuthController(FirebaseAuthService firebaseAuthService,
+                          EmployeeService employeeService,
+                          PatientService patientService,
+                          DevCredentialStore devCredentialStore) {
         this.firebaseAuthService = firebaseAuthService;
         this.employeeService = employeeService;
         this.patientService = patientService;
+        this.devCredentialStore = devCredentialStore;
     }
 
     @GetMapping("/login")
@@ -35,6 +41,7 @@ public class AuthController {
         if (error != null) {
             model.addAttribute("error", "Invalid credentials");
         }
+        model.addAttribute("devCredentials", devCredentialStore.getAll());
         return "login";
     }
 

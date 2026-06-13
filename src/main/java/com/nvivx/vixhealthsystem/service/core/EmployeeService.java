@@ -10,6 +10,7 @@ import com.nvivx.vixhealthsystem.model.person.employee.StaffManager;
 import com.nvivx.vixhealthsystem.repository.DepartmentRepository;
 import com.nvivx.vixhealthsystem.repository.EmployeeRepository;
 import com.nvivx.vixhealthsystem.service.AuditService;
+import com.nvivx.vixhealthsystem.service.DevCredentialStore;
 import com.nvivx.vixhealthsystem.service.integration.FirebaseAuthService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -27,17 +28,20 @@ public class EmployeeService {
     private final DepartmentRepository departmentRepository;
     private final AuditService auditService;
     private final FirebaseAuthService firebaseAuthService;
+    private final DevCredentialStore devCredentialStore;
 
     public EmployeeService(
             EmployeeRepository employeeRepository,
             DepartmentRepository departmentRepository,
             AuditService auditService,
-            FirebaseAuthService firebaseAuthService
+            FirebaseAuthService firebaseAuthService,
+            DevCredentialStore devCredentialStore
     ) {
         this.employeeRepository = employeeRepository;
         this.departmentRepository = departmentRepository;
         this.auditService = auditService;
         this.firebaseAuthService = firebaseAuthService;
+        this.devCredentialStore = devCredentialStore;
     }
 
     public List<Department> findAllDepartments() {
@@ -150,6 +154,13 @@ public class EmployeeService {
             System.out.println("Firebase UID: " + firebaseUid);
             System.out.println("=========================================");
 
+            devCredentialStore.store(
+                    employee.getEmail(),
+                    employee.getName() + " " + employee.getSurname(),
+                    employee.getClass().getSimpleName(),
+                    temporaryPassword
+            );
+
         } catch (Exception e) {
             String rootCause = (e.getCause() != null) ? e.getCause().getMessage() : e.getMessage();
             throw new RuntimeException("Firebase error: " + rootCause, e);
@@ -198,8 +209,9 @@ public class EmployeeService {
     }
 
     /**
-     * Generates a Firebase reset password link for a specific employee.
-     * In this demo version, the link is printed as if it were sent to the configured demo email.
+     * Generates a Firebase password-reset link for the employee (simulated email).
+     * The link is printed to console and stored in the dev credential board so it
+     * is never lost during a demo session.
      */
     public void requestEmployeePasswordReset(Long employeeId) {
         Employee employee = findById(employeeId);
@@ -217,6 +229,9 @@ public class EmployeeService {
             System.out.println("Employee email: " + employee.getEmail());
             System.out.println("Reset link: " + resetLink);
             System.out.println("===========================");
+
+            // Mark on the dev board that this account's password is no longer the default
+            devCredentialStore.markResetTriggered(employee.getEmail());
 
             auditService.log(
                     "REQUEST_PASSWORD_RESET",
@@ -261,6 +276,10 @@ public class EmployeeService {
                         e
                 );
             }
+        }
+
+        if (employee.getEmail() != null) {
+            devCredentialStore.remove(employee.getEmail());
         }
 
         employeeRepository.delete(employee);
