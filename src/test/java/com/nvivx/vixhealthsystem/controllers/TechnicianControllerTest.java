@@ -21,11 +21,23 @@ import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
 /**
- * @brief Unit tests for TechnicianController using plain JUnit and Mockito mocks.
- * Covers the dashboard, machine list views, status updates, alert display, profile guard,
- * shift display, machine details, and repair operations via direct method invocation.
+ * @class TechnicianControllerTest
+ * @brief Unit tests for TechnicianController (technical maintenance module).
+ *
+ * These tests verify technician functionalities including:
+ * - Dashboard statistics
+ * - Machine listing and filtering
+ * - Machine status updates and repairs
+ * - Alert management
+ * - Profile access control
+ * - Shift and vacation display
+ * - Machine detail view
+ *
+ * Tests are executed using plain JUnit + Mockito without Spring context.
  */
 class TechnicianControllerTest {
+
+    // ---------------- MOCKED DEPENDENCIES ----------------
 
     private final MachineryService machineryService = mock(MachineryService.class);
     private final EmployeeService employeeService = mock(EmployeeService.class);
@@ -33,13 +45,20 @@ class TechnicianControllerTest {
     private final VacationService vacationService = mock(VacationService.class);
     private final HttpSession session = mock(HttpSession.class);
 
+    /// Controller under test
     private final TechnicianController controller =
             new TechnicianController(machineryService, employeeService, shiftService, vacationService);
 
-    // ================= DASHBOARD =================
+    // =========================================================
+    // DASHBOARD
+    // =========================================================
 
+    /**
+     * @brief Verifies technician dashboard loads correct statistics.
+     */
     @Test
     void dashboard_shouldWork() {
+
         when(machineryService.getTotalMachineCount()).thenReturn(10L);
         when(machineryService.getFaultyMachineCount()).thenReturn(2L);
         when(machineryService.getMaintenanceMachineCount()).thenReturn(1L);
@@ -54,10 +73,16 @@ class TechnicianControllerTest {
         assertEquals(10L, model.getAttribute("totalMachines"));
     }
 
-    // ================= ALL MACHINES =================
+    // =========================================================
+    // MACHINES
+    // =========================================================
 
+    /**
+     * @brief Verifies full machine list view.
+     */
     @Test
     void viewAllMachines_shouldWork() {
+
         when(machineryService.getAllMachines()).thenReturn(List.of());
 
         Model model = new ConcurrentModel();
@@ -68,10 +93,12 @@ class TechnicianControllerTest {
         assertEquals("All Machines", model.getAttribute("pageTitle"));
     }
 
-    // ================= FAULTY MACHINES =================
-
+    /**
+     * @brief Verifies faulty machines view for technician.
+     */
     @Test
     void viewFaultyMachines_shouldWork() {
+
         Technician tech = new Technician();
         tech.setId(1L);
 
@@ -88,14 +115,17 @@ class TechnicianControllerTest {
         assertTrue((Boolean) model.getAttribute("isFaultyView"));
     }
 
-    // ================= UPDATE STATUS =================
+    // =========================================================
+    // MACHINE STATUS UPDATE
+    // =========================================================
 
+    /**
+     * @brief Verifies machine status update flow.
+     */
     @Test
     void updateMachineStatus_shouldWork() {
 
-        // IMPORTANT: your service returns a MACHINE-like object
         var machine = mock(com.nvivx.vixhealthsystem.model.resource.Machinery.class);
-
         when(machine.getName()).thenReturn("MRI Scanner");
 
         when(machineryService.updateMachineStatus(anyLong(), any(MachineStatus.class)))
@@ -109,10 +139,16 @@ class TechnicianControllerTest {
         assertTrue(model.getAttribute("message").toString().contains("MRI Scanner"));
     }
 
-    // ================= ALERTS =================
+    // =========================================================
+    // ALERTS
+    // =========================================================
 
+    /**
+     * @brief Verifies alerts page rendering.
+     */
     @Test
     void alerts_shouldWork() {
+
         when(machineryService.getActiveAlerts()).thenReturn(List.of());
 
         Model model = new ConcurrentModel();
@@ -123,10 +159,16 @@ class TechnicianControllerTest {
         assertEquals("Machine Alerts", model.getAttribute("pageTitle"));
     }
 
-    // ================= PROFILE =================
+    // =========================================================
+    // PROFILE
+    // =========================================================
 
+    /**
+     * @brief Verifies redirect when technician session is missing.
+     */
     @Test
     void profile_shouldRedirectIfNoSession() {
+
         when(session.getAttribute("user")).thenReturn(null);
 
         Model model = new ConcurrentModel();
@@ -136,8 +178,12 @@ class TechnicianControllerTest {
         assertEquals("redirect:/login", view);
     }
 
+    /**
+     * @brief Verifies technician profile page rendering.
+     */
     @Test
     void profile_shouldWork() {
+
         Employee emp = new Technician();
         emp.setId(1L);
 
@@ -152,10 +198,16 @@ class TechnicianControllerTest {
         assertEquals("My Profile", model.getAttribute("pageTitle"));
     }
 
-    // ================= SHIFTS =================
+    // =========================================================
+    // SHIFTS
+    // =========================================================
 
+    /**
+     * @brief Verifies shift and vacation data loading.
+     */
     @Test
     void shifts_shouldWork() {
+
         Technician tech = new Technician();
         tech.setId(1L);
 
@@ -175,10 +227,16 @@ class TechnicianControllerTest {
         assertEquals("My Shifts", model.getAttribute("pageTitle"));
     }
 
-    // ================= MACHINE DETAILS =================
+    // =========================================================
+    // MACHINE DETAILS
+    // =========================================================
 
+    /**
+     * @brief Verifies machine detail page rendering.
+     */
     @Test
     void machineDetails_shouldWork() {
+
         var machine = mock(com.nvivx.vixhealthsystem.model.resource.Machinery.class);
         when(machine.getName()).thenReturn("Pump");
 
@@ -191,12 +249,17 @@ class TechnicianControllerTest {
         assertEquals("technician/machine-details", view);
     }
 
-    // ================= REPAIR =================
+    // =========================================================
+    // REPAIR
+    // =========================================================
 
+    /**
+     * @brief Verifies machine repair flow.
+     */
     @Test
     void repairMachine_shouldWork() {
-        var machine = mock(com.nvivx.vixhealthsystem.model.resource.Machinery.class);
 
+        var machine = mock(com.nvivx.vixhealthsystem.model.resource.Machinery.class);
         when(machine.getName()).thenReturn("Ventilator");
 
         when(machineryService.repairMachine(1L)).thenReturn(machine);

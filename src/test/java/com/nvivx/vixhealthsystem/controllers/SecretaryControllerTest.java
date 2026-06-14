@@ -19,12 +19,22 @@ import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * @brief Unit tests for SecretaryController using Mockito mocks injected via @InjectMocks.
- * Covers the dashboard, room views (all and available), appointment management page, and
- * the patient search form — all verified through direct method calls without MockMvc.
+ * @class SecretaryControllerTest
+ * @brief Unit tests for SecretaryController (hospital administration module).
+ *
+ * These tests verify core secretary functionalities including:
+ * - Dashboard statistics rendering
+ * - Room management views (all / available)
+ * - Appointment management page
+ * - Patient search form rendering
+ *
+ * The controller is tested using direct method calls with Mockito mocks
+ * and without Spring context or MockMvc.
  */
 @ExtendWith(MockitoExtension.class)
 class SecretaryControllerTest {
+
+    // ---------------- MOCKED DEPENDENCIES ----------------
 
     @Mock
     private RoomService roomService;
@@ -44,11 +54,16 @@ class SecretaryControllerTest {
     @Mock
     private Model model;
 
+    /// Controller under test with injected mocked dependencies.
     @InjectMocks
     private SecretaryController secretaryController;
 
+    /// Sample secretary user used in dashboard tests.
     private Secretary testSecretary;
 
+    /**
+     * @brief Initializes test data before each test.
+     */
     @BeforeEach
     void setUp() {
         testSecretary = new Secretary();
@@ -57,8 +72,16 @@ class SecretaryControllerTest {
         testSecretary.setSurname("Secretary");
     }
 
+    // =========================================================
+    // DASHBOARD
+    // =========================================================
+
+    /**
+     * @brief Verifies secretary dashboard loads with correct statistics.
+     */
     @Test
     void testDashboard() {
+
         // Arrange
         when(session.getAttribute("user")).thenReturn(testSecretary);
         when(employeeService.findById(1L)).thenReturn(testSecretary);
@@ -72,6 +95,7 @@ class SecretaryControllerTest {
 
         // Assert
         assertEquals("secretary/dashboard", result);
+
         verify(model).addAttribute(eq("pageTitle"), anyString());
         verify(model).addAttribute(eq("currentPage"), eq("dashboard"));
         verify(model).addAttribute(eq("totalRooms"), anyInt());
@@ -80,64 +104,85 @@ class SecretaryControllerTest {
         verify(model).addAttribute(eq("totalAvailableBeds"), anyInt());
     }
 
+    // =========================================================
+    // ROOMS
+    // =========================================================
+
+    /**
+     * @brief Verifies that all rooms view loads correctly.
+     */
     @Test
     void testViewAllRooms() {
-        // Arrange
+
         when(roomService.getAllRooms()).thenReturn(java.util.Collections.emptyList());
         when(patientService.findAllPatients()).thenReturn(java.util.Collections.emptyList());
 
-        // Act
         String result = secretaryController.viewAllRooms(model);
 
-        // Assert
         assertEquals("secretary/rooms", result);
+
         verify(model).addAttribute(eq("rooms"), any());
         verify(model).addAttribute(eq("patients"), any());
         verify(model).addAttribute(eq("pageTitle"), eq("All Rooms"));
     }
 
+    /**
+     * @brief Verifies that available rooms view loads correctly.
+     */
     @Test
     void testViewAvailableRooms() {
-        // Arrange
+
         when(roomService.getAvailableRooms()).thenReturn(java.util.Collections.emptyList());
         when(patientService.findAllPatients()).thenReturn(java.util.Collections.emptyList());
 
-        // Act
         String result = secretaryController.viewAvailableRooms(model);
 
-        // Assert
         assertEquals("secretary/rooms", result);
+
         verify(model).addAttribute(eq("rooms"), any());
         verify(model).addAttribute(eq("patients"), any());
         verify(model).addAttribute(eq("pageTitle"), eq("Available Rooms"));
         verify(model).addAttribute(eq("isAvailableView"), eq(true));
     }
 
+    // =========================================================
+    // APPOINTMENTS
+    // =========================================================
+
+    /**
+     * @brief Verifies appointment management page loads correctly.
+     */
     @Test
     void testManageAppointments() {
-        // Arrange
+
         when(appointmentRepository.findAll()).thenReturn(java.util.Collections.emptyList());
         when(patientService.findAllPatients()).thenReturn(java.util.Collections.emptyList());
         when(employeeService.findAllMedicalSpecialists()).thenReturn(java.util.Collections.emptyList());
 
-        // Act
         String result = secretaryController.manageAppointments(model);
 
-        // Assert
         assertEquals("secretary/manage-appointments", result);
+
         verify(model).addAttribute(eq("appointments"), any());
         verify(model).addAttribute(eq("patients"), any());
         verify(model).addAttribute(eq("specialists"), any());
         verify(model).addAttribute(eq("pageTitle"), eq("Manage Appointments"));
     }
 
+    // =========================================================
+    // PATIENT SEARCH
+    // =========================================================
+
+    /**
+     * @brief Verifies patient search form rendering.
+     */
     @Test
     void testShowPatientSearchForm() {
-        // Act
+
         String result = secretaryController.showPatientSearchForm(model);
 
-        // Assert
         assertEquals("secretary/patient-search", result);
+
         verify(model).addAttribute(eq("pageTitle"), eq("Search Patients"));
     }
 }

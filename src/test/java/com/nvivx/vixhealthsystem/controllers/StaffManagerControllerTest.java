@@ -1,4 +1,4 @@
-/* package com.nvivx.vixhealthsystem.controllers;
+package com.nvivx.vixhealthsystem.controllers;
 
 import com.nvivx.vixhealthsystem.controllers.staff.StaffManagerController;
 import com.nvivx.vixhealthsystem.model.person.employee.Employee;
@@ -22,7 +22,21 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+/**
+ * @class StaffManagerControllerTest
+ * @brief Unit tests for StaffManagerController (staff administration module).
+ *
+ * These tests validate staff management operations including:
+ * - Dashboard statistics loading
+ * - Employee listing and filtering
+ * - Shift assignment
+ * - Vacation approval and rejection
+ *
+ * Tests are written using plain JUnit + Mockito without Spring context.
+ */
 class StaffManagerControllerTest {
+
+    // ---------------- MOCKED DEPENDENCIES ----------------
 
     private final EmployeeService employeeService =
             Mockito.mock(EmployeeService.class);
@@ -45,6 +59,7 @@ class StaffManagerControllerTest {
     private final HttpSession session =
             Mockito.mock(HttpSession.class);
 
+    /// Controller under test
     private final StaffManagerController controller =
             new StaffManagerController(
                     employeeService,
@@ -55,8 +70,16 @@ class StaffManagerControllerTest {
                     takeLogStore
             );
 
+    // =========================================================
+    // DASHBOARD
+    // =========================================================
+
+    /**
+     * @brief Verifies staff manager dashboard loads correct statistics.
+     */
     @Test
     void shouldLoadDashboard() {
+
         ExtendedModelMap model = new ExtendedModelMap();
 
         Mockito.when(employeeService.getTotalEmployeeCount())
@@ -75,8 +98,16 @@ class StaffManagerControllerTest {
         assertEquals(0, model.get("pendingVacations"));
     }
 
+    // =========================================================
+    // EMPLOYEES
+    // =========================================================
+
+    /**
+     * @brief Verifies full employee listing.
+     */
     @Test
     void shouldListAllEmployees() {
+
         ExtendedModelMap model = new ExtendedModelMap();
 
         Employee e1 = new MedicalSpecialist();
@@ -91,8 +122,12 @@ class StaffManagerControllerTest {
         assertEquals(2, ((List<?>) model.get("employees")).size());
     }
 
+    /**
+     * @brief Verifies filtering employees by role (medical specialists).
+     */
     @Test
     void shouldFilterMedicalSpecialists() {
+
         ExtendedModelMap model = new ExtendedModelMap();
 
         Employee e1 = new MedicalSpecialist();
@@ -106,8 +141,16 @@ class StaffManagerControllerTest {
         assertEquals("staff-manager/employees", view);
     }
 
+    // =========================================================
+    // SHIFT MANAGEMENT
+    // =========================================================
+
+    /**
+     * @brief Verifies shift assignment logic.
+     */
     @Test
     void shouldAssignShift() {
+
         ExtendedModelMap model = new ExtendedModelMap();
 
         Mockito.when(vacationService.getApprovedRequestsForEmployee(1))
@@ -129,8 +172,16 @@ class StaffManagerControllerTest {
         assertEquals("staff-manager/result", view);
     }
 
+    // =========================================================
+    // VACATION MANAGEMENT
+    // =========================================================
+
+    /**
+     * @brief Verifies vacation approval flow.
+     */
     @Test
     void shouldApproveVacation() {
+
         ExtendedModelMap model = new ExtendedModelMap();
 
         String view = controller.approveVacation(1, model);
@@ -140,8 +191,12 @@ class StaffManagerControllerTest {
         assertEquals("staff-manager/result", view);
     }
 
+    /**
+     * @brief Verifies vacation rejection flow.
+     */
     @Test
     void shouldDenyVacation() {
+
         ExtendedModelMap model = new ExtendedModelMap();
 
         String view = controller.denyVacation(2, model);
@@ -150,4 +205,4 @@ class StaffManagerControllerTest {
 
         assertEquals("staff-manager/result", view);
     }
-} */
+}

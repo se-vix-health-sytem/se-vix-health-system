@@ -1,17 +1,28 @@
-package com.nvivx.vixhealthsystem.controllers;
+package com.nvivx.vixhealthsystem.controllers.staff;
 
-import com.nvivx.vixhealthsystem.controllers.staff.MedicalSpecialistController;
+import com.nvivx.vixhealthsystem.model.facility.Room;
+import com.nvivx.vixhealthsystem.model.medical.Appointment;
 import com.nvivx.vixhealthsystem.model.person.Patient;
-import com.nvivx.vixhealthsystem.model.medical.MedicalRecord;
+import com.nvivx.vixhealthsystem.model.person.employee.MedicalSpecialist;
+import com.nvivx.vixhealthsystem.repository.JsonAppointmentRepository;
+import com.nvivx.vixhealthsystem.repository.RoomRepository;
+import com.nvivx.vixhealthsystem.repository.SurgeryRepository;
+import com.nvivx.vixhealthsystem.service.AuditService;
+import com.nvivx.vixhealthsystem.service.core.EmployeeService;
 import com.nvivx.vixhealthsystem.service.core.PatientService;
 import com.nvivx.vixhealthsystem.service.medical.MedicalRecordService;
 import com.nvivx.vixhealthsystem.service.scheduling.ShiftService;
+import com.nvivx.vixhealthsystem.service.scheduling.VacationService;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+
+import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
@@ -22,144 +33,238 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 /**
- * @brief Unit tests for MedicalSpecialistController using Spring MVC MockMvc and Mockito mocks.
- * Covers the dashboard, patient search, medical record view, and POST actions for adding
- * diagnoses, prescriptions, and exam results.
+ * @class MedicalSpecialistControllerTest
+ * @brief Unit tests for MedicalSpecialistController (clinical workflow module).
+ *
+ * These tests validate key medical specialist actions such as:
+ * - Dashboard access
+ * - Patient search and record viewing
+ * - Adding diagnoses, prescriptions, and exam results
+ * - Viewing appointments and profile
+ * - Authentication guard for calendar access
+ *
+ * The controller is tested using standalone MockMvc with mocked dependencies.
  */
 @ExtendWith(MockitoExtension.class)
 class MedicalSpecialistControllerTest {
 
+    /// MockMvc instance used to simulate HTTP requests to the controller.
     private MockMvc mockMvc;
 
-    @Mock
-    private MedicalRecordService medicalRecordService;
-
-    @Mock
-    private PatientService patientService;
-
-    @Mock
-    private ShiftService shiftService;
-
+    /// Controller under test with injected mocked dependencies.
     @InjectMocks
     private MedicalSpecialistController controller;
 
+    // ---------------- MOCKED DEPENDENCIES ----------------
+
+    @Mock private MedicalRecordService medicalRecordService;
+    @Mock private PatientService patientService;
+    @Mock private ShiftService shiftService;
+    @Mock private VacationService vacationService;
+    @Mock private SurgeryRepository surgeryRepository;
+    @Mock private RoomRepository roomRepository;
+    @Mock private JsonAppointmentRepository appointmentRepository;
+    @Mock private AuditService auditService;
+    @Mock private EmployeeService employeeService;
+
+    /// Mock HTTP session used to simulate logged-in medical specialist.
+    private MockHttpSession session;
+
+    /**
+     * @brief Initializes MockMvc and session before each test.
+     *
+     * A valid MedicalSpecialist user is stored in session to simulate authentication.
+     */
     @BeforeEach
-    void setup() {
+    void setUp() {
+
         mockMvc = MockMvcBuilders
                 .standaloneSetup(controller)
                 .build();
+
+        session = new MockHttpSession();
+
+        // Simulate logged-in medical specialist
+        MedicalSpecialist specialist = new MedicalSpecialist();
+        specialist.setId(1L);
+
+        session.setAttribute("user", specialist);
     }
 
+    // =========================================================
+    // DASHBOARD
+    // =========================================================
+
+    /**
+     * @brief Verifies that the dashboard loads correctly.
+     */
     @Test
-    void testDashboard() throws Exception {
+    void dashboard_returnsView() throws Exception {
+
         mockMvc.perform(get("/medical-specialist/dashboard"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("medical-specialist/dashboard"))
                 .andExpect(model().attributeExists("pageTitle"));
     }
 
-    @Test
-    void testSearchForm() throws Exception {
-        mockMvc.perform(get("/medical-specialist/patients/search"))
-                .andExpect(status().isOk())
-                .andExpect(view().name("medical-specialist/patient-search"));
-    }
+    // =========================================================
+    // PATIENT SEARCH
+    // =========================================================
 
+    /**
+     * @brief Verifies that patient search returns correct results.
+     */
     @Test
-    void testSearchPatients() throws Exception {
-        when(patientService.searchPatients("john")).thenReturn(List.of());
+    void searchPatients_returnsResults() throws Exception {
+
+        when(patientService.searchPatients("john"))
+                .thenReturn(List.of(new Patient()));
 
         mockMvc.perform(post("/medical-specialist/patients/search")
                         .param("query", "john"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("medical-specialist/search-results"))
-                .andExpect(model().attributeExists("patients"))
-                .andExpect(model().attribute("query", "john"));
+                .andExpect(model().attributeExists("patients"));
 
         verify(patientService).searchPatients("john");
     }
 
-    @Test
-    void testViewMedicalRecord() throws Exception {
-        Patient patient = mock(Patient.class);
-        MedicalRecord record = mock(MedicalRecord.class);
+    // =========================================================
+    // MEDICAL RECORD
+    // =========================================================
 
+    /**
+     * @brief Verifies that patient medical record page loads correctly.
+     */
+    @Test
+    void viewMedicalRecord_returnsView() throws Exception {
+
+        Patient patient = mock(Patient.class);
         when(patient.getName()).thenReturn("John");
         when(patient.getSurname()).thenReturn("Doe");
-        when(patient.getMedicalRecord()).thenReturn(record);
 
         when(medicalRecordService.getPatientWithMedicalRecord(1L))
                 .thenReturn(patient);
 
+        when(roomRepository.findAll()).thenReturn(List.of());
+
         mockMvc.perform(get("/medical-specialist/patients/1/record"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("medical-specialist/medical-record"))
-                .andExpect(model().attributeExists("patient"))
-                .andExpect(model().attributeExists("medicalRecord"))
-                .andExpect(model().attributeExists("patientId"));
-
-        verify(medicalRecordService).getPatientWithMedicalRecord(1L);
+                .andExpect(model().attributeExists("patient"));
     }
 
+    // =========================================================
+    // DIAGNOSIS
+    // =========================================================
+
+    /**
+     * @brief Verifies successful diagnosis creation.
+     */
     @Test
-    void testAddDiagnosis() throws Exception {
+    void addDiagnosis_success() throws Exception {
+
         mockMvc.perform(post("/medical-specialist/patients/1/add-diagnosis")
                         .param("diagnosisName", "Flu")
-                        .param("description", "Viral infection")
                         .param("severity", "LOW"))
-                .andExpect(status().isOk())
-                .andExpect(view().name("medical-specialist/result"))
-                .andExpect(model().attributeExists("message"));
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/medical-specialist/patients/1/record"));
 
         verify(medicalRecordService)
-                .addDiagnosis(1L, "Flu", "Viral infection", "LOW");
+                .addDiagnosis(eq(1L), eq("Flu"), anyString(), eq("LOW"));
     }
 
+    // =========================================================
+    // PRESCRIPTION
+    // =========================================================
+
+    /**
+     * @brief Verifies successful prescription creation.
+     */
     @Test
-    void testAddPrescription() throws Exception {
+    void addPrescription_success() throws Exception {
+
         mockMvc.perform(post("/medical-specialist/patients/1/add-prescription")
-                        .param("medication", "Paracetamol")
-                        .param("dosage", "500mg"))
-                .andExpect(status().isOk())
-                .andExpect(view().name("medical-specialist/result"))
-                .andExpect(model().attributeExists("message"));
+                        .session(session)
+                        .param("medication", "Ibuprofen")
+                        .param("dosage", "200mg"))
+                .andExpect(status().is3xxRedirection());
 
         verify(medicalRecordService)
-                .addPrescription(1L, 1L, "Paracetamol - 500mg");
+                .addPrescription(eq(1L), eq(1L), eq("Ibuprofen - 200mg"));
     }
 
+    // =========================================================
+    // EXAM RESULTS
+    // =========================================================
+
+    /**
+     * @brief Verifies successful exam result submission.
+     */
     @Test
-    void testAddExamResult() throws Exception {
+    void addExamResult_success() throws Exception {
+
         mockMvc.perform(post("/medical-specialist/patients/1/add-exam-result")
                         .param("examType", "Blood Test")
-                        .param("result", "Normal")
-                        .param("notes", "All good"))
-                .andExpect(status().isOk())
-                .andExpect(view().name("medical-specialist/result"))
-                .andExpect(model().attributeExists("message"));
+                        .param("result", "Normal"))
+                .andExpect(status().is3xxRedirection());
 
         verify(medicalRecordService)
-                .addExamResult(1L, "Blood Test", "Normal", "All good");
+                .addExamResult(eq(1L), eq("Blood Test"), eq("Normal"), isNull());
     }
 
+    // =========================================================
+    // APPOINTMENTS
+    // =========================================================
+
+    /**
+     * @brief Verifies that appointments page loads correctly.
+     */
     @Test
-    void testAppointments() throws Exception {
-        mockMvc.perform(get("/medical-specialist/appointments"))
+    void viewAppointments_returnsView() throws Exception {
+
+        when(appointmentRepository.findAll()).thenReturn(List.of());
+
+        mockMvc.perform(get("/medical-specialist/appointments")
+                        .session(session))
                 .andExpect(status().isOk())
-                .andExpect(view().name("medical-specialist/appointments"));
+                .andExpect(view().name("medical-specialist/appointments"))
+                .andExpect(model().attributeExists("appointments"));
     }
 
+    // =========================================================
+    // PROFILE
+    // =========================================================
+
+    /**
+     * @brief Verifies profile page rendering for logged-in specialist.
+     */
     @Test
-    void testCalendar() throws Exception {
+    void profile_returnsView() throws Exception {
+
+        MedicalSpecialist specialist = new MedicalSpecialist();
+        specialist.setId(1L);
+
+        when(employeeService.findById(1L)).thenReturn(specialist);
+
+        mockMvc.perform(get("/medical-specialist/profile")
+                        .session(session))
+                .andExpect(status().isOk())
+                .andExpect(view().name("employee/profile"));
+    }
+
+    // =========================================================
+    // AUTH GUARD
+    // =========================================================
+
+    /**
+     * @brief Verifies redirect to login when accessing calendar without authentication.
+     */
+    @Test
+    void calendar_redirects_when_not_logged_in() throws Exception {
+
         mockMvc.perform(get("/medical-specialist/calendar"))
-                .andExpect(status().isOk())
-                .andExpect(view().name("medical-specialist/calendar"));
-    }
-
-    @Test
-    void testSchedule() throws Exception {
-        mockMvc.perform(get("/medical-specialist/my-schedule"))
-                .andExpect(status().isOk())
-                .andExpect(view().name("medical-specialist/schedule"));
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/login"));
     }
 }

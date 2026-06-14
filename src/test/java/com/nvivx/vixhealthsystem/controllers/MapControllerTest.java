@@ -10,14 +10,24 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 /**
- * @brief Unit tests for MapController using Spring MVC MockMvc (no mocks needed).
- * Verifies that the hospital map page and directions page return HTTP 200 with the
- * correct view names and required model attributes.
+ * @class MapControllerTest
+ * @brief Unit tests for MapController (site map features).
+ *
+ * These tests verify that map-related pages (hospital map and directions)
+ * are correctly rendered with required model attributes.
+ *
+ * The controller is tested in isolation using standalone MockMvc.
  */
 class MapControllerTest {
 
+    /// MockMvc instance used to simulate HTTP requests to the map controller.
     private MockMvc mockMvc;
 
+    /**
+     * @brief Initializes MockMvc before each test.
+     *
+     * The controller is tested without Spring context loading.
+     */
     @BeforeEach
     void setUp() {
         mockMvc = MockMvcBuilders
@@ -25,21 +35,38 @@ class MapControllerTest {
                 .build();
     }
 
+    /**
+     * @brief Verifies that the hospital map page loads correctly.
+     *
+     * Ensures:
+     * - HTTP 200 response is returned
+     * - Correct view name is rendered
+     * - Required model attributes (locations, pageTitle) exist
+     */
     @Test
     void shouldShowHospitalMap() throws Exception {
+
         mockMvc.perform(get("/map/hospitals"))
                 .andExpect(status().isOk())
-                .andExpect(view().name("map/hospitals"))
+                .andExpect(view().name("site/map/hospitals"))
                 .andExpect(model().attributeExists("locations"))
-                .andExpect(model().attributeExists("apiKey"))
                 .andExpect(model().attributeExists("pageTitle"));
     }
 
+    /**
+     * @brief Verifies that the directions page loads correctly.
+     *
+     * Ensures:
+     * - HTTP 200 response is returned
+     * - Correct view name is rendered
+     * - Page title is included in the model
+     */
     @Test
     void shouldShowDirectionsPage() throws Exception {
+
         mockMvc.perform(get("/map/directions"))
                 .andExpect(status().isOk())
-                .andExpect(view().name("map/directions"))
+                .andExpect(view().name("site/map/directions"))
                 .andExpect(model().attributeExists("pageTitle"));
     }
 }

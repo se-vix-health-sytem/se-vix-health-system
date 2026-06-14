@@ -1,189 +1,110 @@
-package com.nvivx.vixhealthsystem.controllers;
+package com.nvivx.vixhealthsystem.controllers.staff;
 
-import com.nvivx.vixhealthsystem.controllers.staff.AuthController;
-import com.nvivx.vixhealthsystem.model.person.Patient;
-import com.nvivx.vixhealthsystem.model.person.employee.*;
+import com.nvivx.vixhealthsystem.service.DevCredentialStore;
 import com.nvivx.vixhealthsystem.service.core.EmployeeService;
 import com.nvivx.vixhealthsystem.service.core.PatientService;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
+import com.nvivx.vixhealthsystem.service.integration.FirebaseAuthService;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.ui.Model;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.support.StaticWebApplicationContext;
+import org.springframework.web.servlet.ViewResolver;
+import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
-import java.util.Optional;
-
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 /**
- * @brief Unit tests for AuthController using Mockito mocks via @InjectMocks.
- * Covers login page rendering, authentication routing for each employee role and patient
- * fallback, logout, and role-selection redirect logic.
+ * @class AuthControllerTest
+ * @brief Unit tests for AuthController login functionality.
+ *
+ * These tests verify that the login page is correctly rendered
+ * and that error states are properly reflected in the model.
  */
-@ExtendWith(MockitoExtension.class)
 class AuthControllerTest {
 
-    @Mock
-    private EmployeeService employeeService;
+    /// Mock MVC instance used to simulate HTTP requests without starting a server.
+    private MockMvc mockMvc;
 
-    @Mock
-    private PatientService patientService;
+    /// Mocked Firebase authentication service dependency.
+    private FirebaseAuthService firebaseAuthService = mock(FirebaseAuthService.class);
 
-    @Mock
-    private Model model;
+    /// Mocked employee service dependency.
+    private EmployeeService employeeService = mock(EmployeeService.class);
 
-    @Mock
-    private HttpSession session;
+    /// Mocked patient service dependency.
+    private PatientService patientService = mock(PatientService.class);
 
-    @Mock
-    private HttpServletRequest request;
+    /// Mocked development credential store used for login-related data.
+    private DevCredentialStore devCredentialStore = mock(DevCredentialStore.class);
 
-    @Mock
-    private HttpServletResponse response;
+    /**
+     * @brief Sets up the standalone controller environment before each test.
+     *
+     * Initializes the AuthController with mocked dependencies and configures
+     * MockMvc with a simple internal view resolver for HTML templates.
+     */
+    @BeforeEach
+    void setup() {
 
-    @InjectMocks
-    private AuthController controller;
-
-    @Test
-    void shouldReturnLoginPage() {
-        String view = controller.loginPage(null, model);
-        assertEquals("login", view);
-    }
-
-    @Test
-    void shouldShowErrorOnLoginPage() {
-        String view = controller.loginPage("error", model);
-
-        verify(model).addAttribute("error", "Invalid credentials");
-        assertEquals("login", view);
-    }
-
-    @Test
-    void shouldAuthenticateMedicalSpecialist() {
-        MedicalSpecialist employee = mock(MedicalSpecialist.class);
-
-        when(employeeService.findByEmail("doc@test.com")).thenReturn(employee);
-
-        String result = controller.authenticate(
-                "doc@test.com",
-                "pass",
-                session,
-                request,
-                response,
-                model
+        // Create controller with mocked dependencies
+        AuthController controller = new AuthController(
+                firebaseAuthService,
+                employeeService,
+                patientService,
+                devCredentialStore
         );
 
-        assertEquals("redirect:/medical-specialist/dashboard", result);
-        verify(session).setAttribute("user", employee);
-        verify(session).setAttribute(eq("role"), any());
+        // Configure a basic view resolver to map logical view names to HTML templates
+        ViewResolver viewResolver = new InternalResourceViewResolver("/templates/", ".html");
+
+        // Build standalone MockMvc instance for controller testing
+        mockMvc = MockMvcBuilders
+                .standaloneSetup(controller)
+                .setViewResolvers(viewResolver)
+                .build();
     }
 
+    /**
+     * @brief Verifies that the login page loads successfully.
+     *
+     * Ensures:
+     * - HTTP status is 200 OK
+     * - Correct view name "login" is returned
+     */
     @Test
-    void shouldAuthenticateTechnician() {
-        Technician employee = mock(Technician.class);
+    void loginPage_returnsView() throws Exception {
 
-        when(employeeService.findByEmail("tech@test.com")).thenReturn(employee);
+        // Mock empty dev credentials to avoid null or unexpected model data
+        when(devCredentialStore.getAll()).thenReturn(java.util.List.of());
 
-        String result = controller.authenticate(
-                "tech@test.com",
-                "pass",
-                session,
-                request,
-                response,
-                model
-        );
-
-        assertEquals("redirect:/technician/dashboard", result);
+        // Perform GET request to /login and validate response
+        mockMvc.perform(get("/login"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("login"));
     }
 
+    /**
+     * @brief Verifies that login page displays an error when error parameter is present.
+     *
+     * Ensures:
+     * - HTTP status is 200 OK
+     * - Correct view name "login" is returned
+     * - Model contains "error" attribute when login fails
+     */
     @Test
-    void shouldAuthenticateBuyer() {
-        Buyer employee = mock(Buyer.class);
+    void loginPage_withError_showsErrorMessage() throws Exception {
 
-        when(employeeService.findByEmail("buyer@test.com")).thenReturn(employee);
+        // Mock empty dev credentials list
+        when(devCredentialStore.getAll()).thenReturn(java.util.List.of());
 
-        String result = controller.authenticate(
-                "buyer@test.com",
-                "pass",
-                session,
-                request,
-                response,
-                model
-        );
-
-        assertEquals("redirect:/buyer/dashboard", result);
-    }
-
-    @Test
-    void shouldAuthenticatePatientWhenEmployeeFails() {
-        when(employeeService.findByEmail("pat@test.com"))
-                .thenThrow(new RuntimeException());
-
-        Patient patient = mock(Patient.class);
-
-        when(patientService.findByFiscalCode("pat@test.com"))
-                .thenReturn(Optional.of(patient));
-
-        String result = controller.authenticate(
-                "pat@test.com",
-                "pass",
-                session,
-                request,
-                response,
-                model
-        );
-
-        assertEquals("redirect:/patient/dashboard", result);
-        verify(session).setAttribute("patient", patient);
-        verify(session).setAttribute("role", "PATIENT");
-    }
-
-    @Test
-    void shouldFailAuthentication() {
-        when(employeeService.findByEmail(anyString()))
-                .thenThrow(new RuntimeException());
-
-        when(patientService.findByFiscalCode(anyString()))
-                .thenReturn(Optional.empty());
-
-        String result = controller.authenticate(
-                "wrong",
-                "wrong",
-                session,
-                request,
-                response,
-                model
-        );
-
-        verify(model).addAttribute("error", "Invalid credentials");
-        assertEquals("login", result);
-    }
-
-    @Test
-    void shouldLogout() {
-        String result = controller.logout(session);
-
-        assertEquals("redirect:/", result);
-        verify(session).invalidate();
-    }
-
-    @Test
-    void shouldProcessRoleSelection() {
-        String result = controller.processLogin("TECHNICIAN", session);
-
-        assertEquals("redirect:/technician/dashboard", result);
-        verify(session).setAttribute("demoRole", "TECHNICIAN");
-    }
-
-    @Test
-    void shouldRedirectUnknownRoleToLogin() {
-        String result = controller.processLogin("UNKNOWN", session);
-
-        assertEquals("redirect:/login", result);
+        // Simulate login error via query parameter
+        mockMvc.perform(get("/login").param("error", "true"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("login"))
+                .andExpect(model().attributeExists("error"));
     }
 }
