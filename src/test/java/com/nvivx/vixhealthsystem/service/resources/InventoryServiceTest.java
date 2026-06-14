@@ -20,14 +20,9 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 /**
- * Unit tests for InventoryService.
- *
- * These tests use Mockito mocks instead of the real database.
- *
- * Arrange = prepare fake data and mock behavior
- * Act = call the method being tested
- * Assert = check the result
- * Verify = check that mocks were called correctly
+ * @brief Unit tests for InventoryService using Mockito mocks for all repositories and AuditService.
+ * Covers resource CRUD, storage inventory aggregation, low-stock detection, add/remove
+ * resource to/from storage (including validation errors), and total-quantity calculation.
  */
 @ExtendWith(MockitoExtension.class)
 class InventoryServiceTest {

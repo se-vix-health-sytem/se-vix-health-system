@@ -1,4 +1,19 @@
 <!DOCTYPE html>
+<!--
+==============================================================================
+  FILE:    medical-specialist/search-results.html
+  ACCESS:  ROLE_MEDICALSPECIALIST (session.user required)
+  PURPOSE: Displays patient search results with a refine-search bar and
+           a "View Record" button for each matched patient.
+
+  Model attributes:
+    - patients (List<Patient>) — patients matching the query
+    - query (String) — the search term that was submitted
+
+  Dependencies:
+    - fragments/head, fragments/dashboard-nav, fragments/footer
+==============================================================================
+-->
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/head :: head('Search Results')}"></head>
 <body>

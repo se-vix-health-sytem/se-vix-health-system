@@ -10,34 +10,75 @@ import org.springframework.stereotype.Service;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * @brief Manages hospital departments and their associated specialists. Covers department
+ *        listing, doctor lookup, and department-service catalogue queries.
+ *
+ * Not annotated {@code @Transactional(readOnly=true)} at the class level because most
+ * operations are already read-only and the service performs no writes; individual
+ * write paths can opt in if added in the future.
+ *
+ * @see EmployeeService
+ * @see com.nvivx.vixhealthsystem.model.facility.Department
+ * @see com.nvivx.vixhealthsystem.model.person.employee.MedicalSpecialist
+ */
 @Service
 public class DepartmentService {
+
+    // =========================================================
+    // FIELDS
+    // =========================================================
 
     private final DepartmentRepository departmentRepository;
     private final EmployeeRepository employeeRepository;
 
+    // =========================================================
+    // CONSTRUCTORS
+    // =========================================================
+
+    /**
+     * Constructs the service with its required repositories.
+     *
+     * @param departmentRepository  Provides persistence access to {@link Department} entities.
+     * @param employeeRepository    Required for filtering specialists by department in-memory,
+     *                              since JPA inheritance prevents a direct typed query.
+     */
     public DepartmentService(DepartmentRepository departmentRepository,
                              EmployeeRepository employeeRepository) {
         this.departmentRepository = departmentRepository;
         this.employeeRepository = employeeRepository;
     }
 
+    // =========================================================
+    // READ OPERATIONS — DEPARTMENTS
+    // =========================================================
+
     /**
-     * Get all departments from database
+     * Returns every department persisted in the database.
+     *
+     * @return Non-null list; empty when no departments exist.
      */
     public List<Department> getAllDepartments() {
         return departmentRepository.findAll();
     }
 
     /**
-     * Get department by ID from database
+     * Looks up a department by its numeric primary key.
+     *
+     * @param id  Database ID of the department.
+     * @return    The matching {@link Department}, or {@code null} if not found.
      */
     public Department getDepartmentById(Long id) {
         return departmentRepository.findById(id).orElse(null);
     }
 
     /**
-     * Get department by ID (String version for controllers)
+     * String-typed overload for controller convenience; delegates to
+     *        {@link #getDepartmentById(Long)} after parsing.
+     *
+     * @param id  String representation of the department's numeric ID.
+     * @return    The matching {@link Department}, or {@code null} when the ID is
+     *            non-numeric or does not exist.
      */
     public Department getDepartmentById(String id) {
         try {
@@ -48,8 +89,18 @@ public class DepartmentService {
         }
     }
 
+    // =========================================================
+    // READ OPERATIONS — SPECIALISTS
+    // =========================================================
+
     /**
-     * Get doctors (MedicalSpecialists) by department from database
+     * Returns all {@link MedicalSpecialist} employees assigned to the given department.
+     *
+     * Filters in-memory after loading all employees because the single-table-inheritance
+     * mapping does not allow a typed repository query for subtypes.
+     *
+     * @param departmentId  ID of the target department.
+     * @return              Non-null list of specialists; empty if none are assigned.
      */
     public List<MedicalSpecialist> getDoctorsByDepartment(Long departmentId) {
         return employeeRepository.findAll().stream()
@@ -61,7 +112,11 @@ public class DepartmentService {
     }
 
     /**
-     * Get doctors by department (String version)
+     * String-typed overload for controller convenience; delegates to
+     *        {@link #getDoctorsByDepartment(Long)} after parsing.
+     *
+     * @param departmentId  String representation of the department ID.
+     * @return              Non-null list; empty when the ID is non-numeric or has no specialists.
      */
     public List<MedicalSpecialist> getDoctorsByDepartment(String departmentId) {
         try {
@@ -72,9 +127,18 @@ public class DepartmentService {
         }
     }
 
+    // =========================================================
+    // READ OPERATIONS — DOCTOR IMAGE MAPS
+    // =========================================================
+
     /**
-     * Returns image map for every specialist across all departments.
-     * Uses 2 queries total (all departments + all employees) instead of N×2.
+     * Builds a stable {@code specialistId → image-path} map for every specialist
+     *        across all departments using only two database queries (all departments + all employees).
+     *
+     * Male and female counters reset per department; the image pool wraps at index 2
+     * to avoid {@code null} paths when there are more than two doctors of the same gender.
+     *
+     * @return {@link LinkedHashMap} ordered by department iteration order; never {@code null}.
      */
     public Map<Long, String> getAllDoctorImageMap() {
         List<Department> departments = departmentRepository.findAll();
@@ -104,9 +168,15 @@ public class DepartmentService {
     }
 
     /**
-     * Returns a stable map of specialistId → image path for the given department.
-     * Doctors are sorted by ID so adding/removing staff never reshuffles existing photos.
-     * Pattern alternates male/female with a department-specific starting gender.
+     * Builds a stable {@code specialistId → image-path} map for a single department.
+     *
+     * Doctors are sorted by ID so that adding or removing staff never reshuffles
+     * existing photo assignments.  The counter wraps at 2 per gender to stay within
+     * the available static asset set.
+     *
+     * @param departmentId  ID of the department to map.
+     * @return              Ordered map of specialist ID to image path; empty map when
+     *                      the department does not exist.
      */
     public Map<Long, String> getDoctorImageMap(Long departmentId) {
         Department dept = getDepartmentById(departmentId);
@@ -128,13 +198,20 @@ public class DepartmentService {
         return imageMap;
     }
 
+    // =========================================================
+    // READ OPERATIONS — SERVICE CATALOGUE
+    // =========================================================
+
     /**
-     * Get services offered by department.
+     * Returns the catalogue of clinical services offered by the given department.
      *
-     * Services are hardcoded based on department name since there is no
-     * DepartmentServices table in the database yet.
+     * Services are resolved from the department name because no {@code DepartmentServices}
+     * table exists yet.  Known departments: Cardiology, Neurology, Radiology, Administration.
      *
-     * Departments in database: Cardiology, Neurology, Radiology, Administration
+     * @param departmentId  ID of the target department.
+     * @return              Non-null list of service descriptions; empty when the department
+     *                      is not found.
+     * @see #getServicesByDepartmentName(String)
      */
     public List<String> getServicesByDepartment(Long departmentId) {
         Department department = getDepartmentById(departmentId);
@@ -145,7 +222,11 @@ public class DepartmentService {
     }
 
     /**
-     * Get services by department (String version)
+     * String-typed overload; tries numeric parse first, falls back to name-based
+     *        lookup when the value is a slug (e.g., {@code "cardiology"} from a URL path).
+     *
+     * @param departmentId  Numeric ID or department name string.
+     * @return              Non-null list of service descriptions.
      */
     public List<String> getServicesByDepartment(String departmentId) {
         try {
@@ -157,9 +238,18 @@ public class DepartmentService {
         }
     }
 
+    // =========================================================
+    // HELPERS
+    // =========================================================
+
     /**
-     * Hardcoded services based on department name.
-     * These match the departments actually present in the database.
+     * Resolves the service list from a department name using substring matching.
+     *
+     * Covers Cardiology, Neurology, Radiology, Orthopaedics, Oncology, Paediatrics,
+     * Dermatology, and Administration.  Unrecognised names fall back to a generic list.
+     *
+     * @param deptName  Department name (case-insensitive); may be {@code null}.
+     * @return          Non-null list of service description strings.
      */
     private List<String> getServicesByDepartmentName(String deptName) {
         if (deptName == null) return List.of();

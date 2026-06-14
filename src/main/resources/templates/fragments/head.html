@@ -1,4 +1,14 @@
 <!DOCTYPE html>
+<!--
+  ============================================================
+  Template : fragments/head.html
+  Role     : Shared fragment — all roles
+  Access   : Included via th:replace in every page template
+  Purpose  : Provides the common <head> block: meta tags, CSS libraries, and global design-token styles.
+  Model    : pageTitle (String) — page title injected by each including template
+  Controller: N/A — reusable fragment, no direct controller
+  ============================================================
+-->
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:fragment="head(pageTitle)">
     <meta charset="UTF-8">

@@ -6,6 +6,16 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+/**
+ * @brief JPA repository for {@link Surgery} entities.
+ *
+ * Supports the medical-specialist workflow for viewing and recording surgical
+ * procedures linked to a patient's medical record and a specialized room.
+ *
+ * @see com.nvivx.vixhealthsystem.model.medical.Surgery
+ * @see MedicalRecordRepository
+ * @see RoomRepository
+ */
 @Repository
 public interface SurgeryRepository
         extends JpaRepository<Surgery, Long> {

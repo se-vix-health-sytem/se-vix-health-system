@@ -1,4 +1,19 @@
 <!DOCTYPE html>
+<!--
+==============================================================================
+  FILE:    staff-manager/shifts.html
+  ACCESS:  ROLE_STAFFMANAGER (session.user required)
+  PURPOSE: Assign shifts to employees and view all currently scheduled shifts
+           in a table with date, shift type, and notes.
+
+  Model attributes:
+    - employees (List<Employee>) — all employees for the assign dropdown
+    - shifts (List<Shift>) — all shifts currently scheduled
+
+  Dependencies:
+    - fragments/head, fragments/dashboard-nav, fragments/footer
+==============================================================================
+-->
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/head :: head('Shift Management')}"></head>
 <body>

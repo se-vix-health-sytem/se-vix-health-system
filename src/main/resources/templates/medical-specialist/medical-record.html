@@ -1,4 +1,24 @@
 <!DOCTYPE html>
+<!--
+==============================================================================
+  FILE:    medical-specialist/medical-record.html
+  ACCESS:  ROLE_MEDICALSPECIALIST (session.user required)
+  PURPOSE: Full medical record editor for a patient — view clinical summary
+           then add conditions, prescriptions, diagnoses, exam results, and
+           surgeries via collapsible inline forms.
+
+  Model attributes:
+    - patient (Patient) — the patient whose record is being edited
+    - medicalRecord (MedicalRecord) — the patient's medical record
+    - patientId (Long) — patient ID used in form action URLs
+    - specializedRooms (List<Room>) — rooms available for surgery scheduling
+    - successMessage (String) — shown after a successful add action
+    - errorMessage (String) — shown on validation or save failure
+
+  Dependencies:
+    - fragments/head, fragments/dashboard-nav, fragments/footer
+==============================================================================
+-->
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/head :: head('Medical Record')}"></head>
 <body>

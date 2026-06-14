@@ -1,4 +1,24 @@
 <!DOCTYPE html>
+<!--
+==============================================================================
+  FILE:    employee/profile.html
+  ACCESS:  Any authenticated employee (session.user required)
+  PURPOSE: Shared profile page for all employee roles showing personal info,
+           role-specific fields (e.g. specialty for MedicalSpecialist), and
+           password-change form.
+
+  Model attributes:
+    - employee (Employee) — the logged-in employee
+    - roleLabel (String) — human-readable role name
+    - dashboardLink (String) — URL of the role dashboard
+    - isSpecialist (boolean) — true when showing specialty/license fields
+    - message (String) — success flash
+    - error (String) — error flash
+
+  Dependencies:
+    - fragments/head, fragments/dashboard-nav, fragments/footer
+==============================================================================
+-->
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/head :: head('My Profile')}"></head>
 <body>

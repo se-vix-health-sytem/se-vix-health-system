@@ -7,6 +7,15 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+/**
+ * @brief JPA repository for {@link Machinery} entities.
+ *
+ * Supports the technician and buyer workflows for tracking medical equipment
+ * status and location within specialized rooms.
+ *
+ * @see com.nvivx.vixhealthsystem.model.resource.Machinery
+ * @see RoomRepository
+ */
 @Repository
 public interface MachineryRepository
         extends JpaRepository<Machinery, Long> {

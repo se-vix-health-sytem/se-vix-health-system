@@ -1,4 +1,19 @@
 <!DOCTYPE html>
+<!--
+==============================================================================
+  FILE:    site/map/hospitals.html
+  ACCESS:  Public
+  PURPOSE: Interactive Leaflet map showing all hospital locations with
+           clickable cards that fly the map to the selected pin.
+
+  Model attributes:
+    - locations (List) — hospital objects with name, lat, lng, address, phone, type
+
+  Dependencies:
+    - fragments/head, fragments/navbar, fragments/footer
+    - Leaflet CSS injected after <head> fragment; Leaflet JS at bottom
+==============================================================================
+-->
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/head :: head('Find a Hospital')}"></head>
 <!-- Leaflet CSS - MUST be in head -->

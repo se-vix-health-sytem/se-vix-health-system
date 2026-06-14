@@ -1,4 +1,18 @@
 <!DOCTYPE html>
+<!--
+==============================================================================
+  FILE:    patient/profile.html
+  ACCESS:  ROLE_PATIENT (session.patient required)
+  PURPOSE: Read-only view of the patient's personal details with a GDPR
+           account-deletion option (requires typing CONFIRM).
+
+  Model attributes:
+    - patient (Patient) — the authenticated patient
+
+  Dependencies:
+    - fragments/head, fragments/dashboard-nav, fragments/footer
+==============================================================================
+-->
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/head :: head('My Profile')}"></head>
 <body>

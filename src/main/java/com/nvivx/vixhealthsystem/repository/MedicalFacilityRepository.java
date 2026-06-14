@@ -6,6 +6,16 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+/**
+ * @brief JPA repository for {@link MedicalFacility} entities.
+ *
+ * Used by administration and public-facing pages that list or look up facilities
+ * (clinics, hospitals) hosted within the VIX Health network.
+ *
+ * @see com.nvivx.vixhealthsystem.model.facility.MedicalFacility
+ * @see DepartmentRepository
+ * @see RoomRepository
+ */
 @Repository
 public interface MedicalFacilityRepository
         extends JpaRepository<MedicalFacility, Long> {

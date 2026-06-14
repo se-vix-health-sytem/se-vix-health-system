@@ -9,9 +9,18 @@ import static org.junit.jupiter.api.Assertions.*;
 // Concrete subclass for testing abstract Person
 class TestPerson extends Person {}
 
+/**
+ * @brief Unit tests for the abstract Person base class.
+ *
+ * Uses a minimal TestPerson subclass to exercise shared demographic fields and
+ * the age-calculation helper. Plain JUnit — no Spring context loaded.
+ *
+ * @see Person
+ */
 class PersonTest {
     private TestPerson person;
 
+    /** @brief Builds the fixture shared by all tests in this class. */
     @BeforeEach
     void setUp() {
         person = new TestPerson();
@@ -24,6 +33,10 @@ class PersonTest {
         person.setPhoneNumber("+39 333 1234567");
     }
 
+    /**
+     * Verifies that all demographic fields round-trip through their
+     *        setters and getters correctly.
+     */
     @Test
     void settersAndGetters_ShouldWorkCorrectly() {
         assertEquals("Mario", person.getName());
@@ -35,6 +48,10 @@ class PersonTest {
         assertEquals("+39 333 1234567", person.getPhoneNumber());
     }
 
+    /**
+     * Verifies that getAge returns the correct number of complete years
+     *        from the birth date to today.
+     */
     @Test
     void getAge_ShouldCalculateCorrectAge() {
         // Age calculation is based on current date, so we test with a known date
@@ -44,12 +61,20 @@ class PersonTest {
         assertEquals(30, person.getAge());
     }
 
+    /**
+     * Verifies that getAge returns zero when no birth date is set,
+     *        preventing a NullPointerException in age display views.
+     */
     @Test
     void getAge_ShouldReturnZeroWhenBirthDateNull() {
         person.setBirthDate(null);
         assertEquals(0, person.getAge());
     }
 
+    /**
+     * Verifies that name and surname accept null values without throwing,
+     *        supporting partial registration scenarios.
+     */
     @Test
     void nameAndSurname_ShouldAllowNull() {
         person.setName(null);

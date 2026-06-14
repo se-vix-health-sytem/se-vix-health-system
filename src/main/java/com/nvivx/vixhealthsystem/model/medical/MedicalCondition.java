@@ -97,6 +97,7 @@ public class MedicalCondition {
     // GETTERS & SETTERS
     // =====================================================
 
+    /// @cond INTERNAL
     /**
      * Returns the unique medical condition identifier.
      *
@@ -105,7 +106,9 @@ public class MedicalCondition {
     public Long getId() {
         return id;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Sets the unique medical condition identifier.
      *
@@ -114,7 +117,9 @@ public class MedicalCondition {
     public void setId(Long id) {
         this.id = id;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Returns the medical record associated with this condition.
      *
@@ -123,7 +128,9 @@ public class MedicalCondition {
     public MedicalRecord getMedicalRecord() {
         return medicalRecord;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Sets the medical record associated with this condition.
      *
@@ -132,7 +139,9 @@ public class MedicalCondition {
     public void setMedicalRecord(MedicalRecord medicalRecord) {
         this.medicalRecord = medicalRecord;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Returns the condition name.
      *
@@ -141,7 +150,9 @@ public class MedicalCondition {
     public String getName() {
         return name;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Sets the condition name.
      *
@@ -150,7 +161,9 @@ public class MedicalCondition {
     public void setName(String name) {
         this.name = name;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Returns the date of diagnosis.
      *
@@ -159,7 +172,9 @@ public class MedicalCondition {
     public LocalDate getDateOfDiagnosis() {
         return dateOfDiagnosis;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Sets the date of diagnosis.
      *
@@ -168,7 +183,9 @@ public class MedicalCondition {
     public void setDateOfDiagnosis(LocalDate dateOfDiagnosis) {
         this.dateOfDiagnosis = dateOfDiagnosis;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Returns the condition category or type.
      *
@@ -177,7 +194,9 @@ public class MedicalCondition {
     public String getType() {
         return type;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Sets the condition category or type.
      *
@@ -186,7 +205,9 @@ public class MedicalCondition {
     public void setType(String type) {
         this.type = type;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Returns the detailed condition description.
      *
@@ -195,7 +216,9 @@ public class MedicalCondition {
     public String getDescription() {
         return description;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Sets the detailed condition description.
      *
@@ -204,7 +227,9 @@ public class MedicalCondition {
     public void setDescription(String description) {
         this.description = description;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Returns the treatment associated with the condition.
      *
@@ -213,7 +238,9 @@ public class MedicalCondition {
     public String getTreatment() {
         return treatment;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Sets the treatment associated with the condition.
      *
@@ -222,4 +249,5 @@ public class MedicalCondition {
     public void setTreatment(String treatment) {
         this.treatment = treatment;
     }
+    /// @endcond
 }

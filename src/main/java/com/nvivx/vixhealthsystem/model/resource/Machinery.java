@@ -69,6 +69,7 @@ public class Machinery {
     // GETTERS & SETTERS
     // =====================================================
 
+    /// @cond INTERNAL
     /**
      * Returns the unique machine identifier.
      *
@@ -77,7 +78,9 @@ public class Machinery {
     public Long getId() {
         return id;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Sets the unique machine identifier.
      *
@@ -86,7 +89,9 @@ public class Machinery {
     public void setId(Long id) {
         this.id = id;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Returns the machine name.
      *
@@ -95,7 +100,9 @@ public class Machinery {
     public String getName() {
         return name;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Sets the machine name.
      *
@@ -104,7 +111,9 @@ public class Machinery {
     public void setName(String name) {
         this.name = name;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Returns the room where the machine is installed.
      *
@@ -113,7 +122,9 @@ public class Machinery {
     public SpecializedRoom getSpecializedRoom() {
         return specializedRoom;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Sets the room where the machine is installed.
      *
@@ -122,7 +133,9 @@ public class Machinery {
     public void setSpecializedRoom(SpecializedRoom specializedRoom) {
         this.specializedRoom = specializedRoom;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Returns the current operational status of the machine.
      *
@@ -131,7 +144,9 @@ public class Machinery {
     public MachineStatus getStatus() {
         return status;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Sets the current operational status of the machine.
      *
@@ -140,6 +155,7 @@ public class Machinery {
     public void setStatus(MachineStatus status) {
         this.status = status;
     }
+    /// @endcond
 
     // =====================================================
     // STATUS METHODS

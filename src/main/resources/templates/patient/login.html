@@ -1,10 +1,20 @@
 <!DOCTYPE html>
+<!--
+  ============================================================
+  Template : patient/login.html
+  Role     : Patient (unauthenticated)
+  Access   : Public — patient authentication entry point
+  Purpose  : Lets patients choose between SPID or CIE digital identity authentication; includes dev modal with test fiscal codes.
+  Model    : error (String) — authentication error message
+  Controller: PatientAuthController (GET /patient/login)
+  ============================================================
+-->
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/head :: head('Patient Login')}"></head>
 <body class="d-flex align-items-center justify-content-center" style="min-height: 100vh; background: linear-gradient(135deg, var(--vix-crimson-dk) 0%, var(--vix-crimson) 100%);">
 
 <div style="width: 100%; max-width: 480px;">
-    <!-- LOGIN CARD (no notice board) -->
+    <!-- ===== LOGIN CARD ===== -->
     <div style="background: white; border-radius: 1.5rem; box-shadow: 0 20px 60px rgba(0,0,0,0.3);">
         <div class="text-center p-4" style="background: linear-gradient(135deg, var(--vix-crimson) 0%, var(--vix-crimson-dk) 100%); color: white; border-radius: 1.5rem 1.5rem 0 0;">
             <img src="/images/vix-logo.png" alt="VIX" width="70" height="70"
@@ -55,6 +65,7 @@
     </div>
 </div>
 
+<!-- ===== DEV TOOLS (development only) ===== -->
 <!-- DEV FLOATING BUTTON -->
 <button onclick="document.getElementById('devModalPatient').style.display='flex'"
         style="position:fixed; bottom:1.25rem; right:1.25rem; z-index:9999; background:#856404; color:white; border:none; border-radius:2rem; padding:0.45rem 1rem; font-size:0.78rem; font-weight:700; cursor:pointer;">

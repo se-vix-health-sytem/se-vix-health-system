@@ -1,4 +1,20 @@
 <!DOCTYPE html>
+<!--
+==============================================================================
+  FILE:    staff-manager/audit-logs.html
+  ACCESS:  ROLE_STAFFMANAGER (session.user required)
+  PURPOSE: Searchable audit log table showing all staff actions with
+           timestamp, action type, entity, and the user who performed it.
+
+  Model attributes:
+    - logs (List<AuditLog>) — log entries (filtered or all)
+    - entityTypes (List<String>) — distinct entity types for the filter
+    - selectedEntityType (String) — currently active filter value
+
+  Dependencies:
+    - fragments/head, fragments/dashboard-nav, fragments/footer
+==============================================================================
+-->
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/head :: head('Audit Logs')}"></head>
 <body>

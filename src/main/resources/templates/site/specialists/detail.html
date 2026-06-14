@@ -1,4 +1,20 @@
 <!DOCTYPE html>
+<!--
+==============================================================================
+  FILE:    site/specialists/detail.html
+  ACCESS:  Public
+  PURPOSE: Full profile page for a single medical specialist with contact
+           info, department details, and a book-appointment CTA.
+
+  Model attributes:
+    - specialist (MedicalSpecialist) — the specialist to display
+    - doctorImages (Map<Long, String>) — maps specialist ID to image path
+    - pageTitle (String) — page title
+
+  Dependencies:
+    - fragments/head, fragments/navbar, fragments/footer
+==============================================================================
+-->
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/head :: head(pageTitle)}"></head>
 <body>

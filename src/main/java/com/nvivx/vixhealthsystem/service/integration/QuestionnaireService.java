@@ -5,9 +5,29 @@ import org.springframework.stereotype.Service;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Implements the public symptom-triage questionnaire (UC15).
+ *
+ * Given a symptom area selected by a site visitor, this service returns a recommended
+ * specialist type and an urgency level.  The mapping is hardcoded rather than database-driven
+ * because the questionnaire content is owned by the medical team and changes infrequently.
+ *
+ * @see com.nvivx.vixhealthsystem.controllers.site.QuestionnaireController
+ */
 @Service
 public class QuestionnaireService {
 
+    // =========================================================
+    // PUBLIC API
+    // =========================================================
+
+    /**
+     * Maps a symptom area to a specialist recommendation and urgency flag.
+     *
+     * @param symptomArea  Key identifying the selected symptom (e.g., {@code "chest_pain"}).
+     * @return             Map with keys: {@code specialist} (String), {@code message} (String),
+     *                     {@code urgency} (String).
+     */
     public Map<String, Object> analyzeSymptoms(String symptomArea) {
         Map<String, Object> result = new HashMap<>();
 
@@ -21,6 +41,11 @@ public class QuestionnaireService {
         return result;
     }
 
+    // =========================================================
+    // HELPERS
+    // =========================================================
+
+    /** Returns the static symptom-to-specialist lookup table. */
     private static @NonNull Map<String, String> getStringStringMap() {
         Map<String, String> symptomToSpecialist = new HashMap<>();
         symptomToSpecialist.put("chest_pain", "Cardiology");
@@ -33,6 +58,14 @@ public class QuestionnaireService {
         return symptomToSpecialist;
     }
 
+    /**
+     * Returns a human-readable urgency string for the given symptom.
+     *
+     * Symptoms not in the urgency table default to MEDIUM priority.
+     *
+     * @param symptom  Symptom key.
+     * @return         Urgency label (e.g., {@code "HIGH - Seek immediate attention"}).
+     */
     private String determineUrgency(String symptom) {
         Map<String, String> urgency = new HashMap<>();
         urgency.put("chest_pain", "HIGH - Seek immediate attention");

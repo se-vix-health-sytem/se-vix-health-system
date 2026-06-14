@@ -1,4 +1,18 @@
 <!DOCTYPE html>
+<!--
+==============================================================================
+  FILE:    patient/records.html
+  ACCESS:  ROLE_PATIENT (session.patient required)
+  PURPOSE: Full read-only view of the patient's medical record including
+           clinical data, conditions, prescriptions, and surgeries.
+
+  Model attributes:
+    - patient (Patient) — patient with nested medicalRecord
+
+  Dependencies:
+    - fragments/head, fragments/dashboard-nav, fragments/footer
+==============================================================================
+-->
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/head :: head('My Medical Records')}"></head>
 <body>

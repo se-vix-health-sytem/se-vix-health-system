@@ -6,9 +6,19 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * @brief Unit tests for Department.
+ *
+ * Checks that a department stores its identity fields, can be linked to a
+ * MedicalFacility, and maintains a mutable employee list. Plain JUnit — no
+ * Spring context loaded.
+ *
+ * @see Department
+ */
 class DepartmentTest {
     private Department department;
 
+    /** @brief Builds a fully populated Department fixture shared by all tests. */
     @BeforeEach
     void setUp() {
         department = new Department();
@@ -19,6 +29,10 @@ class DepartmentTest {
         department.setPhoneNumber("+39 0461 123456");
     }
 
+    /**
+     * Verifies that all identity and contact fields round-trip through
+     *        their setters and getters without data loss.
+     */
     @Test
     void settersAndGetters_ShouldWorkCorrectly() {
         assertEquals(1L, department.getId());
@@ -28,6 +42,10 @@ class DepartmentTest {
         assertEquals("+39 0461 123456", department.getPhoneNumber());
     }
 
+    /**
+     * Verifies that a MedicalFacility can be assigned to a department,
+     *        establishing the ownership association.
+     */
     @Test
     void medicalFacility_ShouldBeAssignable() {
         MedicalFacility facility = new MedicalFacility();
@@ -37,6 +55,11 @@ class DepartmentTest {
         assertEquals(facility, department.getMedicalFacility());
     }
 
+    /**
+     * Verifies that employees can be added to the department list and
+     *        that the bidirectional link (employee.department) is set on the
+     *        employee side as well.
+     */
     @Test
     void employees_ShouldBeManageable() {
         assertTrue(department.getEmployees().isEmpty());

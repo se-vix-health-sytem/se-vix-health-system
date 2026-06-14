@@ -59,6 +59,7 @@ public class InternationRoom extends Room {
     // GETTERS & SETTERS
     // =====================================================
 
+    /// @cond INTERNAL
     /**
      * Returns the total number of beds in the room.
      *
@@ -67,7 +68,9 @@ public class InternationRoom extends Room {
     public int getTotalNBeds() {
         return nBeds != null ? nBeds : 0;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Sets the total number of beds.
      *
@@ -76,6 +79,7 @@ public class InternationRoom extends Room {
     public void setNBeds(int nBeds) {
         this.nBeds = nBeds;
     }
+    /// @endcond
 
     /**
      * Returns the number of currently available beds.
@@ -86,6 +90,7 @@ public class InternationRoom extends Room {
         return (nBeds != null ? nBeds : 0) - patients.size();
     }
 
+    /// @cond INTERNAL
     /**
      * Returns the list of patients in this room.
      *
@@ -94,7 +99,9 @@ public class InternationRoom extends Room {
     public List<Patient> getPatients() {
         return patients;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Sets the list of patients in this room.
      *
@@ -103,6 +110,7 @@ public class InternationRoom extends Room {
     public void setPatients(List<Patient> patients) {
         this.patients = patients;
     }
+    /// @endcond
 
     // =====================================================
     // BED STATUS (derived from occupancy)

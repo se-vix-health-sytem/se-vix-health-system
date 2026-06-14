@@ -5,15 +5,10 @@ import java.util.Map;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * No mocks are needed because this service has
- * no external dependencies.
- *
- * Arrange = prepare test data
- * Act = call the method being tested
- * Assert = verify the returned result
- * Verify = not needed because there are no mocks
+ * @brief Unit tests for QuestionnaireService using plain JUnit (no mocks or Spring context).
+ * Verifies that analyzeSymptoms() maps known symptoms to the correct specialist and urgency level,
+ * and falls back to General Medicine for unknown symptoms.
  */
-
 public class QuestionaireServiceTest {
 
     private final QuestionnaireService service =

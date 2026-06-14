@@ -20,6 +20,11 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
+/**
+ * @brief Unit tests for TechnicianController using plain JUnit and Mockito mocks.
+ * Covers the dashboard, machine list views, status updates, alert display, profile guard,
+ * shift display, machine details, and repair operations via direct method invocation.
+ */
 class TechnicianControllerTest {
 
     private final MachineryService machineryService = mock(MachineryService.class);

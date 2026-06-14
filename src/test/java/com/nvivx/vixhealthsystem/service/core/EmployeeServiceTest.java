@@ -21,10 +21,9 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 /**
- * Arrange = prepare fake data and mock behavior
- * Act = call the method being tested
- * Assert = check the result
- * Verify = check that mocks were called correctly
+ * @brief Unit tests for EmployeeService using Mockito mocks for all repositories and FirebaseAuthService.
+ * Covers finding employees by id/email/UID/role, CRUD with Firebase account lifecycle,
+ * department lookup, password reset requests, and department-change delegation.
  */
 @ExtendWith(MockitoExtension.class)
 class EmployeeServiceTest {

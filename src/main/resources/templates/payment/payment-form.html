@@ -1,4 +1,19 @@
 <!DOCTYPE html>
+<!--
+==============================================================================
+  FILE:    payment/payment-form.html
+  ACCESS:  ROLE_PATIENT (session.patient required)
+  PURPOSE: Simulated card-payment form for settling an appointment fee.
+           No real charge is made — this is a dev/demo payment flow.
+
+  Model attributes:
+    - appointmentId (Long) — the appointment being paid
+    - amount (BigDecimal) — amount due in euros
+
+  Dependencies:
+    - fragments/head, fragments/navbar, fragments/footer
+==============================================================================
+-->
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/head :: head('Payment')}"></head>
 <body>

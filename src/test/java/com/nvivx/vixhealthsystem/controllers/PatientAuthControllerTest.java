@@ -17,6 +17,11 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 
+/**
+ * @brief Unit tests for PatientAuthController using Mockito mocks via @InjectMocks.
+ * Covers login page display, successful and failed fiscal-code authentication, dashboard
+ * guard, and account deletion with and without the CONFIRM token.
+ */
 @ExtendWith(MockitoExtension.class)
 class PatientAuthControllerTest {
 

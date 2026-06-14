@@ -6,15 +6,25 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 /**
- * Simulates SPID and CIE identity provider portals for demo purposes.
- * In production these would be real external redirects; here we host
- * look-alike pages ourselves and redirect back to the patient callback.
+ * @brief Simulates SPID and CIE government-identity login pages for demo purposes.
  *
- * Flow:
- *   /patient/login  →  /mock-spid/login  →  POST /mock-spid/authenticate
- *                                         →  redirect /patient/spid-callback?fiscalCode=...
- *                  →  /mock-cie/login    →  POST /mock-cie/authenticate
- *                                         →  redirect /patient/cie-callback?fiscalCode=...
+ * In a production deployment these endpoints would be replaced by redirects to
+ * the real Italian government identity providers (SPID and CIE).  Here they
+ * host simplified mock login pages that accept a patient's fiscal code as the
+ * "assertion token", perform minimal validation, and then hand off to the real
+ * patient auth callback in {@link PatientAuthController}.
+ *
+ * Auth flow:
+ * {@code /patient/login} → {@code /mock-spid/login} → POST {@code /mock-spid/authenticate}
+ *                        → redirect {@code /patient/spid-callback?fiscalCode=...}
+ *                       → {@code /mock-cie/login}  → POST {@code /mock-cie/authenticate}
+ *                        → redirect {@code /patient/cie-callback?fiscalCode=...}
+ *
+ * These endpoints are public (no authentication required) because they are the
+ * entry point to the login flow.
+ *
+ * @see PatientAuthController
+ * @see PatientService
  */
 @Controller
 public class MockSpidController {
@@ -25,13 +35,34 @@ public class MockSpidController {
         this.patientService = patientService;
     }
 
-    // ── SPID ────────────────────────────────────────────────────────────────
+    // =========================================================
+    // SPID HANDLERS
+    // =========================================================
 
+    /**
+     * GET /mock-spid/login — render the mock SPID login form.
+     *
+     * @return Thymeleaf template {@code mock-spid/login}.
+     */
     @GetMapping("/mock-spid/login")
     public String spidLogin() {
         return "mock-spid/login";
     }
 
+    /**
+     * POST /mock-spid/authenticate — validate the fiscal code and PIN, then redirect to the SPID callback.
+     *
+     * Checks that the fiscal code is exactly 16 characters, the PIN is at least
+     * 6 digits long, and the patient exists in the database.  On success the
+     * fiscal code is passed as a query parameter to the patient auth callback,
+     * where it acts as the identity assertion token.
+     *
+     * @param fiscalCode  Italian fiscal code (codice fiscale); trimmed and uppercased.
+     * @param pin         Numeric PIN; must be at least 6 digits.
+     * @param model       Receives an {@code error} attribute on validation failure.
+     * @return            Redirect to {@code /patient/spid-callback?fiscalCode=...} on success,
+     *                    or the {@code mock-spid/login} template with an error message.
+     */
     @PostMapping("/mock-spid/authenticate")
     public String spidAuthenticate(@RequestParam String fiscalCode,
                                    @RequestParam String pin,
@@ -52,17 +83,36 @@ public class MockSpidController {
             return "mock-spid/login";
         }
 
-        // Hand off to the patient auth callback — fiscalCode acts as the "token"
+        // Hand off to the patient auth callback; fiscalCode acts as the "token"
         return "redirect:/patient/spid-callback?fiscalCode=" + fc;
     }
 
-    // ── CIE ─────────────────────────────────────────────────────────────────
+    // =========================================================
+    // CIE HANDLERS
+    // =========================================================
 
+    /**
+     * GET /mock-cie/login — render the mock CIE login form.
+     *
+     * @return Thymeleaf template {@code mock-cie/login}.
+     */
     @GetMapping("/mock-cie/login")
     public String cieLogin() {
         return "mock-cie/login";
     }
 
+    /**
+     * POST /mock-cie/authenticate — validate the fiscal code and PIN, then redirect to the CIE callback.
+     *
+     * Follows the same validation rules as the SPID flow but without a PIN
+     * length check (CIE uses a different credential scheme in production).
+     *
+     * @param fiscalCode  Italian fiscal code; trimmed and uppercased.
+     * @param pin         PIN value; currently only presence is validated for CIE.
+     * @param model       Receives an {@code error} attribute on validation failure.
+     * @return            Redirect to {@code /patient/cie-callback?fiscalCode=...} on success,
+     *                    or the {@code mock-cie/login} template with an error message.
+     */
     @PostMapping("/mock-cie/authenticate")
     public String cieAuthenticate(@RequestParam String fiscalCode,
                                   @RequestParam String pin,

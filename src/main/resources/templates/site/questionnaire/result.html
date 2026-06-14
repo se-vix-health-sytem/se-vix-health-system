@@ -1,4 +1,19 @@
 <!DOCTYPE html>
+<!--
+==============================================================================
+  FILE:    site/questionnaire/result.html
+  ACCESS:  Public
+  PURPOSE: Displays the specialist recommendation produced by the symptom
+           checker, including urgency level and links to book or browse.
+
+  Model attributes:
+    - recommendation (Map) — keys: specialist, description, urgency,
+      symptomArea, departmentLink
+
+  Dependencies:
+    - fragments/head, fragments/navbar, fragments/footer
+==============================================================================
+-->
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/head :: head('Questionnaire Result')}"></head>
 <body>

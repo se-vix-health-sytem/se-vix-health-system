@@ -6,6 +6,15 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
+/**
+ * @brief JPA repository for {@link Patient} entities.
+ *
+ * Covers patient lookup by fiscal code, which is the primary identifier used
+ * during SPID/CIE identity-verification login flows.
+ *
+ * @see com.nvivx.vixhealthsystem.model.person.Patient
+ * @see MedicalRecordRepository
+ */
 @Repository
 public interface PatientRepository
         extends JpaRepository<Patient, Long> {

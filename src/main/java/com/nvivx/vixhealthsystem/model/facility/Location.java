@@ -44,6 +44,7 @@ public class Location {
     // GETTERS & SETTERS
     // =====================================================
 
+    /// @cond INTERNAL
     /**
      * Returns the geographic latitude.
      *
@@ -52,7 +53,9 @@ public class Location {
     public Double getLatitude() {
         return latitude;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Sets the geographic latitude.
      *
@@ -61,7 +64,9 @@ public class Location {
     public void setLatitude(Double latitude) {
         this.latitude = latitude;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Returns the geographic longitude.
      *
@@ -70,7 +75,9 @@ public class Location {
     public Double getLongitude() {
         return longitude;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Sets the geographic longitude.
      *
@@ -79,4 +86,5 @@ public class Location {
     public void setLongitude(Double longitude) {
         this.longitude = longitude;
     }
+    /// @endcond
 }

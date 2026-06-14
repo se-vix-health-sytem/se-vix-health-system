@@ -125,6 +125,7 @@ public class MedicalRecord {
     // GETTERS & SETTERS
     // =====================================================
 
+    /// @cond INTERNAL
     /**
      * Returns the unique medical record identifier.
      *
@@ -133,7 +134,9 @@ public class MedicalRecord {
     public Long getId() {
         return id;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Sets the unique medical record identifier.
      *
@@ -142,7 +145,9 @@ public class MedicalRecord {
     public void setId(Long id) {
         this.id = id;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Returns the patient owning this medical record.
      *
@@ -151,7 +156,9 @@ public class MedicalRecord {
     public Patient getPatient() {
         return patient;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Sets the patient owning this medical record.
      *
@@ -160,7 +167,9 @@ public class MedicalRecord {
     public void setPatient(Patient patient) {
         this.patient = patient;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Returns the patient height in centimeters.
      *
@@ -169,7 +178,9 @@ public class MedicalRecord {
     public Float getHeight() {
         return height;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Sets the patient height in centimeters.
      *
@@ -178,7 +189,9 @@ public class MedicalRecord {
     public void setHeight(Float height) {
         this.height = height;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Returns the patient weight in kilograms.
      *
@@ -187,7 +200,9 @@ public class MedicalRecord {
     public Float getWeight() {
         return weight;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Sets the patient weight in kilograms.
      *
@@ -196,7 +211,9 @@ public class MedicalRecord {
     public void setWeight(Float weight) {
         this.weight = weight;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Returns the patient blood type.
      *
@@ -205,7 +222,9 @@ public class MedicalRecord {
     public String getBloodType() {
         return bloodType;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Sets the patient blood type.
      *
@@ -214,7 +233,9 @@ public class MedicalRecord {
     public void setBloodType(String bloodType) {
         this.bloodType = bloodType;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Returns the known allergies as plain text.
      *
@@ -223,7 +244,9 @@ public class MedicalRecord {
     public String getAllergies() {
         return allergies;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Sets the known allergies as plain text.
      *
@@ -232,7 +255,9 @@ public class MedicalRecord {
     public void setAllergies(String allergies) {
         this.allergies = allergies;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Returns the vaccinations received as plain text.
      *
@@ -241,7 +266,9 @@ public class MedicalRecord {
     public String getVaccines() {
         return vaccines;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Sets the vaccinations received as plain text.
      *
@@ -250,7 +277,9 @@ public class MedicalRecord {
     public void setVaccines(String vaccines) {
         this.vaccines = vaccines;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Returns the list of medical conditions associated with this record.
      *
@@ -259,7 +288,9 @@ public class MedicalRecord {
     public List<MedicalCondition> getConditions() {
         return conditions;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Sets the list of medical conditions associated with this record.
      *
@@ -268,7 +299,9 @@ public class MedicalRecord {
     public void setConditions(List<MedicalCondition> conditions) {
         this.conditions = conditions;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Returns the list of prescriptions associated with this record.
      *
@@ -277,7 +310,9 @@ public class MedicalRecord {
     public List<Prescription> getPrescriptions() {
         return prescriptions;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Sets the list of prescriptions associated with this record.
      *
@@ -286,7 +321,9 @@ public class MedicalRecord {
     public void setPrescriptions(List<Prescription> prescriptions) {
         this.prescriptions = prescriptions;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Returns the list of surgeries associated with this record.
      *
@@ -295,7 +332,9 @@ public class MedicalRecord {
     public List<Surgery> getSurgeries() {
         return surgeries;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Sets the list of surgeries associated with this record.
      *
@@ -304,6 +343,7 @@ public class MedicalRecord {
     public void setSurgeries(List<Surgery> surgeries) {
         this.surgeries = surgeries;
     }
+    /// @endcond
 
     // =====================================================
     // DOMAIN METHODS

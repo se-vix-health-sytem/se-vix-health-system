@@ -19,6 +19,12 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * @brief Integration tests for JPA repositories against the real database.
+ * Loads the full Spring Boot context and exercises PatientRepository, EmployeeRepository,
+ * ResourceRepository, MedicalFacilityRepository, RoomRepository, and SurgeryRepository,
+ * verifying that each returns non-empty results and that surgery-specialist links are intact.
+ */
 @SpringBootTest
 class RepositoryTest {
 

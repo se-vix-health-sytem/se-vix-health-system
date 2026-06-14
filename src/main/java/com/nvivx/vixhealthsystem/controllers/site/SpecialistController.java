@@ -12,6 +12,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * @brief Controller for the public-facing specialist directory — base URL {@code /specialists}.
+ *
+ * Lets site visitors browse the full list of medical specialists and drill
+ * into individual specialist profiles.  The list view also computes a count
+ * of distinct departments represented so the page header can advertise the
+ * breadth of specialties available.
+ *
+ * @see EmployeeService
+ * @see DepartmentService
+ */
 @Controller
 @RequestMapping("/specialists")
 public class SpecialistController {
@@ -24,6 +35,21 @@ public class SpecialistController {
         this.departmentService = departmentService;
     }
 
+    // =========================================================
+    // GET HANDLERS
+    // =========================================================
+
+    /**
+     * GET /specialists — list all medical specialists.
+     *
+     * Counts distinct departments from the specialists' own department
+     * references rather than from the department table, so the count
+     * reflects only departments that currently have active specialists.
+     *
+     * @param model  Receives {@code specialists}, {@code departmentCount},
+     *               {@code doctorImages}, and {@code pageTitle} attributes.
+     * @return       Thymeleaf template {@code site/specialists/list}.
+     */
     @GetMapping
     public String listSpecialists(Model model) {
         List<MedicalSpecialist> specialists = employeeService.findAllMedicalSpecialists();
@@ -40,6 +66,18 @@ public class SpecialistController {
         return "site/specialists/list";
     }
 
+    /**
+     * GET /specialists/{id} — display a single specialist's profile page.
+     *
+     * Falls back to the specialist list with a redirect when the given ID does
+     * not correspond to a MedicalSpecialist (either the ID is unknown or the
+     * employee is of a different type).
+     *
+     * @param id     Database ID of the specialist to display.
+     * @param model  Receives {@code specialist}, {@code doctorImages}, and {@code pageTitle}.
+     * @return       Thymeleaf template {@code site/specialists/detail}, or
+     *               {@code redirect:/specialists} when the specialist is not found.
+     */
     @GetMapping("/{id}")
     public String specialistDetail(@PathVariable Long id, Model model) {
         try {
@@ -51,7 +89,7 @@ public class SpecialistController {
                 return "site/specialists/detail";
             }
         } catch (Exception e) {
-            // Specialist not found
+            // Specialist not found — fall through to redirect
         }
         return "redirect:/specialists";
     }

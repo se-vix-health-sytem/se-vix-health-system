@@ -15,8 +15,16 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.util.List;
 
 /**
- * Allows any authenticated employee to take resources from storage.
- * UC25 — Employee resource consumption with full audit logging.
+ * @brief Resource self-service controller for any authenticated employee — base URL {@code /employee/resources}.
+ *
+ * Any staff member (regardless of role) can view available stock and withdraw
+ * resources for their own use.  Every take is recorded in {@link ResourceTakeLogStore}
+ * for buyer/manager auditing.
+ *
+ * Use cases covered: UC25 (employee resource consumption with audit logging).
+ *
+ * @see InventoryService
+ * @see ResourceTakeLogStore
  */
 @Controller
 @RequestMapping("/employee/resources")
@@ -37,7 +45,17 @@ public class EmployeeResourceController {
         this.takeLogStore = takeLogStore;
     }
 
-    /** Show all resources available in storage, plus a take form. */
+    // =========================================================
+    // RESOURCE BROWSING
+    // =========================================================
+
+    /**
+     * GET /employee/resources — show all resources available in storage with a take form.
+     *
+     * @param session  HTTP session (available for future per-role filtering).
+     * @param model    Receives {@code resources} (sorted by name) and {@code storages} attributes.
+     * @return         Thymeleaf template {@code employee/take-resources}.
+     */
     @GetMapping
     public String viewResources(HttpSession session, Model model) {
         List<Storage> storages = storageRepository.findAll();
@@ -56,7 +74,24 @@ public class EmployeeResourceController {
         return "employee/take-resources";
     }
 
-    /** Process a resource take request. */
+    // =========================================================
+    // RESOURCE TAKE
+    // =========================================================
+
+    /**
+     * POST /employee/resources/take — withdraw a quantity of a resource from storage.
+     *
+     * Resolves the acting employee from the session (the {@code "user"} attribute is
+     * used because the full Employee domain object is required by the inventory
+     * service's audit path), then delegates to {@link InventoryService#removeResourceFromStorage}.
+     * A flash attribute communicates success or failure back to the redirected view.
+     *
+     * @param resourceId          ID of the resource to withdraw.
+     * @param quantity            Number of units to take; must not exceed available stock.
+     * @param session             HTTP session carrying the {@code "user"} Employee attribute.
+     * @param redirectAttributes  Flash attributes for the redirect to {@code /employee/resources}.
+     * @return                    Redirect to {@code /employee/resources}.
+     */
     @PostMapping("/take")
     public String takeResource(@RequestParam Long resourceId,
                                @RequestParam int quantity,
@@ -80,7 +115,18 @@ public class EmployeeResourceController {
         return "redirect:/employee/resources";
     }
 
-    /** Employee's personal resource-take history. */
+    // =========================================================
+    // HISTORY
+    // =========================================================
+
+    /**
+     * GET /employee/resources/history — display the current employee's personal take history.
+     *
+     * @param session  HTTP session carrying the {@code "user"} Employee attribute.
+     * @param model    Receives {@code logs} filtered to the authenticated employee's ID.
+     * @return         Thymeleaf template {@code employee/resource-history}, or
+     *                 {@code redirect:/login} when no session user is found.
+     */
     @GetMapping("/history")
     public String viewMyHistory(HttpSession session, Model model) {
         Employee sessionUser = (Employee) session.getAttribute("user");

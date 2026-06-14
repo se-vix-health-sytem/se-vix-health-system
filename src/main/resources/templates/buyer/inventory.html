@@ -1,4 +1,19 @@
 <!DOCTYPE html>
+<!--
+==============================================================================
+  FILE:    buyer/inventory.html
+  ACCESS:  ROLE_BUYER (session.user required)
+  PURPOSE: Inventory table listing all resources with quantity and low-stock
+           status. Toggle between all resources and low-stock-only view.
+
+  Model attributes:
+    - resources (List<Resource>) — resources to display
+    - isLowStockView (boolean) — true when showing low-stock filter
+
+  Dependencies:
+    - fragments/head, fragments/dashboard-nav, fragments/footer
+==============================================================================
+-->
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/head :: head('Inventory')}"></head>
 <body>

@@ -13,6 +13,12 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+/**
+ * @brief Unit tests for ShiftService using a Mockito mock of AuditService and a real JSON file.
+ * Covers shift assignment (including same-day replacement), retrieval by employee/week/date range,
+ * on-shift detection, removal, and invalid shift-type rejection; the JSON file is backed up and
+ * restored around every test to keep runs isolated.
+ */
 class ShiftServiceTest {
 
     private AuditService auditService;

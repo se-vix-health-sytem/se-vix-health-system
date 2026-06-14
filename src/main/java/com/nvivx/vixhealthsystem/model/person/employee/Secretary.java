@@ -48,6 +48,7 @@ public class Secretary extends Employee {
     // GETTERS & SETTERS
     // =====================================================
 
+    /// @cond INTERNAL
     /**
      * Returns the secretary specialization role.
      *
@@ -56,7 +57,9 @@ public class Secretary extends Employee {
     public String getRole() {
         return role;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Sets the secretary specialization role.
      *
@@ -65,6 +68,7 @@ public class Secretary extends Employee {
     public void setRole(String role) {
         this.role = role;
     }
+    /// @endcond
 
     @Override
     public Role getSystemRole() { return Role.ROLE_SECRETARY; }

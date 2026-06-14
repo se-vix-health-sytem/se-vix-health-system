@@ -59,6 +59,7 @@ public class SpecializedRoom extends Room {
     // GETTERS & SETTERS
     // =====================================================
 
+    /// @cond INTERNAL
     /**
      * Returns the room specialization.
      *
@@ -67,7 +68,9 @@ public class SpecializedRoom extends Room {
     public String getSpecialization() {
         return specialization;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Sets the room specialization.
      *
@@ -76,7 +79,9 @@ public class SpecializedRoom extends Room {
     public void setSpecialization(String specialization) {
         this.specialization = specialization;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Returns the list of machines in this room.
      *
@@ -85,7 +90,9 @@ public class SpecializedRoom extends Room {
     protected List<Machinery> getMachineries() {
         return machineries;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Sets the list of machines in this room.
      *
@@ -94,6 +101,7 @@ public class SpecializedRoom extends Room {
     protected void setMachineries(List<Machinery> machineries) {
         this.machineries = machineries;
     }
+    /// @endcond
 
     // =====================================================
     // MACHINE MANAGEMENT METHODS

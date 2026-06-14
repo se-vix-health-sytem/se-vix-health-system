@@ -8,6 +8,17 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * @brief JPA repository for {@link Storage} entities.
+ *
+ * Each {@link com.nvivx.vixhealthsystem.model.facility.MedicalFacility} owns at most
+ * one storage unit.  The native query {@link #findTotalQuantityPerResource()} bypasses
+ * the {@code @ElementCollection} mapping to avoid Hibernate proxy issues when
+ * aggregating stock across all storages.
+ *
+ * @see com.nvivx.vixhealthsystem.model.resource.Storage
+ * @see ResourceRepository
+ */
 @Repository
 public interface StorageRepository
         extends JpaRepository<Storage, Long> {

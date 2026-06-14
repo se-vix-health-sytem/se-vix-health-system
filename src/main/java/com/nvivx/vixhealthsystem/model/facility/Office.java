@@ -48,6 +48,7 @@ public class Office extends Room {
     // GETTERS & SETTERS
     // =====================================================
 
+    /// @cond INTERNAL
     /**
      * Returns the employee assigned to this office.
      *
@@ -56,7 +57,9 @@ public class Office extends Room {
     public Employee getEmployee() {
         return employee;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Sets the employee assigned to this office.
      *
@@ -65,6 +68,7 @@ public class Office extends Room {
     public void setEmployee(Employee employee) {
         this.employee = employee;
     }
+    /// @endcond
 
     // =====================================================
     // OFFICE MANAGEMENT METHODS

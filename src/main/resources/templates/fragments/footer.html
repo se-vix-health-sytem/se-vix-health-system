@@ -1,4 +1,14 @@
 <!DOCTYPE html>
+<!--
+  ============================================================
+  Template : fragments/footer.html
+  Role     : All users (public, patient, staff)
+  Access   : Public — included on every page
+  Purpose  : Renders the site-wide footer with links, contact info, and legal navigation.
+  Model    : session.user, session.patient — used to apply left margin offset when sidebar is present
+  Controller: N/A — reusable fragment
+  ============================================================
+-->
 <html xmlns:th="http://www.thymeleaf.org">
 <footer th:fragment="footer" class="vix-footer"
         th:style="'background: var(--vix-crimson-dk); color: rgba(255,255,255,.72); padding: 4rem 0 2rem;' + (${session.user != null or session.patient != null} ? ' margin-left: 280px;' : '')">

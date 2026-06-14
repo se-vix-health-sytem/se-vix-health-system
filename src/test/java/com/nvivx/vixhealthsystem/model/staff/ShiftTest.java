@@ -7,6 +7,11 @@ import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * @brief Unit tests for Shift using plain JUnit (no Spring context).
+ * Covers field setters/getters, the parameterized constructor, String-to-enum ShiftType
+ * conversion, null string handling, and invalid string rejection.
+ */
 class ShiftTest {
     private Shift shift;
 

@@ -109,6 +109,7 @@ public class VacationRequest {
     // GETTERS & SETTERS
     // =====================================================
 
+    /// @cond INTERNAL
     /**
      * Returns the unique vacation request identifier.
      *
@@ -117,7 +118,9 @@ public class VacationRequest {
     public int getId() {
         return id;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Sets the unique vacation request identifier.
      *
@@ -126,7 +129,9 @@ public class VacationRequest {
     public void setId(int id) {
         this.id = id;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Returns the identifier of the employee submitting the request.
      *
@@ -135,7 +140,9 @@ public class VacationRequest {
     public int getEmployeeId() {
         return employeeId;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Sets the identifier of the employee submitting the request.
      *
@@ -144,7 +151,9 @@ public class VacationRequest {
     public void setEmployeeId(int employeeId) {
         this.employeeId = employeeId;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Returns the employee full name.
      *
@@ -153,7 +162,9 @@ public class VacationRequest {
     public String getEmployeeName() {
         return employeeName;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Sets the employee full name.
      *
@@ -162,7 +173,9 @@ public class VacationRequest {
     public void setEmployeeName(String employeeName) {
         this.employeeName = employeeName;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Returns the start date of the vacation period.
      *
@@ -171,7 +184,9 @@ public class VacationRequest {
     public LocalDate getStartDate() {
         return startDate;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Sets the start date of the vacation period.
      *
@@ -180,7 +195,9 @@ public class VacationRequest {
     public void setStartDate(LocalDate startDate) {
         this.startDate = startDate;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Returns the end date of the vacation period.
      *
@@ -189,7 +206,9 @@ public class VacationRequest {
     public LocalDate getEndDate() {
         return endDate;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Sets the end date of the vacation period.
      *
@@ -198,7 +217,9 @@ public class VacationRequest {
     public void setEndDate(LocalDate endDate) {
         this.endDate = endDate;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Returns the reason provided for the vacation request.
      *
@@ -207,7 +228,9 @@ public class VacationRequest {
     public String getReason() {
         return reason;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Sets the reason provided for the vacation request.
      *
@@ -216,6 +239,7 @@ public class VacationRequest {
     public void setReason(String reason) {
         this.reason = reason;
     }
+    /// @endcond
 
     /**
      * Returns the vacation status enum.

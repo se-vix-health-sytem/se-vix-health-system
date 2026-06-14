@@ -21,6 +21,11 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+/**
+ * @brief Unit tests for PatientAppointmentController using Spring MVC MockMvc and Mockito mocks.
+ * Covers appointment listing for logged-in and guest patients, the booking form, and
+ * the cancel-appointment redirect when the appointment is not found.
+ */
 @ExtendWith(MockitoExtension.class)
 class PatientAppointmentControllerTest {
 

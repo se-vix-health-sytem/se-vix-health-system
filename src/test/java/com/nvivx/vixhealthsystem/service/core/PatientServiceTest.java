@@ -17,10 +17,9 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 /**
- * Arrange = prepare fake data and mock behavior
- * Act = call the method being tested
- * Assert = check the result
- * Verify = check that mocks were called correctly
+ * @brief Unit tests for PatientService using Mockito mocks for PatientRepository and AuditService.
+ * Covers CRUD operations (find by id/fiscal code, create, update, soft-delete anonymisation,
+ * permanent delete) and the search-patients filtering logic.
  */
 @ExtendWith(MockitoExtension.class)
 class PatientServiceTest {

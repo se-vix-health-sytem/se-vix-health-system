@@ -1,4 +1,21 @@
 <!DOCTYPE html>
+<!--
+==============================================================================
+  FILE:    patient/appointments.html
+  ACCESS:  ROLE_PATIENT (session.patient required)
+  PURPOSE: Lists all the patient's upcoming and past appointments with
+           options to reschedule, cancel, or pay.
+
+  Model attributes:
+    - upcomingAppointments (List<Appointment>) — future appointments
+    - pastAppointments (List<Appointment>) — completed / past appointments
+    - message (String) — success flash message
+    - error (String) — error flash message
+
+  Dependencies:
+    - fragments/head, fragments/dashboard-nav, fragments/footer
+==============================================================================
+-->
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/head :: head('My Appointments')}"></head>
 <body>

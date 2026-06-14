@@ -1,4 +1,20 @@
 <!DOCTYPE html>
+<!--
+==============================================================================
+  FILE:    staff-manager/create-employee.html
+  ACCESS:  ROLE_STAFFMANAGER (session.user required)
+  PURPOSE: Form for creating a new employee account. Specialty and license
+           number fields are shown/hidden by JS based on the selected type.
+
+  Model attributes:
+    - employeeTypes (List<String>) — available role types for the dropdown
+    - departments (List<Department>) — departments for the optional selector
+
+  Dependencies:
+    - fragments/head, fragments/dashboard-nav, fragments/footer
+    - inline JS to toggle specialty/license fields for MedicalSpecialist
+==============================================================================
+-->
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/head :: head('Create Employee')}"></head>
 <body>

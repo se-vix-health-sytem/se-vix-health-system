@@ -10,6 +10,11 @@ import java.util.Map;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+/**
+ * @brief Unit tests for QuestionnaireController using plain JUnit with a mocked Model.
+ * Verifies that the questionnaire page is rendered correctly and that symptom form
+ * submission populates the model with a recommendation map.
+ */
 class QuestionnaireControllerTest {
 
     private final QuestionnaireController controller = new QuestionnaireController();

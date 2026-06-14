@@ -1,4 +1,14 @@
 <!DOCTYPE html>
+<!--
+  ============================================================
+  Template : fragments/dashboard-nav.html
+  Role     : Authenticated users (Patient, Medical Specialist, Secretary, Technician, Buyer, Staff Manager)
+  Access   : ROLE_XXX only — included in all dashboard layouts
+  Purpose  : Fixed left sidebar with role-based navigation menu; highlights the active page via currentPage variable.
+  Model    : session.user / session.patient (Person) — display name; session.role (String) — controls which menu block renders; currentPage (String) — highlights active nav item
+  Controller: N/A — reusable fragment; currentPage set by each dashboard controller
+  ============================================================
+-->
 <html xmlns:th="http://www.thymeleaf.org">
 <div th:fragment="dashboardNav" class="dashboard-sidebar">
     <div class="d-flex flex-column vh-100 bg-white border-end" style="width: 280px; position: fixed; left: 0; top: 0;">

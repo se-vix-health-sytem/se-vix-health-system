@@ -9,6 +9,11 @@ import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * @brief Unit tests for Storage using plain JUnit (no Spring context).
+ * Covers addResource (accumulation), removeResource (decrement, zero-removal, not-present
+ * and insufficient-quantity errors), getTotalQuantity, and setResources replacement.
+ */
 class StorageTest {
     private Storage storage;
     private Resource syringe;

@@ -1,4 +1,19 @@
 <!DOCTYPE html>
+<!--
+==============================================================================
+  FILE:    staff-manager/dashboard.html
+  ACCESS:  ROLE_STAFFMANAGER (session.user required)
+  PURPOSE: Staff Manager home screen with employee/vacation stats, a recent
+           activity feed, and quick-action buttons for the main HR tasks.
+
+  Model attributes:
+    - totalEmployees (int), activeEmployees (int), pendingVacations (int)
+    - recentActivities (List<AuditLog>) — latest audit log entries
+
+  Dependencies:
+    - fragments/head, fragments/dashboard-nav, fragments/footer
+==============================================================================
+-->
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/head :: head('Staff Manager Dashboard')}"></head>
 <body>

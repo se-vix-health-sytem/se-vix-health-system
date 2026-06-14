@@ -15,6 +15,11 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+/**
+ * @brief Unit tests for PaymentController using plain JUnit and Mockito mocks.
+ * Covers the payment page display, payment processing, status retrieval, the fake-payment
+ * success/failure/not-found branches, and the confirmation page.
+ */
 class PaymentControllerTest {
 
     private PaymentService paymentService;

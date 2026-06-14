@@ -18,6 +18,24 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * @brief Controller for Buyer staff members — base URL {@code /buyer}.
+ *
+ * Buyers are responsible for procurement and inventory management.
+ * This controller covers the full purchasing workflow:
+ * viewing and updating stock levels, adding new resources, monitoring
+ * low-stock alerts, reviewing the resource-take audit log, and accessing
+ * personal shift and profile pages.
+ *
+ * Only accessible to users with {@code ROLE_BUYER}.
+ *
+ * Use cases covered: UC25 (resource management), UC30 (profile/shifts).
+ *
+ * @see InventoryService
+ * @see ResourceTakeLogStore
+ * @see ShiftService
+ * @see VacationService
+ */
 @Controller
 @RequestMapping("/buyer")
 public class BuyerController {
@@ -40,6 +58,21 @@ public class BuyerController {
         this.vacationService = vacationService;
     }
 
+    // =========================================================
+    // DASHBOARD
+    // =========================================================
+
+    /**
+     * GET /buyer/dashboard — render the buyer's overview dashboard.
+     *
+     * Populates low-stock count, total resource count, and the buyer's display
+     * name (resolved from the first buyer in the database as a temporary measure
+     * until session-backed identity is fully wired).
+     *
+     * @param model  Receives {@code lowStockCount}, {@code totalResources}, and
+     *               {@code buyerName} attributes.
+     * @return       Thymeleaf template {@code buyer/dashboard}.
+     */
     @GetMapping("/dashboard")
     public String dashboard(Model model) {
         var lowStockCount = inventoryService.getLowStockResources().size();
@@ -58,6 +91,23 @@ public class BuyerController {
         return "buyer/dashboard";
     }
 
+    // =========================================================
+    // INVENTORY
+    // =========================================================
+
+    /**
+     * GET /buyer/inventory — list all resources currently in storage.
+     *
+     * Aggregates stock quantities across all storage locations and wraps each
+     * entry in an {@link InventoryItem} for the view.  Resources with fewer than
+     * 50 units are flagged as low-stock.  An empty list is substituted and an
+     * error banner is shown if the service call fails.
+     *
+     * @param model    Receives {@code resources} (sorted by name), {@code pageTitle},
+     *                 and {@code isLowStockView} attributes.
+     * @param session  HTTP session (retained for future session-based filtering).
+     * @return         Thymeleaf template {@code buyer/inventory}.
+     */
     @GetMapping("/inventory")
     public String viewInventory(Model model, HttpSession session) {
         try {
@@ -87,6 +137,13 @@ public class BuyerController {
         return "buyer/inventory";
     }
 
+    /**
+     * GET /buyer/inventory/low-stock — list only resources below the stock threshold.
+     *
+     * @param model  Receives {@code resources} (all items flagged as low-stock),
+     *               {@code pageTitle}, and {@code isLowStockView=true}.
+     * @return       Thymeleaf template {@code buyer/inventory}.
+     */
     @GetMapping("/inventory/low-stock")
     public String viewLowStock(Model model) {
         var lowStockResources = inventoryService.getLowStockResources();
@@ -110,12 +167,36 @@ public class BuyerController {
         return "buyer/inventory";
     }
 
+    /**
+     * GET /buyer/inventory/add — render the add-resource form.
+     *
+     * @param model  Receives {@code pageTitle}.
+     * @return       Thymeleaf template {@code buyer/add-resource}.
+     */
     @GetMapping("/inventory/add")
     public String showAddResourceForm(Model model) {
         model.addAttribute("pageTitle", "Add New Resource");
         return "buyer/add-resource";
     }
 
+    /**
+     * POST /buyer/inventory/add — create a new resource and add initial stock.
+     *
+     * Creates the resource entity via {@link InventoryService}, then calls the
+     * domain method {@code Buyer.addResourceToStorage} to record the initial
+     * quantity.  The acting buyer is resolved from the session.
+     *
+     * @param name        Human-readable resource name.
+     * @param description Short description of the resource.
+     * @param quantity    Initial quantity to add to storage; must be positive.
+     * @param price       Unit price in euros.
+     * @param unit        Unit of measure label (e.g., "units", "boxes").
+     * @param session     HTTP session; used to resolve the authenticated Buyer via
+     *                    {@code "user"} — needed because the Buyer domain object
+     *                    contains the business logic for adding stock.
+     * @param model       Receives a success or error {@code message} attribute.
+     * @return            Thymeleaf template {@code buyer/result}.
+     */
     @PostMapping("/inventory/add")
     public String addResource(@RequestParam String name,
                               @RequestParam String description,
@@ -146,6 +227,16 @@ public class BuyerController {
         return "buyer/result";
     }
 
+    /**
+     * GET /buyer/inventory/{resourceId} — display details for a single resource.
+     *
+     * @param resourceId  Database ID of the resource to display.
+     * @param model       Receives {@code resource}, {@code totalQuantity},
+     *                    {@code isLowStock}, and {@code lowStockThreshold} attributes.
+     * @return            Thymeleaf template {@code buyer/resource-details}, or
+     *                    {@code buyer/result} with a not-found message when the ID
+     *                    does not exist.
+     */
     @GetMapping("/inventory/{resourceId}")
     public String viewResourceDetails(@PathVariable Long resourceId, Model model) {
         try {
@@ -167,6 +258,17 @@ public class BuyerController {
         }
     }
 
+    /**
+     * POST /buyer/inventory/update-quantity — add or remove units for an existing resource.
+     *
+     * @param resourceId  ID of the resource whose stock level is being changed.
+     * @param quantity    Number of units to add or remove; must be positive.
+     * @param action      Either {@code "add"} or {@code "remove"}.
+     * @param session     HTTP session; used to resolve the authenticated Buyer (the Buyer
+     *                    domain object owns the storage mutation logic).
+     * @param model       Receives a success or error {@code message} attribute.
+     * @return            Thymeleaf template {@code buyer/result}.
+     */
     @PostMapping("/inventory/update-quantity")
     public String updateQuantity(@RequestParam Long resourceId,
                                  @RequestParam int quantity,
@@ -190,8 +292,23 @@ public class BuyerController {
         return "buyer/result";
     }
 
-    // ========== PROFILE ==========
+    // =========================================================
+    // PROFILE
+    // =========================================================
 
+    /**
+     * GET /buyer/my-shifts — display the buyer's assigned shifts and approved vacations.
+     *
+     * The session attribute {@code "user"} is read directly (rather than using the
+     * Spring Security principal) to obtain the Buyer's database ID, which is then
+     * used to query shifts and vacation records.
+     *
+     * @param session  HTTP session carrying the {@code "user"} Employee attribute.
+     * @param model    Receives {@code shifts}, {@code vacations}, and
+     *                 {@code dashboardLink} attributes.
+     * @return         Thymeleaf template {@code employee/my-shifts}, or
+     *                 {@code redirect:/login} when no session user is found.
+     */
     @GetMapping("/my-shifts")
     public String viewMyShifts(HttpSession session, Model model) {
         Employee user = (Employee) session.getAttribute("user");
@@ -205,6 +322,19 @@ public class BuyerController {
         return "employee/my-shifts";
     }
 
+    /**
+     * GET /buyer/profile — display the buyer's personal profile page.
+     *
+     * Reloads a fresh Employee entity from the database to avoid using a
+     * potentially stale session object.  Falls back to the session entity
+     * if the DB lookup fails.
+     *
+     * @param session  HTTP session carrying the {@code "user"} Employee attribute.
+     * @param model    Receives {@code employee}, {@code roleLabel}, and
+     *                 {@code dashboardLink} attributes.
+     * @return         Thymeleaf template {@code employee/profile}, or
+     *                 {@code redirect:/login} when no session user is found.
+     */
     @GetMapping("/profile")
     public String viewProfile(HttpSession session, Model model) {
         Employee sessionUser = (Employee) session.getAttribute("user");
@@ -226,8 +356,19 @@ public class BuyerController {
         return "employee/profile";
     }
 
-    // ========== RESOURCE TAKE LOG ==========
+    // =========================================================
+    // RESOURCE TAKE LOG
+    // =========================================================
 
+    /**
+     * GET /buyer/resource-log — show the full resource-take audit log.
+     *
+     * Displays every recorded instance of an employee taking a resource from
+     * storage, giving the buyer visibility over consumption patterns.
+     *
+     * @param model  Receives {@code logs} (all {@link ResourceTakeLogStore} entries).
+     * @return       Thymeleaf template {@code buyer/resource-log}.
+     */
     @GetMapping("/resource-log")
     public String viewResourceLog(Model model) {
         model.addAttribute("logs", takeLogStore.getAll());
@@ -236,8 +377,22 @@ public class BuyerController {
         return "buyer/resource-log";
     }
 
-    // ========== HELPERS ==========
+    // =========================================================
+    // HELPERS
+    // =========================================================
 
+    /**
+     * Resolve and reload the authenticated Buyer from the HTTP session.
+     *
+     * The session attribute {@code "user"} is read because the Spring Security
+     * principal only carries the role string, not the full domain object needed
+     * by Buyer's storage mutation methods.  A fresh entity is loaded from the
+     * database to avoid Hibernate detached-object issues.
+     *
+     * @param session  HTTP session carrying the {@code "user"} attribute.
+     * @return         A fully initialised {@link Buyer} from the database, or a
+     *                 transient {@code new Buyer()} when the session holds no Buyer.
+     */
     private Buyer getBuyerFromSession(HttpSession session) {
         Employee user = (Employee) session.getAttribute("user");
         if (user instanceof Buyer b) {

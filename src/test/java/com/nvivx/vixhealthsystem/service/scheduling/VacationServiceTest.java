@@ -18,6 +18,11 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+/**
+ * @brief Unit tests for VacationService using Mockito mocks for JsonVacationRepository and AuditService.
+ * Covers adding, approving, denying, and deleting vacation requests, pending/approved/employee
+ * filtering, overlap detection, and total-days-in-year aggregation.
+ */
 @ExtendWith(MockitoExtension.class)
 class VacationServiceTest {
 

@@ -18,6 +18,11 @@ import org.springframework.ui.Model;
 import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * @brief Unit tests for SecretaryController using Mockito mocks injected via @InjectMocks.
+ * Covers the dashboard, room views (all and available), appointment management page, and
+ * the patient search form — all verified through direct method calls without MockMvc.
+ */
 @ExtendWith(MockitoExtension.class)
 class SecretaryControllerTest {
 

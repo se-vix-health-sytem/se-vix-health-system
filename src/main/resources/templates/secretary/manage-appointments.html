@@ -1,4 +1,22 @@
 <!DOCTYPE html>
+<!--
+==============================================================================
+  FILE:    secretary/manage-appointments.html
+  ACCESS:  ROLE_SECRETARY (session.user required)
+  PURPOSE: All-in-one appointment management page: book-for-patient form
+           (collapsible), full appointments table, and reschedule modal.
+
+  Model attributes:
+    - patients (List<Patient>) — all patients for the booking dropdown
+    - specialists (List<MedicalSpecialist>) — all specialists
+    - appointments (List<Appointment>) — all appointments to display
+    - message (String) — success flash
+    - error (String) — error flash
+
+  Dependencies:
+    - fragments/head, fragments/dashboard-nav, fragments/footer
+==============================================================================
+-->
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/head :: head('Manage Appointments')}"></head>
 <body>

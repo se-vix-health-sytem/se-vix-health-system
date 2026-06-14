@@ -1,4 +1,14 @@
 <!DOCTYPE html>
+<!--
+  ============================================================
+  Template : mock-spid/login.html
+  Role     : Patient (unauthenticated)
+  Access   : Public — SPID simulation for development/testing
+  Purpose  : Simulates the SPID national digital identity login flow; patients enter fiscal code and PIN to authenticate.
+  Model    : error (String) — authentication failure message
+  Controller: MockSpidController (POST /mock-spid/authenticate)
+  ============================================================
+-->
 <html xmlns:th="http://www.thymeleaf.org" lang="it">
 <head>
     <meta charset="UTF-8">
@@ -26,7 +36,7 @@
 </head>
 <body>
 
-<!-- SPID TOP BAR -->
+<!-- ===== SPID TOP BAR ===== -->
 <div class="spid-header py-2 px-4 d-flex align-items-center justify-content-between">
     <div class="d-flex align-items-center gap-2">
         <div style="background:white; color:#06c; font-weight:900; padding:2px 8px; border-radius:4px; font-size:1.1rem; letter-spacing:-1px;">SPID</div>
@@ -108,6 +118,7 @@
     </div>
 </div>
 
+<!-- ===== DEV TOOLS (development only) ===== -->
 <!-- ── DEV FLOATING BUTTON ──────────────────────────────────────────────── -->
 <button onclick="document.getElementById('devModalSpid').style.display='flex'"
         style="position:fixed; bottom:1.25rem; right:1.25rem; z-index:9999;

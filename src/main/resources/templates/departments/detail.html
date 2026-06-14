@@ -1,4 +1,21 @@
 <!DOCTYPE html>
+<!--
+==============================================================================
+  FILE:    departments/detail.html
+  ACCESS:  Public
+  PURPOSE: Detail page for a single department showing its services list
+           and the specialists who belong to it.
+
+  Model attributes:
+    - department (Department) — the department being displayed
+    - services (List<String>) — service names offered by this department
+    - doctors (List<MedicalSpecialist>) — specialists in the department
+    - doctorImages (Map<Long, String>) — specialist ID → image path
+
+  Dependencies:
+    - fragments/head, fragments/navbar, fragments/footer
+==============================================================================
+-->
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/head :: head('Department')}"></head>
 <body>

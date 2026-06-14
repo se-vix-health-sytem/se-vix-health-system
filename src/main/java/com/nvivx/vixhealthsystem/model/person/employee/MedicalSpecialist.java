@@ -72,6 +72,7 @@ public class MedicalSpecialist extends Employee {
     // GETTERS & SETTERS
     // =====================================================
 
+    /// @cond INTERNAL
     /**
      * Returns the medical specialization field.
      *
@@ -80,7 +81,9 @@ public class MedicalSpecialist extends Employee {
     public String getSpecialty() {
         return specialty;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Sets the medical specialization field.
      *
@@ -89,7 +92,9 @@ public class MedicalSpecialist extends Employee {
     public void setSpecialty(String specialty) {
         this.specialty = specialty;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Returns the professional license identifier.
      *
@@ -98,7 +103,9 @@ public class MedicalSpecialist extends Employee {
     public String getLicenseNumber() {
         return licenseNumber;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Sets the professional license identifier.
      *
@@ -107,7 +114,9 @@ public class MedicalSpecialist extends Employee {
     public void setLicenseNumber(String licenseNumber) {
         this.licenseNumber = licenseNumber;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Returns the list of appointments assigned to this specialist.
      *
@@ -116,7 +125,9 @@ public class MedicalSpecialist extends Employee {
     public List<Appointment> getAppointments() {
         return appointments;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Sets the list of appointments assigned to this specialist.
      *
@@ -125,14 +136,29 @@ public class MedicalSpecialist extends Employee {
     public void setAppointments(List<Appointment> appointments) {
         this.appointments = appointments;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
+    /**
+     * Returns the list of surgeries performed by this specialist.
+     *
+     * @return the list of surgeries
+     */
     public List<Surgery> getSurgeries() {
         return surgeries;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
+    /**
+     * Sets the list of surgeries performed by this specialist.
+     *
+     * @param surgeries the list of surgeries to set
+     */
     public void setSurgeries(List<Surgery> surgeries) {
         this.surgeries = surgeries;
     }
+    /// @endcond
 
     @Override
     public Role getSystemRole() { return Role.ROLE_MEDICAL_SPECIALIST; }
@@ -160,6 +186,13 @@ public class MedicalSpecialist extends Employee {
         p.getMedicalRecord().addPrescription(pr);
     }
 
+    /**
+     * Schedules a surgery for a patient by adding it to their medical record
+     * and setting the performing specialist to {@code this}.
+     *
+     * @param p the patient undergoing the surgery
+     * @param s the surgery to schedule
+     */
     public void scheduleSurgeryForPatient(Patient p, Surgery s) {
         s.setMedicalSpecialist(this);
         p.getMedicalRecord().addSurgery(s);

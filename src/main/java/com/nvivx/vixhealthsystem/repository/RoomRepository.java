@@ -6,6 +6,15 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+/**
+ * @brief JPA repository for {@link Room} entities.
+ *
+ * Used by the technician and secretary workflows to inspect or assign rooms
+ * within a medical facility.
+ *
+ * @see com.nvivx.vixhealthsystem.model.facility.Room
+ * @see MedicalFacilityRepository
+ */
 @Repository
 public interface RoomRepository
         extends JpaRepository<Room, Long> {

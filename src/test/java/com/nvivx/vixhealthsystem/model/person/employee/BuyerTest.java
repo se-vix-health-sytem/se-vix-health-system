@@ -12,6 +12,16 @@ import java.math.BigDecimal;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * @brief Unit tests for Buyer.
+ *
+ * Verifies system role, employee type, and the addResource domain method that
+ * adds stock to the facility storage through the buyer's department chain.
+ * Also guards against the missing-department, missing-facility, and
+ * missing-storage error paths. Plain JUnit — no Spring context loaded.
+ *
+ * @see Buyer
+ */
 class BuyerTest {
     private Buyer buyer;
     private Department department;
@@ -19,6 +29,7 @@ class BuyerTest {
     private Storage storage;
     private Resource resource;
 
+    /** @brief Builds the fixture shared by all tests in this class. */
     @BeforeEach
     void setUp() {
         buyer = new Buyer();
@@ -46,16 +57,28 @@ class BuyerTest {
         resource.setId(500L);
     }
 
+    /**
+     * Verifies that the buyer's Spring Security role is ROLE_BUYER,
+     *        granting access to purchasing features only.
+     */
     @Test
     void getSystemRole_ShouldReturnBuyerRole() {
         assertEquals(Role.ROLE_BUYER, buyer.getSystemRole());
     }
 
+    /**
+     * Verifies that the employee type discriminator is BUYER for
+     *        correct polymorphic handling in the UI and audit logs.
+     */
     @Test
     void getEmployeeType_ShouldReturnBuyerType() {
         assertEquals(EmployeeType.BUYER, buyer.getEmployeeType());
     }
 
+    /**
+     * Verifies that purchasing a resource places the specified quantity
+     *        in the facility's storage map.
+     */
     @Test
     void addResource_ShouldAddResourceToStorage() {
         assertNull(storage.getResources().get(resource));
@@ -65,6 +88,10 @@ class BuyerTest {
         assertEquals(100, storage.getResources().get(resource));
     }
 
+    /**
+     * Verifies that purchasing the same resource twice accumulates the
+     *        quantities rather than overwriting the first delivery.
+     */
     @Test
     void addResource_ShouldAccumulateQuantityWhenResourceAlreadyExists() {
         buyer.addResource(resource, 50);
@@ -73,6 +100,10 @@ class BuyerTest {
         assertEquals(80, storage.getResources().get(resource));
     }
 
+    /**
+     * Verifies that a buyer without an assigned department cannot
+     *        purchase resources, preventing orphan stock entries.
+     */
     @Test
     void addResource_ShouldThrowExceptionWhenDepartmentMissing() {
         buyer.setDepartment(null);
@@ -84,6 +115,10 @@ class BuyerTest {
         assertTrue(exception.getMessage().contains("no department"));
     }
 
+    /**
+     * Verifies that a department not linked to a facility blocks resource
+     *        purchase, ensuring no stock can be added without a known location.
+     */
     @Test
     void addResource_ShouldThrowExceptionWhenFacilityMissing() {
         department.setMedicalFacility(null);
@@ -95,6 +130,10 @@ class BuyerTest {
         assertTrue(exception.getMessage().contains("no department"));
     }
 
+    /**
+     * Verifies that a facility without a storage unit blocks resource
+     *        purchase, preventing stock from being added to a non-existent store.
+     */
     @Test
     void addResource_ShouldThrowExceptionWhenStorageMissing() {
         facility.setStorage(null);

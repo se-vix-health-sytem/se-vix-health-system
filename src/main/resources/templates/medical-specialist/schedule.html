@@ -1,4 +1,24 @@
 <!DOCTYPE html>
+<!--
+==============================================================================
+  FILE:    medical-specialist/schedule.html
+  ACCESS:  ROLE_MEDICALSPECIALIST (session.user required)
+  PURPOSE: Day-by-day schedule view showing the specialist's shifts,
+           appointments, and surgeries for a selected date. If on vacation
+           the timetable section is hidden and a leave banner is shown.
+
+  Model attributes:
+    - todayShifts (List<Shift>) — shifts assigned for the selected date
+    - todayAppts (List<Appointment>) — appointments for the selected date
+    - todaySurgeries (List<Surgery>) — surgeries for the selected date
+    - onVacation (boolean) — true if the specialist is on approved leave
+    - selectedDateLabel (String) — formatted date label for the heading
+    - prevDate, nextDate (String) — ISO dates for prev/next navigation
+
+  Dependencies:
+    - fragments/head, fragments/dashboard-nav, fragments/footer
+==============================================================================
+-->
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/head :: head('My Schedule')}"></head>
 <body>

@@ -1,4 +1,18 @@
 <!DOCTYPE html>
+<!--
+==============================================================================
+  FILE:    medical-specialist/appointments.html
+  ACCESS:  ROLE_MEDICALSPECIALIST (session.user required)
+  PURPOSE: Full appointment table for the specialist showing patient, date,
+           duration, status, and payment state for every assigned appointment.
+
+  Model attributes:
+    - appointments (List<Appointment>) — all appointments for this specialist
+
+  Dependencies:
+    - fragments/head, fragments/dashboard-nav, fragments/footer
+==============================================================================
+-->
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/head :: head('My Appointments')}"></head>
 <body>

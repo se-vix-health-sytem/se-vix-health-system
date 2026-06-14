@@ -20,6 +20,11 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
+/**
+ * @brief Unit tests for MedicalRecordService using Mockito mocks for all repositories and AuditService.
+ * Covers record retrieval, creation, and the addDiagnosis, addPrescription, addExamResult,
+ * getConditions, getPrescriptions, and getSurgeries operations.
+ */
 @ExtendWith(MockitoExtension.class)
 class MedicalRecordServiceTest {
 

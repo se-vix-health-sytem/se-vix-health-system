@@ -85,6 +85,7 @@ public class Patient extends Person {
     // GETTERS & SETTERS
     // =====================================================
 
+    /// @cond INTERNAL
     /**
      * Returns the patient's unique identifier.
      *
@@ -93,7 +94,9 @@ public class Patient extends Person {
     public Long getId() {
         return id;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Sets the patient's unique identifier.
      *
@@ -102,7 +105,9 @@ public class Patient extends Person {
     public void setId(Long id) {
         this.id = id;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Returns the patient's Italian fiscal code.
      *
@@ -111,6 +116,7 @@ public class Patient extends Person {
     public String getFiscalCode() {
         return fiscalCode;
     }
+    /// @endcond
 
     /**
      * Sets the patient's Italian fiscal code.
@@ -121,6 +127,7 @@ public class Patient extends Person {
         this.fiscalCode = fiscalCode;
     }
 
+    /// @cond INTERNAL
     /**
      * Returns the patient's medical record.
      *
@@ -129,7 +136,9 @@ public class Patient extends Person {
     public MedicalRecord getMedicalRecord() {
         return medicalRecord;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Sets the patient's medical record.
      *
@@ -138,7 +147,9 @@ public class Patient extends Person {
     public void setMedicalRecord(MedicalRecord medicalRecord) {
         this.medicalRecord = medicalRecord;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Returns the list of appointments for this patient.
      *
@@ -147,7 +158,9 @@ public class Patient extends Person {
     public List<Appointment> getAppointments() {
         return appointments;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Sets the list of appointments for this patient.
      *
@@ -156,6 +169,7 @@ public class Patient extends Person {
     public void setAppointments(List<Appointment> appointments) {
         this.appointments = appointments;
     }
+    /// @endcond
 
     // =====================================================
     // DOMAIN METHODS

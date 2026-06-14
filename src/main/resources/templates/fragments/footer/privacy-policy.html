@@ -1,6 +1,17 @@
 <!DOCTYPE html>
+<!--
+  ============================================================
+  Template : fragments/footer/privacy-policy.html
+  Role     : Public — all visitors
+  Access   : Public
+  Purpose  : Displays the VIX Health System Privacy Policy detailing GDPR compliance, data collection, and user rights.
+  Model    : (none — static content, date rendered via #dates utility)
+  Controller: SiteController or equivalent public page controller
+  ============================================================
+-->
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/head :: head('Privacy Policy')}"></head>
+<!-- Includes fragment: fragments/head :: head, fragments/navbar :: navbar, fragments/footer :: footer -->
 <body>
 <div th:replace="~{fragments/navbar :: navbar}"></div>
 

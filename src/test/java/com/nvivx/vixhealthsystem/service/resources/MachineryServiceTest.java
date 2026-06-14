@@ -19,10 +19,9 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 /**
- * Unit tests for MachineryService.
- *
- * These tests do not start Spring Boot and do not use the real database.
- * MachineryRepository and AuditService are mocked with Mockito.
+ * @brief Unit tests for MachineryService using Mockito mocks for MachineryRepository and AuditService.
+ * Covers machine retrieval by id/status/room, faulty-machine filtering, status updates,
+ * fault reporting, repair, maintenance scheduling, count helpers, and alert generation.
  */
 @ExtendWith(MockitoExtension.class)
 class MachineryServiceTest {

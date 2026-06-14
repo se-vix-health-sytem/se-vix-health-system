@@ -1,4 +1,18 @@
 <!DOCTYPE html>
+<!--
+==============================================================================
+  FILE:    patient/dashboard.html
+  ACCESS:  ROLE_PATIENT (session.patient required)
+  PURPOSE: Patient home screen showing a welcome banner, health snapshot,
+           quick-action buttons, and a personal info summary.
+
+  Model attributes:
+    - patient (Patient) — the authenticated patient (also in session.patient)
+
+  Dependencies:
+    - fragments/head, fragments/dashboard-nav, fragments/footer
+==============================================================================
+-->
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/head :: head('Patient Dashboard')}"></head>
 <body>

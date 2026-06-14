@@ -96,6 +96,7 @@ public class Resource {
     // GETTERS & SETTERS
     // =====================================================
 
+    /// @cond INTERNAL
     /**
      * Returns the unique resource identifier.
      *
@@ -104,7 +105,9 @@ public class Resource {
     public Long getId() {
         return id;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Sets the unique resource identifier.
      *
@@ -113,7 +116,9 @@ public class Resource {
     public void setId(Long id) {
         this.id = id;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Returns the resource name.
      *
@@ -122,7 +127,9 @@ public class Resource {
     public String getName() {
         return name;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Sets the resource name.
      *
@@ -131,7 +138,9 @@ public class Resource {
     public void setName(String name) {
         this.name = name;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Returns the resource description.
      *
@@ -140,7 +149,9 @@ public class Resource {
     public String getDescription() {
         return description;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Sets the resource description.
      *
@@ -149,7 +160,9 @@ public class Resource {
     public void setDescription(String description) {
         this.description = description;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Returns the unit price of the resource.
      *
@@ -158,7 +171,9 @@ public class Resource {
     public BigDecimal getPrice() {
         return price;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Sets the unit price of the resource.
      *
@@ -167,4 +182,5 @@ public class Resource {
     public void setPrice(BigDecimal price) {
         this.price = price;
     }
+    /// @endcond
 }

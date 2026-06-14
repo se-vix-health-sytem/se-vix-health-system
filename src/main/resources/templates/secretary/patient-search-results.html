@@ -1,4 +1,19 @@
 <!DOCTYPE html>
+<!--
+==============================================================================
+  FILE:    secretary/patient-search-results.html
+  ACCESS:  ROLE_SECRETARY (session.user required)
+  PURPOSE: Displays patient search results with a refine bar; each row
+           links to the secretary's read-only patient-profile view.
+
+  Model attributes:
+    - patients (List<Patient>) — patients matching the search term
+    - query (String) — the submitted search string
+
+  Dependencies:
+    - fragments/head, fragments/dashboard-nav, fragments/footer
+==============================================================================
+-->
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/head :: head('Search Results')}"></head>
 <body>

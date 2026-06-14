@@ -99,6 +99,7 @@ public class Surgery {
     // GETTERS & SETTERS
     // =====================================================
 
+    /// @cond INTERNAL
     /**
      * Returns the unique surgery identifier.
      *
@@ -107,7 +108,9 @@ public class Surgery {
     public Long getId() {
         return id;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Sets the unique surgery identifier.
      *
@@ -116,7 +119,9 @@ public class Surgery {
     public void setId(Long id) {
         this.id = id;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Returns the medical record associated with this surgery.
      *
@@ -125,7 +130,9 @@ public class Surgery {
     public MedicalRecord getMedicalRecord() {
         return medicalRecord;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Sets the medical record associated with this surgery.
      *
@@ -134,7 +141,9 @@ public class Surgery {
     public void setMedicalRecord(MedicalRecord medicalRecord) {
         this.medicalRecord = medicalRecord;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Returns the room where the surgery is performed.
      *
@@ -143,7 +152,9 @@ public class Surgery {
     public SpecializedRoom getSpecializedRoom() {
         return specializedRoom;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Sets the room where the surgery is performed.
      *
@@ -152,7 +163,9 @@ public class Surgery {
     public void setSpecializedRoom(SpecializedRoom specializedRoom) {
         this.specializedRoom = specializedRoom;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Returns the scheduled date and time of the surgery.
      *
@@ -161,7 +174,9 @@ public class Surgery {
     public LocalDateTime getDateTime() {
         return dateTime;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Sets the scheduled date and time of the surgery.
      *
@@ -170,7 +185,9 @@ public class Surgery {
     public void setDateTime(LocalDateTime dateTime) {
         this.dateTime = dateTime;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Returns the surgery name or procedure type.
      *
@@ -179,7 +196,9 @@ public class Surgery {
     public String getName() {
         return name;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Sets the surgery name or procedure type.
      *
@@ -188,7 +207,9 @@ public class Surgery {
     public void setName(String name) {
         this.name = name;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Returns the detailed surgery description.
      *
@@ -197,7 +218,9 @@ public class Surgery {
     public String getDescription() {
         return description;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Sets the detailed surgery description.
      *
@@ -206,12 +229,25 @@ public class Surgery {
     public void setDescription(String description) {
         this.description = description;
     }
+    /// @endcond
 
+    /**
+     * Returns the medical specialist who performed this surgery.
+     *
+     * @return the medical specialist, or {@code null} if not yet assigned
+     */
     public MedicalSpecialist getMedicalSpecialist() {
         return medicalSpecialist;
     }
 
+    /// @cond INTERNAL
+    /**
+     * Sets the medical specialist who performed this surgery.
+     *
+     * @param medicalSpecialist the medical specialist to assign
+     */
     public void setMedicalSpecialist(MedicalSpecialist medicalSpecialist) {
         this.medicalSpecialist = medicalSpecialist;
     }
+    /// @endcond
 }

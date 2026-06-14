@@ -1,5 +1,7 @@
 package com.nvivx.vixhealthsystem.model.staff;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.nvivx.vixhealthsystem.model.enums.ShiftType;
 import java.time.LocalDate;
 
@@ -10,6 +12,7 @@ import java.time.LocalDate;
  * Each shift is linked to an employee by ID and carries a date,
  * type and optional notes.
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Shift {
 
     /**
@@ -74,6 +77,7 @@ public class Shift {
     // GETTERS & SETTERS
     // =====================================================
 
+    /// @cond INTERNAL
     /**
      * Returns the unique shift identifier.
      *
@@ -82,7 +86,9 @@ public class Shift {
     public Long getId() {
         return id;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Sets the unique shift identifier.
      *
@@ -91,7 +97,9 @@ public class Shift {
     public void setId(Long id) {
         this.id = id;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Returns the identifier of the employee assigned to this shift.
      *
@@ -100,7 +108,9 @@ public class Shift {
     public Long getEmployeeId() {
         return employeeId;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Sets the identifier of the employee assigned to this shift.
      *
@@ -109,7 +119,9 @@ public class Shift {
     public void setEmployeeId(Long employeeId) {
         this.employeeId = employeeId;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Returns the date of the shift.
      *
@@ -118,7 +130,9 @@ public class Shift {
     public LocalDate getDate() {
         return date;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Sets the date of the shift.
      *
@@ -127,6 +141,7 @@ public class Shift {
     public void setDate(LocalDate date) {
         this.date = date;
     }
+    /// @endcond
 
     /**
      * Returns the shift type enum.
@@ -136,8 +151,9 @@ public class Shift {
     }
 
     /**
-     * Returns the shift type as a String (backward-compatible for templates and JSON).
+     * Returns the shift type as a String for Thymeleaf templates.
      */
+    @JsonIgnore
     public String getShiftTypeName() {
         return shiftType != null ? shiftType.name() : null;
     }
@@ -156,6 +172,7 @@ public class Shift {
         this.shiftType = shiftType != null ? ShiftType.valueOf(shiftType) : null;
     }
 
+    /// @cond INTERNAL
     /**
      * Returns the optional notes for the shift.
      *
@@ -164,7 +181,9 @@ public class Shift {
     public String getNotes() {
         return notes;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Sets the optional notes for the shift.
      *
@@ -173,4 +192,5 @@ public class Shift {
     public void setNotes(String notes) {
         this.notes = notes;
     }
+    /// @endcond
 }

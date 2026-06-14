@@ -19,10 +19,9 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 /**
- * Unit tests for AuditService.
- *
- * These tests do not use the real JSON file.
- * JsonAuditLogRepository is mocked with Mockito.
+ * @brief Unit tests for AuditService using a Mockito mock of JsonAuditLogRepository.
+ * Covers log() username resolution (SYSTEM when unauthenticated, real principal when
+ * authenticated, SYSTEM for anonymousUser), and log retrieval by entity type or limit.
  */
 @ExtendWith(MockitoExtension.class)
 class AuditServiceTest {

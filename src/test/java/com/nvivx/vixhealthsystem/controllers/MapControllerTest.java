@@ -9,6 +9,11 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+/**
+ * @brief Unit tests for MapController using Spring MVC MockMvc (no mocks needed).
+ * Verifies that the hospital map page and directions page return HTTP 200 with the
+ * correct view names and required model attributes.
+ */
 class MapControllerTest {
 
     private MockMvc mockMvc;

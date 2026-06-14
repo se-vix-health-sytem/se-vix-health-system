@@ -1,4 +1,19 @@
 <!DOCTYPE html>
+<!--
+==============================================================================
+  FILE:    technician/result.html
+  ACCESS:  ROLE_TECHNICIAN (session.user required)
+  PURPOSE: Generic action-result page for technician operations such as
+           updating a machine status or logging a repair.
+
+  Model attributes:
+    - pageTitle (String) — card heading
+    - message (String) — success or error description (❌ prefix = error)
+
+  Dependencies:
+    - fragments/head, fragments/dashboard-nav, fragments/footer
+==============================================================================
+-->
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/head :: head('Result')}"></head>
 <body>

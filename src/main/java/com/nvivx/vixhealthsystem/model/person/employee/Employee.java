@@ -70,6 +70,7 @@ public abstract class Employee extends Person {
     // GETTERS & SETTERS
     // =====================================================
 
+    /// @cond INTERNAL
     /**
      * Returns the employee unique identifier.
      *
@@ -78,7 +79,9 @@ public abstract class Employee extends Person {
     public Long getId() {
         return id;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Sets the employee unique identifier.
      *
@@ -87,7 +90,9 @@ public abstract class Employee extends Person {
     public void setId(Long id) {
         this.id = id;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Returns the employee unique identifier used in firebase.
      *
@@ -96,7 +101,9 @@ public abstract class Employee extends Person {
     public String getFirebaseUid() {
         return firebaseUid;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Sets the employee unique identifier.
      *
@@ -105,7 +112,9 @@ public abstract class Employee extends Person {
     public void setFirebaseUid(String firebaseUid) {
         this.firebaseUid = firebaseUid;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Returns the date when the employee was hired.
      *
@@ -114,7 +123,9 @@ public abstract class Employee extends Person {
     public LocalDate getHireDate() {
         return hireDate;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Sets the date when the employee was hired.
      *
@@ -123,7 +134,9 @@ public abstract class Employee extends Person {
     public void setHireDate(LocalDate hireDate) {
         this.hireDate = hireDate;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Returns the department where the employee works.
      *
@@ -132,7 +145,9 @@ public abstract class Employee extends Person {
     public Department getDepartment() {
         return department;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Sets the department where the employee works.
      *
@@ -141,6 +156,7 @@ public abstract class Employee extends Person {
     public void setDepartment(Department department) {
         this.department = department;
     }
+    /// @endcond
 
     // =====================================================
     // DOMAIN METHODS

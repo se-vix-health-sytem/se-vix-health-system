@@ -1,4 +1,17 @@
 <!DOCTYPE html>
+<!--
+==============================================================================
+  FILE:    medical-specialist/patient-search.html
+  ACCESS:  ROLE_MEDICALSPECIALIST (session.user required)
+  PURPOSE: Search form for finding patients by name, surname, or fiscal code
+           before opening their medical record.
+
+  Model attributes: none (search results go to search-results.html)
+
+  Dependencies:
+    - fragments/head, fragments/dashboard-nav, fragments/footer
+==============================================================================
+-->
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/head :: head('Search Patients')}"></head>
 <body>

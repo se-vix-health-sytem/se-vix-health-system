@@ -11,6 +11,16 @@ import java.time.LocalDateTime;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * @brief Unit tests for Secretary.
+ *
+ * Verifies system role, employee type, front-office role field, and the
+ * appointment-management and room-admission domain operations. Also guards the
+ * over-capacity and absent-patient error paths. Plain JUnit — no Spring
+ * context loaded.
+ *
+ * @see Secretary
+ */
 class SecretaryTest {
     private Secretary secretary;
     private Patient patient;

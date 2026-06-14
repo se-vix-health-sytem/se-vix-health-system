@@ -6,6 +6,15 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+/**
+ * @brief JPA repository for {@link MedicalCondition} entities.
+ *
+ * Used by the medical-record service to read and attach conditions
+ * (diagnoses, chronic illnesses, allergies) to a patient's record.
+ *
+ * @see com.nvivx.vixhealthsystem.model.medical.MedicalCondition
+ * @see MedicalRecordRepository
+ */
 @Repository
 public interface MedicalConditionRepository
         extends JpaRepository<MedicalCondition, Long> {

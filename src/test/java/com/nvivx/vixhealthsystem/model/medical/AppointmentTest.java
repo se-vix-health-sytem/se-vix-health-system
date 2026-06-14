@@ -10,12 +10,23 @@ import java.time.LocalDateTime;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * @brief Unit tests for Appointment.
+ *
+ * Verifies lifecycle state transitions (active, cancellable, cancel, reschedule),
+ * dual-type payment status handling (boolean / enum), dual-type status handling
+ * (String / enum), and the parameterized constructor. Plain JUnit — no Spring
+ * context loaded.
+ *
+ * @see Appointment
+ */
 class AppointmentTest {
     private Appointment appointment;
     private Patient patient;
     private MedicalSpecialist specialist;
     private LocalDateTime appointmentTime;
 
+    /** @brief Builds the fixture shared by all tests in this class. */
     @BeforeEach
     void setUp() {
         appointmentTime = LocalDateTime.now().plusDays(3).withHour(10).withMinute(0);
@@ -35,6 +46,10 @@ class AppointmentTest {
         appointment.setStatus(AppointmentStatus.CONFIRMED);
     }
 
+    /**
+     * Verifies that all appointment fields round-trip correctly and that
+     *        the status and payment getters return both enum and String views.
+     */
     @Test
     void settersAndGetters_ShouldWorkCorrectly() {
         assertEquals(100, appointment.getId());
@@ -49,6 +64,10 @@ class AppointmentTest {
         assertEquals(AppointmentStatus.CONFIRMED, appointment.getStatusEnum());
     }
 
+    /**
+     * Verifies that setting payment status with a boolean maps to the
+     *        correct PaymentStatus enum constant in both directions.
+     */
     @Test
     void setPaymentStatus_WithBoolean_ShouldSetCorrectPaymentStatus() {
         appointment.setPaymentStatus(true);
@@ -60,6 +79,10 @@ class AppointmentTest {
         assertFalse(appointment.isPaymentStatus());
     }
 
+    /**
+     * Verifies that setting payment status directly with a PaymentStatus
+     *        enum value also toggles the boolean convenience accessor.
+     */
     @Test
     void setPaymentStatus_WithEnum_ShouldSetCorrectPaymentStatus() {
         appointment.setPaymentStatus(PaymentStatus.PAID);
@@ -67,6 +90,10 @@ class AppointmentTest {
         assertTrue(appointment.isPaymentStatus());
     }
 
+    /**
+     * Verifies that setting status from a String name stores both the
+     *        raw string and the resolved enum constant.
+     */
     @Test
     void setStatus_WithString_ShouldSetCorrectStatus() {
         appointment.setStatus("PENDING");
@@ -78,6 +105,10 @@ class AppointmentTest {
         assertEquals(AppointmentStatus.CANCELLED, appointment.getStatusEnum());
     }
 
+    /**
+     * Verifies that setting status directly from an enum keeps both the
+     *        enum and its String name in sync.
+     */
     @Test
     void setStatus_WithEnum_ShouldSetCorrectStatus() {
         appointment.setStatus(AppointmentStatus.COMPLETED);
@@ -85,6 +116,10 @@ class AppointmentTest {
         assertEquals(AppointmentStatus.COMPLETED, appointment.getStatusEnum());
     }
 
+    /**
+     * Verifies that passing a null String to setStatus does not throw
+     *        and leaves both status fields as null.
+     */
     @Test
     void setStatus_WithNull_ShouldHandleGracefully() {
         appointment.setStatus((String) null);
@@ -92,6 +127,10 @@ class AppointmentTest {
         assertNull(appointment.getStatusEnum());
     }
 
+    /**
+     * Verifies that CONFIRMED, PENDING, and RESCHEDULED appointments are
+     *        considered active so they appear in current scheduling views.
+     */
     @Test
     void isActive_ShouldReturnTrueForActiveAppointments() {
         appointment.setStatus(AppointmentStatus.CONFIRMED);
@@ -104,6 +143,10 @@ class AppointmentTest {
         assertTrue(appointment.isActive());
     }
 
+    /**
+     * Verifies that CANCELLED and COMPLETED appointments are not active,
+     *        keeping them out of live scheduling but available for history.
+     */
     @Test
     void isActive_ShouldReturnFalseForInactiveAppointments() {
         appointment.setStatus(AppointmentStatus.CANCELLED);
@@ -113,6 +156,10 @@ class AppointmentTest {
         assertFalse(appointment.isActive());
     }
 
+    /**
+     * Verifies that CONFIRMED and PENDING appointments can still be
+     *        cancelled, protecting the patient's right to withdraw.
+     */
     @Test
     void isCancellable_ShouldReturnTrueForActiveAppointments() {
         appointment.setStatus(AppointmentStatus.CONFIRMED);
@@ -122,6 +169,10 @@ class AppointmentTest {
         assertTrue(appointment.isCancellable());
     }
 
+    /**
+     * Verifies that already-cancelled or completed appointments cannot
+     *        be cancelled again, enforcing idempotency of the terminal states.
+     */
     @Test
     void isCancellable_ShouldReturnFalseForInactiveAppointments() {
         appointment.setStatus(AppointmentStatus.CANCELLED);
@@ -131,12 +182,20 @@ class AppointmentTest {
         assertFalse(appointment.isCancellable());
     }
 
+    /**
+     * Verifies that cancelling an active appointment moves it to
+     *        CANCELLED status in one call.
+     */
     @Test
     void cancel_ShouldSetStatusToCancelled() {
         appointment.cancel();
         assertEquals(AppointmentStatus.CANCELLED, appointment.getStatusEnum());
     }
 
+    /**
+     * Verifies that double-cancelling an appointment raises an
+     *        IllegalStateException, preventing duplicate cancellation records.
+     */
     @Test
     void cancel_ShouldThrowExceptionWhenAlreadyCancelled() {
         appointment.setStatus(AppointmentStatus.CANCELLED);
@@ -148,6 +207,10 @@ class AppointmentTest {
         assertTrue(exception.getMessage().contains("cannot be cancelled"));
     }
 
+    /**
+     * Verifies that cancelling a completed appointment raises an
+     *        IllegalStateException, since a past visit cannot be undone.
+     */
     @Test
     void cancel_ShouldThrowExceptionWhenAlreadyCompleted() {
         appointment.setStatus(AppointmentStatus.COMPLETED);
@@ -159,6 +222,10 @@ class AppointmentTest {
         assertTrue(exception.getMessage().contains("cannot be cancelled"));
     }
 
+    /**
+     * Verifies that rescheduling an active appointment stores the new
+     *        date-time and transitions the status to RESCHEDULED.
+     */
     @Test
     void reschedule_ShouldUpdateDateTimeAndSetStatusToRescheduled() {
         LocalDateTime newTime = LocalDateTime.now().plusDays(5);
@@ -169,6 +236,10 @@ class AppointmentTest {
         assertEquals(AppointmentStatus.RESCHEDULED, appointment.getStatusEnum());
     }
 
+    /**
+     * Verifies that rescheduling a cancelled appointment raises an
+     *        IllegalStateException, keeping cancelled slots immutable.
+     */
     @Test
     void reschedule_ShouldThrowExceptionWhenAppointmentIsCancelled() {
         appointment.setStatus(AppointmentStatus.CANCELLED);
@@ -180,6 +251,10 @@ class AppointmentTest {
         assertTrue(exception.getMessage().contains("cannot be rescheduled"));
     }
 
+    /**
+     * Verifies that rescheduling a completed appointment raises an
+     *        IllegalStateException, since a past visit cannot be moved.
+     */
     @Test
     void reschedule_ShouldThrowExceptionWhenAppointmentIsCompleted() {
         appointment.setStatus(AppointmentStatus.COMPLETED);
@@ -191,6 +266,10 @@ class AppointmentTest {
         assertTrue(exception.getMessage().contains("cannot be rescheduled"));
     }
 
+    /**
+     * Verifies that the five-argument constructor creates an appointment
+     *        pre-set to CONFIRMED, ready for use without a separate status call.
+     */
     @Test
     void parameterizedConstructor_ShouldCreateAppointmentWithStatusConfirmed() {
         Appointment newAppointment = new Appointment(

@@ -28,7 +28,22 @@ import java.util.List;
 
 // HTML datetime-local sends "yyyy-MM-ddTHH:mm" (no seconds) — handle both
 
-
+/**
+ * @brief Controller for Secretary staff members — base URL {@code /secretary}.
+ *
+ * Secretaries handle the administrative side of patient flow and appointment
+ * management.  This controller covers room management (UC21), patient admission
+ * and dismissal (UC22, UC23), appointment booking/confirmation/cancellation/
+ * rescheduling (UC14, UC15, UC16), patient search, and the secretary's own
+ * shift and profile pages.
+ *
+ * Only accessible to users with {@code ROLE_SECRETARY}.
+ *
+ * @see RoomService
+ * @see AppointmentService
+ * @see PatientService
+ * @see AuditService
+ */
 @Controller
 @RequestMapping("/secretary")
 public class SecretaryController {
@@ -62,6 +77,24 @@ public class SecretaryController {
         this.vacationService = vacationService;
     }
 
+    // =========================================================
+    // DASHBOARD
+    // =========================================================
+
+    /**
+     * GET /secretary/dashboard — render the secretary's overview dashboard.
+     *
+     * Resolves the secretary's department name by reloading a fresh entity from
+     * the database (avoiding lazy-loading failures on the detached session entity).
+     * Populates room and appointment summary counts.
+     *
+     * @param session  HTTP session carrying the {@code "user"} Employee attribute,
+     *                 used to look up the secretary's assigned department name.
+     * @param model    Receives {@code departmentName}, {@code totalRooms},
+     *                 {@code availableRooms}, {@code totalAppointments},
+     *                 and {@code totalAvailableBeds} attributes.
+     * @return         Thymeleaf template {@code secretary/dashboard}.
+     */
     @GetMapping("/dashboard")
     public String dashboard(HttpSession session, Model model) {
         var allRooms = roomService.getAllInpatientRooms();
@@ -90,8 +123,16 @@ public class SecretaryController {
         return "secretary/dashboard";
     }
 
-    // ========== ROOM MANAGEMENT (UC21) ==========
+    // =========================================================
+    // ROOM MANAGEMENT (UC21)
+    // =========================================================
 
+    /**
+     * GET /secretary/rooms — list all inpatient rooms with their current occupancy.
+     *
+     * @param model  Receives {@code rooms} and {@code patients} (for the admission form selects).
+     * @return       Thymeleaf template {@code secretary/rooms}.
+     */
     @GetMapping("/rooms")
     public String viewAllRooms(Model model) {
         List<Room> rooms = roomService.getAllRooms();
@@ -104,6 +145,13 @@ public class SecretaryController {
         return "secretary/rooms";
     }
 
+    /**
+     * GET /secretary/rooms/available — list only rooms with free beds.
+     *
+     * @param model  Receives {@code rooms} (available InternationRooms only),
+     *               {@code patients}, and {@code isAvailableView=true}.
+     * @return       Thymeleaf template {@code secretary/rooms}.
+     */
     @GetMapping("/rooms/available")
     public String viewAvailableRooms(Model model) {
         List<InternationRoom> availableRooms = roomService.getAvailableRooms();
@@ -117,8 +165,23 @@ public class SecretaryController {
         return "secretary/rooms";
     }
 
-    // ========== PATIENT ADMISSION & DISMISSAL (UC22, UC23) ==========
+    // =========================================================
+    // PATIENT ADMISSION & DISMISSAL (UC22, UC23)
+    // =========================================================
 
+    /**
+     * POST /secretary/patients/admit — admit a patient to a specific room.
+     *
+     * Delegates to {@link RoomService#admitPatient} via the Secretary domain object
+     * (resolved from session) and writes an audit entry.
+     *
+     * @param patientId           Database ID of the patient to admit.
+     * @param roomId              Database ID of the target inpatient room.
+     * @param session             HTTP session; used to resolve the Secretary domain object
+     *                            so the business rule check inside the model runs correctly.
+     * @param redirectAttributes  Flash attributes for the redirect.
+     * @return                    Redirect to {@code /secretary/rooms}.
+     */
     @PostMapping("/patients/admit")
     public String admitPatient(@RequestParam Long patientId,
                                @RequestParam Long roomId,
@@ -137,6 +200,15 @@ public class SecretaryController {
         return "redirect:/secretary/rooms";
     }
 
+    /**
+     * POST /secretary/patients/dismiss — discharge a patient from their room.
+     *
+     * @param patientId           Database ID of the patient to discharge.
+     * @param roomId              Database ID of the room the patient is currently in.
+     * @param session             HTTP session; used to resolve the Secretary domain object.
+     * @param redirectAttributes  Flash attributes for the redirect.
+     * @return                    Redirect to {@code /secretary/rooms}.
+     */
     @PostMapping("/patients/dismiss")
     public String dismissPatient(@RequestParam Long patientId,
                                  @RequestParam Long roomId,
@@ -155,8 +227,17 @@ public class SecretaryController {
         return "redirect:/secretary/rooms";
     }
 
-    // ========== APPOINTMENT MANAGEMENT (UC14, UC15, UC16) ==========
+    // =========================================================
+    // APPOINTMENT MANAGEMENT (UC14, UC15, UC16)
+    // =========================================================
 
+    /**
+     * GET /secretary/appointments — display all appointments with management controls.
+     *
+     * @param model  Receives {@code appointments}, {@code patients}, and {@code specialists}
+     *               for the booking form dropdowns.
+     * @return       Thymeleaf template {@code secretary/manage-appointments}.
+     */
     @GetMapping("/appointments")
     public String manageAppointments(Model model) {
         List<Appointment> appointments = appointmentRepository.findAll();
@@ -171,6 +252,17 @@ public class SecretaryController {
         return "secretary/manage-appointments";
     }
 
+    /**
+     * POST /secretary/appointments/book-for-patient — book an appointment on behalf of a patient.
+     *
+     * @param patientId           Database ID of the patient.
+     * @param specialistId        Database ID of the target MedicalSpecialist.
+     * @param dateTime            Appointment datetime string ({@code yyyy-MM-ddTHH:mm}).
+     * @param session             HTTP session; used to resolve the Secretary domain object
+     *                            required by {@link AppointmentService#bookForSecretary}.
+     * @param redirectAttributes  Flash attributes for the redirect.
+     * @return                    Redirect to {@code /secretary/appointments}.
+     */
     @PostMapping("/appointments/book-for-patient")
     public String bookAppointmentForPatient(@RequestParam Long patientId,
                                             @RequestParam Long specialistId,
@@ -205,6 +297,13 @@ public class SecretaryController {
         return "redirect:/secretary/appointments";
     }
 
+    /**
+     * POST /secretary/appointments/{appointmentId}/confirm — set an appointment status to CONFIRMED.
+     *
+     * @param appointmentId       Numeric ID of the appointment to confirm.
+     * @param redirectAttributes  Flash attributes for the redirect.
+     * @return                    Redirect to {@code /secretary/appointments}.
+     */
     @PostMapping("/appointments/{appointmentId}/confirm")
     public String confirmAppointment(@PathVariable int appointmentId,
                                      RedirectAttributes redirectAttributes) {
@@ -224,6 +323,13 @@ public class SecretaryController {
         return "redirect:/secretary/appointments";
     }
 
+    /**
+     * POST /secretary/appointments/{appointmentId}/cancel — cancel an appointment via the domain method.
+     *
+     * @param appointmentId       Numeric ID of the appointment to cancel.
+     * @param redirectAttributes  Flash attributes for the redirect.
+     * @return                    Redirect to {@code /secretary/appointments}.
+     */
     @PostMapping("/appointments/{appointmentId}/cancel")
     public String cancelAppointment(@PathVariable int appointmentId,
                                     RedirectAttributes redirectAttributes) {
@@ -240,6 +346,14 @@ public class SecretaryController {
         return "redirect:/secretary/appointments";
     }
 
+    /**
+     * POST /secretary/appointments/{appointmentId}/reschedule — move an appointment to a new date/time.
+     *
+     * @param appointmentId       Numeric ID of the appointment to reschedule.
+     * @param newDateTime         New datetime string ({@code yyyy-MM-ddTHH:mm}).
+     * @param redirectAttributes  Flash attributes for the redirect.
+     * @return                    Redirect to {@code /secretary/appointments}.
+     */
     @PostMapping("/appointments/{appointmentId}/reschedule")
     public String rescheduleAppointment(@PathVariable int appointmentId,
                                         @RequestParam String newDateTime,
@@ -261,8 +375,18 @@ public class SecretaryController {
         return "redirect:/secretary/appointments";
     }
 
-    // ========== PERSONAL PROFILE ==========
+    // =========================================================
+    // PERSONAL PROFILE
+    // =========================================================
 
+    /**
+     * GET /secretary/my-shifts — display the secretary's assigned shifts and approved vacations.
+     *
+     * @param session  HTTP session carrying the {@code "user"} Employee attribute.
+     * @param model    Receives {@code shifts}, {@code vacations}, and {@code dashboardLink}.
+     * @return         Thymeleaf template {@code employee/my-shifts}, or
+     *                 {@code redirect:/login} when no session user is found.
+     */
     @GetMapping("/my-shifts")
     public String viewMyShifts(HttpSession session, Model model) {
         Employee user = (Employee) session.getAttribute("user");
@@ -276,6 +400,14 @@ public class SecretaryController {
         return "employee/my-shifts";
     }
 
+    /**
+     * GET /secretary/profile — display the secretary's personal profile page.
+     *
+     * @param session  HTTP session carrying the {@code "user"} Employee attribute.
+     * @param model    Receives {@code employee}, {@code roleLabel}, and {@code dashboardLink}.
+     * @return         Thymeleaf template {@code employee/profile}, or
+     *                 {@code redirect:/login} when no session user is found.
+     */
     @GetMapping("/profile")
     public String viewProfile(HttpSession session, Model model) {
         Employee sessionUser = (Employee) session.getAttribute("user");
@@ -297,8 +429,16 @@ public class SecretaryController {
         return "employee/profile";
     }
 
-    // ========== PATIENT SEARCH ==========
+    // =========================================================
+    // PATIENT SEARCH
+    // =========================================================
 
+    /**
+     * GET /secretary/patients/search — render the patient search form.
+     *
+     * @param model  Receives {@code pageTitle} and {@code currentPage} attributes.
+     * @return       Thymeleaf template {@code secretary/patient-search}.
+     */
     @GetMapping("/patients/search")
     public String showPatientSearchForm(Model model) {
         model.addAttribute("pageTitle", "Search Patients");
@@ -306,6 +446,14 @@ public class SecretaryController {
         return "secretary/patient-search";
     }
 
+    /**
+     * GET /secretary/patients/{id} — display a patient's basic profile.
+     *
+     * @param id     Database ID of the patient.
+     * @param model  Receives {@code patient} attributes.
+     * @return       Thymeleaf template {@code secretary/patient-profile}, or
+     *               redirect to {@code /secretary/patients/search} when the patient is not found.
+     */
     @GetMapping("/patients/{id}")
     public String viewPatientProfile(@PathVariable Long id, Model model) {
         try {
@@ -319,6 +467,13 @@ public class SecretaryController {
         return "secretary/patient-profile";
     }
 
+    /**
+     * POST /secretary/patients/search — execute a patient search and display results.
+     *
+     * @param query  Free-text search term (name, fiscal code, etc.).
+     * @param model  Receives {@code patients} list and echoes {@code query}.
+     * @return       Thymeleaf template {@code secretary/patient-search-results}.
+     */
     @PostMapping("/patients/search")
     public String searchPatients(@RequestParam String query, Model model) {
         List<Patient> patients = patientService.searchPatients(query);
@@ -329,8 +484,23 @@ public class SecretaryController {
         return "secretary/patient-search-results";
     }
 
-    // ========== HELPERS ==========
+    // =========================================================
+    // HELPERS
+    // =========================================================
 
+    /**
+     * Resolve and reload the authenticated Secretary from the HTTP session.
+     *
+     * The session {@code "user"} attribute is used because the Spring Security
+     * principal carries only the role string; the full Secretary domain object is
+     * needed by room and appointment service methods that enforce business rules.
+     * A fresh entity is reloaded from the database to avoid Hibernate detached-
+     * object issues.
+     *
+     * @param session  HTTP session carrying the {@code "user"} attribute.
+     * @return         A fully initialised {@link Secretary} from the database.
+     * @throws RuntimeException  When the session user is absent or not a Secretary.
+     */
     private Secretary getSecretaryFromSession(HttpSession session) {
         Employee user = (Employee) session.getAttribute("user");
         if (user instanceof Secretary secretary) {

@@ -19,15 +19,9 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 /**
- *
- * These tests do not start Spring Boot and do not use the real database.
- * Instead, DepartmentRepository and EmployeeRepository are mocked with Mockito.
- *
- * This allows to test only the logic inside DepartmentService.
- * Arrange = prepare fake data and mock behavior
- * Act = call the method being tested
- * Assert = check the result
- * Verify = check that mocks were called correctly
+ * @brief Unit tests for DepartmentService using Mockito mocks for DepartmentRepository and EmployeeRepository.
+ * Covers getAllDepartments, getDepartmentById (Long and String), getDoctorsByDepartment,
+ * getServicesByDepartment, and doctor image-map generation for single and all departments.
  */
 @ExtendWith(MockitoExtension.class)
 class DepartmentServiceTest {

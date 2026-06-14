@@ -17,15 +17,49 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
+/**
+ * @brief Manages patient medical records — creation and appending of diagnoses,
+ *        prescriptions, and exam results.
+ *
+ * Annotated {@code @Transactional(readOnly=true)} at the class level; write methods
+ * override with {@code @Transactional}.
+ *
+ * All mutations are recorded via {@link AuditService} to satisfy NFR02 (traceability).
+ * When a patient has no record yet, write operations auto-create one rather than failing.
+ *
+ * Prescription issuance delegates to {@link com.nvivx.vixhealthsystem.model.person.employee.MedicalSpecialist#appPrescriptionForPatient}
+ * so that domain invariants are enforced by the model layer.
+ *
+ * @see PatientService
+ * @see com.nvivx.vixhealthsystem.model.medical.MedicalRecord
+ * @see AuditService
+ */
 @Service
 @Transactional(readOnly = true)
 public class MedicalRecordService {
 
+    // =========================================================
+    // FIELDS
+    // =========================================================
+
     private final MedicalRecordRepository medicalRecordRepository;
     private final PatientRepository patientRepository;
+    /** Used to look up the prescribing {@link MedicalSpecialist} by ID. */
     private final EmployeeRepository employeeRepository;
     private final AuditService auditService;
 
+    // =========================================================
+    // CONSTRUCTORS
+    // =========================================================
+
+    /**
+     * Constructs the service with all required repositories and collaborators.
+     *
+     * @param medicalRecordRepository  Persistence layer for {@link MedicalRecord} entities.
+     * @param patientRepository        Used to load and save the owning {@link Patient}.
+     * @param employeeRepository       Needed to resolve the prescribing specialist by ID.
+     * @param auditService             Records every clinical write for traceability (NFR02).
+     */
     public MedicalRecordService(MedicalRecordRepository medicalRecordRepository,
                                 PatientRepository patientRepository,
                                 EmployeeRepository employeeRepository,
@@ -36,8 +70,16 @@ public class MedicalRecordService {
         this.auditService = auditService;
     }
 
+    // =========================================================
+    // READ OPERATIONS
+    // =========================================================
+
     /**
-     * Get medical record by patient ID
+     * Returns the medical record for the given patient, throwing when absent.
+     *
+     * @param patientId  ID of the patient.
+     * @return           The patient's {@link MedicalRecord}; never {@code null}.
+     * @throws RuntimeException When no medical record exists for the patient.
      */
     public MedicalRecord getMedicalRecordByPatientId(Long patientId) {
         return medicalRecordRepository.findByPatientId(patientId)
@@ -45,7 +87,14 @@ public class MedicalRecordService {
     }
 
     /**
-     * Get patient with their medical record (uses standard repository methods)
+     * Loads a patient and touches their medical record proxy to force initialisation.
+     *
+     * JPA lazy-loading means the record may still be a proxy after {@code findById}; this
+     * method ensures the proxy is initialised before the session closes.
+     *
+     * @param patientId  ID of the patient to load.
+     * @return           The {@link Patient} with the {@code medicalRecord} association initialised.
+     * @throws RuntimeException When no patient with {@code patientId} exists.
      */
     public Patient getPatientWithMedicalRecord(Long patientId) {
         Patient patient = patientRepository.findById(patientId)
@@ -59,8 +108,22 @@ public class MedicalRecordService {
         return patient;
     }
 
+    // =========================================================
+    // WRITE OPERATIONS
+    // =========================================================
+
     /**
-     * Create a new medical record for a patient
+     * Creates and links a new {@link MedicalRecord} for a patient.
+     *
+     * All three metric parameters are optional; pass {@code null} when not yet known.
+     * Allergies and vaccines are initialised to empty strings to avoid null-checks downstream.
+     *
+     * @param patientId  ID of the patient who owns the record.
+     * @param height     Patient height in centimetres; may be {@code null}.
+     * @param weight     Patient weight in kilograms; may be {@code null}.
+     * @param bloodType  ABO+Rh blood group string (e.g., {@code "A+"}); may be {@code null}.
+     * @return           The persisted {@link MedicalRecord} with a generated ID.
+     * @throws RuntimeException When no patient with {@code patientId} exists.
      */
     @Transactional
     public MedicalRecord createMedicalRecord(Long patientId, Float height, Float weight, String bloodType) {
@@ -83,7 +146,14 @@ public class MedicalRecordService {
     }
 
     /**
-     * Add a diagnosis to a patient's medical record
+     * Appends a diagnosis to the patient's medical record, creating the record first
+     *        if it does not exist.
+     *
+     * @param patientId      ID of the patient to diagnose.
+     * @param diagnosisName  Short clinical label for the condition.
+     * @param description    Detailed clinical notes.
+     * @param severity       Severity tier (e.g., {@code "MILD"}, {@code "SEVERE"}).
+     * @throws RuntimeException When no patient with {@code patientId} exists.
      */
     @Transactional
     public void addDiagnosis(Long patientId, String diagnosisName, String description, String severity) {
@@ -108,7 +178,17 @@ public class MedicalRecordService {
     }
 
     /**
-     * Add a prescription to a patient's medical record
+     * Issues a prescription for the patient via the prescribing specialist's domain method.
+     *
+     * Delegates to {@link com.nvivx.vixhealthsystem.model.person.employee.MedicalSpecialist#appPrescriptionForPatient}
+     * so that the specialist back-reference on the {@link Prescription} is set correctly.
+     * Auto-creates a medical record when the patient has none.
+     *
+     * @param patientId           ID of the patient receiving the prescription.
+     * @param medicalSpecialistId ID of the issuing {@link MedicalSpecialist}.
+     * @param medication          Name or description of the prescribed medication.
+     * @throws RuntimeException When the patient or specialist cannot be found, or the
+     *                          employee ID does not resolve to a {@link MedicalSpecialist}.
      */
     @Transactional
     public void addPrescription(Long patientId, Long medicalSpecialistId, String medication) {
@@ -139,8 +219,17 @@ public class MedicalRecordService {
     }
 
     /**
-     * Add an exam result to a patient's medical record
-     * Exam results are stored as MedicalCondition with type "EXAM_RESULT"
+     * Records an exam result in the patient's medical record.
+     *
+     * Exam results are modelled as {@link MedicalCondition} entries with
+     * {@code type = "EXAM_RESULT"} because no separate exam-result entity exists yet.
+     * Auto-creates a medical record when the patient has none.
+     *
+     * @param patientId  ID of the patient.
+     * @param examType   Type of examination (e.g., {@code "Blood Test"}, {@code "MRI"}).
+     * @param result     The outcome of the exam (e.g., {@code "Normal"}, numeric values).
+     * @param notes      Optional additional clinical notes; may be {@code null} or blank.
+     * @throws RuntimeException When no patient with {@code patientId} exists.
      */
     @Transactional
     public void addExamResult(Long patientId, String examType, String result, String notes) {
@@ -168,11 +257,18 @@ public class MedicalRecordService {
         auditService.log("ADD_EXAM_RESULT", "MedicalRecord", String.valueOf(record.getId()),
                 "Added exam result: " + examType + " for patient: " + patientId);
 
-        // TODO: Trigger notification via NotificationService when implemented
     }
 
+    // =========================================================
+    // READ OPERATIONS — CLINICAL COLLECTIONS
+    // =========================================================
+
     /**
-     * Get all conditions for a patient
+     * Returns all medical conditions on record for the given patient.
+     *
+     * @param patientId  ID of the patient.
+     * @return           Non-null list of {@link MedicalCondition} entries.
+     * @throws RuntimeException When no medical record exists for the patient.
      */
     public List<MedicalCondition> getConditions(Long patientId) {
         MedicalRecord record = getMedicalRecordByPatientId(patientId);
@@ -180,7 +276,11 @@ public class MedicalRecordService {
     }
 
     /**
-     * Get all prescriptions for a patient
+     * Returns all prescriptions issued to the given patient.
+     *
+     * @param patientId  ID of the patient.
+     * @return           Non-null list of {@link Prescription} entries.
+     * @throws RuntimeException When no medical record exists for the patient.
      */
     public List<Prescription> getPrescriptions(Long patientId) {
         MedicalRecord record = getMedicalRecordByPatientId(patientId);
@@ -188,7 +288,11 @@ public class MedicalRecordService {
     }
 
     /**
-     * Get all surgeries for a patient
+     * Returns all surgeries recorded for the given patient.
+     *
+     * @param patientId  ID of the patient.
+     * @return           Non-null list of {@link Surgery} entries.
+     * @throws RuntimeException When no medical record exists for the patient.
      */
     public List<Surgery> getSurgeries(Long patientId) {
         MedicalRecord record = getMedicalRecordByPatientId(patientId);

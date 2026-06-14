@@ -1,16 +1,29 @@
 <!DOCTYPE html>
+<!--
+  ============================================================
+  Template : site/about.html
+  Role     : Public — all visitors
+  Access   : Public
+  Purpose  : About page presenting the VIX Health System mission, key stats, and core values.
+  Model    : pageTitle (String); totalDepartments (int); totalSpecialists (int)
+  Controller: SiteController (GET /about)
+  ============================================================
+-->
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/head :: head(pageTitle)}"></head>
+<!-- Includes fragment: fragments/head :: head, fragments/navbar :: navbar, fragments/footer :: footer -->
 <body>
 <div th:replace="~{fragments/navbar :: navbar}"></div>
 
 <main class="container py-5">
+    <!-- ===== PAGE HEADER ===== -->
     <div class="text-center mb-5">
         <p class="section-eyebrow">About Us</p>
         <h1 class="font-display display-4" style="color: var(--vix-crimson);">VIX Health System</h1>
         <p class="lead text-muted">Excellence in healthcare since 2015</p>
     </div>
 
+    <!-- ===== MISSION & STRUCTURE ===== -->
     <div class="row g-5 mb-5">
         <div class="col-md-6">
             <h2 class="font-display" style="color: var(--vix-crimson);">Our Mission</h2>
@@ -25,6 +38,7 @@
         </div>
     </div>
 
+    <!-- ===== STATS ===== -->
     <div class="row g-4 mb-5 text-center">
         <div class="col-md-3">
             <div class="card border-0 shadow-sm p-3">
@@ -52,6 +66,7 @@
         </div>
     </div>
 
+    <!-- ===== VALUES ===== -->
     <div class="row g-4">
         <div class="col-md-4">
             <div class="text-center p-4">

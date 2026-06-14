@@ -1,4 +1,20 @@
 <!DOCTYPE html>
+<!--
+==============================================================================
+  FILE:    medical-specialist/result.html
+  ACCESS:  ROLE_MEDICALSPECIALIST (session.user required)
+  PURPOSE: Generic action-result page shown after adding conditions,
+           prescriptions, surgeries, etc. Icon and alert colour derived
+           from whether the message starts with the ❌ emoji.
+
+  Model attributes:
+    - pageTitle (String) — card heading (defaults to "Action Result")
+    - message (String) — success or error description
+
+  Dependencies:
+    - fragments/head, fragments/dashboard-nav, fragments/footer
+==============================================================================
+-->
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/head :: head('Result')}"></head>
 <body>

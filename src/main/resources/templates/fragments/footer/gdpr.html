@@ -1,6 +1,17 @@
 <!DOCTYPE html>
+<!--
+  ============================================================
+  Template : fragments/footer/gdpr.html
+  Role     : Public — all visitors
+  Access   : Public
+  Purpose  : Explains GDPR compliance details, lawful basis for processing, DPO contact, and data subject rights.
+  Model    : (none — static content)
+  Controller: SiteController or equivalent public page controller
+  ============================================================
+-->
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/head :: head('GDPR Information')}"></head>
+<!-- Includes fragment: fragments/head :: head, fragments/navbar :: navbar, fragments/footer :: footer -->
 <body>
 <div th:replace="~{fragments/navbar :: navbar}"></div>
 

@@ -91,6 +91,7 @@ public abstract class Person {
     // GETTERS & SETTERS
     // =====================================================
 
+    /// @cond INTERNAL
     /**
      * Returns the first name.
      *
@@ -99,7 +100,9 @@ public abstract class Person {
     public String getName() {
         return name;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Sets the first name.
      *
@@ -108,7 +111,9 @@ public abstract class Person {
     public void setName(String name) {
         this.name = name;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Returns the surname (last name).
      *
@@ -117,7 +122,9 @@ public abstract class Person {
     public String getSurname() {
         return surname;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Sets the surname (last name).
      *
@@ -126,7 +133,9 @@ public abstract class Person {
     public void setSurname(String surname) {
         this.surname = surname;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Returns the date of birth.
      *
@@ -135,7 +144,9 @@ public abstract class Person {
     public LocalDate getBirthDate() {
         return birthDate;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Sets the date of birth.
      *
@@ -144,7 +155,9 @@ public abstract class Person {
     public void setBirthDate(LocalDate birthDate) {
         this.birthDate = birthDate;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Returns the place of birth.
      *
@@ -153,7 +166,9 @@ public abstract class Person {
     public String getBirthPlace() {
         return birthPlace;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Sets the place of birth.
      *
@@ -162,7 +177,9 @@ public abstract class Person {
     public void setBirthPlace(String birthPlace) {
         this.birthPlace = birthPlace;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Returns the gender.
      *
@@ -171,7 +188,9 @@ public abstract class Person {
     public char getGender() {
         return gender;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Sets the gender.
      *
@@ -180,7 +199,9 @@ public abstract class Person {
     public void setGender(char gender) {
         this.gender = gender;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Returns the email address.
      *
@@ -189,7 +210,9 @@ public abstract class Person {
     public String getEmail() {
         return email;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Sets the email address.
      *
@@ -198,7 +221,9 @@ public abstract class Person {
     public void setEmail(String email) {
         this.email = email;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Returns the phone number.
      *
@@ -207,7 +232,9 @@ public abstract class Person {
     public String getPhoneNumber() {
         return phoneNumber;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Sets the phone number.
      *
@@ -216,6 +243,7 @@ public abstract class Person {
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
+    /// @endcond
 
     // =====================================================
     // DOMAIN METHODS

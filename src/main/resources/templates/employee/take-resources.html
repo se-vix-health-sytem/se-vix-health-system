@@ -1,4 +1,22 @@
 <!DOCTYPE html>
+<!--
+==============================================================================
+  FILE:    employee/take-resources.html
+  ACCESS:  Any authenticated employee (session.user required)
+  PURPOSE: Form for an employee to record taking a resource from a storage
+           unit, with a table of currently available resources below.
+
+  Model attributes:
+    - resources (List<Resource>) — available resources
+    - storages (List<Storage>) — available storage units
+    - message (String) — success flash
+    - error (String) — error flash
+
+  Dependencies:
+    - fragments/head, fragments/dashboard-nav
+    - NOTE: footer fragment is missing from this template (pre-existing issue)
+==============================================================================
+-->
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/head :: head('Take Resources')}"></head>
 <body>

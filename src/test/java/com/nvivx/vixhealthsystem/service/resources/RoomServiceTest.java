@@ -19,6 +19,11 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+/**
+ * @brief Unit tests for RoomService using Mockito mocks for RoomRepository, PatientRepository, and AuditService.
+ * Covers all-room and inpatient-room listing, available-room and bed-count queries, patient
+ * admission/dismissal success and error paths, and findPatientRoom / isPatientAdmitted.
+ */
 @ExtendWith(MockitoExtension.class)
 class RoomServiceTest {
 

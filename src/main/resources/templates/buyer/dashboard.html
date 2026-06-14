@@ -1,4 +1,20 @@
 <!DOCTYPE html>
+<!--
+==============================================================================
+  FILE:    buyer/dashboard.html
+  ACCESS:  ROLE_BUYER (session.user required)
+  PURPOSE: Buyer home screen with inventory stats, a low-stock alert banner,
+           and quick-action cards for the main procurement tasks.
+
+  Model attributes:
+    - totalResources (int) — total distinct resource types in inventory
+    - lowStockCount (int) — number of resources below the low-stock threshold
+    - buyerName (String) — display name of the logged-in buyer
+
+  Dependencies:
+    - fragments/head, fragments/dashboard-nav, fragments/footer
+==============================================================================
+-->
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/head :: head('Buyer Dashboard')}"></head>
 <body>

@@ -1,4 +1,20 @@
 <!DOCTYPE html>
+<!--
+==============================================================================
+  FILE:    medical-specialist/surgeries.html
+  ACCESS:  ROLE_MEDICALSPECIALIST (session.user required)
+  PURPOSE: Lists all surgeries assigned to the specialist with date, room,
+           patient, and status (Scheduled / Completed derived from dateTime).
+
+  Model attributes:
+    - surgeries (List<Surgery>) — surgeries linked to this specialist
+    - message (String) — info flash
+    - error (String) — error flash
+
+  Dependencies:
+    - fragments/head, fragments/dashboard-nav, fragments/footer
+==============================================================================
+-->
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/head :: head('My Surgeries')}"></head>
 <body>

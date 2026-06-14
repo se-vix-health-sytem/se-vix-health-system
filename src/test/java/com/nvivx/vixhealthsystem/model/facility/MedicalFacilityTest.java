@@ -8,15 +8,30 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * @brief Unit tests for MedicalFacility and Hospital.
+ *
+ * MedicalFacilityTest covers the base entity's constructor and collection
+ * management. HospitalTest covers the domain logic for inpatient room queries,
+ * patient admission, and dismissal. Plain JUnit — no Spring context loaded.
+ *
+ * @see MedicalFacility
+ * @see Hospital
+ */
 class MedicalFacilityTest {
     private MedicalFacility facility;
 
+    /** @brief Builds a MedicalFacility with a location, email, and phone number. */
     @BeforeEach
     void setUp() {
         Location location = new Location(45.4642, 9.1900);
         facility = new MedicalFacility("VIX Central Hospital", location, "info@vixhealth.it", "+39 0461 000001");
     }
 
+    /**
+     * Verifies that the four-argument constructor stores name, location,
+     *        email, and phone number in the correct fields.
+     */
     @Test
     void constructor_ShouldInitializeFacility() {
         assertEquals("VIX Central Hospital", facility.getName());
@@ -26,6 +41,10 @@ class MedicalFacilityTest {
         assertEquals("+39 0461 000001", facility.getPhoneNumber());
     }
 
+    /**
+     * Verifies that id, name, email, phone, and location can all be
+     *        overwritten after construction and read back correctly.
+     */
     @Test
     void settersAndGetters_ShouldWorkCorrectly() {
         facility.setId(100L);
@@ -43,6 +62,10 @@ class MedicalFacilityTest {
         assertEquals(newLoc, facility.getLocation());
     }
 
+    /**
+     * Verifies that rooms can be added to the facility's collection and
+     *        retrieved in the expected order.
+     */
     @Test
     void rooms_ShouldBeManageable() {
         assertTrue(facility.getRooms().isEmpty());
@@ -55,6 +78,10 @@ class MedicalFacilityTest {
         assertEquals(room1, facility.getRooms().get(0));
     }
 
+    /**
+     * Verifies that departments can be added to the facility and that
+     *        each department carries the expected name.
+     */
     @Test
     void departments_ShouldBeManageable() {
         assertTrue(facility.getDepartments().isEmpty());
@@ -69,12 +96,21 @@ class MedicalFacilityTest {
     }
 }
 
+/**
+ * @brief Unit tests for Hospital domain logic.
+ *
+ * Focuses on inpatient room filtering, bed availability queries, patient
+ * admission, and patient dismissal. Plain JUnit — no Spring context loaded.
+ *
+ * @see Hospital
+ */
 class HospitalTest {
     private Hospital hospital;
     private InternationRoom room1;
     private InternationRoom room2;
     private Patient patient;
 
+    /** @brief Builds the fixture shared by all tests in this class. */
     @BeforeEach
     void setUp() {
         hospital = new Hospital();
@@ -95,6 +131,10 @@ class HospitalTest {
         patient.setName("Test Patient");
     }
 
+    /**
+     * Verifies that only InternationRoom instances are returned when
+     *        querying for patient rooms, excluding offices and other room types.
+     */
     @Test
     void getRoomsForPatients_ShouldReturnOnlyInpatientRooms() {
         // Add a non-inpatient room
@@ -110,6 +150,10 @@ class HospitalTest {
         assertFalse(patientRooms.contains(office));
     }
 
+    /**
+     * Verifies that only rooms with at least one free bed appear in the
+     *        availability query, so secretaries are never directed to a full room.
+     */
     @Test
     void getFreeRoomsForPatients_ShouldReturnOnlyRoomsWithFreeBeds() throws Exception {
         // Fill room1 completely (2 patients for 2 beds)
@@ -130,6 +174,10 @@ class HospitalTest {
         assertEquals(room2, freeRooms.get(0));
     }
 
+    /**
+     * Verifies that an empty list is returned when every bed in the
+     *        hospital is taken, making the overcapacity state detectable.
+     */
     @Test
     void getFreeRoomsForPatients_WhenAllRoomsFull_ShouldReturnEmpty() throws Exception {
         // Fill room1 (2 beds)
@@ -149,6 +197,10 @@ class HospitalTest {
         assertTrue(freeRooms.isEmpty());
     }
 
+    /**
+     * Verifies that the correct room is returned when a patient is
+     *        currently admitted to it.
+     */
     @Test
     void findPatientInRoom_ShouldFindCorrectRoom() throws Exception {
         room1.addPatient(patient);
@@ -157,6 +209,11 @@ class HospitalTest {
         assertEquals(room1, found);
     }
 
+    /**
+     * Verifies that searching for a patient who has not been admitted
+     *        raises an exception, guarding against silent null returns that
+     *        could mask data errors.
+     */
     @Test
     void findPatientInRoom_ShouldThrowExceptionWhenPatientNotAdmitted() {
         Exception exception = assertThrows(Exception.class, () -> {
@@ -166,6 +223,10 @@ class HospitalTest {
         assertTrue(exception.getMessage().contains("No patient"));
     }
 
+    /**
+     * Verifies that admitting a patient places them in the room and
+     *        reduces the free bed count accordingly.
+     */
     @Test
     void internPatient_ShouldAdmitPatientToRoom() throws Exception {
         hospital.internPatient(patient, room2);
@@ -174,6 +235,10 @@ class HospitalTest {
         assertEquals(0, room2.getNFreeBeds());
     }
 
+    /**
+     * Verifies that dismissing an admitted patient removes them from
+     *        the room and frees the bed.
+     */
     @Test
     void dismissPatient_ShouldRemovePatientFromRoom() throws Exception {
         room1.addPatient(patient);
@@ -184,6 +249,10 @@ class HospitalTest {
         assertFalse(room1.hasPatient(patient));
     }
 
+    /**
+     * Verifies that attempting to dismiss a patient who was never
+     *        admitted raises an exception, preventing phantom discharge records.
+     */
     @Test
     void dismissPatient_ShouldThrowExceptionWhenPatientNotAdmitted() {
         Exception exception = assertThrows(Exception.class, () -> {

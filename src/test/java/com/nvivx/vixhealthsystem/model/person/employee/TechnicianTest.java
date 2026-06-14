@@ -11,6 +11,15 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * @brief Unit tests for Technician.
+ *
+ * Verifies system role, employee type, and the getFaultyMachineList domain
+ * method that filters machinery by FAULTY status without mutating the source
+ * list. Plain JUnit — no Spring context loaded.
+ *
+ * @see Technician
+ */
 class TechnicianTest {
     private Technician technician;
     private List<Machinery> machines;

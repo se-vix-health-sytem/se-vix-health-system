@@ -6,6 +6,16 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+/**
+ * @brief JPA repository for {@link Resource} entities (medical supplies and consumables).
+ *
+ * Used by the buyer and technician workflows to search the catalogue and check
+ * stock levels.  For aggregated quantity data across storages, see
+ * {@link StorageRepository#findTotalQuantityPerResource()}.
+ *
+ * @see com.nvivx.vixhealthsystem.model.resource.Resource
+ * @see StorageRepository
+ */
 @Repository
 public interface ResourceRepository
         extends JpaRepository<Resource, Long> {

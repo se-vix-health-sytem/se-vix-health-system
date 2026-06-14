@@ -5,8 +5,21 @@ import java.time.LocalDateTime;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * @brief Unit tests for AuditLog.
+ *
+ * Verifies that the constructor auto-assigns a timestamp, that all setters and
+ * getters round-trip correctly, and that toString includes the key audit fields.
+ * Plain JUnit — no Spring context loaded.
+ *
+ * @see AuditLog
+ */
 class AuditLogTest {
 
+    /**
+     * Verifies that constructing an AuditLog immediately sets a non-null
+     *        timestamp and stores every supplied field correctly.
+     */
     @Test
     void constructor_ShouldInitializeTimestamp() {
         AuditLog log = new AuditLog("CREATE_USER", "Patient", "123", "admin", "Created patient record");
@@ -20,6 +33,10 @@ class AuditLogTest {
         assertEquals("Created patient record", log.getDetails());
     }
 
+    /**
+     * Verifies that every setter persists its value and the matching getter
+     *        returns exactly what was set, including explicit timestamp overrides.
+     */
     @Test
     void settersAndGetters_ShouldWorkCorrectly() {
         AuditLog log = new AuditLog();
@@ -42,6 +59,10 @@ class AuditLogTest {
         assertEquals(now, log.getTimestamp());
     }
 
+    /**
+     * Verifies that toString includes the action, entity type, entity ID,
+     *        and username so audit entries are human-readable in logs.
+     */
     @Test
     void toString_ShouldReturnFormattedString() {
         AuditLog log = new AuditLog("DELETE", "Patient", "789", "admin", "Deleted account");

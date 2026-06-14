@@ -13,31 +13,63 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * Service for managing medical machinery (UC24, FR5.3, FR5.4)
- * Technicians use this to monitor and maintain equipment
+ * @brief Manages the lifecycle and status of medical equipment across all hospital facilities.
+ *        Covers UC24 (machine malfunction reporting), FR5.3 (technician visibility), and
+ *        FR5.4 (machine malfunction alerts).
+ *
+ * Annotated {@code @Transactional(readOnly=true)} at the class level; write methods override
+ * with {@code @Transactional}.
+ *
+ * Two paths exist for retrieving faulty machines: the repository query path
+ * ({@link #getFaultyMachines()}) and the domain-method path
+ * ({@link #getFaultyMachinesForTechnician(Technician)}), which applies the {@link Machinery}
+ * model's own {@code isFaulty()} logic and is preferred when the acting technician is known.
+ *
+ * @see com.nvivx.vixhealthsystem.model.resource.Machinery
+ * @see AuditService
  */
 @Service
 @Transactional(readOnly = true)
 public class MachineryService {
 
+    // =========================================================
+    // FIELDS
+    // =========================================================
+
     private final MachineryRepository machineryRepository;
     private final AuditService auditService;
 
+    // =========================================================
+    // CONSTRUCTORS
+    // =========================================================
+
+    /**
+     * Constructs the service with its required collaborators.
+     *
+     * @param machineryRepository  Persistence layer for {@link Machinery} entities.
+     * @param auditService         Records every status change for traceability (NFR02).
+     */
     public MachineryService(MachineryRepository machineryRepository,
                             AuditService auditService) {
         this.machineryRepository = machineryRepository;
         this.auditService = auditService;
     }
 
-    /**
-     * Get all machines in the hospital network
-     */
+    // =========================================================
+    // READ OPERATIONS
+    // =========================================================
+
+    /** @brief Returns all machinery registered in the hospital network. */
     public List<Machinery> getAllMachines() {
         return machineryRepository.findAll();
     }
 
     /**
-     * Get machine by ID
+     * Looks up a machine by primary key, throwing when absent.
+     *
+     * @param id  Machine primary key.
+     * @return    The matching {@link Machinery}; never {@code null}.
+     * @throws RuntimeException When no machine with the given ID exists.
      */
     public Machinery getMachineById(Long id) {
         return machineryRepository.findById(id)
@@ -45,15 +77,16 @@ public class MachineryService {
     }
 
     /**
-     * Get all machines with a specific status
+     * Returns all machines that currently have the given {@link MachineStatus}.
+     *
+     * @param status  Target status to filter on.
+     * @return        Non-null list of matching machines.
      */
     public List<Machinery> getMachinesByStatus(MachineStatus status) {
         return machineryRepository.findByStatus(status);
     }
 
-    /**
-     * Get all working machines (FR5.3 - Technicians visibility)
-     */
+    /** @brief Returns all machines with status {@link MachineStatus#WORKING} (FR5.3). */
     public List<Machinery> getWorkingMachines() {
         return machineryRepository.findByStatus(MachineStatus.WORKING);
     }
@@ -78,22 +111,36 @@ public class MachineryService {
         return technician.getFaultyMachineList(all);
     }
 
-    /**
-     * Get machines under maintenance
-     */
+    /** @brief Returns all machines currently under scheduled maintenance. */
     public List<Machinery> getMachinesUnderMaintenance() {
         return machineryRepository.findByStatus(MachineStatus.UNDER_MAINTENANCE);
     }
 
     /**
-     * Get machines by room (specialized room)
+     * Returns all machines assigned to a specific specialised room.
+     *
+     * @param roomId  Primary key of the specialised room.
+     * @return        Non-null list of machines in that room.
      */
     public List<Machinery> getMachinesByRoom(Long roomId) {
         return machineryRepository.findBySpecializedRoomId(roomId);
     }
 
+    // =========================================================
+    // WRITE OPERATIONS
+    // =========================================================
+
     /**
-     * Update machine status (FR5.3 - Technicians update machine status)
+     * Sets a machine's operational status and writes an audit entry (FR5.3).
+     *
+     * Also calls {@link Machinery#updateStatus()} in case the domain method carries
+     * additional side-effects (e.g., clearing maintenance timestamps).
+     * Adds an alert note in the audit message when the new status is {@link MachineStatus#FAULTY}.
+     *
+     * @param machineId  ID of the machine to update.
+     * @param newStatus  The target {@link MachineStatus}.
+     * @return           The updated and re-persisted {@link Machinery}.
+     * @throws RuntimeException When no machine with {@code machineId} exists.
      */
     @Transactional
     public Machinery updateMachineStatus(Long machineId, MachineStatus newStatus) {
@@ -120,8 +167,14 @@ public class MachineryService {
     }
 
     /**
-     * Mark a machine as faulty (convenience method for FR5.4)
-     * This triggers an alert that technicians can see
+     * Marks a machine as {@link MachineStatus#FAULTY} and logs the issue (FR5.4).
+     *
+     * The fault alert becomes visible on the technician dashboard via {@link #getActiveAlerts()}.
+     *
+     * @param machineId        ID of the machine that is malfunctioning.
+     * @param issueDescription Free-text description of the observed fault.
+     * @return                 The updated {@link Machinery} with FAULTY status.
+     * @throws RuntimeException When no machine with {@code machineId} exists.
      */
     @Transactional
     public Machinery reportFaultyMachine(Long machineId, String issueDescription) {
@@ -134,7 +187,11 @@ public class MachineryService {
     }
 
     /**
-     * Mark a machine as working (after repair)
+     * Marks a machine as {@link MachineStatus#WORKING} after repair is complete.
+     *
+     * @param machineId  ID of the repaired machine.
+     * @return           The updated {@link Machinery} with WORKING status.
+     * @throws RuntimeException When no machine with {@code machineId} exists.
      */
     @Transactional
     public Machinery repairMachine(Long machineId) {
@@ -147,7 +204,12 @@ public class MachineryService {
     }
 
     /**
-     * Mark a machine for maintenance
+     * Transitions a machine to {@link MachineStatus#UNDER_MAINTENANCE} status.
+     *
+     * @param machineId  ID of the machine to schedule for maintenance.
+     * @param reason     Reason for the maintenance intervention.
+     * @return           The updated {@link Machinery} with UNDER_MAINTENANCE status.
+     * @throws RuntimeException When no machine with {@code machineId} exists.
      */
     @Transactional
     public Machinery scheduleMaintenance(Long machineId, String reason) {
@@ -159,44 +221,40 @@ public class MachineryService {
         return machine;
     }
 
-    /**
-     * Get count of faulty machines (for dashboard alerts)
-     */
+    // =========================================================
+    // READ OPERATIONS — COUNTS AND ALERTS
+    // =========================================================
+
+    /** @brief Returns the number of machines currently in FAULTY status (for dashboard badges). */
     public long getFaultyMachineCount() {
         return getFaultyMachines().size();
     }
 
-    /**
-     * Get count of machines under maintenance
-     */
+    /** @brief Returns the number of machines currently under scheduled maintenance. */
     public long getMaintenanceMachineCount() {
         return getMachinesUnderMaintenance().size();
     }
 
-    /**
-     * Get count of working machines
-     */
+    /** @brief Returns the number of machines currently in WORKING status. */
     public long getWorkingMachineCount() {
         return getWorkingMachines().size();
     }
 
-    /**
-     * Get total machine count
-     */
+    /** @brief Returns the total number of machines registered in the system. */
     public long getTotalMachineCount() {
         return machineryRepository.count();
     }
 
-    /**
-     * Check if any machine is faulty (for alert banners)
-     */
+    /** @brief Returns {@code true} when at least one machine is currently FAULTY (for alert banners). */
     public boolean hasFaultyMachines() {
         return getFaultyMachineCount() > 0;
     }
 
     /**
-     * Get active alerts (all faulty machines with details)
-     * Used for FR5.4 - display alerts on technician dashboard
+     * Returns alert descriptors for all faulty machines, used to populate the
+     *        technician dashboard alert panel (FR5.4).
+     *
+     * @return Non-null list of {@link AlertInfo} records; empty when no machines are FAULTY.
      */
     public List<AlertInfo> getActiveAlerts() {
         return getFaultyMachines().stream()
@@ -211,8 +269,14 @@ public class MachineryService {
                 .collect(Collectors.toList());
     }
 
+    // =========================================================
+    // INNER CLASSES
+    // =========================================================
+
     /**
-     * Inner class for alert information (can be moved to separate DTO if needed)
+     * Lightweight view-model for a faulty-machine alert shown on the technician dashboard.
+     *
+     * Can be promoted to a standalone DTO class if the alert model becomes more complex.
      */
     public static class AlertInfo {
         private final Long id;

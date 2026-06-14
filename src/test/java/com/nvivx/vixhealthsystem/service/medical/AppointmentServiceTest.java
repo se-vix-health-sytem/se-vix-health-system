@@ -13,6 +13,11 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * @brief Unit tests for AppointmentService using a Mockito mock of JsonAppointmentRepository.
+ * Covers successful booking, retrieval of all appointments, and SlotNotAvailableException
+ * for exact-time and overlapping-time conflicts.
+ */
 class AppointmentServiceTest {
 
     @Test

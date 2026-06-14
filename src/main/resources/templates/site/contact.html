@@ -1,10 +1,25 @@
 <!DOCTYPE html>
+<!--
+==============================================================================
+  FILE:    site/contact.html
+  ACCESS:  Public
+  PURPOSE: Contact page with an enquiry form and hospital info cards.
+
+  Model attributes:
+    - pageTitle (String) — page title
+    - successMessage (String) — shown after a successful form submission
+
+  Dependencies:
+    - fragments/head, fragments/navbar, fragments/footer
+==============================================================================
+-->
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/head :: head(pageTitle)}"></head>
 <body>
 <div th:replace="~{fragments/navbar :: navbar}"></div>
 
 <main class="container py-5">
+    <!-- ===== PAGE HEADER ===== -->
     <div class="text-center mb-5">
         <p class="section-eyebrow">Get in Touch</p>
         <h1 class="font-display display-5" style="color: var(--vix-crimson);">Contact Us</h1>
@@ -13,6 +28,7 @@
 
     <div th:if="${successMessage}" class="alert alert-success text-center" th:text="${successMessage}"></div>
 
+    <!-- ===== CONTACT FORM & INFO ===== -->
     <div class="row g-5">
         <div class="col-lg-6">
             <div class="card border-0 shadow-sm">

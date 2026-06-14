@@ -1,4 +1,21 @@
 <!DOCTYPE html>
+<!--
+==============================================================================
+  FILE:    secretary/dashboard.html
+  ACCESS:  ROLE_SECRETARY (session.user required)
+  PURPOSE: Secretary home screen with room/bed/appointment stats, flash
+           messages, and quick-action cards for the main secretary tasks.
+
+  Model attributes:
+    - totalRooms (int), availableRooms (int), totalAvailableBeds (int)
+    - totalAppointments (int), departmentName (String)
+    - message (String) — success flash
+    - error (String) — error flash
+
+  Dependencies:
+    - fragments/head, fragments/dashboard-nav, fragments/footer
+==============================================================================
+-->
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/head :: head('Secretary Dashboard')}"></head>
 <body>

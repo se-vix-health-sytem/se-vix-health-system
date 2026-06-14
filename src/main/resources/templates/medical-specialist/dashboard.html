@@ -1,4 +1,18 @@
 <!DOCTYPE html>
+<!--
+==============================================================================
+  FILE:    medical-specialist/dashboard.html
+  ACCESS:  ROLE_MEDICALSPECIALIST (session.user required)
+  PURPOSE: Home screen for the specialist: shows their profile info, quick
+           links to patient search, appointments, calendar, and departments.
+
+  Model attributes:
+    - session.user (MedicalSpecialist) — the logged-in specialist
+
+  Dependencies:
+    - fragments/head, fragments/dashboard-nav, fragments/footer
+==============================================================================
+-->
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/head :: head('Medical Specialist Dashboard')}"></head>
 <body>

@@ -1,4 +1,19 @@
 <!DOCTYPE html>
+<!--
+==============================================================================
+  FILE:    technician/alerts.html
+  ACCESS:  ROLE_TECHNICIAN (session.user required)
+  PURPOSE: Displays all active machine alerts with severity and machine link
+           so the technician can prioritise repairs.
+
+  Model attributes:
+    - alerts (List) — active unresolved alert objects
+    - alertCount (int) — total count shown in the page badge
+
+  Dependencies:
+    - fragments/head, fragments/dashboard-nav, fragments/footer
+==============================================================================
+-->
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/head :: head('Active Alerts')}"></head>
 <body>

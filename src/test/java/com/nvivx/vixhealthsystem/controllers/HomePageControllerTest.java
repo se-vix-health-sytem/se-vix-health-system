@@ -13,6 +13,10 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
+/**
+ * @brief Unit tests for HomePageController using Spring MVC MockMvc with Mockito mocks.
+ * Verifies that a GET to "/" returns HTTP 200 and renders the "index" view.
+ */
 class HomePageControllerTest {
 
     private MockMvc mockMvc;

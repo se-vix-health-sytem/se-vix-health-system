@@ -1,4 +1,26 @@
 <!DOCTYPE html>
+<!--
+==============================================================================
+  FILE:    medical-specialist/calendar.html
+  ACCESS:  ROLE_MEDICALSPECIALIST (session.user required)
+  PURPOSE: Monthly calendar view for the specialist, rendered by inline JS
+           with colour-coded dots for shifts, appointments, surgeries, and
+           vacation days. Clicking a cell navigates to the daily schedule.
+
+  Model attributes:
+    - calYear (int), calMonth (int) — year and 1-based month being displayed
+    - shiftDates (List<String>) — ISO dates with a shift
+    - apptDates (List<String>) — ISO dates with an appointment
+    - surgeryDates (List<String>) — ISO dates with a surgery
+    - vacRanges (List<Map>) — vacation ranges with start/end ISO date keys
+    - monthLabel (String) — formatted label e.g. "June 2026"
+    - prevMonth, nextMonth (String) — month params for navigation links
+
+  Dependencies:
+    - fragments/head, fragments/dashboard-nav, fragments/footer
+    - inline JS at bottom builds the grid
+==============================================================================
+-->
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/head :: head('My Calendar')}"></head>
 <body>

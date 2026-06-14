@@ -13,14 +13,43 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * @brief Manages patient admission and dismissal across inpatient rooms (UC22 — Triage,
+ *        UC23 — Patient Dismissal) and provides bed-availability statistics for the dashboard.
+ *
+ * Annotated {@code @Transactional(readOnly=true)} at the class level; write methods override
+ * with {@code @Transactional}.
+ *
+ * Room polymorphism: the repository stores all {@link Room} subtypes; only
+ * {@link InternationRoom} instances support patient admission.  Type-guard checks are applied
+ * in {@link #admitPatient} and {@link #dismissPatient} to provide clear error messages.
+ *
+ * @see com.nvivx.vixhealthsystem.model.facility.InternationRoom
+ * @see AuditService
+ */
 @Service
 @Transactional(readOnly = true)
 public class RoomService {
+
+    // =========================================================
+    // FIELDS
+    // =========================================================
 
     private final RoomRepository roomRepository;
     private final PatientRepository patientRepository;
     private final AuditService auditService;
 
+    // =========================================================
+    // CONSTRUCTORS
+    // =========================================================
+
+    /**
+     * Constructs the service with all required repositories.
+     *
+     * @param roomRepository     Persistence layer for all {@link Room} subtypes.
+     * @param patientRepository  Needed to load patients by ID during admission/dismissal.
+     * @param auditService       Records every bed assignment change (NFR02 — traceability).
+     */
     public RoomService(RoomRepository roomRepository,
                        PatientRepository patientRepository,
                        AuditService auditService) {
@@ -29,24 +58,28 @@ public class RoomService {
         this.auditService = auditService;
     }
 
-    /**
-     * Get all rooms
-     */
+    // =========================================================
+    // READ OPERATIONS
+    // =========================================================
+
+    /** @brief Returns all rooms of all types in the facility. */
     public List<Room> getAllRooms() {
         return roomRepository.findAll();
     }
 
     /**
-     * Get room by ID
+     * Looks up a room by primary key, throwing when absent.
+     *
+     * @param id  Room primary key.
+     * @return    The matching {@link Room}; never {@code null}.
+     * @throws RuntimeException When no room with the given ID exists.
      */
     public Room findById(Long id) {
         return roomRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Room not found with id: " + id));
     }
 
-    /**
-     * Get all inpatient rooms (InternationRoom type only)
-     */
+    /** @brief Returns only the {@link InternationRoom} instances (i.e., rooms that have beds). */
     public List<InternationRoom> getAllInpatientRooms() {
         return roomRepository.findAll().stream()
                 .filter(room -> room instanceof InternationRoom)

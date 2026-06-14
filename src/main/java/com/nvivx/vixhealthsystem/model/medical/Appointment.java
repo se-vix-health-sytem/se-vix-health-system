@@ -124,6 +124,7 @@ public class Appointment {
     // GETTERS & SETTERS
     // =====================================================
 
+    /// @cond INTERNAL
     /**
      * Returns the unique appointment identifier.
      *
@@ -132,7 +133,9 @@ public class Appointment {
     public int getId() {
         return id;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Sets the unique appointment identifier.
      *
@@ -141,7 +144,9 @@ public class Appointment {
     public void setId(int id) {
         this.id = id;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Returns the scheduled date and time.
      *
@@ -150,7 +155,9 @@ public class Appointment {
     public LocalDateTime getDateTime() {
         return dateTime;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Sets the scheduled date and time.
      *
@@ -159,7 +166,9 @@ public class Appointment {
     public void setDateTime(LocalDateTime dateTime) {
         this.dateTime = dateTime;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Returns the duration of the appointment in minutes.
      *
@@ -168,7 +177,9 @@ public class Appointment {
     public int getDuration() {
         return duration;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Sets the duration of the appointment in minutes.
      *
@@ -177,7 +188,9 @@ public class Appointment {
     public void setDuration(int duration) {
         this.duration = duration;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Returns the optional notes for the appointment.
      *
@@ -186,7 +199,9 @@ public class Appointment {
     public String getNotes() {
         return notes;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Sets the optional notes for the appointment.
      *
@@ -195,7 +210,9 @@ public class Appointment {
     public void setNotes(String notes) {
         this.notes = notes;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Returns the patient attending the appointment.
      *
@@ -204,7 +221,9 @@ public class Appointment {
     public Patient getPatient() {
         return patient;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Sets the patient attending the appointment.
      *
@@ -213,7 +232,9 @@ public class Appointment {
     public void setPatient(Patient patient) {
         this.patient = patient;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Returns the medical specialist conducting the appointment.
      *
@@ -222,7 +243,9 @@ public class Appointment {
     public MedicalSpecialist getMedicalSpecialist() {
         return medicalSpecialist;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Sets the medical specialist conducting the appointment.
      *
@@ -231,6 +254,7 @@ public class Appointment {
     public void setMedicalSpecialist(MedicalSpecialist medicalSpecialist) {
         this.medicalSpecialist = medicalSpecialist;
     }
+    /// @endcond
 
     /**
      * Returns the payment status enum.

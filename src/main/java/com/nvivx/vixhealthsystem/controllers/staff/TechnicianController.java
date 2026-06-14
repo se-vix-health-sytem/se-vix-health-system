@@ -15,6 +15,23 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * @brief Controller for Technician staff members — base URL {@code /technician}.
+ *
+ * Technicians maintain the hospital's machinery fleet.  This controller covers
+ * viewing all machines, filtering by faulty or maintenance status, updating
+ * machine status, logging repairs, viewing active alerts, and the technician's
+ * own shift and profile pages.
+ *
+ * Only accessible to users with {@code ROLE_TECHNICIAN}.
+ *
+ * Use cases covered: UC26 (machinery maintenance), UC27 (status updates),
+ * UC28 (alerts), UC30 (profile/shifts).
+ *
+ * @see MachineryService
+ * @see ShiftService
+ * @see VacationService
+ */
 @Controller
 @RequestMapping("/technician")
 public class TechnicianController {
@@ -34,6 +51,17 @@ public class TechnicianController {
         this.vacationService = vacationService;
     }
 
+    // =========================================================
+    // DASHBOARD
+    // =========================================================
+
+    /**
+     * GET /technician/dashboard — render the technician's overview dashboard.
+     *
+     * @param model  Receives {@code totalMachines}, {@code faultyCount},
+     *               {@code maintenanceCount}, {@code alertCount}, and {@code activeAlerts}.
+     * @return       Thymeleaf template {@code technician/dashboard}.
+     */
     @GetMapping("/dashboard")
     public String dashboard(Model model) {
         model.addAttribute("pageTitle", "Technician Dashboard");
@@ -46,6 +74,16 @@ public class TechnicianController {
         return "technician/dashboard";
     }
 
+    // =========================================================
+    // MACHINE MANAGEMENT
+    // =========================================================
+
+    /**
+     * GET /technician/machines — list all machines in the hospital fleet.
+     *
+     * @param model  Receives {@code machines} and {@code isFaultyView=false}.
+     * @return       Thymeleaf template {@code technician/machines}.
+     */
     @GetMapping("/machines")
     public String viewAllMachines(Model model) {
         var machines = machineryService.getAllMachines();
@@ -56,6 +94,17 @@ public class TechnicianController {
         return "technician/machines";
     }
 
+    /**
+     * GET /technician/machines/faulty — list only machines with FAULTY status.
+     *
+     * Delegates to the domain method via {@link MachineryService#getFaultyMachinesForTechnician},
+     * which applies technician-specific filtering logic.  The technician domain
+     * object is resolved from the session.
+     *
+     * @param session  HTTP session carrying the {@code "user"} Employee attribute.
+     * @param model    Receives {@code machines} and {@code isFaultyView=true}.
+     * @return         Thymeleaf template {@code technician/machines}.
+     */
     @GetMapping("/machines/faulty")
     public String viewFaultyMachines(HttpSession session, Model model) {
         // Domain: technician filters faulty machines via model method
@@ -68,6 +117,12 @@ public class TechnicianController {
         return "technician/machines";
     }
 
+    /**
+     * GET /technician/machines/maintenance — list machines currently under maintenance.
+     *
+     * @param model  Receives {@code machines}.
+     * @return       Thymeleaf template {@code technician/machines}.
+     */
     @GetMapping("/machines/maintenance")
     public String viewMaintenanceMachines(Model model) {
         var maintenanceMachines = machineryService.getMachinesUnderMaintenance();
@@ -77,6 +132,15 @@ public class TechnicianController {
         return "technician/machines";
     }
 
+    /**
+     * POST /technician/machines/update-status — change the operational status of a machine.
+     *
+     * @param machineId  Database ID of the machine to update.
+     * @param status     String representation of a {@link MachineStatus} enum value
+     *                   (e.g., {@code "WORKING"}, {@code "FAULTY"}, {@code "MAINTENANCE"}).
+     * @param model      Receives a success or error {@code message} attribute.
+     * @return           Thymeleaf template {@code technician/result}.
+     */
     @PostMapping("/machines/update-status")
     public String updateMachineStatus(@RequestParam Long machineId,
                                       @RequestParam String status,
@@ -103,6 +167,16 @@ public class TechnicianController {
         return "technician/result";
     }
 
+    // =========================================================
+    // ALERTS
+    // =========================================================
+
+    /**
+     * GET /technician/alerts — display all active machine fault alerts.
+     *
+     * @param model  Receives {@code alerts} and {@code alertCount}.
+     * @return       Thymeleaf template {@code technician/alerts}.
+     */
     @GetMapping("/alerts")
     public String viewAlerts(Model model) {
         var activeAlerts = machineryService.getActiveAlerts();
@@ -113,6 +187,18 @@ public class TechnicianController {
         return "technician/alerts";
     }
 
+    // =========================================================
+    // PROFILE
+    // =========================================================
+
+    /**
+     * GET /technician/my-shifts — display the technician's assigned shifts and approved vacations.
+     *
+     * @param session  HTTP session carrying the {@code "user"} Employee attribute.
+     * @param model    Receives {@code shifts}, {@code vacations}, and {@code dashboardLink}.
+     * @return         Thymeleaf template {@code employee/my-shifts}, or
+     *                 {@code redirect:/login} when no session user is found.
+     */
     @GetMapping("/my-shifts")
     public String viewMyShifts(HttpSession session, Model model) {
         Employee user = (Employee) session.getAttribute("user");
@@ -126,6 +212,14 @@ public class TechnicianController {
         return "employee/my-shifts";
     }
 
+    /**
+     * GET /technician/profile — display the technician's personal profile page.
+     *
+     * @param session  HTTP session carrying the {@code "user"} Employee attribute.
+     * @param model    Receives {@code employee}, {@code roleLabel}, and {@code dashboardLink}.
+     * @return         Thymeleaf template {@code employee/profile}, or
+     *                 {@code redirect:/login} when no session user is found.
+     */
     @GetMapping("/profile")
     public String viewProfile(HttpSession session, Model model) {
         Employee sessionUser = (Employee) session.getAttribute("user");
@@ -147,8 +241,21 @@ public class TechnicianController {
         return "employee/profile";
     }
 
-    // ========== HELPERS ==========
+    // =========================================================
+    // HELPERS
+    // =========================================================
 
+    /**
+     * Resolve and reload the authenticated Technician from the HTTP session.
+     *
+     * The session {@code "user"} attribute is used because {@link MachineryService}
+     * methods require the full Technician domain object.  Falls back to a transient
+     * {@code new Technician()} when the session carries no Technician.
+     *
+     * @param session  HTTP session carrying the {@code "user"} attribute.
+     * @return         A fully initialised {@link Technician} from the database, or a
+     *                 transient instance as a fallback.
+     */
     private Technician getTechnicianFromSession(HttpSession session) {
         Employee user = (Employee) session.getAttribute("user");
         if (user instanceof Technician t) {
@@ -160,6 +267,16 @@ public class TechnicianController {
         return new Technician();
     }
 
+    // =========================================================
+    // MACHINE HISTORY & DETAILS
+    // =========================================================
+
+    /**
+     * GET /technician/machines/maintenance-history — show the full maintenance history for all machines.
+     *
+     * @param model  Receives {@code machines} (all machines with their historical status records).
+     * @return       Thymeleaf template {@code technician/maintenance-history}.
+     */
     @GetMapping("/machines/maintenance-history")
     public String viewMaintenanceHistory(Model model) {
         var allMachines = machineryService.getAllMachines();
@@ -168,6 +285,15 @@ public class TechnicianController {
         return "technician/maintenance-history";
     }
 
+    /**
+     * GET /technician/machines/{machineId} — display the details of a single machine.
+     *
+     * @param machineId  Database ID of the machine to display.
+     * @param model      Receives {@code machine} attribute.
+     * @return           Thymeleaf template {@code technician/machine-details}, or
+     *                   {@code technician/result} with a not-found message when the ID
+     *                   does not exist.
+     */
     @GetMapping("/machines/{machineId}")
     public String viewMachineDetails(@PathVariable Long machineId, Model model) {
         try {
@@ -183,6 +309,14 @@ public class TechnicianController {
         }
     }
 
+    /**
+     * POST /technician/repair/{machineId} — mark a machine as repaired and set it to WORKING.
+     *
+     * @param machineId  Database ID of the machine that has been repaired.
+     * @param notes      Optional free-text repair notes; ignored when blank.
+     * @param model      Receives a success or error {@code message} attribute.
+     * @return           Thymeleaf template {@code technician/result}.
+     */
     @PostMapping("/repair/{machineId}")
     public String repairMachine(@PathVariable Long machineId,
                                 @RequestParam(required = false) String notes,

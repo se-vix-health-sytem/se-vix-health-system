@@ -7,6 +7,11 @@ import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * @brief Unit tests for VacationRequest using plain JUnit (no Spring context).
+ * Covers field setters/getters, the parameterized constructor, getDaysRequested calculation
+ * (including null dates and single-day requests), and String-to-enum VacationStatus conversion.
+ */
 class VacationRequestTest {
     private VacationRequest request;
 

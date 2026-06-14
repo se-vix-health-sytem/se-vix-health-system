@@ -13,18 +13,39 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * JSON-backed repository for audit logs.
- * Data is persisted in src/main/resources/storage/audit-logs.json
+ * @brief Append-only JSON-file-backed repository for {@link AuditLog} entries.
  *
- * NFR02 - Traceability: Normal users cannot delete or edit log records.
- * This repository provides NO delete or update methods.
+ * Persists audit logs to {@code src/main/resources/storage/audit-logs.json}.
+ * Intentionally exposes no {@code delete} or {@code update} methods to enforce
+ * NFR02 (Traceability) — once written, a log entry is immutable for normal users.
+ * The {@link #save(AuditLog)} method is {@code synchronized} to prevent ID
+ * collisions under concurrent request handling.
+ *
+ * @see com.nvivx.vixhealthsystem.model.AuditLog
  */
 @Repository
 public class JsonAuditLogRepository {
 
+    // =========================================================
+    // STATE
+    // =========================================================
+
+    /** Jackson mapper configured to serialise dates as ISO-8601 strings. */
     private final ObjectMapper mapper;
+
+    /** Relative path to the JSON backing file; resolved from the working directory. */
     private final String path = "src/main/resources/storage/audit-logs.json";
 
+    // =========================================================
+    // CONSTRUCTOR
+    // =========================================================
+
+    /**
+     * Configures the mapper and ensures the backing file exists on disk.
+     *
+     * Creates an empty JSON array file if {@code audit-logs.json} is missing so
+     * that subsequent reads never fail with a file-not-found error.
+     */
     public JsonAuditLogRepository() {
         this.mapper = new ObjectMapper();
         this.mapper.registerModule(new JavaTimeModule());
@@ -32,6 +53,15 @@ public class JsonAuditLogRepository {
         initializeStorage();
     }
 
+    // =========================================================
+    // INTERNAL HELPERS
+    // =========================================================
+
+    /**
+     * Creates the backing file with an empty array if it does not already exist.
+     *
+     * @throws RuntimeException if the file cannot be created
+     */
     private void initializeStorage() {
         File file = new File(path);
         if (!file.exists()) {
@@ -44,9 +74,15 @@ public class JsonAuditLogRepository {
         }
     }
 
+    // =========================================================
+    // READ OPERATIONS
+    // =========================================================
+
     /**
-     * Returns all audit logs (READ ONLY - no modification allowed by normal users)
-     * This satisfies NFR02 - Traceability
+     * Returns all audit log entries in insertion order (NFR02 — read-only access).
+     *
+     * @return all log entries; never {@code null}, empty list if file is empty
+     * @throws RuntimeException if the file cannot be parsed
      */
     public List<AuditLog> findAll() {
         try {
@@ -60,9 +96,19 @@ public class JsonAuditLogRepository {
         }
     }
 
+    // =========================================================
+    // WRITE OPERATIONS (append-only)
+    // =========================================================
+
     /**
-     * Saves a new audit log (APPEND ONLY - no overwriting existing logs)
-     * This satisfies NFR02 - Logs cannot be deleted or edited
+     * Appends a new log entry, assigning a sequential ID if absent (NFR02).
+     *
+     * Synchronised to prevent duplicate IDs under concurrent writes.
+     * Existing entries are never modified.
+     *
+     * @param log the entry to append; must not be {@code null}
+     * @return the same entry with its ID populated
+     * @throws RuntimeException if the file cannot be written
      */
     public synchronized AuditLog save(AuditLog log) {
         List<AuditLog> allLogs = findAll();
@@ -89,7 +135,10 @@ public class JsonAuditLogRepository {
     }
 
     /**
-     * Find logs by entity type (e.g., "Employee", "Patient", "Appointment")
+     * Finds all log entries for a given entity type.
+     *
+     * @param entityType case-sensitive entity name (e.g. {@code "Employee"}, {@code "Patient"})
+     * @return matching entries; empty list if none found
      */
     public List<AuditLog> findByEntityType(String entityType) {
         return findAll().stream()
@@ -98,7 +147,10 @@ public class JsonAuditLogRepository {
     }
 
     /**
-     * Find logs by username
+     * Finds all log entries recorded under a specific username.
+     *
+     * @param username the actor's username as stored in the log entries
+     * @return matching entries; empty list if none found
      */
     public List<AuditLog> findByUsername(String username) {
         return findAll().stream()
@@ -107,7 +159,10 @@ public class JsonAuditLogRepository {
     }
 
     /**
-     * Find logs by action (e.g., "CREATE", "UPDATE", "DELETE")
+     * Finds all log entries whose action field contains the given keyword.
+     *
+     * @param action action keyword (e.g. {@code "CREATE"}, {@code "UPDATE"}, {@code "DELETE"})
+     * @return matching entries; empty list if none found
      */
     public List<AuditLog> findByAction(String action) {
         return findAll().stream()
@@ -116,7 +171,10 @@ public class JsonAuditLogRepository {
     }
 
     /**
-     * Get recent logs (most recent first)
+     * Returns the most recent log entries sorted by timestamp descending.
+     *
+     * @param limit maximum number of entries to return; must be positive
+     * @return up to {@code limit} most recent entries
      */
     public List<AuditLog> findRecent(int limit) {
         return findAll().stream()

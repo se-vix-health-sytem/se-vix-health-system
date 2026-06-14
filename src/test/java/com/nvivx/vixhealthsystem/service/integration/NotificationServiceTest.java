@@ -9,6 +9,11 @@ import java.time.LocalDateTime;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
+/**
+ * @brief Unit tests for NotificationService using plain JUnit (no mocks needed).
+ * Verifies that appointment confirmation, reminder, exam-results, and cancellation
+ * notifications complete without exceptions, including null patient/appointment branches.
+ */
 class NotificationServiceTest {
 
     // Service that is under test

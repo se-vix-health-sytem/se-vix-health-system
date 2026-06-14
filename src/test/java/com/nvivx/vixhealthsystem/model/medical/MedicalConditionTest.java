@@ -6,9 +6,19 @@ import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * @brief Unit tests for MedicalCondition.
+ *
+ * Verifies field storage via setters, the parameterized constructor, back-reference
+ * linking to a MedicalRecord, and null-safe behaviour on all optional fields.
+ * Plain JUnit — no Spring context loaded.
+ *
+ * @see MedicalCondition
+ */
 class MedicalConditionTest {
     private MedicalCondition condition;
 
+    /** @brief Builds the fixture shared by all tests in this class. */
     @BeforeEach
     void setUp() {
         condition = new MedicalCondition();
@@ -20,6 +30,10 @@ class MedicalConditionTest {
         condition.setTreatment("Lifestyle changes and medication");
     }
 
+    /**
+     * Verifies that all diagnostic fields round-trip through their
+     *        setters and getters without data loss.
+     */
     @Test
     void settersAndGetters_ShouldWorkCorrectly() {
         assertEquals(1L, condition.getId());
@@ -30,6 +44,10 @@ class MedicalConditionTest {
         assertEquals("Lifestyle changes and medication", condition.getTreatment());
     }
 
+    /**
+     * Verifies that the five-argument constructor stores all diagnosis
+     *        fields in one step, matching the expected values.
+     */
     @Test
     void parameterizedConstructor_ShouldInitializeCondition() {
         MedicalCondition newCondition = new MedicalCondition(
@@ -47,6 +65,10 @@ class MedicalConditionTest {
         assertEquals("Metformin", newCondition.getTreatment());
     }
 
+    /**
+     * Verifies that the medical record back-reference can be set,
+     *        establishing the bidirectional condition-to-record relationship.
+     */
     @Test
     void setMedicalRecord_ShouldLinkToMedicalRecord() {
         MedicalRecord record = new MedicalRecord();
@@ -54,6 +76,10 @@ class MedicalConditionTest {
         assertEquals(record, condition.getMedicalRecord());
     }
 
+    /**
+     * Verifies that a default-constructed MedicalCondition starts with
+     *        all fields null, making partial diagnosis entry safe.
+     */
     @Test
     void nullFields_ShouldBeAllowed() {
         MedicalCondition emptyCondition = new MedicalCondition();

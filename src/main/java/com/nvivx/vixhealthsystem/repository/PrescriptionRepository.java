@@ -6,6 +6,15 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+/**
+ * @brief JPA repository for {@link Prescription} entities.
+ *
+ * Supports the medical-specialist workflow for issuing and viewing prescriptions,
+ * and the patient workflow for listing their own active prescriptions.
+ *
+ * @see com.nvivx.vixhealthsystem.model.medical.Prescription
+ * @see MedicalRecordRepository
+ */
 @Repository
 public interface PrescriptionRepository
         extends JpaRepository<Prescription, Long> {

@@ -110,6 +110,7 @@ public class MedicalFacility {
     // GETTERS & SETTERS
     // =====================================================
 
+    /// @cond INTERNAL
     /**
      * Returns the unique facility identifier.
      *
@@ -118,7 +119,9 @@ public class MedicalFacility {
     public Long getId() {
         return id;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Sets the unique facility identifier.
      *
@@ -127,7 +130,9 @@ public class MedicalFacility {
     public void setId(Long id) {
         this.id = id;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Returns the facility name.
      *
@@ -136,7 +141,9 @@ public class MedicalFacility {
     public String getName() {
         return name;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Sets the facility name.
      *
@@ -145,7 +152,9 @@ public class MedicalFacility {
     public void setName(String name) {
         this.name = name;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Returns the geographic location of the facility.
      *
@@ -154,7 +163,9 @@ public class MedicalFacility {
     public Location getLocation() {
         return location;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Sets the geographic location of the facility.
      *
@@ -163,7 +174,9 @@ public class MedicalFacility {
     public void setLocation(Location location) {
         this.location = location;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Returns the contact email.
      *
@@ -172,7 +185,9 @@ public class MedicalFacility {
     public String getEmail() {
         return email;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Sets the contact email.
      *
@@ -181,7 +196,9 @@ public class MedicalFacility {
     public void setEmail(String email) {
         this.email = email;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Returns the contact phone number.
      *
@@ -190,7 +207,9 @@ public class MedicalFacility {
     public String getPhoneNumber() {
         return phoneNumber;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Sets the contact phone number.
      *
@@ -199,7 +218,9 @@ public class MedicalFacility {
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Returns the facility storage.
      *
@@ -208,7 +229,9 @@ public class MedicalFacility {
     public Storage getStorage() {
         return storage;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Sets the facility storage.
      *
@@ -217,7 +240,9 @@ public class MedicalFacility {
     public void setStorage(Storage storage) {
         this.storage = storage;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Returns the list of rooms belonging to this facility.
      *
@@ -226,7 +251,9 @@ public class MedicalFacility {
     public List<Room> getRooms() {
         return rooms;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Sets the list of rooms belonging to this facility.
      *
@@ -235,7 +262,9 @@ public class MedicalFacility {
     public void setRooms(List<Room> rooms) {
         this.rooms = rooms;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Returns the list of departments belonging to this facility.
      *
@@ -244,7 +273,9 @@ public class MedicalFacility {
     public List<Department> getDepartments() {
         return departments;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Sets the list of departments belonging to this facility.
      *
@@ -253,4 +284,5 @@ public class MedicalFacility {
     public void setDepartments(List<Department> departments) {
         this.departments = departments;
     }
+    /// @endcond
 }

@@ -28,6 +28,26 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.ArrayList;
 
+/**
+ * @brief Controller for StaffManager users — base URL {@code /staff-manager}.
+ *
+ * Staff managers administer the entire workforce of VIX Health System.
+ * This controller covers employee lifecycle management (create, delete,
+ * password reset), shift assignment with vacation-conflict detection,
+ * vacation request approval/denial, an availability overview that
+ * cross-references shifts and appointments, system-wide audit-log browsing,
+ * and the manager's own profile view.
+ *
+ * Only accessible to users with {@code ROLE_STAFFMANAGER}.
+ *
+ * Use cases covered: UC01–UC05 (staff management), UC06 (shifts),
+ * UC07 (vacations), UC08 (availability), UC09 (audit logs).
+ *
+ * @see EmployeeService
+ * @see ShiftService
+ * @see VacationService
+ * @see AuditService
+ */
 @Controller
 @RequestMapping("/staff-manager")
 public class StaffManagerController {
@@ -53,6 +73,17 @@ public class StaffManagerController {
         this.takeLogStore = takeLogStore;
     }
 
+    // =========================================================
+    // DASHBOARD
+    // =========================================================
+
+    /**
+     * GET /staff-manager/dashboard — render the staff manager's overview dashboard.
+     *
+     * @param model  Receives {@code totalEmployees}, {@code activeEmployees},
+     *               {@code pendingVacations}, and {@code recentActivities} (last 10 audit entries).
+     * @return       Thymeleaf template {@code staff-manager/dashboard}.
+     */
     @GetMapping("/dashboard")
     public String dashboard(Model model) {
         model.addAttribute("pageTitle", "Staff Manager Dashboard");
@@ -64,8 +95,19 @@ public class StaffManagerController {
         return "staff-manager/dashboard";
     }
 
-    // ========== EMPLOYEE MANAGEMENT ==========
+    // =========================================================
+    // EMPLOYEE MANAGEMENT
+    // =========================================================
 
+    /**
+     * GET /staff-manager/employees — list all employees, optionally filtered by type.
+     *
+     * @param type   Optional filter string: one of {@code MEDICAL_SPECIALIST}, {@code SECRETARY},
+     *               {@code TECHNICIAN}, {@code BUYER}, {@code STAFF_MANAGER}; all employees
+     *               are returned when absent.
+     * @param model  Receives {@code employees}, {@code employeeTypes}, and {@code selectedType}.
+     * @return       Thymeleaf template {@code staff-manager/employees}.
+     */
     @GetMapping("/employees")
     public String listEmployees(@RequestParam(required = false) String type, Model model) {
         List<Employee> employees;
@@ -105,6 +147,12 @@ public class StaffManagerController {
         return "staff-manager/employees";
     }
 
+    /**
+     * GET /staff-manager/employees/create — render the create-employee form.
+     *
+     * @param model  Receives {@code employeeTypes} and {@code departments} for form dropdowns.
+     * @return       Thymeleaf template {@code staff-manager/create-employee}.
+     */
     @GetMapping("/employees/create")
     public String showCreateEmployeeForm(Model model) {
         model.addAttribute("pageTitle", "Create Employee Account");
@@ -114,6 +162,31 @@ public class StaffManagerController {
         return "staff-manager/create-employee";
     }
 
+    /**
+     * POST /staff-manager/employees/create — create a new employee account.
+     *
+     * Builds the correct Employee subtype from the {@code employeeType} parameter,
+     * then calls the domain method {@code StaffManager.createAccountForEmployee}
+     * for business-rule validation before persisting.  The acting StaffManager is
+     * resolved from the session.
+     *
+     * @param name           First name of the new employee.
+     * @param surname        Last name of the new employee.
+     * @param email          Work email address (used for Firebase login later).
+     * @param employeeType   One of {@code MEDICAL_SPECIALIST}, {@code SECRETARY},
+     *                       {@code TECHNICIAN}, {@code BUYER}, {@code STAFF_MANAGER}.
+     * @param specialty      Specialty string; only relevant for MedicalSpecialist.
+     * @param licenseNumber  Medical licence number; only relevant for MedicalSpecialist.
+     * @param departmentId   Optional department to assign the employee to.
+     * @param hireDate       ISO date string ({@code yyyy-MM-dd}); defaults to today.
+     * @param gender         Single character {@code 'M'} or {@code 'F'}; optional.
+     * @param phone          Phone number; optional.
+     * @param birthDate      ISO date string; optional.
+     * @param birthPlace     City of birth; optional.
+     * @param session        HTTP session; used to resolve the StaffManager domain object.
+     * @param model          Receives a success or error {@code message} attribute.
+     * @return               Thymeleaf template {@code staff-manager/result}.
+     */
     @PostMapping("/employees/create")
     public String createEmployee(@RequestParam String name,
                                  @RequestParam String surname,
@@ -190,6 +263,17 @@ public class StaffManagerController {
         return "staff-manager/result";
     }
 
+    /**
+     * POST /staff-manager/employees/reset-password — trigger a Firebase password-reset email.
+     *
+     * Calls the domain method {@code StaffManager.credentialsRecovery} for business-rule
+     * validation before delegating to {@link EmployeeService#requestEmployeePasswordReset}.
+     *
+     * @param employeeId  Database ID of the employee whose password is to be reset.
+     * @param session     HTTP session; used to resolve the StaffManager domain object.
+     * @param model       Receives a success or error {@code message} attribute.
+     * @return            Thymeleaf template {@code staff-manager/result}.
+     */
     @PostMapping("/employees/reset-password")
     public String resetEmployeePassword(@RequestParam Long employeeId,
                                         HttpSession session,
@@ -217,6 +301,17 @@ public class StaffManagerController {
         return "staff-manager/result";
     }
 
+    /**
+     * POST /staff-manager/employees/delete — permanently delete an employee account.
+     *
+     * Calls {@code StaffManager.deleteEmployeeAccount} first; that domain method
+     * enforces the rule that a manager cannot delete their own account.
+     *
+     * @param employeeId  Database ID of the employee to delete.
+     * @param session     HTTP session; used to resolve the StaffManager domain object.
+     * @param model       Receives a success or error {@code message} attribute.
+     * @return            Thymeleaf template {@code staff-manager/result}.
+     */
     @PostMapping("/employees/delete")
     public String deleteEmployee(@RequestParam Long employeeId,
                                  HttpSession session,
@@ -239,8 +334,16 @@ public class StaffManagerController {
         return "staff-manager/result";
     }
 
-    // ========== SHIFT MANAGEMENT ==========
+    // =========================================================
+    // SHIFT MANAGEMENT
+    // =========================================================
 
+    /**
+     * GET /staff-manager/shifts — display all shifts with a form to assign new ones.
+     *
+     * @param model  Receives {@code employees} and {@code shifts} attributes.
+     * @return       Thymeleaf template {@code staff-manager/shifts}.
+     */
     @GetMapping("/shifts")
     public String manageShifts(Model model) {
         model.addAttribute("pageTitle", "Shift Management");
@@ -250,6 +353,18 @@ public class StaffManagerController {
         return "staff-manager/shifts";
     }
 
+    /**
+     * POST /staff-manager/shifts/assign — assign a shift to an employee on a specific date.
+     *
+     * Rejects the assignment with an error message when the employee has an
+     * approved vacation that overlaps with {@code date}.
+     *
+     * @param employeeId  Database ID of the employee.
+     * @param date        ISO date string ({@code yyyy-MM-dd}) for the shift day.
+     * @param shiftType   Shift type identifier (e.g., "MORNING", "AFTERNOON", "NIGHT").
+     * @param model       Receives a success or conflict/error {@code message} attribute.
+     * @return            Thymeleaf template {@code staff-manager/result}.
+     */
     @PostMapping("/shifts/assign")
     public String assignShift(@RequestParam Long employeeId,
                               @RequestParam String date,
@@ -280,8 +395,16 @@ public class StaffManagerController {
         return "staff-manager/result";
     }
 
-    // ========== VACATION MANAGEMENT ==========
+    // =========================================================
+    // VACATION MANAGEMENT
+    // =========================================================
 
+    /**
+     * GET /staff-manager/vacations — display all vacation requests with approve/deny controls.
+     *
+     * @param model  Receives {@code pendingRequests}, {@code allRequests}, and {@code employees}.
+     * @return       Thymeleaf template {@code staff-manager/vacations}.
+     */
     @GetMapping("/vacations")
     public String manageVacations(Model model) {
         model.addAttribute("pageTitle", "Vacation Management");
@@ -292,6 +415,16 @@ public class StaffManagerController {
         return "staff-manager/vacations";
     }
 
+    /**
+     * POST /staff-manager/vacations/add — submit a new vacation request for an employee.
+     *
+     * @param employeeId  Database ID of the employee.
+     * @param startDate   ISO date string ({@code yyyy-MM-dd}) for the first day of leave.
+     * @param endDate     ISO date string ({@code yyyy-MM-dd}) for the last day of leave.
+     * @param reason      Optional reason for the request; defaults to empty string.
+     * @param model       Receives a success or error {@code message} attribute.
+     * @return            Thymeleaf template {@code staff-manager/result}.
+     */
     @PostMapping("/vacations/add")
     public String addVacationRequest(@RequestParam Long employeeId,
                                      @RequestParam String startDate,
@@ -315,6 +448,13 @@ public class StaffManagerController {
         return "staff-manager/result";
     }
 
+    /**
+     * POST /staff-manager/vacations/approve — approve a pending vacation request.
+     *
+     * @param requestId  Numeric ID of the vacation request to approve.
+     * @param model      Receives a success or error {@code message} attribute.
+     * @return           Thymeleaf template {@code staff-manager/result}.
+     */
     @PostMapping("/vacations/approve")
     public String approveVacation(@RequestParam int requestId, Model model) {
         try {
@@ -329,6 +469,13 @@ public class StaffManagerController {
         return "staff-manager/result";
     }
 
+    /**
+     * POST /staff-manager/vacations/deny — deny a pending vacation request.
+     *
+     * @param requestId  Numeric ID of the vacation request to deny.
+     * @param model      Receives a success or error {@code message} attribute.
+     * @return           Thymeleaf template {@code staff-manager/result}.
+     */
     @PostMapping("/vacations/deny")
     public String denyVacation(@RequestParam int requestId, Model model) {
         try {
@@ -343,8 +490,21 @@ public class StaffManagerController {
         return "staff-manager/result";
     }
 
-    // ========== AVAILABILITY ==========
+    // =========================================================
+    // AVAILABILITY
+    // =========================================================
 
+    /**
+     * GET /staff-manager/availability — show a cross-referenced availability overview.
+     *
+     * Builds maps of shifts, approved vacations, and upcoming appointments
+     * (for MedicalSpecialists) keyed by employee ID so the template can render
+     * each person's schedule at a glance.
+     *
+     * @param model  Receives {@code employees}, {@code shiftsByEmployee},
+     *               {@code vacationsByEmployee}, and {@code appointmentsBySpecialist}.
+     * @return       Thymeleaf template {@code staff-manager/availability}.
+     */
     @GetMapping("/availability")
     public String viewAvailability(Model model) {
         List<Employee> employees = employeeService.findAllEmployees();
@@ -387,8 +547,24 @@ public class StaffManagerController {
         return "staff-manager/availability";
     }
 
-    // ========== HELPERS ==========
+    // =========================================================
+    // HELPERS
+    // =========================================================
 
+    /**
+     * Resolve and reload the authenticated StaffManager from the HTTP session.
+     *
+     * The session {@code "user"} attribute is read because domain methods such as
+     * {@code StaffManager.createAccountForEmployee} and {@code deleteEmployeeAccount}
+     * require the full StaffManager object, which the Spring Security principal does
+     * not provide.  Falls back to a transient {@code new StaffManager()} (no DB
+     * restrictions) when the session user is absent or is not a StaffManager — this
+     * supports automated test scenarios where no real session is present.
+     *
+     * @param session  HTTP session carrying the {@code "user"} attribute.
+     * @return         A database-backed {@link StaffManager}, or a transient instance
+     *                 as a fallback.
+     */
     private StaffManager getStaffManagerFromSession(HttpSession session) {
         Employee user = (Employee) session.getAttribute("user");
         if (user instanceof StaffManager sm) {
@@ -402,8 +578,22 @@ public class StaffManagerController {
         return new StaffManager();
     }
 
-    // ========== AUDIT LOGS ==========
+    // =========================================================
+    // AUDIT LOGS
+    // =========================================================
 
+    /**
+     * GET /staff-manager/audit-logs — display system-wide audit log entries.
+     *
+     * All entries are shown sorted newest-first.  An optional entity-type filter
+     * narrows the list to a single domain object category.
+     *
+     * @param entityType  Optional filter (e.g., {@code "Appointment"}, {@code "Patient"});
+     *                    all entries are shown when absent.
+     * @param model       Receives {@code logs}, {@code entityTypes} (distinct sorted list),
+     *                    and {@code selectedEntityType}.
+     * @return            Thymeleaf template {@code staff-manager/audit-logs}.
+     */
     @GetMapping("/audit-logs")
     public String viewAuditLogs(@RequestParam(required = false) String entityType, Model model) {
         List<AuditLog> allLogs = auditService.getAllLogs().stream()
@@ -428,6 +618,15 @@ public class StaffManagerController {
         return "staff-manager/audit-logs";
     }
 
+    /**
+     * GET /staff-manager/profile — display the staff manager's personal profile page.
+     *
+     * @param session  HTTP session carrying the {@code "user"} Employee attribute.
+     * @param model    Receives {@code employee}, {@code roleLabel}, {@code dashboardLink},
+     *                 and {@code isSpecialist=false}.
+     * @return         Thymeleaf template {@code employee/profile}, or
+     *                 {@code redirect:/login} when no session user is found.
+     */
     @GetMapping("/profile")
     public String viewProfile(HttpSession session, Model model) {
         Employee sessionUser = (Employee) session.getAttribute("user");
@@ -449,6 +648,12 @@ public class StaffManagerController {
         return "employee/profile";
     }
 
+    /**
+     * GET /staff-manager/resource-log — display the global resource-take audit log.
+     *
+     * @param model  Receives {@code logs} (all entries from {@link ResourceTakeLogStore}).
+     * @return       Thymeleaf template {@code staff-manager/resource-log}.
+     */
     @GetMapping("/resource-log")
     public String viewResourceLog(Model model) {
         model.addAttribute("logs", takeLogStore.getAll());
@@ -457,6 +662,21 @@ public class StaffManagerController {
         return "staff-manager/resource-log";
     }
 
+    /**
+     * GET /staff-manager/employees/{id} — display a detailed view of a single employee.
+     *
+     * Shows the employee's shifts, approved vacations, and (for MedicalSpecialists)
+     * their upcoming non-cancelled appointments.
+     *
+     * @param id       Database ID of the employee to display.
+     * @param model    Receives {@code employee}, {@code shifts}, {@code vacations},
+     *                 {@code appointments} (non-empty only for MedicalSpecialists),
+     *                 and {@code roleLabel}.
+     * @param session  HTTP session; the session user must be present or a redirect to
+     *                 {@code /login} is returned.
+     * @return         Thymeleaf template {@code staff-manager/employee-detail}, or
+     *                 redirect to {@code /staff-manager/employees} when the ID is not found.
+     */
     @GetMapping("/employees/{id}")
     public String viewEmployeeDetail(@PathVariable Long id, Model model, HttpSession session) {
         Employee sessionUser = (Employee) session.getAttribute("user");

@@ -1,9 +1,19 @@
 <!DOCTYPE html>
+<!--
+  ============================================================
+  Template : login.html
+  Role     : Staff (all roles: Secretary, Buyer, Technician, Medical Specialist, Staff Manager)
+  Access   : Public — unauthenticated entry point for staff
+  Purpose  : Staff portal login form; also shows a dev-only floating modal with credential shortcuts.
+  Model    : error (String) — login error message; devCredentials (List) — dev-only staff accounts for testing
+  Controller: AuthController (POST /authenticate)
+  ============================================================
+-->
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/head :: head('Staff Login')}"></head>
 <body class="d-flex align-items-center justify-content-center" style="min-height: 100vh; background: linear-gradient(135deg, var(--vix-crimson-dk) 0%, var(--vix-crimson) 100%);">
 
-<!-- LOGIN CARD -->
+<!-- ===== LOGIN CARD ===== -->
 <div class="login-container" style="background: white; border-radius: 1.5rem; box-shadow: 0 20px 60px rgba(0,0,0,0.3); width: 100%; max-width: 450px;">
     <div class="text-center p-4" style="background: linear-gradient(135deg, var(--vix-crimson) 0%, var(--vix-crimson-dk) 100%); color: white; border-radius: 1.5rem 1.5rem 0 0;">
         <img src="/images/vix-logo.png" alt="VIX" width="70" height="70"
@@ -44,6 +54,7 @@
     </div>
 </div>
 
+<!-- ===== DEV TOOLS (development only) ===== -->
 <!-- ── DEV FLOATING BUTTON ───────────────────────────────────────────── -->
 <button onclick="document.getElementById('devModal').style.display='flex'"
         style="position:fixed; bottom:1.25rem; right:1.25rem; z-index:9999;

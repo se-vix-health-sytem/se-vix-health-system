@@ -6,6 +6,11 @@ import java.math.BigDecimal;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * @brief Unit tests for Resource using plain JUnit (no Spring context).
+ * Verifies field setters/getters, the parameterized constructor, equals/hashCode
+ * ID-based comparison, and null-ID edge cases.
+ */
 class ResourceTest {
     private Resource resource;
 

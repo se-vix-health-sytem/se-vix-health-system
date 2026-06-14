@@ -1,4 +1,18 @@
 <!DOCTYPE html>
+<!--
+==============================================================================
+  FILE:    doctor/dashboard.html
+  ACCESS:  Legacy doctor role (not yet integrated with session.user)
+  PURPOSE: Prototype dashboard for the doctor role with quick-search, inline
+           add-condition/prescription/diagnosis/exam-result forms, and links
+           to appointments and surgeries. Standalone CSS (no head fragment).
+
+  Model attributes: none (forms post to hardcoded /doctor/patients/1/... URLs)
+
+  Dependencies: standalone CSS inline in <head>, Bootstrap CDN
+  NOTE: This is a legacy/prototype page — not using the standard fragments.
+==============================================================================
+-->
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">

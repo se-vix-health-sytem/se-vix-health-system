@@ -1,4 +1,19 @@
 <!DOCTYPE html>
+<!--
+==============================================================================
+  FILE:    buyer/resource-log.html
+  ACCESS:  ROLE_BUYER (session.user required)
+  PURPOSE: Full log of all resource take events by any staff member,
+           showing who took what, how much, and from which storage.
+
+  Model attributes:
+    - logs (List) — resource take log entries
+
+  Dependencies:
+    - fragments/head, fragments/dashboard-nav
+    - NOTE: footer fragment is missing from this template (pre-existing issue)
+==============================================================================
+-->
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/head :: head('Resource Take Log')}"></head>
 <body>

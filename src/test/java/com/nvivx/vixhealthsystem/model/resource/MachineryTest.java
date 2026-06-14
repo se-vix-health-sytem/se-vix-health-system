@@ -7,6 +7,11 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * @brief Unit tests for Machinery using plain JUnit (no Spring context).
+ * Covers the name constructor, setters/getters, manual setStatus, the random updateStatus
+ * distribution (verified over 100 iterations), and the isFaulty convenience flag.
+ */
 class MachineryTest {
     private Machinery machinery;
     private SpecializedRoom room;

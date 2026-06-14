@@ -8,12 +8,23 @@ import java.time.LocalDateTime;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * @brief Unit tests for Surgery.
+ *
+ * Verifies setter/getter correctness and the parameterized constructor that
+ * initialises a surgery with a date-time, name, description, and room while
+ * leaving medical record and specialist null. Plain JUnit — no Spring context
+ * loaded.
+ *
+ * @see Surgery
+ */
 class SurgeryTest {
     private Surgery surgery;
     private SpecializedRoom room;
     private MedicalRecord medicalRecord;
     private MedicalSpecialist specialist;
 
+    /** @brief Builds the fixture shared by all tests in this class. */
     @BeforeEach
     void setUp() {
         room = new SpecializedRoom("S101", "Surgery");
@@ -30,6 +41,10 @@ class SurgeryTest {
         surgery.setMedicalSpecialist(specialist);
     }
 
+    /**
+     * Verifies that all surgery fields including room, medical record,
+     *        and specialist associations round-trip without data loss.
+     */
     @Test
     void settersAndGetters_ShouldWorkCorrectly() {
         assertEquals(1L, surgery.getId());
@@ -41,6 +56,11 @@ class SurgeryTest {
         assertEquals(specialist, surgery.getMedicalSpecialist());
     }
 
+    /**
+     * Verifies that the four-argument constructor stores the date-time,
+     *        name, description, and room while leaving id and medical record null
+     *        until the surgery is linked to a patient.
+     */
     @Test
     void parameterizedConstructor_ShouldInitializeSurgery() {
         SpecializedRoom newRoom = new SpecializedRoom("S202", "Orthopedic");

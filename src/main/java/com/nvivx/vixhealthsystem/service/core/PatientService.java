@@ -10,34 +10,89 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+/**
+ * @brief Manages the patient lifecycle — registration, lookup, partial updates, and
+ *        GDPR-compliant account deletion.
+ *
+ * Annotated {@code @Transactional(readOnly=true)} at the class level so that all read
+ * operations benefit from connection-pool optimisations; write methods override with
+ * {@code @Transactional}.
+ *
+ * Deletion follows a two-tier model: {@link #deletePatient(long)} anonymises personal
+ * data while preserving clinical records (NFR04 + NFR09), whereas
+ * {@link #permanentDeletePatient(long)} cascades all data and should only be used
+ * for legal erasure requests.
+ *
+ * @see com.nvivx.vixhealthsystem.model.person.Patient
+ * @see MedicalRecordService
+ * @see AuditService
+ */
 @Service
 @Transactional(readOnly = true)
 public class PatientService {
 
+    // =========================================================
+    // FIELDS
+    // =========================================================
+
     private final PatientRepository patientRepository;
     private final AuditService auditService;
 
+    // =========================================================
+    // CONSTRUCTORS
+    // =========================================================
+
+    /**
+     * Constructs the service with its required collaborators.
+     *
+     * @param patientRepository  Persistence layer for {@link Patient} entities.
+     * @param auditService       Records every mutating action (NFR02 — traceability).
+     */
     public PatientService(PatientRepository patientRepository, AuditService auditService) {
         this.patientRepository = patientRepository;
         this.auditService = auditService;
     }
 
+    // =========================================================
+    // READ OPERATIONS
+    // =========================================================
+
+    /**
+     * Looks up a patient by primary key, throwing when absent.
+     *
+     * @param id  Patient primary key.
+     * @return    The matching {@link Patient}; never {@code null}.
+     * @throws RuntimeException When no patient with the given ID exists.
+     */
     public Patient findById(long id) {
         return patientRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Patient not found with id: " + id));
     }
 
+    /**
+     * Looks up a patient by their national fiscal code.
+     *
+     * @param fiscalCode  The patient's unique fiscal/tax code.
+     * @return            {@link Optional} containing the patient, or empty if absent.
+     */
     public Optional<Patient> findByFiscalCode(String fiscalCode) {
         return patientRepository.findByFiscalCode(fiscalCode);
     }
 
+    /** @brief Returns all patients in the system. */
     public List<Patient> findAllPatients() {
         return patientRepository.findAll();
     }
 
     /**
-     * Search patients by name, surname, or fiscal code.
-     * Uses Java streams to filter since repository doesn't have a custom query method.
+     * Searches patients by name, surname, or fiscal code using case-insensitive
+     *        substring matching.
+     *
+     * Filtering is performed in-memory because the repository does not yet expose a
+     * compound search query.  A blank query returns all patients.
+     *
+     * @param query  Search term; {@code null} or blank returns all patients.
+     * @return       Non-null list of matching patients.
      */
     public List<Patient> searchPatients(String query) {
         if (query == null || query.trim().isEmpty()) {
@@ -55,6 +110,16 @@ public class PatientService {
                 .collect(Collectors.toList());
     }
 
+    // =========================================================
+    // WRITE OPERATIONS
+    // =========================================================
+
+    /**
+     * Persists a new patient and writes an audit entry.
+     *
+     * @param patient  Transient patient entity to persist.
+     * @return         The saved {@link Patient} with a generated ID.
+     */
     @Transactional
     public Patient createPatient(Patient patient) {
         Patient saved = patientRepository.save(patient);
@@ -63,6 +128,14 @@ public class PatientService {
         return saved;
     }
 
+    /**
+     * Applies a partial update to an existing patient, ignoring {@code null} fields.
+     *
+     * @param id           ID of the patient to update.
+     * @param updatedData  Carrier object with the fields to overwrite; {@code null} fields are skipped.
+     * @return             The updated and re-persisted {@link Patient}.
+     * @throws RuntimeException When no patient with {@code id} exists.
+     */
     @Transactional
     public Patient updatePatient(long id, Patient updatedData) {
         Patient patient = findById(id);
@@ -82,6 +155,16 @@ public class PatientService {
     }
 
     /**
+     * Anonymises a patient account while preserving all clinical records (GDPR soft-delete).
+     *
+     * Personal identifiers (name, surname, email, phone) are overwritten or nulled.
+     * The fiscal code is replaced with a timestamped tombstone token so the row remains
+     * uniquely identifiable internally.  Medical conditions, prescriptions, and surgeries
+     * are intentionally kept to satisfy the 5-year clinical retention requirement (NFR09).
+     *
+     * Prefer this method over {@link #permanentDeletePatient(long)} for all normal deletion
+     * requests.
+     *
      * Deletes (anonymizes) a patient account while preserving medical records.
      *
      * GDPR Compliance (NFR04):
@@ -124,9 +207,14 @@ public class PatientService {
     }
 
     /**
-     * Permanently deletes a patient and ALL associated medical records.
-     * Use with caution - this is for testing or when legally required.
-     * Normally, deletePatient() should be used instead.
+     * Permanently deletes a patient and ALL associated medical records from the database.
+     *
+     * This is a destructive, non-recoverable operation intended only for testing environments
+     * or court-ordered erasure when anonymisation is legally insufficient.  In all other
+     * cases, use {@link #deletePatient(long)} instead.
+     *
+     * @param id  ID of the patient to permanently erase.
+     * @throws RuntimeException When no patient with the given ID exists.
      */
     @Transactional
     public void permanentDeletePatient(long id) {

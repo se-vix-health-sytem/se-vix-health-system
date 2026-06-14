@@ -19,6 +19,24 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * @brief Authentication controller for staff (employees) of VIX Health System.
+ *
+ * Handles login, Firebase-backed credential verification, role-based dashboard
+ * redirection, and logout for all employee roles (MedicalSpecialist, Secretary,
+ * Technician, Buyer, StaffManager).  Also exposes a dev-only role-selector
+ * endpoint that bypasses Firebase for local testing.
+ *
+ * Base URL: no prefix (login/logout live at the root context).
+ *
+ * Use cases covered:
+ * - UC01 Staff login via Firebase email/password
+ * - Dev quick-login via pre-seeded credential store
+ *
+ * @see FirebaseAuthService
+ * @see EmployeeService
+ * @see DevCredentialStore
+ */
 @Controller
 public class AuthController {
     private final FirebaseAuthService firebaseAuthService;
@@ -36,6 +54,23 @@ public class AuthController {
         this.devCredentialStore = devCredentialStore;
     }
 
+    // =========================================================
+    // LOGIN / LOGOUT
+    // =========================================================
+
+    /**
+     * GET /login — render the staff login form.
+     *
+     * Populates the model with pre-seeded dev credentials so testers can
+     * one-click into any role from the login page.
+     *
+     * @param error  Non-null when Spring Security or a previous authenticate()
+     *               call redirected here with {@code ?error}; triggers an
+     *               "Invalid credentials" banner.
+     * @param model  Spring MVC model; receives {@code error} and
+     *               {@code devCredentials} attributes.
+     * @return       The {@code login} Thymeleaf template.
+     */
     @GetMapping("/login")
     public String loginPage(@RequestParam(required = false) String error, Model model) {
         if (error != null) {
@@ -45,6 +80,27 @@ public class AuthController {
         return "login";
     }
 
+    /**
+     * POST /authenticate — verify Firebase credentials and open a staff session.
+     *
+     * Calls Firebase to exchange email/password for a UID, looks up the matching
+     * Employee, registers a Spring Security context in the HTTP session, then
+     * redirects to the role-specific dashboard.  Returns to the login page with
+     * an error attribute on any failure.
+     *
+     * The session attribute {@code "user"} stores the Employee entity instead of
+     * using the Spring Security principal because employee domain objects carry
+     * additional context (department, specialty, etc.) that the principal does not.
+     *
+     * @param username  Employee's Firebase email address.
+     * @param password  Firebase account password (plain text over HTTPS).
+     * @param session   HTTP session; receives {@code "user"} and {@code "role"} attributes.
+     * @param request   Raw servlet request (passed to session-security plumbing).
+     * @param response  Raw servlet response (passed to session-security plumbing).
+     * @param model     Receives {@code "error"} when authentication fails.
+     * @return          Redirect to the role-specific dashboard, or the {@code login}
+     *                  template with an error message.
+     */
     @PostMapping("/authenticate")
     public String authenticate(@RequestParam String username,
                                @RequestParam String password,
@@ -100,6 +156,12 @@ public class AuthController {
 
 
 
+    /**
+     * GET /logout — invalidate the staff session and clear the security context.
+     *
+     * @param session  HTTP session to invalidate.
+     * @return         Redirect to the public home page {@code /}.
+     */
     @GetMapping("/logout")
     public String logout(HttpSession session) {
         SecurityContextHolder.clearContext();
@@ -108,6 +170,23 @@ public class AuthController {
     }
 
 
+    // =========================================================
+    // DEV QUICK-LOGIN
+    // =========================================================
+
+    /**
+     * POST /select-role — dev-only role selector that bypasses Firebase.
+     *
+     * Looks up the first employee of the requested type from the database,
+     * seeds the HTTP session, registers a Spring Security context, then
+     * redirects to the matching dashboard.  Not intended for production use.
+     *
+     * @param role     One of: {@code MEDICAL_SPECIALIST}, {@code TECHNICIAN},
+     *                 {@code STAFF_MANAGER}, {@code SECRETARY}, {@code BUYER}.
+     * @param session  HTTP session; receives {@code "user"} and {@code "role"} attributes.
+     * @return         Redirect to the role-specific dashboard, or {@code redirect:/login}
+     *                 when the role string is unrecognized.
+     */
     @PostMapping("/select-role")
     public String processLogin(@RequestParam String role, HttpSession session) {
         Class<? extends Employee> employeeType = switch (role) {

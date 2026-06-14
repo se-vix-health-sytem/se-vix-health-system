@@ -18,6 +18,19 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * @brief Controller for patient-side appointment operations — base URL {@code /patient}.
+ *
+ * Lets authenticated patients view their appointment history, browse available
+ * time slots for a given specialist, book a new appointment, reschedule an
+ * existing one, and cancel one.  Every mutation is written to the audit log
+ * via {@link AuditService}.  All methods verify that the session contains a
+ * valid patient object and redirect to the login page when it does not.
+ *
+ * @see PatientAuthController
+ * @see JsonAppointmentRepository
+ * @see AuditService
+ */
 @Controller
 @RequestMapping("/patient")
 public class PatientAppointmentController {
@@ -39,7 +52,23 @@ public class PatientAppointmentController {
         this.auditService = auditService;
     }
 
-    // GET /patient/appointments - show all appointments for logged-in patient
+    // =========================================================
+    // GET HANDLERS
+    // =========================================================
+
+    /**
+     * GET /patient/appointments — display the logged-in patient's appointments split into upcoming and past.
+     *
+     * Upcoming appointments are those in the future with a status that is neither
+     * CANCELLED nor COMPLETED.  Past appointments cover everything else, including
+     * any future appointment that has been cancelled or marked complete early.
+     *
+     * @param session  HTTP session; must contain a {@code "patient"} attribute.
+     * @param model    Receives {@code upcomingAppointments}, {@code pastAppointments},
+     *                 {@code patient}, and {@code pageTitle} attributes.
+     * @return         Thymeleaf template {@code patient/appointments}, or
+     *                 {@code redirect:/patient/login} when no session patient is found.
+     */
     @GetMapping("/appointments")
     public String viewAppointments(HttpSession session, Model model) {
         Patient patient = getLoggedInPatient(session);
@@ -75,7 +104,14 @@ public class PatientAppointmentController {
         return "patient/appointments";
     }
 
-    // GET /patient/appointments/book - show booking form with specialists
+    /**
+     * GET /patient/appointments/book — render the specialist selection step of the booking flow.
+     *
+     * @param model    Receives {@code specialists}, {@code patient}, and {@code pageTitle}.
+     * @param session  HTTP session; must contain a {@code "patient"} attribute.
+     * @return         Thymeleaf template {@code patient/book-appointment}, or
+     *                 {@code redirect:/patient/login} when no session patient is found.
+     */
     @GetMapping("/appointments/book")
     public String showBookingForm(Model model, HttpSession session) {
         Patient patient = getLoggedInPatient(session);
@@ -91,7 +127,18 @@ public class PatientAppointmentController {
         return "patient/book-appointment";
     }
 
-    // GET /patient/appointments/book/{specialistId} - show available time slots
+    /**
+     * GET /patient/appointments/book/{specialistId} — display available time slots for a specialist.
+     *
+     * Generates hourly slots over the next 14 weekdays (09:00–17:00) and
+     * removes any slot already taken by a non-cancelled appointment.
+     *
+     * @param specialistId  Database ID of the chosen MedicalSpecialist.
+     * @param model         Receives {@code specialist}, {@code availableSlots}, and {@code patient}.
+     * @param session       HTTP session; must contain a {@code "patient"} attribute.
+     * @return              Thymeleaf template {@code patient/select-slot}, or a redirect
+     *                      when the specialist is not found or the session is empty.
+     */
     @GetMapping("/appointments/book/{specialistId}")
     public String showTimeSlots(@PathVariable Long specialistId, Model model, HttpSession session) {
         Patient patient = getLoggedInPatient(session);
@@ -122,7 +169,24 @@ public class PatientAppointmentController {
         return "patient/select-slot";
     }
 
-    // POST /patient/appointments/book - save new appointment
+    // =========================================================
+    // POST HANDLERS
+    // =========================================================
+
+    /**
+     * POST /patient/appointments/book — save a new appointment for the logged-in patient.
+     *
+     * Uses the domain method {@code Patient.makeAppointment} to create the
+     * {@link Appointment} entity so that model-level invariants are enforced.
+     * The slot availability check is re-run here to guard against race conditions
+     * since the form was rendered.
+     *
+     * @param specialistId        Database ID of the chosen MedicalSpecialist.
+     * @param dateTime            Chosen slot in {@code yyyy-MM-ddTHH:mm} format.
+     * @param session             HTTP session; must contain a {@code "patient"} attribute.
+     * @param redirectAttributes  Flash attributes for the redirect to {@code /patient/appointments}.
+     * @return                    Redirect to {@code /patient/appointments}.
+     */
     @PostMapping("/appointments/book")
     public String bookAppointment(@RequestParam Long specialistId,
                                   @RequestParam String dateTime,
@@ -136,13 +200,11 @@ public class PatientAppointmentController {
         LocalDateTime appointmentTime = LocalDateTime.parse(dateTime, DT_FORM);
 
         try {
-            // Get the specialist
             var employee = employeeService.findById(specialistId);
             if (!(employee instanceof MedicalSpecialist specialist)) {
                 throw new RuntimeException("Medical specialist not found");
             }
 
-            // Check if slot is available
             if (!isSlotAvailable(specialistId, appointmentTime)) {
                 throw new RuntimeException("Selected time slot is no longer available");
             }
@@ -174,7 +236,19 @@ public class PatientAppointmentController {
         return "redirect:/patient/appointments";
     }
 
-    // POST /patient/appointments/{apptId}/reschedule - update date/time
+    /**
+     * POST /patient/appointments/{apptId}/reschedule — move an existing appointment to a new slot.
+     *
+     * Verifies that the appointment belongs to the logged-in patient before
+     * delegating to the domain method {@code Appointment.reschedule}.  The new
+     * slot availability is checked before the mutation to prevent double-booking.
+     *
+     * @param apptId              Numeric ID of the appointment to reschedule.
+     * @param newDateTime         New datetime in {@code yyyy-MM-ddTHH:mm} format.
+     * @param session             HTTP session; must contain a {@code "patient"} attribute.
+     * @param redirectAttributes  Flash attributes for the redirect.
+     * @return                    Redirect to {@code /patient/appointments}.
+     */
     @PostMapping("/appointments/{apptId}/reschedule")
     public String rescheduleAppointment(@PathVariable int apptId,
                                         @RequestParam String newDateTime,
@@ -197,7 +271,6 @@ public class PatientAppointmentController {
                 throw new RuntimeException("You don't have permission to modify this appointment");
             }
 
-            // Check if new slot is available
             Long specialistId = appointment.getMedicalSpecialist().getId();
             if (!isSlotAvailable(specialistId, newTime)) {
                 throw new RuntimeException("New time slot is not available");
@@ -224,7 +297,17 @@ public class PatientAppointmentController {
         return "redirect:/patient/appointments";
     }
 
-    // POST /patient/appointments/{apptId}/cancel - cancel appointment
+    /**
+     * POST /patient/appointments/{apptId}/cancel — cancel one of the patient's appointments.
+     *
+     * Verifies ownership before calling the domain method {@code Appointment.cancel}
+     * so that a patient cannot cancel another patient's appointment by guessing an ID.
+     *
+     * @param apptId              Numeric ID of the appointment to cancel.
+     * @param session             HTTP session; must contain a {@code "patient"} attribute.
+     * @param redirectAttributes  Flash attributes for the redirect.
+     * @return                    Redirect to {@code /patient/appointments}.
+     */
     @PostMapping("/appointments/{apptId}/cancel")
     public String cancelAppointment(@PathVariable int apptId,
                                     HttpSession session,
@@ -259,12 +342,30 @@ public class PatientAppointmentController {
         return "redirect:/patient/appointments";
     }
 
-    // Helper method to get logged-in patient from session
+    // =========================================================
+    // HELPERS
+    // =========================================================
+
+    /**
+     * Retrieve the logged-in patient from the HTTP session.
+     *
+     * @param session  HTTP session that may contain a {@code "patient"} attribute.
+     * @return         The session {@link Patient}, or {@code null} when absent.
+     */
     private Patient getLoggedInPatient(HttpSession session) {
         return (Patient) session.getAttribute("patient");
     }
 
-    // Helper method to check if a time slot is available for a specialist
+    /**
+     * Check whether a given time slot is still free for a specialist.
+     *
+     * A slot is considered taken when any non-cancelled appointment for the same
+     * specialist has an identical {@code dateTime} value.
+     *
+     * @param specialistId  Database ID of the specialist.
+     * @param dateTime      The slot datetime to check.
+     * @return              {@code true} if no conflicting appointment exists.
+     */
     private boolean isSlotAvailable(Long specialistId, LocalDateTime dateTime) {
         List<Appointment> existingAppointments = appointmentRepository.findAll().stream()
                 .filter(a -> a.getMedicalSpecialist() != null &&
@@ -276,7 +377,17 @@ public class PatientAppointmentController {
                 .noneMatch(a -> a.getDateTime().equals(dateTime));
     }
 
-    // Helper method to get available slots for a specialist (next 14 days, 9am-5pm, weekdays only)
+    /**
+     * Generate the list of available hourly slots for a specialist over the next 14 weekdays.
+     *
+     * Working hours are 09:00–17:00 Monday to Friday.  Slots already taken by
+     * non-cancelled appointments are excluded.  If the current time is past 17:00
+     * the generation starts from 09:00 the following day; otherwise it starts
+     * from the next whole hour today.
+     *
+     * @param specialistId  Database ID of the specialist whose calendar to query.
+     * @return              Ordered list of free {@link LocalDateTime} slots.
+     */
     private List<LocalDateTime> getAvailableSlots(Long specialistId) {
         List<LocalDateTime> availableSlots = new java.util.ArrayList<>();
 
@@ -303,7 +414,6 @@ public class PatientAppointmentController {
             if (dayOfWeek >= 1 && dayOfWeek <= 5) {
                 // Working hours 9am to 5pm
                 if (current.getHour() >= 9 && current.getHour() < 17) {
-                    // Fix the lambda warning by using a effectively final variable
                     final LocalDateTime slotToCheck = current;
                     boolean isBooked = existingAppointments.stream()
                             .anyMatch(a -> a.getDateTime().equals(slotToCheck));

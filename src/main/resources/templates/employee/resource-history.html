@@ -1,4 +1,18 @@
 <!DOCTYPE html>
+<!--
+==============================================================================
+  FILE:    employee/resource-history.html
+  ACCESS:  Any authenticated employee (session.user required)
+  PURPOSE: Personal log of all resource take events made by this employee.
+
+  Model attributes:
+    - logs (List) — resource take entries for the current user
+
+  Dependencies:
+    - fragments/head, fragments/dashboard-nav
+    - NOTE: footer fragment is missing from this template (pre-existing issue)
+==============================================================================
+-->
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/head :: head('My Resource History')}"></head>
 <body>

@@ -1,4 +1,20 @@
 <!DOCTYPE html>
+<!--
+==============================================================================
+  FILE:    staff-manager/employees.html
+  ACCESS:  ROLE_STAFFMANAGER (session.user required)
+  PURPOSE: Full employee list with role-type filter tabs, and per-row actions
+           for viewing details, resetting password, and deleting the account.
+
+  Model attributes:
+    - employees (List<Employee>) — employees to display
+    - employeeTypes (List<String>) — distinct role types for the filter bar
+    - selectedType (String) — currently active type filter (null = all)
+
+  Dependencies:
+    - fragments/head, fragments/dashboard-nav, fragments/footer
+==============================================================================
+-->
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/head :: head('Employees')}"></head>
 <body>

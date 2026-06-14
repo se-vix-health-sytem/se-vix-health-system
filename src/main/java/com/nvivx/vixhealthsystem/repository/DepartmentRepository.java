@@ -6,6 +6,15 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+/**
+ * @brief JPA repository for {@link Department} entities.
+ *
+ * Provides standard CRUD operations via {@link JpaRepository} plus custom
+ * finders used to populate department listings within a facility.
+ *
+ * @see com.nvivx.vixhealthsystem.model.facility.Department
+ * @see MedicalFacilityRepository
+ */
 @Repository
 public interface DepartmentRepository
         extends JpaRepository<Department, Long> {

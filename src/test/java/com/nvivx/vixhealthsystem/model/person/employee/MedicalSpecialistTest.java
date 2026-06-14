@@ -13,6 +13,15 @@ import java.time.LocalDateTime;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * @brief Unit tests for MedicalSpecialist.
+ *
+ * Verifies system role, employee type, specialty/license fields, and the two
+ * domain operations that attach a prescription or a surgery to a patient's
+ * medical record. Plain JUnit — no Spring context loaded.
+ *
+ * @see MedicalSpecialist
+ */
 class MedicalSpecialistTest {
     private MedicalSpecialist specialist;
     private Patient patient;

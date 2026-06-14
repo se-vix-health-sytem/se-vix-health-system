@@ -79,6 +79,7 @@ public class Prescription {
     // GETTERS & SETTERS
     // =====================================================
 
+    /// @cond INTERNAL
     /**
      * Returns the unique prescription identifier.
      *
@@ -87,7 +88,9 @@ public class Prescription {
     public Long getId() {
         return id;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Sets the unique prescription identifier.
      *
@@ -96,7 +99,9 @@ public class Prescription {
     public void setId(Long id) {
         this.id = id;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Returns the medical record associated with this prescription.
      *
@@ -105,7 +110,9 @@ public class Prescription {
     public MedicalRecord getMedicalRecord() {
         return medicalRecord;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Sets the medical record associated with this prescription.
      *
@@ -114,7 +121,9 @@ public class Prescription {
     public void setMedicalRecord(MedicalRecord medicalRecord) {
         this.medicalRecord = medicalRecord;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Returns the specialist who issued the prescription.
      *
@@ -123,7 +132,9 @@ public class Prescription {
     public MedicalSpecialist getMedicalSpecialist() {
         return medicalSpecialist;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Sets the specialist who issued the prescription.
      *
@@ -132,7 +143,9 @@ public class Prescription {
     public void setMedicalSpecialist(MedicalSpecialist medicalSpecialist) {
         this.medicalSpecialist = medicalSpecialist;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Returns the date and time the prescription was issued.
      *
@@ -141,7 +154,9 @@ public class Prescription {
     public LocalDateTime getDateTime() {
         return dateTime;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Sets the date and time the prescription was issued.
      *
@@ -150,7 +165,9 @@ public class Prescription {
     public void setDateTime(LocalDateTime dateTime) {
         this.dateTime = dateTime;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Returns the prescribed medication.
      *
@@ -159,7 +176,9 @@ public class Prescription {
     public String getMedication() {
         return medication;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Sets the prescribed medication.
      *
@@ -168,4 +187,5 @@ public class Prescription {
     public void setMedication(String medication) {
         this.medication = medication;
     }
+    /// @endcond
 }

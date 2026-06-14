@@ -19,21 +19,49 @@ import java.util.stream.Collectors;
 
 
 /**
- * Service for inventory management (FR5.5)
- * Used by Purchasing Department / Buyer to manage hospital resources
+ * @brief Manages hospital resource inventory — stock levels across all storage facilities,
+ *        low-stock detection, and resource intake/consumption flows.  Covers FR5.5 (inventory
+ *        visibility) and UC25 (employee resource consumption) and UC27 (buyer restocking).
+ *
+ * Annotated {@code @Transactional(readOnly=true)} at the class level; write methods override
+ * with {@code @Transactional}.
+ *
+ * Two actor-aware overloads exist for stock mutations: the domain-method path (accepts an
+ * {@link Employee} or {@link Buyer} actor) enforces business rules inside the model, while
+ * the ID-only overloads are provided for internal/system use when no actor is in scope.
+ *
+ * @see ResourceTakeLogStore
+ * @see com.nvivx.vixhealthsystem.model.resource.Storage
+ * @see AuditService
  */
 @Service
 @Transactional(readOnly = true)
 public class InventoryService {
+
+    // =========================================================
+    // FIELDS
+    // =========================================================
 
     private final ResourceRepository resourceRepository;
     private final StorageRepository storageRepository;
     private final AuditService auditService;
     private final ResourceTakeLogStore takeLogStore;
 
-    // Low stock threshold (can be configured per resource in the future)
+    /** Quantity below which a resource is flagged as low stock (FR5.5). */
     private static final int DEFAULT_LOW_STOCK_THRESHOLD = 50;
 
+    // =========================================================
+    // CONSTRUCTORS
+    // =========================================================
+
+    /**
+     * Constructs the service with all required repositories and collaborators.
+     *
+     * @param resourceRepository  Persistence layer for {@link Resource} catalogue entries.
+     * @param storageRepository   Persistence layer for {@link Storage} facilities and their stock maps.
+     * @param auditService        Records every stock mutation for traceability (NFR02).
+     * @param takeLogStore        JSON-backed log of every resource takeout event (FR5.5).
+     */
     public InventoryService(ResourceRepository resourceRepository,
                             StorageRepository storageRepository,
                             AuditService auditService,
@@ -44,15 +72,25 @@ public class InventoryService {
         this.takeLogStore = takeLogStore;
     }
 
+    // =========================================================
+    // READ OPERATIONS — RESOURCES
+    // =========================================================
+
     /**
-     * Get all resources in the system
+     * Returns all resource catalogue entries in the system.
+     *
+     * @return Non-null list; empty when no resources have been defined.
      */
     public List<Resource> getAllResources() {
         return resourceRepository.findAll();
     }
 
     /**
-     * Get resource by ID
+     * Looks up a resource by its catalogue ID, throwing when absent.
+     *
+     * @param id  Resource primary key.
+     * @return    The matching {@link Resource}; never {@code null}.
+     * @throws RuntimeException When no resource with the given ID exists.
      */
     public Resource getResourceById(Long id) {
         return resourceRepository.findById(id)
@@ -60,14 +98,26 @@ public class InventoryService {
     }
 
     /**
-     * Search resources by name
+     * Finds resources whose name contains the given substring (case-insensitive).
+     *
+     * @param name  Search term.
+     * @return      Non-null list of matching resources.
      */
     public List<Resource> searchResourcesByName(String name) {
         return resourceRepository.findByNameContainingIgnoreCase(name);
     }
 
+    // =========================================================
+    // WRITE OPERATIONS — RESOURCE CATALOGUE
+    // =========================================================
+
     /**
-     * Create a new resource
+     * Adds a new resource to the catalogue with zero initial stock.
+     *
+     * @param name         Display name of the resource.
+     * @param description  Optional description; may be {@code null}.
+     * @param price        Unit purchase price in euros.
+     * @return             The persisted {@link Resource} with a generated ID.
      */
     @Transactional
     public Resource createResource(String name, String description, BigDecimal price) {
@@ -81,7 +131,14 @@ public class InventoryService {
     }
 
     /**
-     * Update resource details
+     * Updates catalogue metadata for an existing resource; {@code null} parameters are ignored.
+     *
+     * @param id           ID of the resource to update.
+     * @param name         New display name; {@code null} keeps the existing value.
+     * @param description  New description; {@code null} keeps the existing value.
+     * @param price        New unit price; {@code null} keeps the existing value.
+     * @return             The updated and re-persisted {@link Resource}.
+     * @throws RuntimeException When no resource with {@code id} exists.
      */
     @Transactional
     public Resource updateResource(Long id, String name, String description, BigDecimal price) {
@@ -100,7 +157,13 @@ public class InventoryService {
     }
 
     /**
-     * Delete a resource (only if not used in any storage)
+     * Removes a resource from the catalogue.
+     *
+     * Storage-usage validation is not yet enforced; callers should check usage before
+     * calling this method to avoid orphaned storage-resource references.
+     *
+     * @param id  ID of the resource to delete.
+     * @throws RuntimeException When no resource with {@code id} exists.
      */
     @Transactional
     public void deleteResource(Long id) {
@@ -116,8 +179,20 @@ public class InventoryService {
                 "Deleted resource: " + resource.getName());
     }
 
+    // =========================================================
+    // READ OPERATIONS — STOCK
+    // =========================================================
+
     /**
-     * Get inventory for a specific storage facility
+     * Returns the stock map for a specific storage facility.
+     *
+     * Re-fetches fully-loaded {@link Resource} objects from the repository so that the
+     * returned map contains rich entities rather than JPA proxy stubs from the
+     * {@code @ElementCollection}.
+     *
+     * @param storageId  ID of the storage facility.
+     * @return           Map of {@link Resource} to quantity; never {@code null}.
+     * @throws RuntimeException When no storage with {@code storageId} exists.
      */
     public Map<Resource, Integer> getStorageInventory(Long storageId) {
         Storage storage = storageRepository.findById(storageId)
@@ -137,8 +212,13 @@ public class InventoryService {
     }
 
     /**
-     * Get all resources with their quantities across all storages
-     * Used for FR7.2 - Compound resource availability
+     * Aggregates stock quantities across all storage facilities (FR7.2).
+     *
+     * Iterates all {@link Storage} entities and merges their resource maps by summing
+     * quantities for the same resource.  {@code @ElementCollection(EAGER)} means each
+     * storage's map is loaded in one additional query.
+     *
+     * @return Map of {@link Resource} to total quantity across all storages; never {@code null}.
      */
     public Map<Resource, Integer> getTotalInventory() {
         Map<Resource, Integer> totalInventory = new HashMap<>();
@@ -151,8 +231,11 @@ public class InventoryService {
     }
 
     /**
-     * Get low stock resources (FR5.5 - Inventory visibility and alerts)
-     * Resources with quantity below threshold are considered low stock
+     * Returns all resources whose total stock across all facilities falls below
+     *        {@link #DEFAULT_LOW_STOCK_THRESHOLD} (FR5.5 — inventory alerts).
+     *
+     * @return Non-null list of {@link ResourceWithQuantity} wrappers; empty when all resources
+     *         are adequately stocked.
      */
     public List<ResourceWithQuantity> getLowStockResources() {
         Map<Resource, Integer> totalInventory = getTotalInventory();
@@ -262,7 +345,11 @@ public class InventoryService {
     }
 
     /**
-     * Check if a resource is low stock across all storages
+     * Checks whether a specific resource is below the low-stock threshold across all facilities.
+     *
+     * @param resourceId  Catalogue ID of the resource to check.
+     * @return            {@code true} when the aggregated quantity is below
+     *                    {@link #DEFAULT_LOW_STOCK_THRESHOLD}.
      */
     public boolean isResourceLowStock(Long resourceId) {
         Map<Resource, Integer> totalInventory = getTotalInventory();
@@ -273,7 +360,10 @@ public class InventoryService {
     }
 
     /**
-     * Get total quantity of a specific resource across all storages
+     * Returns the total quantity of a resource summed across all storage facilities.
+     *
+     * @param resourceId  Catalogue ID of the resource.
+     * @return            Total stock; {@code 0} when the resource is not stocked anywhere.
      */
     public int getTotalResourceQuantity(Long resourceId) {
         Map<Resource, Integer> totalInventory = getTotalInventory();
@@ -284,8 +374,13 @@ public class InventoryService {
                 .sum();
     }
 
+    // =========================================================
+    // INNER CLASSES
+    // =========================================================
+
     /**
-     * Helper class for resource with quantity info
+     * View-model wrapper that pairs a {@link Resource} with its current stock level
+     *        and low-stock flag, used by Thymeleaf inventory templates.
      */
     public static class ResourceWithQuantity {
         private final Resource resource;

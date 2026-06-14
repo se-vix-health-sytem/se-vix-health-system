@@ -14,12 +14,9 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 /**
- * These tests use Mockito mocks instead of real external services.
- *
- * Arrange = prepare fake data and mock behavior
- * Act = call the method being tested
- * Assert = check the result
- * Verify = check that mocks were called correctly
+ * @brief Unit tests for PaymentService using a Mockito mock of AuditService.
+ * Covers appointment cost retrieval, successful payment processing with audit logging,
+ * status lookup for existing and missing transactions.
  */
 @ExtendWith(MockitoExtension.class)
 class PaymentServiceTest {

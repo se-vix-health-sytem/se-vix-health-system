@@ -1,4 +1,21 @@
 <!DOCTYPE html>
+<!--
+==============================================================================
+  FILE:    payment/confirmation.html
+  ACCESS:  ROLE_PATIENT (session.patient required)
+  PURPOSE: Payment result page with three states: success (flash message),
+           error (flash error), and fallback (direct navigation with no flash).
+
+  Model attributes:
+    - message (String) — success flash (redirect attribute)
+    - error (String) — failure flash (redirect attribute)
+    - appointmentId (Long) — the appointment that was paid
+    - appointment (Appointment) — appointment details (may be null)
+
+  Dependencies:
+    - fragments/head, fragments/navbar, fragments/footer
+==============================================================================
+-->
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/head :: head('Payment Confirmation')}"></head>
 <body>

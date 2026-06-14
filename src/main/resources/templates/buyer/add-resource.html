@@ -1,4 +1,17 @@
 <!DOCTYPE html>
+<!--
+==============================================================================
+  FILE:    buyer/add-resource.html
+  ACCESS:  ROLE_BUYER (session.user required)
+  PURPOSE: Form for adding a new resource type to the inventory with name,
+           category, quantity, and low-stock threshold.
+
+  Model attributes: none
+
+  Dependencies:
+    - fragments/head, fragments/dashboard-nav, fragments/footer
+==============================================================================
+-->
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/head :: head('Add Resource')}"></head>
 <body>

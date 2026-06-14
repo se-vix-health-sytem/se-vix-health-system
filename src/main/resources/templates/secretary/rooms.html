@@ -1,4 +1,22 @@
 <!DOCTYPE html>
+<!--
+==============================================================================
+  FILE:    secretary/rooms.html
+  ACCESS:  ROLE_SECRETARY (session.user required)
+  PURPOSE: Room management view for admitting and dismissing inpatients.
+           Can show all rooms or available-only depending on isAvailableView.
+
+  Model attributes:
+    - rooms (List<Room>) — rooms to display
+    - patients (List<Patient>) — all patients for the admit dropdown
+    - message (String) — success flash
+    - error (String) — error flash
+    - isAvailableView (boolean) — true when showing available rooms only
+
+  Dependencies:
+    - fragments/head, fragments/dashboard-nav, fragments/footer
+==============================================================================
+-->
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/head :: head('Room Management')}"></head>
 <body>

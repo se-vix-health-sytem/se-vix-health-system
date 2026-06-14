@@ -1,4 +1,19 @@
 <!DOCTYPE html>
+<!--
+==============================================================================
+  FILE:    staff-manager/result.html
+  ACCESS:  ROLE_STAFFMANAGER (session.user required)
+  PURPOSE: Generic action-result page for staff manager operations such as
+           creating employees, resetting passwords, or deleting accounts.
+
+  Model attributes:
+    - pageTitle (String) — card heading
+    - message (String) — success or error description (❌ prefix = error)
+
+  Dependencies:
+    - fragments/head, fragments/dashboard-nav, fragments/footer
+==============================================================================
+-->
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/head :: head('Result')}"></head>
 <body>

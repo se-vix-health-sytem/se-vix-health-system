@@ -10,6 +10,17 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.List;
 
+/**
+ * @brief Controller for the public-facing home page — base URL {@code /}.
+ *
+ * Assembles the data needed for the landing page: a curated selection of
+ * featured specialists (first four in the database), the list of clinical
+ * departments excluding Administration, and headline statistics (total
+ * specialists, total departments) that appear in the hero and stats sections.
+ *
+ * @see DepartmentService
+ * @see EmployeeService
+ */
 @Controller
 public class HomePageController {
 
@@ -21,6 +32,23 @@ public class HomePageController {
         this.departmentService = departmentService;
     }
 
+    // =========================================================
+    // GET HANDLERS
+    // =========================================================
+
+    /**
+     * GET / — render the public home page.
+     *
+     * Limits featured specialists to the first four to keep the landing page
+     * uncluttered.  The Administration department is filtered out because it
+     * has no patient-facing services and would look out of place in the
+     * department grid.
+     *
+     * @param model  Receives {@code featuredSpecialists} (up to 4), {@code doctorImages},
+     *               {@code departments} (non-Administration), {@code totalSpecialists},
+     *               and {@code totalDepartments} attributes.
+     * @return       Thymeleaf template {@code site/index}.
+     */
     @GetMapping("/")
     public String home(Model model) {
         List<MedicalSpecialist> allSpecialists = employeeService.findAllMedicalSpecialists();

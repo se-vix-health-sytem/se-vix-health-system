@@ -12,6 +12,11 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * @brief Unit tests for Patient using plain JUnit (no Spring context).
+ * Covers field getters/setters, makeAppointment, rescheduleAppointment, cancelAppointment,
+ * deleteAccount, getSystemRole, and the modifiability of the appointments list.
+ */
 class PatientTest {
     private Patient patient;
     private MedicalSpecialist specialist;

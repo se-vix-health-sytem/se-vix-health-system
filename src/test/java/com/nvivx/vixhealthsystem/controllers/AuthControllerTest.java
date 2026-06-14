@@ -20,6 +20,11 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+/**
+ * @brief Unit tests for AuthController using Mockito mocks via @InjectMocks.
+ * Covers login page rendering, authentication routing for each employee role and patient
+ * fallback, logout, and role-selection redirect logic.
+ */
 @ExtendWith(MockitoExtension.class)
 class AuthControllerTest {
 

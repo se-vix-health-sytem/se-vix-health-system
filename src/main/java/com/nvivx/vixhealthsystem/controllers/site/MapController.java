@@ -10,11 +10,35 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @brief Controller for the public hospital-location map pages — base URL {@code /map}.
+ *
+ * Provides the two location-related views: an interactive map that pins all
+ * VIX Health System facilities, and a directions page that helps visitors plan
+ * their journey.  Facility coordinates are hard-coded to match the seeded
+ * {@code MedicalFacilities} database rows; the data is serialised into plain
+ * {@code Map} objects so Thymeleaf's inline JavaScript engine produces valid
+ * JS literals without any extra serialisation step.
+ */
 @Controller
 @RequestMapping("/map")
 public class MapController {
 
+    // =========================================================
+    // GET HANDLERS
+    // =========================================================
 
+    /**
+     * GET /map/hospitals — render the interactive hospital-location map.
+     *
+     * Each facility is projected into a plain {@link Map} ({@code name}, {@code lat},
+     * {@code lng}, {@code address}, {@code phone}, {@code type}) so that Thymeleaf's
+     * {@code th:inline="javascript"} block can serialise the list directly as a JS
+     * array without a custom converter.
+     *
+     * @param model  Receives {@code locations} (list of plain maps) and {@code pageTitle}.
+     * @return       Thymeleaf template {@code site/map/hospitals}.
+     */
     @GetMapping("/hospitals")
     public String showHospitalMap(Model model) {
         // Convert to List<Map> so Thymeleaf's JS inline serializer produces valid JS objects
@@ -35,12 +59,32 @@ public class MapController {
         return "site/map/hospitals";
     }
 
+    /**
+     * GET /map/directions — render the directions and transport information page.
+     *
+     * @param model  Receives {@code pageTitle}.
+     * @return       Thymeleaf template {@code site/map/directions}.
+     */
     @GetMapping("/directions")
     public String getDirections(Model model) {
         model.addAttribute("pageTitle", "Get Directions");
         return "site/map/directions";
     }
 
+    // =========================================================
+    // HELPERS
+    // =========================================================
+
+    /**
+     * Build the static list of VIX Health System facility locations.
+     *
+     * Coordinates and contact details are hard-coded here to mirror the seeded
+     * {@code MedicalFacilities} rows in the database.  If new facilities are
+     * added to the database, this list must be kept in sync manually until a
+     * proper repository-backed approach is implemented.
+     *
+     * @return List of {@link HospitalLocation} objects for the three current facilities.
+     */
     private List<HospitalLocation> getHospitalLocations() {
         List<HospitalLocation> locations = new ArrayList<>();
 
@@ -69,7 +113,16 @@ public class MapController {
         return locations;
     }
 
-    // Inner class for hospital locations
+    // =========================================================
+    // INNER CLASS
+    // =========================================================
+
+    /**
+     * Lightweight value object for a single hospital/clinic location.
+     *
+     * Holds the data needed to drop a pin on the front-end map and populate
+     * the info-window popup (name, coordinates, address, phone, type).
+     */
     public static class HospitalLocation {
         private final String name;
         private final double lat;

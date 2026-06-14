@@ -12,6 +12,11 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * @brief Unit tests for AppointmentController (REST layer).
+ * Uses a Mockito mock of AppointmentService injected directly into the controller constructor
+ * (plain JUnit, no MockMvc); covers successful booking and listing of all appointments.
+ */
 class AppointmentControllerTest {
 
     private final AppointmentService service = Mockito.mock(AppointmentService.class);

@@ -84,6 +84,7 @@ public class AuditLog {
     // GETTERS & SETTERS
     // =====================================================
 
+    /// @cond INTERNAL
     /**
      * Returns the unique audit log entry identifier.
      *
@@ -92,7 +93,9 @@ public class AuditLog {
     public Long getId() {
         return id;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Sets the unique audit log entry identifier.
      *
@@ -101,7 +104,9 @@ public class AuditLog {
     public void setId(Long id) {
         this.id = id;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Returns the action performed.
      *
@@ -110,7 +115,9 @@ public class AuditLog {
     public String getAction() {
         return action;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Sets the action performed.
      *
@@ -119,7 +126,9 @@ public class AuditLog {
     public void setAction(String action) {
         this.action = action;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Returns the type of entity affected.
      *
@@ -128,7 +137,9 @@ public class AuditLog {
     public String getEntityType() {
         return entityType;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Sets the type of entity affected.
      *
@@ -137,7 +148,9 @@ public class AuditLog {
     public void setEntityType(String entityType) {
         this.entityType = entityType;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Returns the identifier of the affected entity.
      *
@@ -146,7 +159,9 @@ public class AuditLog {
     public String getEntityId() {
         return entityId;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Sets the identifier of the affected entity.
      *
@@ -155,7 +170,9 @@ public class AuditLog {
     public void setEntityId(String entityId) {
         this.entityId = entityId;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Returns the username of the person who performed the action.
      *
@@ -164,7 +181,9 @@ public class AuditLog {
     public String getUsername() {
         return username;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Sets the username of the person who performed the action.
      *
@@ -173,7 +192,9 @@ public class AuditLog {
     public void setUsername(String username) {
         this.username = username;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Returns the description of what changed.
      *
@@ -182,7 +203,9 @@ public class AuditLog {
     public String getDetails() {
         return details;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Sets the description of what changed.
      *
@@ -191,7 +214,9 @@ public class AuditLog {
     public void setDetails(String details) {
         this.details = details;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Returns the date and time when the action was recorded.
      *
@@ -200,7 +225,9 @@ public class AuditLog {
     public LocalDateTime getTimestamp() {
         return timestamp;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Sets the date and time when the action was recorded.
      *
@@ -209,6 +236,7 @@ public class AuditLog {
     public void setTimestamp(LocalDateTime timestamp) {
         this.timestamp = timestamp;
     }
+    /// @endcond
 
     // =====================================================
     // OBJECT METHODS

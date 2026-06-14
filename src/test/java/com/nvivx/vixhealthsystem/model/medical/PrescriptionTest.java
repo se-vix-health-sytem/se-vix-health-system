@@ -7,11 +7,21 @@ import java.time.LocalDateTime;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * @brief Unit tests for Prescription.
+ *
+ * Verifies setter/getter correctness and the parameterized constructor that
+ * creates a prescription with medication and timestamp but no associations.
+ * Plain JUnit — no Spring context loaded.
+ *
+ * @see Prescription
+ */
 class PrescriptionTest {
     private Prescription prescription;
     private MedicalSpecialist specialist;
     private MedicalRecord medicalRecord;
 
+    /** @brief Builds the fixture shared by all tests in this class. */
     @BeforeEach
     void setUp() {
         prescription = new Prescription();
@@ -31,6 +41,10 @@ class PrescriptionTest {
         prescription.setMedicalRecord(medicalRecord);
     }
 
+    /**
+     * Verifies that all prescription fields including specialist and
+     *        medical record associations round-trip without data loss.
+     */
     @Test
     void settersAndGetters_ShouldWorkCorrectly() {
         assertEquals(1L, prescription.getId());
@@ -40,6 +54,11 @@ class PrescriptionTest {
         assertEquals(medicalRecord, prescription.getMedicalRecord());
     }
 
+    /**
+     * Verifies that the two-argument constructor stores the timestamp
+     *        and medication while leaving id and associations null, so the
+     *        caller can attach them separately.
+     */
     @Test
     void parameterizedConstructor_ShouldInitializePrescription() {
         LocalDateTime now = LocalDateTime.now();

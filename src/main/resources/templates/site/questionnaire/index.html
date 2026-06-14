@@ -1,4 +1,19 @@
 <!DOCTYPE html>
+<!--
+==============================================================================
+  FILE:    site/questionnaire/index.html
+  ACCESS:  Public
+  PURPOSE: Short symptom-checker form that guides visitors to the right
+           specialist based on affected body area, severity, and duration.
+
+  Model attributes:
+    - symptomCategories (Map<String, String>) — key=value pairs for radio
+      buttons (e.g. CARDIAC → Heart & Cardiovascular)
+
+  Dependencies:
+    - fragments/head, fragments/navbar, fragments/footer
+==============================================================================
+-->
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/head :: head('Symptom Questionnaire')}"></head>
 <body>

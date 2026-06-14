@@ -1,4 +1,19 @@
 <!DOCTYPE html>
+<!--
+==============================================================================
+  FILE:    buyer/result.html
+  ACCESS:  ROLE_BUYER (session.user required)
+  PURPOSE: Generic action-result page for buyer operations (add resource,
+           update quantity, etc.). Icon and colour follow the ❌ convention.
+
+  Model attributes:
+    - pageTitle (String) — card heading
+    - message (String) — success or error description
+
+  Dependencies:
+    - fragments/head, fragments/dashboard-nav, fragments/footer
+==============================================================================
+-->
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/head :: head('Result')}"></head>
 <body>

@@ -8,6 +8,16 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * @brief Unit tests for StaffManager.
+ *
+ * Verifies system role, employee type, and the account-management domain
+ * operations: creating an employee account (with department inheritance and
+ * validation), deleting an account (including the self-deletion guard), and
+ * triggering credential recovery. Plain JUnit — no Spring context loaded.
+ *
+ * @see StaffManager
+ */
 class StaffManagerTest {
     private StaffManager staffManager;
     private MedicalSpecialist employee;

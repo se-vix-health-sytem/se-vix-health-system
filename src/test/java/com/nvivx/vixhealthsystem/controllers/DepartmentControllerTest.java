@@ -18,6 +18,11 @@ import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+/**
+ * @brief Unit tests for DepartmentController using Spring MVC MockMvc with Mockito mocks.
+ * Verifies the department list page, department detail page, and the redirect behaviour
+ * when a department ID is not found.
+ */
 @ExtendWith(MockitoExtension.class)
 class DepartmentControllerTest {
 

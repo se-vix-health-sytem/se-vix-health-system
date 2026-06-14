@@ -79,6 +79,7 @@ public class Department {
     // GETTERS & SETTERS
     // =====================================================
 
+    /// @cond INTERNAL
     /**
      * Returns the unique department identifier.
      *
@@ -87,7 +88,9 @@ public class Department {
     public Long getId() {
         return id;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Sets the unique department identifier.
      *
@@ -96,7 +99,9 @@ public class Department {
     public void setId(Long id) {
         this.id = id;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Returns the department name.
      *
@@ -105,7 +110,9 @@ public class Department {
     public String getName() {
         return name;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Sets the department name.
      *
@@ -114,7 +121,9 @@ public class Department {
     public void setName(String name) {
         this.name = name;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Returns the department description.
      *
@@ -123,7 +132,9 @@ public class Department {
     public String getDescription() {
         return description;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Sets the department description.
      *
@@ -132,7 +143,9 @@ public class Department {
     public void setDescription(String description) {
         this.description = description;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Returns the department contact email.
      *
@@ -141,7 +154,9 @@ public class Department {
     public String getEmail() {
         return email;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Sets the department contact email.
      *
@@ -150,7 +165,9 @@ public class Department {
     public void setEmail(String email) {
         this.email = email;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Returns the department contact phone number.
      *
@@ -159,7 +176,9 @@ public class Department {
     public String getPhoneNumber() {
         return phoneNumber;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Sets the department contact phone number.
      *
@@ -168,7 +187,9 @@ public class Department {
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Returns the medical facility to which this department belongs.
      *
@@ -177,7 +198,9 @@ public class Department {
     public MedicalFacility getMedicalFacility() {
         return medicalFacility;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Sets the medical facility to which this department belongs.
      *
@@ -186,7 +209,9 @@ public class Department {
     public void setMedicalFacility(MedicalFacility medicalFacility) {
         this.medicalFacility = medicalFacility;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Returns the list of employees assigned to this department.
      *
@@ -195,7 +220,9 @@ public class Department {
     public List<Employee> getEmployees() {
         return employees;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Sets the list of employees assigned to this department.
      *
@@ -204,4 +231,5 @@ public class Department {
     public void setEmployees(List<Employee> employees) {
         this.employees = employees;
     }
+    /// @endcond
 }

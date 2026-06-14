@@ -1,4 +1,14 @@
 <!DOCTYPE html>
+<!--
+  ============================================================
+  Template : site/index.html
+  Role     : Public — all visitors
+  Access   : Public
+  Purpose  : Homepage with hero, stats, departments, booking CTA, specialists, map, and contact sections.
+  Model    : siteName (String) — browser tab title; departments (List<Department>); featuredSpecialists (List<MedicalSpecialist>); doctorImages (Map<Long,String>); totalDepartments (int); totalSpecialists (int); session.patient / session.user — auth state for nav and booking card
+  Controller: SiteController (GET /)
+  ============================================================
+-->
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>

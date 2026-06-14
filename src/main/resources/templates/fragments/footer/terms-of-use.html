@@ -1,6 +1,17 @@
 <!DOCTYPE html>
+<!--
+  ============================================================
+  Template : fragments/footer/terms-of-use.html
+  Role     : Public — all visitors
+  Access   : Public
+  Purpose  : Presents platform terms of use covering user responsibilities, appointment policies, and legal disclaimers.
+  Model    : (none — static content, date rendered via #dates utility)
+  Controller: SiteController or equivalent public page controller
+  ============================================================
+-->
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/head :: head('Terms of Use')}"></head>
+<!-- Includes fragment: fragments/head :: head, fragments/navbar :: navbar, fragments/footer :: footer -->
 <body>
 <div th:replace="~{fragments/navbar :: navbar}"></div>
 

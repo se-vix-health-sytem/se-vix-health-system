@@ -1,4 +1,21 @@
 <!DOCTYPE html>
+<!--
+==============================================================================
+  FILE:    site/map/directions.html
+  ACCESS:  Public
+  PURPOSE: Shows a Leaflet map pinned to a single hospital so the patient
+           can get directions or open Google Maps.
+
+  Model attributes:
+    - param.lat  (String) — latitude of the target location
+    - param.lng  (String) — longitude of the target location
+    - param.name (String) — location name shown on the pin popup
+
+  Dependencies:
+    - fragments/head, fragments/navbar, fragments/footer
+    - Leaflet CSS injected after <head> fragment; Leaflet JS at bottom
+==============================================================================
+-->
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/head :: head('Directions')}"></head>
 <!-- Leaflet CSS -->

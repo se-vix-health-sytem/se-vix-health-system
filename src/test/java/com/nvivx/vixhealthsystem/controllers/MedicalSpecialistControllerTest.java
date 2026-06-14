@@ -21,6 +21,11 @@ import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+/**
+ * @brief Unit tests for MedicalSpecialistController using Spring MVC MockMvc and Mockito mocks.
+ * Covers the dashboard, patient search, medical record view, and POST actions for adding
+ * diagnoses, prescriptions, and exam results.
+ */
 @ExtendWith(MockitoExtension.class)
 class MedicalSpecialistControllerTest {
 

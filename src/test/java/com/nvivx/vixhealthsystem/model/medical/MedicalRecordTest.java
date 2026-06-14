@@ -8,10 +8,20 @@ import java.time.LocalDateTime;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * @brief Unit tests for MedicalRecord.
+ *
+ * Verifies the parameterized constructor, all field setters/getters, and the
+ * addCondition/addPrescription/addSurgery helpers that maintain bidirectional
+ * back-references. Plain JUnit — no Spring context loaded.
+ *
+ * @see MedicalRecord
+ */
 class MedicalRecordTest {
     private MedicalRecord medicalRecord;
     private Patient patient;
 
+    /** @brief Builds the fixture shared by all tests in this class. */
     @BeforeEach
     void setUp() {
         medicalRecord = new MedicalRecord(175.0f, 70.5f, "A+");
@@ -25,6 +35,10 @@ class MedicalRecordTest {
         medicalRecord.setPatient(patient);
     }
 
+    /**
+     * Verifies that the three-argument constructor stores height, weight,
+     *        and blood type in the appropriate fields.
+     */
     @Test
     void constructor_ShouldInitializeHealthData() {
         MedicalRecord record = new MedicalRecord(180.0f, 75.0f, "O-");
@@ -33,6 +47,10 @@ class MedicalRecordTest {
         assertEquals("O-", record.getBloodType());
     }
 
+    /**
+     * Verifies that all health and identity fields round-trip through
+     *        their setters and getters including the patient back-reference.
+     */
     @Test
     void settersAndGetters_ShouldWorkCorrectly() {
         assertEquals(100L, medicalRecord.getId());
@@ -44,6 +62,10 @@ class MedicalRecordTest {
         assertEquals(patient, medicalRecord.getPatient());
     }
 
+    /**
+     * Verifies that adding a condition to the record also sets the
+     *        condition's medicalRecord back-reference, maintaining consistency.
+     */
     @Test
     void addCondition_ShouldAddConditionAndSetBackReference() {
         MedicalCondition condition = new MedicalCondition();
@@ -57,6 +79,10 @@ class MedicalRecordTest {
         assertEquals(medicalRecord, condition.getMedicalRecord());
     }
 
+    /**
+     * Verifies that adding a prescription to the record also sets the
+     *        prescription's medicalRecord back-reference.
+     */
     @Test
     void addPrescription_ShouldAddPrescriptionAndSetBackReference() {
         Prescription prescription = new Prescription();
@@ -69,6 +95,10 @@ class MedicalRecordTest {
         assertEquals(medicalRecord, prescription.getMedicalRecord());
     }
 
+    /**
+     * Verifies that scheduling a surgery via the record also sets the
+     *        surgery's medicalRecord back-reference.
+     */
     @Test
     void addSurgery_ShouldAddSurgeryAndSetBackReference() {
         Surgery surgery = new Surgery();
@@ -81,6 +111,10 @@ class MedicalRecordTest {
         assertEquals(medicalRecord, surgery.getMedicalRecord());
     }
 
+    /**
+     * Verifies that conditions can be added directly to the mutable list
+     *        returned by getConditions().
+     */
     @Test
     void conditions_ShouldBeModifiable() {
         assertTrue(medicalRecord.getConditions().isEmpty());
@@ -93,6 +127,10 @@ class MedicalRecordTest {
         assertEquals(2, medicalRecord.getConditions().size());
     }
 
+    /**
+     * Verifies that the conditions list can be replaced wholesale,
+     *        supporting JPA hydration from the database.
+     */
     @Test
     void setConditions_ShouldReplaceList() {
         MedicalCondition condition = new MedicalCondition();

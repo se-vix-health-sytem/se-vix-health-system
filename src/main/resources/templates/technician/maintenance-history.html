@@ -1,4 +1,19 @@
 <!DOCTYPE html>
+<!--
+==============================================================================
+  FILE:    technician/maintenance-history.html
+  ACCESS:  ROLE_TECHNICIAN (session.user required)
+  PURPOSE: Shows all machines with their current status as a maintenance
+           history snapshot — working, faulty, or under maintenance.
+
+  Model attributes:
+    - machines (List<Machine>) — all machines with their current status
+    - message (String) — optional info message
+
+  Dependencies:
+    - fragments/head, fragments/dashboard-nav, fragments/footer
+==============================================================================
+-->
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/head :: head('Maintenance History')}"></head>
 <body>

@@ -1,4 +1,18 @@
 <!DOCTYPE html>
+<!--
+==============================================================================
+  FILE:    staff-manager/resource-log.html
+  ACCESS:  ROLE_STAFFMANAGER (session.user required)
+  PURPOSE: Organisation-wide log of all resource take events, showing which
+           employee took what resource from which storage and when.
+
+  Model attributes:
+    - logs (List) — resource take log entries across all employees
+
+  Dependencies:
+    - fragments/head, fragments/dashboard-nav, fragments/footer
+==============================================================================
+-->
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/head :: head('Resource Take Log')}"></head>
 <body>

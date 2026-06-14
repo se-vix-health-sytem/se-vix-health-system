@@ -1,4 +1,18 @@
 <!DOCTYPE html>
+<!--
+==============================================================================
+  FILE:    technician/machine-details.html
+  ACCESS:  ROLE_TECHNICIAN (session.user required)
+  PURPOSE: Detail view for a single machine with full status info, a status
+           update form, and a repair/maintenance notes form.
+
+  Model attributes:
+    - machine (Machine) — the machine being viewed
+
+  Dependencies:
+    - fragments/head, fragments/dashboard-nav, fragments/footer
+==============================================================================
+-->
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/head :: head('Machine Details')}"></head>
 <body>

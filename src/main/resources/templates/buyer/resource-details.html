@@ -1,4 +1,21 @@
 <!DOCTYPE html>
+<!--
+==============================================================================
+  FILE:    buyer/resource-details.html
+  ACCESS:  ROLE_BUYER (session.user required)
+  PURPOSE: Detail view for a single inventory resource with current stock,
+           low-stock indicator, and a form to update the quantity.
+
+  Model attributes:
+    - resource (Resource) — the resource being viewed
+    - totalQuantity (int) — total quantity across all storages
+    - isLowStock (boolean) — true when below the threshold
+    - lowStockThreshold (int) — quantity level that triggers the alert
+
+  Dependencies:
+    - fragments/head, fragments/dashboard-nav, fragments/footer
+==============================================================================
+-->
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/head :: head('Resource Details')}"></head>
 <body>

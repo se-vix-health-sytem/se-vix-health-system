@@ -64,6 +64,7 @@ public abstract class Room {
     // GETTERS & SETTERS
     // =====================================================
 
+    /// @cond INTERNAL
     /**
      * Returns the unique room identifier.
      *
@@ -72,7 +73,9 @@ public abstract class Room {
     public Long getId() {
         return id;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Sets the unique room identifier.
      *
@@ -81,7 +84,9 @@ public abstract class Room {
     public void setId(Long id) {
         this.id = id;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Returns the medical facility to which this room belongs.
      *
@@ -90,7 +95,9 @@ public abstract class Room {
     public MedicalFacility getMedicalFacility() {
         return medicalFacility;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Sets the medical facility to which this room belongs.
      *
@@ -99,7 +106,9 @@ public abstract class Room {
     public void setMedicalFacility(MedicalFacility medicalFacility) {
         this.medicalFacility = medicalFacility;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Returns the room number or code.
      *
@@ -108,7 +117,9 @@ public abstract class Room {
     public String getNumber() {
         return number;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Sets the room number or code.
      *
@@ -117,4 +128,5 @@ public abstract class Room {
     public void setNumber(String number) {
         this.number = number;
     }
+    /// @endcond
 }

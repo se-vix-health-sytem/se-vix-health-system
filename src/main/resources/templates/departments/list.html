@@ -1,4 +1,18 @@
 <!DOCTYPE html>
+<!--
+==============================================================================
+  FILE:    departments/list.html
+  ACCESS:  Public
+  PURPOSE: Grid of all medical departments, each with a card linking to the
+           department detail page.
+
+  Model attributes:
+    - departments (List<Department>) — all departments
+
+  Dependencies:
+    - fragments/head, fragments/navbar, fragments/footer
+==============================================================================
+-->
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/head :: head('Our Departments')}"></head>
 <body>

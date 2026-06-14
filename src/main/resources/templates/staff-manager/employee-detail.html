@@ -1,4 +1,22 @@
 <!DOCTYPE html>
+<!--
+==============================================================================
+  FILE:    staff-manager/employee-detail.html
+  ACCESS:  ROLE_STAFFMANAGER (session.user required)
+  PURPOSE: Full employee detail view with personal info, role-specific fields,
+           assigned shifts, approved vacations, and appointments (specialists).
+
+  Model attributes:
+    - employee (Employee) — the employee being viewed
+    - roleLabel (String) — e.g. "MedicalSpecialist", "Secretary"
+    - shifts (List<Shift>) — employee's shifts
+    - vacations (List<Vacation>) — employee's approved vacations
+    - appointments (List<Appointment>) — specialist appointments (if applicable)
+
+  Dependencies:
+    - fragments/head, fragments/dashboard-nav, fragments/footer
+==============================================================================
+-->
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/head :: head(pageTitle)}"></head>
 <body>

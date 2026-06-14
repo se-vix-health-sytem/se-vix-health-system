@@ -61,6 +61,7 @@ public class Storage {
     // GETTERS & SETTERS
     // =====================================================
 
+    /// @cond INTERNAL
     /**
      * Returns the unique storage identifier.
      *
@@ -69,7 +70,9 @@ public class Storage {
     public Long getId() {
         return id;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Sets the unique storage identifier.
      *
@@ -78,7 +81,9 @@ public class Storage {
     public void setId(Long id) {
         this.id = id;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Returns the medical facility owning this storage.
      *
@@ -87,7 +92,9 @@ public class Storage {
     public MedicalFacility getMedicalFacility() {
         return medicalFacility;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Sets the medical facility owning this storage.
      *
@@ -96,7 +103,9 @@ public class Storage {
     public void setMedicalFacility(MedicalFacility medicalFacility) {
         this.medicalFacility = medicalFacility;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Returns the map of resources and their quantities.
      *
@@ -105,7 +114,9 @@ public class Storage {
     public Map<Resource, Integer> getResources() {
         return resources;
     }
+    /// @endcond
 
+    /// @cond INTERNAL
     /**
      * Sets the map of resources and their quantities.
      *
@@ -114,6 +125,7 @@ public class Storage {
     public void setResources(Map<Resource, Integer> resources) {
         this.resources = resources;
     }
+    /// @endcond
 
     // =====================================================
     // DOMAIN METHODS
