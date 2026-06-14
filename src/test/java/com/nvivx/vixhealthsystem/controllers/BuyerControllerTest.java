@@ -1,8 +1,8 @@
-/* package com.nvivx.vixhealthsystem.controllers.staff;
+/* package com.nvivx.vixhealthsystem.controllers;
 
+import com.nvivx.vixhealthsystem.controllers.staff.BuyerController;
 import com.nvivx.vixhealthsystem.model.person.employee.Buyer;
 import com.nvivx.vixhealthsystem.model.person.employee.Employee;
-import com.nvivx.vixhealthsystem.model.staff.VacationRequest;
 import com.nvivx.vixhealthsystem.service.core.EmployeeService;
 import com.nvivx.vixhealthsystem.service.resources.InventoryService;
 import com.nvivx.vixhealthsystem.service.resources.ResourceTakeLogStore;
@@ -209,4 +209,4 @@ class BuyerControllerTest {
         assertEquals("redirect:/login", view);
     }
 }
- */
+*/
