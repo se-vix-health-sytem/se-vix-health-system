@@ -1,0 +1,10 @@
+var namespacecom_1_1nvivx_1_1vixhealthsystem_1_1controllers_1_1staff =
+[
+    [ "AuthController", "classcom_1_1nvivx_1_1vixhealthsystem_1_1controllers_1_1staff_1_1_auth_controller.html", "classcom_1_1nvivx_1_1vixhealthsystem_1_1controllers_1_1staff_1_1_auth_controller" ],
+    [ "BuyerController", "classcom_1_1nvivx_1_1vixhealthsystem_1_1controllers_1_1staff_1_1_buyer_controller.html", "classcom_1_1nvivx_1_1vixhealthsystem_1_1controllers_1_1staff_1_1_buyer_controller" ],
+    [ "EmployeeResourceController", "classcom_1_1nvivx_1_1vixhealthsystem_1_1controllers_1_1staff_1_1_employee_resource_controller.html", "classcom_1_1nvivx_1_1vixhealthsystem_1_1controllers_1_1staff_1_1_employee_resource_controller" ],
+    [ "MedicalSpecialistController", "classcom_1_1nvivx_1_1vixhealthsystem_1_1controllers_1_1staff_1_1_medical_specialist_controller.html", "classcom_1_1nvivx_1_1vixhealthsystem_1_1controllers_1_1staff_1_1_medical_specialist_controller" ],
+    [ "SecretaryController", "classcom_1_1nvivx_1_1vixhealthsystem_1_1controllers_1_1staff_1_1_secretary_controller.html", "classcom_1_1nvivx_1_1vixhealthsystem_1_1controllers_1_1staff_1_1_secretary_controller" ],
+    [ "StaffManagerController", "classcom_1_1nvivx_1_1vixhealthsystem_1_1controllers_1_1staff_1_1_staff_manager_controller.html", "classcom_1_1nvivx_1_1vixhealthsystem_1_1controllers_1_1staff_1_1_staff_manager_controller" ],
+    [ "TechnicianController", "classcom_1_1nvivx_1_1vixhealthsystem_1_1controllers_1_1staff_1_1_technician_controller.html", "classcom_1_1nvivx_1_1vixhealthsystem_1_1controllers_1_1staff_1_1_technician_controller" ]
+];

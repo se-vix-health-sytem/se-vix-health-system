@@ -1,0 +1,17 @@
+var searchData=
+[
+  ['id_0',['id',['../classcom_1_1nvivx_1_1vixhealthsystem_1_1service_1_1resources_1_1_resource_take_log_store_1_1_entry.html#a76010eef1edc0406cc2375c25d2a433d',1,'com::nvivx::vixhealthsystem::service::resources::ResourceTakeLogStore::Entry']]],
+  ['initializefirebase_1',['initializeFirebase',['../classcom_1_1nvivx_1_1vixhealthsystem_1_1config_1_1_firebase_config.html#a13328ae6656ef9ff7aa3266f54b96f65',1,'com::nvivx::vixhealthsystem::config::FirebaseConfig']]],
+  ['internationroom_2',['InternationRoom',['../classcom_1_1nvivx_1_1vixhealthsystem_1_1model_1_1facility_1_1_internation_room.html',1,'InternationRoom'],['../classcom_1_1nvivx_1_1vixhealthsystem_1_1model_1_1facility_1_1_internation_room.html#afa03ebddb94efefad093f40e1101f970',1,'com.nvivx.vixhealthsystem.model.facility.InternationRoom.InternationRoom()'],['../classcom_1_1nvivx_1_1vixhealthsystem_1_1model_1_1facility_1_1_internation_room.html#a1ed3b42f856da9107fa52c2f413054a9',1,'com.nvivx.vixhealthsystem.model.facility.InternationRoom.InternationRoom(String number, int nBeds)']]],
+  ['internpatient_3',['internPatient',['../classcom_1_1nvivx_1_1vixhealthsystem_1_1model_1_1facility_1_1_hospital.html#ab1d94d5625c1d9c801b8f1cfb60f5287',1,'com::nvivx::vixhealthsystem::model::facility::Hospital']]],
+  ['introduction_4',['Introduction',['../index.html#intro',1,'']]],
+  ['inventoryitem_5',['InventoryItem',['../classcom_1_1nvivx_1_1vixhealthsystem_1_1controllers_1_1staff_1_1_buyer_controller_1_1_inventory_item.html',1,'com::nvivx::vixhealthsystem::controllers::staff::BuyerController']]],
+  ['inventoryservice_6',['InventoryService',['../classcom_1_1nvivx_1_1vixhealthsystem_1_1service_1_1resources_1_1_inventory_service.html',1,'InventoryService'],['../classcom_1_1nvivx_1_1vixhealthsystem_1_1service_1_1resources_1_1_inventory_service.html#a6f2a225213a523ef109f9266fe047757',1,'com.nvivx.vixhealthsystem.service.resources.InventoryService.InventoryService()']]],
+  ['isactive_7',['isActive',['../classcom_1_1nvivx_1_1vixhealthsystem_1_1model_1_1medical_1_1_appointment.html#a64df75c672535b0fc1b1fe565dcb434b',1,'com::nvivx::vixhealthsystem::model::medical::Appointment']]],
+  ['iscancellable_8',['isCancellable',['../classcom_1_1nvivx_1_1vixhealthsystem_1_1model_1_1medical_1_1_appointment.html#a371d1c7e31d6ff7e5e9a6954d4cde7d8',1,'com::nvivx::vixhealthsystem::model::medical::Appointment']]],
+  ['isemployeeonshift_9',['isEmployeeOnShift',['../classcom_1_1nvivx_1_1vixhealthsystem_1_1service_1_1scheduling_1_1_shift_service.html#aa3de19322818772698d07aa57763d16c',1,'com::nvivx::vixhealthsystem::service::scheduling::ShiftService']]],
+  ['isfaulty_10',['isFaulty',['../classcom_1_1nvivx_1_1vixhealthsystem_1_1model_1_1resource_1_1_machinery.html#ae7e24767063862853f433276f24e7054',1,'com::nvivx::vixhealthsystem::model::resource::Machinery']]],
+  ['ispatientadmitted_11',['isPatientAdmitted',['../classcom_1_1nvivx_1_1vixhealthsystem_1_1service_1_1resources_1_1_room_service.html#a900625c651d59d22c27549aa914d6816',1,'com::nvivx::vixhealthsystem::service::resources::RoomService']]],
+  ['ispaymentstatus_12',['isPaymentStatus',['../classcom_1_1nvivx_1_1vixhealthsystem_1_1model_1_1medical_1_1_appointment.html#a17d41320dafbc0720df432addc4c82e0',1,'com::nvivx::vixhealthsystem::model::medical::Appointment']]],
+  ['isresourcelowstock_13',['isResourceLowStock',['../classcom_1_1nvivx_1_1vixhealthsystem_1_1service_1_1resources_1_1_inventory_service.html#af12f89fe5a99971828ef2fe348718315',1,'com::nvivx::vixhealthsystem::service::resources::InventoryService']]]
+];

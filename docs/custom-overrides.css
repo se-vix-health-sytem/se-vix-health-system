@@ -1,0 +1,6 @@
+/* Hide the a/b/c/d letter-jump navigation in the Class Members index */
+.directory .levels,
+div.qindex,
+div.ah {
+    display: none !important;
+}

@@ -41,3 +41,4 @@ build/
 src/main/resources/firebase/firebase-service-account.json
 
 .DS_Store
+docs/navtree-patch.js
