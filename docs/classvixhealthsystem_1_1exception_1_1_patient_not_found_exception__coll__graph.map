@@ -1,0 +1,5 @@
+<map id="PatientNotFoundException" name="PatientNotFoundException">
+<area shape="rect" id="Node000001" title="Thrown when a patient lookup by ID or fiscal code yields no result." alt="" coords="5,123,185,208"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="36,5,154,75"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="97,87,98,123,93,122,94,92"/>
+</map>

@@ -1,0 +1,10 @@
+var searchData=
+[
+  ['listdepartments_0',['listDepartments',['../classvixhealthsystem_1_1controllers_1_1site_1_1_department_controller.html#a15cf8be3b9325adfb3a7bd6534384800',1,'vixhealthsystem::controllers::site::DepartmentController']]],
+  ['listemployees_1',['listEmployees',['../classvixhealthsystem_1_1controllers_1_1staff_1_1_staff_manager_controller.html#af8093dd3d471db94c804784dc7c70aa2',1,'vixhealthsystem::controllers::staff::StaffManagerController']]],
+  ['listspecialists_2',['listSpecialists',['../classvixhealthsystem_1_1controllers_1_1site_1_1_specialist_controller.html#a6f73f826e184839f0639b8c47e4f1643',1,'vixhealthsystem::controllers::site::SpecialistController']]],
+  ['location_3',['Location',['../classvixhealthsystem_1_1model_1_1facility_1_1_location.html#aae456ae24175445c9c797b0d58d5716b',1,'vixhealthsystem.model.facility.Location.Location()'],['../classvixhealthsystem_1_1model_1_1facility_1_1_location.html#a93b279ea1b1d4c8950b86b3d2d49527b',1,'vixhealthsystem.model.facility.Location.Location(Double latitude, Double longitude)']]],
+  ['log_4',['log',['../classvixhealthsystem_1_1service_1_1_audit_service.html#a328a06bf371edf930de367d196bd00c8',1,'vixhealthsystem.service.AuditService.log()'],['../classvixhealthsystem_1_1service_1_1resources_1_1_resource_take_log_store.html#a6c4d737aa4dba5b3b36fd52b6c6fec04',1,'vixhealthsystem.service.resources.ResourceTakeLogStore.log()']]],
+  ['loginpage_5',['loginPage',['../classvixhealthsystem_1_1controllers_1_1staff_1_1_auth_controller.html#accd774e74b263c3d02e4a2602be5bc13',1,'vixhealthsystem::controllers::staff::AuthController']]],
+  ['logout_6',['logout',['../classvixhealthsystem_1_1controllers_1_1patient_1_1_patient_auth_controller.html#a6b8684efcb9d465ae3cac3c5fa68a500',1,'vixhealthsystem.controllers.patient.PatientAuthController.logout()'],['../classvixhealthsystem_1_1controllers_1_1staff_1_1_auth_controller.html#a6b8684efcb9d465ae3cac3c5fa68a500',1,'vixhealthsystem.controllers.staff.AuthController.logout()']]]
+];

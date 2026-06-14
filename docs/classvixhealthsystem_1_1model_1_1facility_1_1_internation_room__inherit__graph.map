@@ -1,0 +1,5 @@
+<map id="InternationRoom" name="InternationRoom">
+<area shape="rect" id="Node000001" title="Represents an inpatient room used for patient hospitalization." alt="" coords="5,144,181,389"/>
+<area shape="rect" id="Node000002" href="$classvixhealthsystem_1_1model_1_1facility_1_1_room.html" title="Represents a generic room inside a medical facility." alt="" coords="19,5,167,96"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="94,108,96,144,91,144,93,114"/>
+</map>

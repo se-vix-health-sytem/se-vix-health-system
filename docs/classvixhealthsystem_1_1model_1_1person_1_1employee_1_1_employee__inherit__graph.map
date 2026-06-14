@@ -1,0 +1,17 @@
+<map id="Employee" name="Employee">
+<area shape="rect" id="Node000001" title="Represents a generic employee in the system." alt="" coords="604,229,808,373"/>
+<area shape="rect" id="Node000003" href="$classvixhealthsystem_1_1model_1_1person_1_1employee_1_1_buyer.html" title="Part of the purchasing department." alt="" coords="5,539,195,683"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="587,306,500,317,400,337,350,352,301,372,253,395,210,423,183,448,160,477,127,540,122,538,156,475,179,445,207,419,251,390,298,367,348,347,399,332,499,312,591,304"/>
+<area shape="rect" id="Node000004" href="$classvixhealthsystem_1_1model_1_1person_1_1employee_1_1_medical_specialist.html" title="Represents medical personnel such as doctors, surgeons, specialists and nurses." alt="" coords="220,509,429,712"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="588,339,514,375,476,397,442,423,404,465,373,511,369,508,400,461,439,419,473,393,511,370,592,336"/>
+<area shape="rect" id="Node000005" href="$classvixhealthsystem_1_1model_1_1person_1_1employee_1_1_secretary.html" title="Handles administrative tasks such as appointment scheduling, patient admissions and discharges." alt="" coords="453,421,703,800"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="672,385,658,423,654,420,669,389"/>
+<area shape="rect" id="Node000006" href="$classvixhealthsystem_1_1model_1_1person_1_1employee_1_1_staff_manager.html" title="Manages employee accounts in the system." alt="" coords="727,501,940,720"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="742,384,791,502,786,501,740,389"/>
+<area shape="rect" id="Node000007" href="$classvixhealthsystem_1_1model_1_1person_1_1employee_1_1_technician.html" title="Responsible for managing and maintaining medical machinery." alt="" coords="965,531,1156,691"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="821,339,891,373,924,395,954,419,977,444,998,472,1031,532,1026,530,994,475,973,448,951,423,921,399,888,378,821,344"/>
+<area shape="rect" id="Node000008" title=" " alt="" coords="1180,576,1274,645"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="822,317,921,334,1023,358,1111,386,1146,402,1170,419,1197,456,1215,497,1224,539,1228,578,1224,575,1219,540,1210,499,1193,458,1166,423,1143,407,1109,391,1021,363,920,340,823,322"/>
+<area shape="rect" id="Node000002" href="$classvixhealthsystem_1_1model_1_1person_1_1_person.html" title="Base class for all people in the system." alt="" coords="611,5,800,181"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="707,194,708,231,703,229,704,199"/>
+</map>

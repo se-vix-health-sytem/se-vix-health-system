@@ -17,11 +17,30 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * staff management, medical records, inventory tracking, and basic payment simulation.
  *
  * @section structure Project Structure
- * - @ref com.nvivx.vixhealthsystem.controllers "Controllers" - MVC controllers for all user roles.
- * - @ref com.nvivx.vixhealthsystem.model "Model" - JPA entities and the core domain logic.
- * - @ref com.nvivx.vixhealthsystem.service "Service" - Business logic, grouped by domain area.
- * - @ref com.nvivx.vixhealthsystem.repository "Repository" - Data access layer (JPA & JSON).
- * - @ref com.nvivx.vixhealthsystem.config "Config" - Spring Security and Firebase setup.
+ *
+ * \dot
+ * digraph ProjectStructure {
+ *   rankdir=LR;
+ *   bgcolor=transparent;
+ *   node [shape=box, style="filled,rounded", fontname="Helvetica", fontsize=11, margin="0.3,0.15"];
+ *   edge [color="#888888", arrowhead=open, arrowsize=0.8];
+ *
+ *   root [label="VIX Health System", fillcolor="#1e3a5f", fontcolor=white, penwidth=2];
+ *   ctrl [label="controllers\n(MVC — one per role)",      fillcolor="#1e5f3a", fontcolor=white];
+ *   model[label="model\n(JPA entities)",                  fillcolor="#1e3a5f", fontcolor="#a8d4ff"];
+ *   svc  [label="service\n(business logic)",              fillcolor="#3a1e5f", fontcolor=white];
+ *   repo [label="repository\n(data access)",              fillcolor="#5f3a1e", fontcolor=white];
+ *   cfg  [label="config\n(security & Firebase)",          fillcolor="#5f1e3a", fontcolor=white];
+ *   dto  [label="dto\n(request/response objects)",        fillcolor="#3a5f1e", fontcolor=white];
+ *
+ *   root -> ctrl;
+ *   root -> model;
+ *   root -> svc;
+ *   root -> repo;
+ *   root -> cfg;
+ *   root -> dto;
+ * }
+ * \enddot
  *
  * @section technologies Technologies Used
  * - **Backend:** Spring Boot (Java 17)

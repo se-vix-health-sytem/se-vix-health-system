@@ -1,0 +1,5 @@
+<map id="AppointmentConflictException" name="AppointmentConflictException">
+<area shape="rect" id="Node000001" title="Thrown when a new appointment overlaps with an existing one for the same specialist." alt="" coords="5,123,205,208"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="46,5,164,75"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="107,87,108,123,103,122,104,92"/>
+</map>

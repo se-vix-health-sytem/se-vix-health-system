@@ -1,0 +1,9 @@
+<map id="Room" name="Room">
+<area shape="rect" id="Node000001" title="Represents a generic room inside a medical facility." alt="" coords="206,5,354,96"/>
+<area shape="rect" id="Node000002" href="$classvixhealthsystem_1_1model_1_1facility_1_1_internation_room.html" title="Represents an inpatient room used for patient hospitalization." alt="" coords="5,144,181,389"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="226,109,195,146,183,160,179,156,191,142,229,105"/>
+<area shape="rect" id="Node000003" href="$classvixhealthsystem_1_1model_1_1facility_1_1_office.html" title="Represents an office assigned to an employee." alt="" coords="205,195,355,339"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="281,109,283,196,277,194,279,113"/>
+<area shape="rect" id="Node000004" href="$classvixhealthsystem_1_1model_1_1facility_1_1_specialized_room.html" title="Represents a specialized room containing medical equipment." alt="" coords="379,195,579,339"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="332,104,369,142,417,195,412,195,365,146,331,110"/>
+</map>

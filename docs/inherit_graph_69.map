@@ -1,0 +1,15 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="Node000000" title=" " alt="" coords="5,132,134,159"/>
+<area shape="rect" id="Node000001" href="$classvixhealthsystem_1_1exception_1_1_appointment_conflict_exception.html" title="Thrown when a new appointment overlaps with an existing one for the same specialist." alt="" coords="183,5,380,32"/>
+<area shape="poly" id="edge24_Node000000_Node000001" title=" " alt="" coords="89,119,129,79,154,59,180,42,211,31,207,34,183,46,157,63,132,83,93,122"/>
+<area shape="rect" id="Node000002" href="$classvixhealthsystem_1_1exception_1_1_patient_not_found_exception.html" title="Thrown when a patient lookup by ID or fiscal code yields no result." alt="" coords="193,56,370,83"/>
+<area shape="poly" id="edge25_Node000000_Node000002" title=" " alt="" coords="110,123,181,92,222,82,217,85,183,97,112,127"/>
+<area shape="rect" id="Node000003" href="$classvixhealthsystem_1_1exception_1_1_resource_not_found_exception.html" title="Thrown when a hospital resource (supply, machinery, room) cannot be located." alt="" coords="186,107,378,133"/>
+<area shape="poly" id="edge26_Node000000_Node000003" title=" " alt="" coords="148,133,187,130,183,133,150,138"/>
+<area shape="rect" id="Node000004" href="$classvixhealthsystem_1_1exception_1_1_slot_not_available_exception.html" title="Thrown when a requested appointment time slot is already occupied." alt="" coords="194,157,370,184"/>
+<area shape="poly" id="edge27_Node000000_Node000004" title=" " alt="" coords="149,152,196,159,191,161,150,157"/>
+<area shape="rect" id="Node000005" href="$classvixhealthsystem_1_1exception_1_1_unauthorized_access_exception.html" title="Thrown when a user attempts an action they are not authorised to perform." alt="" coords="182,208,382,235"/>
+<area shape="poly" id="edge28_Node000000_Node000005" title=" " alt="" coords="111,163,183,193,222,207,217,208,181,199,111,168"/>
+<area shape="rect" id="Node000006" href="$classvixhealthsystem_1_1exception_1_1_vacation_not_found_exception.html" title="Thrown when a vacation request with a given identifier cannot be found." alt="" coords="189,259,375,285"/>
+<area shape="poly" id="edge29_Node000000_Node000006" title=" " alt="" coords="92,168,132,208,157,228,183,244,211,258,206,258,180,249,154,232,129,212,91,173"/>
+</map>

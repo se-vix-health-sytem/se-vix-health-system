@@ -1,0 +1,7 @@
+<map id="MedicalSpecialist" name="MedicalSpecialist">
+<area shape="rect" id="Node000001" title="Represents medical personnel such as doctors, surgeons, specialists and nurses." alt="" coords="5,421,214,624"/>
+<area shape="rect" id="Node000002" href="$classvixhealthsystem_1_1model_1_1person_1_1employee_1_1_employee.html" title="Represents a generic employee in the system." alt="" coords="8,229,212,373"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="111,386,112,422,107,421,109,391"/>
+<area shape="rect" id="Node000003" href="$classvixhealthsystem_1_1model_1_1person_1_1_person.html" title="Base class for all people in the system." alt="" coords="15,5,204,181"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="110,194,112,230,107,230,109,199"/>
+</map>

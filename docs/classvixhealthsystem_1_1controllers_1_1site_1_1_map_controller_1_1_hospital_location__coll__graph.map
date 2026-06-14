@@ -1,0 +1,3 @@
+<map id="MapController.HospitalLocation" name="MapController.HospitalLocation">
+<area shape="rect" id="Node000001" title="Lightweight value object for a single hospital/clinic location." alt="" coords="5,5,198,75"/>
+</map>

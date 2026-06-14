@@ -1,0 +1,26 @@
+var classvixhealthsystem_1_1service_1_1core_1_1_employee_service =
+[
+    [ "EmployeeService", "classvixhealthsystem_1_1service_1_1core_1_1_employee_service.html#a4c90b9f1cf73ba21c5db21f753abcd91", null ],
+    [ "findAllDepartments", "classvixhealthsystem_1_1service_1_1core_1_1_employee_service.html#a279ece47bada94d56217d6d7adf0bc90", null ],
+    [ "findDepartmentById", "classvixhealthsystem_1_1service_1_1core_1_1_employee_service.html#a30ad03c48df9ac54c3769782fb6d3237", null ],
+    [ "findById", "classvixhealthsystem_1_1service_1_1core_1_1_employee_service.html#a6525989cb5f0c20ffee7e325026bc3fc", null ],
+    [ "findByIdOptional", "classvixhealthsystem_1_1service_1_1core_1_1_employee_service.html#aeed2ef8d778f1f1af9f07e8e51ccef17", null ],
+    [ "findAllEmployees", "classvixhealthsystem_1_1service_1_1core_1_1_employee_service.html#acf06c33552808cc9dff74c883ba11f6b", null ],
+    [ "findByEmail", "classvixhealthsystem_1_1service_1_1core_1_1_employee_service.html#a5a00944b54d6b231e16e9eefb6ced796", null ],
+    [ "findByFirebaseUid", "classvixhealthsystem_1_1service_1_1core_1_1_employee_service.html#a96b4f13d6ef3b0e5848ec07125492c0e", null ],
+    [ "findBySurname", "classvixhealthsystem_1_1service_1_1core_1_1_employee_service.html#a07511b995283d74ef6626d740d5a567e", null ],
+    [ "findByDepartmentId", "classvixhealthsystem_1_1service_1_1core_1_1_employee_service.html#af48ad1ca299ae429898807c5406ab5ee", null ],
+    [ "findByRole", "classvixhealthsystem_1_1service_1_1core_1_1_employee_service.html#a247d1439cdd879fb6a76dc909602fa46", null ],
+    [ "findAllMedicalSpecialists", "classvixhealthsystem_1_1service_1_1core_1_1_employee_service.html#a57517d634fba2a96d67674cbfc232226", null ],
+    [ "findAllSecretaries", "classvixhealthsystem_1_1service_1_1core_1_1_employee_service.html#a2d2ea78504286944f94797c569626cc6", null ],
+    [ "findAllTechnicians", "classvixhealthsystem_1_1service_1_1core_1_1_employee_service.html#ab4bcc09abece7eaae5fb8c7347046298", null ],
+    [ "findAllBuyers", "classvixhealthsystem_1_1service_1_1core_1_1_employee_service.html#a579394c01bf58aae0b90499b7dced37e", null ],
+    [ "findAllStaffManagers", "classvixhealthsystem_1_1service_1_1core_1_1_employee_service.html#a08c999d41f0188084a0314e46c6ff1ce", null ],
+    [ "getTotalEmployeeCount", "classvixhealthsystem_1_1service_1_1core_1_1_employee_service.html#ae9f57b35867f6da151122edc0242245b", null ],
+    [ "getActiveEmployeeCount", "classvixhealthsystem_1_1service_1_1core_1_1_employee_service.html#a8bd5251d2b4153b7c1d4a3a822c82144", null ],
+    [ "createEmployee", "classvixhealthsystem_1_1service_1_1core_1_1_employee_service.html#af036571e567b1ea10fa7550e3b7e5fc1", null ],
+    [ "updateEmployee", "classvixhealthsystem_1_1service_1_1core_1_1_employee_service.html#a475b356a265c5e140474f28d23a9a96f", null ],
+    [ "requestEmployeePasswordReset", "classvixhealthsystem_1_1service_1_1core_1_1_employee_service.html#a7b06b8e078335ac8c130a7255f1dc0bf", null ],
+    [ "changeDepartment", "classvixhealthsystem_1_1service_1_1core_1_1_employee_service.html#a1f5d8fe5cb7365e3928ad5e1110118d0", null ],
+    [ "deleteEmployee", "classvixhealthsystem_1_1service_1_1core_1_1_employee_service.html#a711cd370b708e2fa9198948dbf033f95", null ]
+];

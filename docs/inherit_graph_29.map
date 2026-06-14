@@ -1,0 +1,27 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="Node000000" title=" " alt="" coords="5,284,111,311"/>
+<area shape="rect" id="Node000001" href="$interfacevixhealthsystem_1_1repository_1_1_department_repository.html" title="JPA repository for Department entities." alt="" coords="175,5,327,32"/>
+<area shape="poly" id="edge1_Node000000_Node000001" title=" " alt="" coords="60,268,68,219,86,158,114,96,134,67,157,42,177,30,174,35,160,46,138,70,119,98,91,160,74,220,65,269"/>
+<area shape="rect" id="Node000002" href="$interfacevixhealthsystem_1_1repository_1_1_employee_repository.html" title="JPA repository for Employee entities." alt="" coords="180,56,322,83"/>
+<area shape="poly" id="edge2_Node000000_Node000002" title=" " alt="" coords="63,268,74,229,93,181,120,134,157,93,181,80,177,85,160,97,124,137,98,184,79,230,68,270"/>
+<area shape="rect" id="Node000003" href="$interfacevixhealthsystem_1_1repository_1_1_machinery_repository.html" title="JPA repository for Machinery entities." alt="" coords="179,107,323,133"/>
+<area shape="poly" id="edge3_Node000000_Node000003" title=" " alt="" coords="68,269,101,205,126,172,157,143,181,132,177,136,160,147,130,175,106,208,73,271"/>
+<area shape="rect" id="Node000004" href="$interfacevixhealthsystem_1_1repository_1_1_medical_condition_repository.html" title="JPA repository for MedicalCondition entities." alt="" coords="159,157,343,184"/>
+<area shape="poly" id="edge4_Node000000_Node000004" title=" " alt="" coords="75,271,111,231,157,194,186,183,182,187,160,198,114,235,80,273"/>
+<area shape="rect" id="Node000005" href="$interfacevixhealthsystem_1_1repository_1_1_medical_facility_repository.html" title="JPA repository for MedicalFacility entities." alt="" coords="165,208,336,235"/>
+<area shape="poly" id="edge5_Node000000_Node000005" title=" " alt="" coords="94,274,158,244,195,233,191,237,160,249,98,278"/>
+<area shape="rect" id="Node000006" href="$interfacevixhealthsystem_1_1repository_1_1_medical_record_repository.html" title="JPA repository for MedicalRecord entities." alt="" coords="165,259,336,285"/>
+<area shape="poly" id="edge6_Node000000_Node000006" title=" " alt="" coords="125,286,167,282,163,285,128,291"/>
+<area shape="rect" id="Node000007" href="$interfacevixhealthsystem_1_1repository_1_1_patient_repository.html" title="JPA repository for Patient entities." alt="" coords="188,309,314,336"/>
+<area shape="poly" id="edge7_Node000000_Node000007" title=" " alt="" coords="125,304,190,313,186,316,127,309"/>
+<area shape="rect" id="Node000008" href="$interfacevixhealthsystem_1_1repository_1_1_prescription_repository.html" title="JPA repository for Prescription entities." alt="" coords="174,360,328,387"/>
+<area shape="poly" id="edge8_Node000000_Node000008" title=" " alt="" coords="96,316,160,346,195,358,190,360,158,350,97,321"/>
+<area shape="rect" id="Node000009" href="$interfacevixhealthsystem_1_1repository_1_1_resource_repository.html" title="JPA repository for Resource entities (medical supplies and consumables)." alt="" coords="181,411,321,437"/>
+<area shape="poly" id="edge9_Node000000_Node000009" title=" " alt="" coords="78,320,114,360,160,396,186,409,181,411,157,401,111,364,78,325"/>
+<area shape="rect" id="Node000010" href="$interfacevixhealthsystem_1_1repository_1_1_room_repository.html" title="JPA repository for Room entities." alt="" coords="191,461,310,488"/>
+<area shape="poly" id="edge10_Node000000_Node000010" title=" " alt="" coords="70,322,106,387,130,419,160,447,194,464,188,466,157,452,126,423,101,389,70,328"/>
+<area shape="rect" id="Node000011" href="$interfacevixhealthsystem_1_1repository_1_1_storage_repository.html" title="JPA repository for Storage entities." alt="" coords="186,512,316,539"/>
+<area shape="poly" id="edge11_Node000000_Node000011" title=" " alt="" coords="66,323,79,364,98,411,124,458,160,498,188,515,183,515,157,502,120,461,93,413,74,366,65,328"/>
+<area shape="rect" id="Node000012" href="$interfacevixhealthsystem_1_1repository_1_1_surgery_repository.html" title="JPA repository for Surgery entities." alt="" coords="186,563,316,589"/>
+<area shape="poly" id="edge12_Node000000_Node000012" title=" " alt="" coords="63,324,74,375,91,435,119,496,138,524,160,549,188,566,183,566,157,553,134,527,114,499,86,437,68,376,62,329"/>
+</map>

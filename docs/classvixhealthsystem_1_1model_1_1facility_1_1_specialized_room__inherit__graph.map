@@ -1,0 +1,5 @@
+<map id="SpecializedRoom" name="SpecializedRoom">
+<area shape="rect" id="Node000001" title="Represents a specialized room containing medical equipment." alt="" coords="5,144,205,288"/>
+<area shape="rect" id="Node000002" href="$classvixhealthsystem_1_1model_1_1facility_1_1_room.html" title="Represents a generic room inside a medical facility." alt="" coords="31,5,179,96"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="106,108,108,145,103,144,104,113"/>
+</map>

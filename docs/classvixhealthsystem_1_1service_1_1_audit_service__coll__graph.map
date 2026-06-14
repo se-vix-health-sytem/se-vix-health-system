@@ -1,0 +1,3 @@
+<map id="AuditService" name="AuditService">
+<area shape="rect" id="Node000001" title="Writes immutable audit log entries for every significant action in the system (NFR02)." alt="" coords="5,5,213,203"/>
+</map>
