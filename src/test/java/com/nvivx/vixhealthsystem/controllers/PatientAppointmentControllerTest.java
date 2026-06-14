@@ -22,27 +22,41 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 /**
- * @brief Unit tests for PatientAppointmentController using Spring MVC MockMvc and Mockito mocks.
- * Covers appointment listing for logged-in and guest patients, the booking form, and
- * the cancel-appointment redirect when the appointment is not found.
+ * @class PatientAppointmentControllerTest
+ * @brief Unit tests for PatientAppointmentController (patient booking module).
+ *
+ * These tests verify appointment-related workflows for patients, including:
+ * - Viewing appointments (logged in / not logged in)
+ * - Displaying booking form
+ * - Cancelling appointments
+ *
+ * The controller is tested using standalone MockMvc with mocked dependencies.
  */
 @ExtendWith(MockitoExtension.class)
 class PatientAppointmentControllerTest {
 
+    /// MockMvc instance used to simulate HTTP requests to the controller.
     private MockMvc mockMvc;
 
+    /// Mocked appointment repository.
     @Mock
     private JsonAppointmentRepository appointmentRepository;
 
+    /// Mocked patient service for patient-related operations.
     @Mock
     private PatientService patientService;
 
+    /// Mocked employee service for retrieving specialists.
     @Mock
     private EmployeeService employeeService;
 
+    /// Controller under test with injected mocked dependencies.
     @InjectMocks
     private PatientAppointmentController controller;
 
+    /**
+     * @brief Initializes MockMvc before each test.
+     */
     @BeforeEach
     void setUp() {
         mockMvc = MockMvcBuilders
@@ -50,6 +64,9 @@ class PatientAppointmentControllerTest {
                 .build();
     }
 
+    /**
+     * @brief Creates a mock patient for session simulation.
+     */
     private Patient mockPatient() {
         Patient p = new Patient();
         p.setId(1L);
@@ -58,6 +75,18 @@ class PatientAppointmentControllerTest {
         return p;
     }
 
+    // =========================================================
+    // VIEW APPOINTMENTS
+    // =========================================================
+
+    /**
+     * @brief Verifies appointment page for logged-in patient.
+     *
+     * Ensures:
+     * - Appointments page loads successfully
+     * - Model contains upcoming and past appointments
+     * - Patient data is included in model
+     */
     @Test
     void testViewAppointments_loggedIn() throws Exception {
 
@@ -74,6 +103,9 @@ class PatientAppointmentControllerTest {
                 .andExpect(model().attributeExists("patient"));
     }
 
+    /**
+     * @brief Verifies redirect when patient is not logged in.
+     */
     @Test
     void testViewAppointments_notLoggedIn() throws Exception {
 
@@ -82,6 +114,17 @@ class PatientAppointmentControllerTest {
                 .andExpect(redirectedUrl("/patient/login"));
     }
 
+    // =========================================================
+    // BOOKING FORM
+    // =========================================================
+
+    /**
+     * @brief Verifies that booking form is displayed correctly.
+     *
+     * Ensures:
+     * - Specialists list is loaded
+     * - Patient data is present in model
+     */
     @Test
     void testShowBookingForm() throws Exception {
 
@@ -98,6 +141,17 @@ class PatientAppointmentControllerTest {
                 .andExpect(model().attributeExists("patient"));
     }
 
+    // =========================================================
+    // CANCEL APPOINTMENT
+    // =========================================================
+
+    /**
+     * @brief Verifies cancel appointment flow when appointment is not found.
+     *
+     * Ensures:
+     * - Request is handled gracefully
+     * - User is redirected back to appointments page
+     */
     @Test
     void testCancelAppointment_notFound() throws Exception {
 
