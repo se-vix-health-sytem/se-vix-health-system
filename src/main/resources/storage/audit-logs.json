@@ -790,4 +790,228 @@
   "username" : "alessia.moretti@vixhealth.com",
   "details" : "Created employee: Elena Smith (Type: MedicalSpecialist)",
   "timestamp" : "2026-06-15T20:36:20.297384"
+}, {
+  "id" : 100,
+  "action" : "PATIENT_LOGIN",
+  "entityType" : "Patient",
+  "entityId" : "1",
+  "username" : "RSSMRA80A01F205X",
+  "details" : "Patient RSSMRA80A01F205X logged in",
+  "timestamp" : "2026-06-15T20:42:21.040954"
+}, {
+  "id" : 101,
+  "action" : "PROCESS_PAYMENT",
+  "entityType" : "Appointment",
+  "entityId" : "-1032565877",
+  "username" : "RSSMRA80A01F205X",
+  "details" : "Payment of €85.00 processed. Transaction: TXN-EC9CD78E",
+  "timestamp" : "2026-06-15T20:43:02.0252539"
+}, {
+  "id" : 102,
+  "action" : "PATIENT_LOGOUT",
+  "entityType" : "Patient",
+  "entityId" : "1",
+  "username" : "RSSMRA80A01F205X",
+  "details" : "Patient RSSMRA80A01F205X logged out",
+  "timestamp" : "2026-06-15T20:44:15.442819"
+}, {
+  "id" : 103,
+  "action" : "PATIENT_LOGIN",
+  "entityType" : "Patient",
+  "entityId" : "2",
+  "username" : "BNCLRA92B41L219Y",
+  "details" : "Patient BNCLRA92B41L219Y logged in",
+  "timestamp" : "2026-06-15T20:44:24.2579514"
+}, {
+  "id" : 104,
+  "action" : "BOOK_APPOINTMENT",
+  "entityType" : "Appointment",
+  "entityId" : "8",
+  "username" : "BNCLRA92B41L219Y",
+  "details" : "Patient BNCLRA92B41L219Y booked appointment with Dr. Elena Bianchi on 17/06/2026 09:00",
+  "timestamp" : "2026-06-15T20:46:38.2583491"
+}, {
+  "id" : 105,
+  "action" : "PATIENT_LOGOUT",
+  "entityType" : "Patient",
+  "entityId" : "2",
+  "username" : "BNCLRA92B41L219Y",
+  "details" : "Patient BNCLRA92B41L219Y logged out",
+  "timestamp" : "2026-06-15T20:52:28.7762807"
+}, {
+  "id" : 106,
+  "action" : "PATIENT_LOGIN",
+  "entityType" : "Patient",
+  "entityId" : "1",
+  "username" : "RSSMRA80A01F205X",
+  "details" : "Patient RSSMRA80A01F205X logged in",
+  "timestamp" : "2026-06-15T20:56:36.918894"
+}, {
+  "id" : 107,
+  "action" : "BOOK_APPOINTMENT",
+  "entityType" : "Appointment",
+  "entityId" : "9",
+  "username" : "RSSMRA80A01F205X",
+  "details" : "Patient RSSMRA80A01F205X booked appointment with Dr. Marco Rossi on 17/06/2026 11:00",
+  "timestamp" : "2026-06-15T20:58:47.3737469"
+}, {
+  "id" : 108,
+  "action" : "RESCHEDULE_APPOINTMENT",
+  "entityType" : "Appointment",
+  "entityId" : "-1032565877",
+  "username" : "RSSMRA80A01F205X",
+  "details" : "Patient RSSMRA80A01F205X rescheduled appointment from 16/06/2026 11:00 to 28/06/2026 13:00",
+  "timestamp" : "2026-06-15T20:59:55.2716271"
+}, {
+  "id" : 109,
+  "action" : "PATIENT_LOGOUT",
+  "entityType" : "Patient",
+  "entityId" : "1",
+  "username" : "RSSMRA80A01F205X",
+  "details" : "Patient RSSMRA80A01F205X logged out",
+  "timestamp" : "2026-06-15T21:01:07.0416633"
+}, {
+  "id" : 110,
+  "action" : "PATIENT_LOGIN",
+  "entityType" : "Patient",
+  "entityId" : "1",
+  "username" : "RSSMRA80A01F205X",
+  "details" : "Patient RSSMRA80A01F205X logged in",
+  "timestamp" : "2026-06-15T22:42:45.7003748"
+}, {
+  "id" : 111,
+  "action" : "PROCESS_PAYMENT",
+  "entityType" : "Appointment",
+  "entityId" : "-1032611322",
+  "username" : "RSSMRA80A01F205X",
+  "details" : "Payment of €85.00 processed. Transaction: TXN-B00C6A56",
+  "timestamp" : "2026-06-15T22:43:08.428241"
+}, {
+  "id" : 112,
+  "action" : "PATIENT_LOGIN",
+  "entityType" : "Patient",
+  "entityId" : "1",
+  "username" : "RSSMRA80A01F205X",
+  "details" : "Patient RSSMRA80A01F205X logged in",
+  "timestamp" : "2026-06-15T22:52:01.2313657"
+}, {
+  "id" : 113,
+  "action" : "BOOK_APPOINTMENT",
+  "entityType" : "Appointment",
+  "entityId" : "1",
+  "username" : "RSSMRA80A01F205X",
+  "details" : "Patient RSSMRA80A01F205X booked appointment with Dr. Elena Bianchi on 26/06/2026 09:00",
+  "timestamp" : "2026-06-15T22:52:14.4225149"
+}, {
+  "id" : 114,
+  "action" : "PROCESS_PAYMENT",
+  "entityType" : "Appointment",
+  "entityId" : "1",
+  "username" : "RSSMRA80A01F205X",
+  "details" : "Payment of €85.00 processed. Transaction: TXN-42424115",
+  "timestamp" : "2026-06-15T22:52:25.7810825"
+}, {
+  "id" : 115,
+  "action" : "CANCEL_APPOINTMENT",
+  "entityType" : "Appointment",
+  "entityId" : "1",
+  "username" : "RSSMRA80A01F205X",
+  "details" : "Patient RSSMRA80A01F205X cancelled their appointment",
+  "timestamp" : "2026-06-15T22:52:41.9557677"
+}, {
+  "id" : 116,
+  "action" : "PATIENT_LOGOUT",
+  "entityType" : "Patient",
+  "entityId" : "1",
+  "username" : "RSSMRA80A01F205X",
+  "details" : "Patient RSSMRA80A01F205X logged out",
+  "timestamp" : "2026-06-15T22:54:21.9801138"
+}, {
+  "id" : 117,
+  "action" : "DISMISS_PATIENT",
+  "entityType" : "Patient",
+  "entityId" : "3",
+  "username" : "sara.conti@vixhealth.com",
+  "details" : "Patient dismissed from room: H-101",
+  "timestamp" : "2026-06-15T22:54:50.729202"
+}, {
+  "id" : 118,
+  "action" : "TRANSFER_PATIENT",
+  "entityType" : "Patient",
+  "entityId" : "3",
+  "username" : "sara.conti@vixhealth.com",
+  "details" : "Patient #3 transferred from room #1 to room #2",
+  "timestamp" : "2026-06-15T22:54:50.7640563"
+}, {
+  "id" : 119,
+  "action" : "ADMIT_PATIENT",
+  "entityType" : "Patient",
+  "entityId" : "3",
+  "username" : "sara.conti@vixhealth.com",
+  "details" : "Patient admitted to room: H-102",
+  "timestamp" : "2026-06-15T22:54:50.7703161"
+}, {
+  "id" : 120,
+  "action" : "ADMIT_PATIENT",
+  "entityType" : "Patient",
+  "entityId" : "3",
+  "username" : "sara.conti@vixhealth.com",
+  "details" : "Secretary admitted patient #3 to room #2",
+  "timestamp" : "2026-06-15T22:54:50.7753488"
+}, {
+  "id" : 121,
+  "action" : "PATIENT_LOGIN",
+  "entityType" : "Patient",
+  "entityId" : "1",
+  "username" : "RSSMRA80A01F205X",
+  "details" : "Patient RSSMRA80A01F205X logged in",
+  "timestamp" : "2026-06-15T23:03:38.9420537"
+}, {
+  "id" : 122,
+  "action" : "BOOK_APPOINTMENT",
+  "entityType" : "Appointment",
+  "entityId" : "2",
+  "username" : "RSSMRA80A01F205X",
+  "details" : "Patient RSSMRA80A01F205X booked appointment with Dr. Luca Verdi on 24/06/2026 14:00",
+  "timestamp" : "2026-06-15T23:03:56.0614705"
+}, {
+  "id" : 123,
+  "action" : "PROCESS_PAYMENT",
+  "entityType" : "Appointment",
+  "entityId" : "2",
+  "username" : "RSSMRA80A01F205X",
+  "details" : "Payment of €85.00 processed. Transaction: TXN-11C78151",
+  "timestamp" : "2026-06-15T23:04:05.6123423"
+}, {
+  "id" : 124,
+  "action" : "RESCHEDULE_APPOINTMENT",
+  "entityType" : "Appointment",
+  "entityId" : "2",
+  "username" : "RSSMRA80A01F205X",
+  "details" : "Patient RSSMRA80A01F205X rescheduled appointment from 24/06/2026 14:00 to 26/06/2026 23:10",
+  "timestamp" : "2026-06-15T23:04:20.9527964"
+}, {
+  "id" : 125,
+  "action" : "BOOK_APPOINTMENT",
+  "entityType" : "Appointment",
+  "entityId" : "3",
+  "username" : "RSSMRA80A01F205X",
+  "details" : "Patient RSSMRA80A01F205X booked appointment with Dr. Sofia Esposito on 29/06/2026 15:00",
+  "timestamp" : "2026-06-15T23:04:36.585131"
+}, {
+  "id" : 126,
+  "action" : "RESCHEDULE_APPOINTMENT",
+  "entityType" : "Appointment",
+  "entityId" : "3",
+  "username" : "RSSMRA80A01F205X",
+  "details" : "Patient RSSMRA80A01F205X rescheduled appointment from 29/06/2026 15:00 to 30/06/2026 16:10",
+  "timestamp" : "2026-06-15T23:04:55.681506"
+}, {
+  "id" : 127,
+  "action" : "PROCESS_PAYMENT",
+  "entityType" : "Appointment",
+  "entityId" : "3",
+  "username" : "RSSMRA80A01F205X",
+  "details" : "Payment of €85.00 processed. Transaction: TXN-B1447A04",
+  "timestamp" : "2026-06-15T23:05:10.6717943"
 } ]

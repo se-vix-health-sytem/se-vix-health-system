@@ -7,6 +7,7 @@ import com.nvivx.vixhealthsystem.model.enums.Role;
 import com.nvivx.vixhealthsystem.model.facility.Department;
 import com.nvivx.vixhealthsystem.model.person.Person;
 import com.nvivx.vixhealthsystem.model.resource.Resource;
+import com.nvivx.vixhealthsystem.model.resource.Storage;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -181,14 +182,49 @@ public abstract class Employee extends Person {
      * @throws IllegalStateException if department, facility or storage is not set
      * @throws Exception if the storage has insufficient stock
      */
-    public void takeResource(Resource r, int q) throws Exception {
-        if (getDepartment() == null
-                || getDepartment().getMedicalFacility() == null
-                || getDepartment().getMedicalFacility().getStorage() == null) {
-            throw new IllegalStateException(
-                    "Employee has no department/facility/storage assigned"
-            );
+    /**
+     * Returns whether this employee has a facility storage they can draw from.
+     *
+     * @return {@code true} when department, facility, and storage are all set.
+     */
+    public boolean hasFacilityStorage() {
+        return getDepartment() != null
+                && getDepartment().getMedicalFacility() != null
+                && getDepartment().getMedicalFacility().getStorage() != null;
+    }
+
+    /**
+     * Returns the storage unit belonging to this employee's facility.
+     *
+     * @return the facility's {@link Storage}
+     * @throws IllegalStateException if department, facility, or storage is not set
+     */
+    public Storage getFacilityStorage() {
+        if (!hasFacilityStorage()) {
+            throw new IllegalStateException("Employee has no department/facility/storage assigned");
         }
-        getDepartment().getMedicalFacility().getStorage().removeResource(r, q);
+        return getDepartment().getMedicalFacility().getStorage();
+    }
+
+    /**
+     * Returns the name of the medical facility this employee belongs to.
+     *
+     * @return facility name, or {@code null} if no facility is assigned
+     */
+    public String getFacilityName() {
+        if (getDepartment() == null || getDepartment().getMedicalFacility() == null) return null;
+        return getDepartment().getMedicalFacility().getName();
+    }
+
+    /**
+     * Withdraws a quantity of a resource from this employee's facility storage.
+     *
+     * @param r the resource to take
+     * @param q the quantity to take
+     * @throws IllegalStateException if department, facility or storage is not set
+     * @throws Exception if the storage has insufficient stock
+     */
+    public void takeResource(Resource r, int q) throws Exception {
+        getFacilityStorage().removeResource(r, q);
     }
 }

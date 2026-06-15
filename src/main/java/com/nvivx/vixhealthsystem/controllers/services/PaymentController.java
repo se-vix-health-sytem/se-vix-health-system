@@ -152,8 +152,7 @@ public class PaymentController {
 
         if ("SUCCESS".equals(response.getStatus())) {
             // Update appointment payment status and confirm it
-            appointment.setPaymentStatus(true);
-            appointment.setStatus("CONFIRMED");
+            appointment.pay();
             appointmentRepository.save(appointment);
 
             redirectAttributes.addFlashAttribute("message",

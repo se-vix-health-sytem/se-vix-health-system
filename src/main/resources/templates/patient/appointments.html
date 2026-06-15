@@ -62,7 +62,7 @@
                                     <span class="badge" th:classappend="'badge-status-' + ${apt.status?.toLowerCase()}" th:text="${apt.status}">CONFIRMED</span>
                                 </div>
                                 <div class="col-md-4 text-end">
-                                    <div th:if="${!apt.paid}" class="mb-2">
+                                    <div th:if="${!apt.paid and apt.status != 'CANCELLED'}" class="mb-2">
                                         <a th:href="@{/payment/appointment/{id}(id=${apt.id})}" class="btn btn-sm btn-warning">
                                             <i class="bi bi-credit-card me-1"></i> Pay €85.00
                                         </a>

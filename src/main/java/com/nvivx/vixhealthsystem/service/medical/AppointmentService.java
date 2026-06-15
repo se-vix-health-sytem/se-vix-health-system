@@ -104,14 +104,10 @@ public class AppointmentService {
 
         // Domain: secretary creates appointment for patient via model methods
         Appointment appt = secretary.makeAppointmentForPatient(patient, specialist, dt);
-        appt.setId((int) System.currentTimeMillis());
         appt.setDuration(duration);
         appt.setNotes(notes);
-        appt.setStatus("PENDING");
-        appt.setPaymentStatus(false);
 
-        all.add(appt);
-        repo.saveAll(all);
+        repo.save(appt);
 
         return appt;
     }

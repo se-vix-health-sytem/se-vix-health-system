@@ -218,6 +218,20 @@ public class InventoryService {
     }
 
     /**
+     * Returns the stock quantities held in a single storage facility.
+     *
+     * Used when an employee can only draw from their own facility's storage.
+     *
+     * @param storageId  Primary key of the {@link Storage} to query.
+     * @return           Map of {@link Resource} to quantity in that storage; empty when not found.
+     */
+    public Map<Resource, Integer> getInventoryForStorage(Long storageId) {
+        return storageRepository.findById(storageId)
+                .map(Storage::getResources)
+                .orElse(java.util.Collections.emptyMap());
+    }
+
+    /**
      * Aggregates stock quantities across all storage facilities (FR7.2).
      *
      * Iterates all {@link Storage} entities and merges their resource maps by summing

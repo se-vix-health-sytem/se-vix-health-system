@@ -219,8 +219,6 @@ public class PatientAppointmentController {
             appointment.setId(0); // let the repository assign a sequential ID
             appointment.setDuration(30);
             appointment.setNotes("Booked via patient portal");
-            appointment.setPaymentStatus(false);
-            appointment.setStatus("CONFIRMED");
 
             Appointment saved = appointmentRepository.save(appointment);
             auditService.log("BOOK_APPOINTMENT", "Appointment", String.valueOf(saved.getId()),
@@ -371,6 +369,12 @@ public class PatientAppointmentController {
      * @return              {@code true} if no conflicting appointment exists.
      */
     private boolean isSlotAvailable(Long specialistId, LocalDateTime dateTime) {
+        int dayOfWeek = dateTime.getDayOfWeek().getValue();
+        int hour = dateTime.getHour();
+        boolean withinHours = (dayOfWeek >= 1 && dayOfWeek <= 5 && hour >= 8 && hour < 20)
+                           || (dayOfWeek == 6 && hour >= 8 && hour < 14);
+        if (!withinHours) return false;
+
         try {
             return appointmentRepository.findAll().stream()
                     .filter(a -> a.getMedicalSpecialist() != null &&
@@ -378,7 +382,7 @@ public class PatientAppointmentController {
                     .filter(a -> !"CANCELLED".equals(a.getStatus()))
                     .noneMatch(a -> a.getDateTime().equals(dateTime));
         } catch (Exception e) {
-            return true; // assume available if we can't read existing appointments
+            return true;
         }
     }
 
@@ -409,37 +413,42 @@ public class PatientAppointmentController {
 
         LocalDateTime now = LocalDateTime.now();
         LocalDateTime endDate = now.plusDays(14);
-        LocalDateTime current = now.withHour(9).withMinute(0).withSecond(0).withNano(0);
+        LocalDateTime current = now.withHour(8).withMinute(0).withSecond(0).withNano(0);
 
-        // If current time is past 9am, start from next hour
-        if (now.getHour() >= 17) {
-            current = current.plusDays(1).withHour(9);
-        } else if (now.getHour() >= 9) {
+        if (now.getHour() >= 8) {
             current = current.withHour(now.getHour() + 1);
         }
 
         while (current.isBefore(endDate)) {
-            // Only weekdays (Monday=1 to Friday=5)
-            int dayOfWeek = current.getDayOfWeek().getValue();
-            if (dayOfWeek >= 1 && dayOfWeek <= 5) {
-                // Working hours 9am to 5pm
-                if (current.getHour() >= 9 && current.getHour() < 17) {
-                    final LocalDateTime slotToCheck = current;
-                    boolean isBooked = existingAppointments.stream()
-                            .anyMatch(a -> a.getDateTime().equals(slotToCheck));
+            int dayOfWeek = current.getDayOfWeek().getValue(); // Mon=1 … Sun=7
+            int hour = current.getHour();
 
-                    if (!isBooked) {
-                        availableSlots.add(current);
-                    }
+            boolean withinHours = (dayOfWeek >= 1 && dayOfWeek <= 5 && hour >= 8 && hour < 20)
+                               || (dayOfWeek == 6 && hour >= 8 && hour < 14);
+
+            if (withinHours) {
+                final LocalDateTime slotToCheck = current;
+                boolean isBooked = existingAppointments.stream()
+                        .anyMatch(a -> a.getDateTime().equals(slotToCheck));
+                if (!isBooked) {
+                    availableSlots.add(current);
                 }
             }
 
-            // Move to next hour
             current = current.plusHours(1);
 
-            // If we've passed 5pm, move to next day 9am
-            if (current.getHour() >= 17) {
-                current = current.plusDays(1).withHour(9);
+            // Skip to 08:00 next day when past closing time
+            int nextHour = current.getHour();
+            int nextDay = current.getDayOfWeek().getValue();
+            boolean pastClosing = (nextDay >= 1 && nextDay <= 5 && nextHour >= 20)
+                                || (nextDay == 6 && nextHour >= 14)
+                                || nextDay == 7;
+            if (pastClosing) {
+                current = current.plusDays(1).withHour(8).withMinute(0).withSecond(0).withNano(0);
+                // If that next day is Sunday, skip to Monday
+                if (current.getDayOfWeek().getValue() == 7) {
+                    current = current.plusDays(1);
+                }
             }
         }
 

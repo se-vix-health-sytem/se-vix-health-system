@@ -1,8 +1,6 @@
 package com.nvivx.vixhealthsystem.controllers.staff;
 
 import com.nvivx.vixhealthsystem.model.person.employee.Employee;
-import com.nvivx.vixhealthsystem.model.resource.Storage;
-import com.nvivx.vixhealthsystem.repository.StorageRepository;
 import com.nvivx.vixhealthsystem.service.core.EmployeeService;
 import com.nvivx.vixhealthsystem.service.resources.InventoryService;
 import com.nvivx.vixhealthsystem.service.resources.ResourceTakeLogStore;
@@ -12,7 +10,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.List;
 
 /**
  * @brief Resource self-service controller for any authenticated employee — base URL {@code /employee/resources}.
@@ -32,16 +29,13 @@ public class EmployeeResourceController {
 
     private final InventoryService inventoryService;
     private final EmployeeService employeeService;
-    private final StorageRepository storageRepository;
     private final ResourceTakeLogStore takeLogStore;
 
     public EmployeeResourceController(InventoryService inventoryService,
                                       EmployeeService employeeService,
-                                      StorageRepository storageRepository,
                                       ResourceTakeLogStore takeLogStore) {
         this.inventoryService = inventoryService;
         this.employeeService = employeeService;
-        this.storageRepository = storageRepository;
         this.takeLogStore = takeLogStore;
     }
 
@@ -60,23 +54,23 @@ public class EmployeeResourceController {
     public String viewResources(HttpSession session, Model model,
                                 RedirectAttributes redirectAttributes) {
         Employee sessionUser = (Employee) session.getAttribute("user");
-        if (!hasStorageAccess(sessionUser)) {
+        if (!sessionUser.hasFacilityStorage()) {
             redirectAttributes.addFlashAttribute("info",
                     "Your department does not have storage access. Resource management is not available for your role.");
             return resolveDashboard(session);
         }
 
-        List<Storage> storages = storageRepository.findAll();
-        var totalInventory = inventoryService.getTotalInventory();
+        var inventory = inventoryService.getInventoryForStorage(sessionUser.getFacilityStorage().getId());
+        String facilityName = sessionUser.getFacilityName();
 
-        var resourceList = totalInventory.entrySet().stream()
+        var resourceList = inventory.entrySet().stream()
                 .map(e -> new ResourceRow(e.getKey().getId(), e.getKey().getName(),
                         e.getKey().getDescription(), e.getValue(), e.getValue() < 50))
                 .sorted(java.util.Comparator.comparing(r -> r.name))
                 .toList();
 
         model.addAttribute("resources", resourceList);
-        model.addAttribute("storages", storages);
+        model.addAttribute("facilityName", facilityName);
         model.addAttribute("pageTitle", "Take Resources");
         model.addAttribute("currentPage", "resources");
         return "employee/take-resources";
@@ -110,7 +104,7 @@ public class EmployeeResourceController {
             redirectAttributes.addFlashAttribute("error", "Not authenticated.");
             return "redirect:/employee/resources";
         }
-        if (!hasStorageAccess(sessionUser)) {
+        if (!sessionUser.hasFacilityStorage()) {
             return resolveDashboard(session);
         }
         try {
@@ -148,17 +142,6 @@ public class EmployeeResourceController {
         model.addAttribute("pageTitle", "My Resource History");
         model.addAttribute("currentPage", "resources");
         return "employee/resource-history";
-    }
-
-    public static boolean hasStorageAccess(Employee employee) {
-        if (employee == null) return false;
-        try {
-            return employee.getDepartment() != null
-                    && employee.getDepartment().getMedicalFacility() != null
-                    && employee.getDepartment().getMedicalFacility().getStorage() != null;
-        } catch (Exception e) {
-            return false;
-        }
     }
 
     private String resolveDashboard(HttpSession session) {

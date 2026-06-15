@@ -56,7 +56,7 @@ public class Appointment {
     /**
      * Payment status of the appointment.
      */
-    private PaymentStatus paymentStatus;
+    private PaymentStatus paymentStatus = PaymentStatus.UNPAID;
 
     /**
      * Current lifecycle status of the appointment.
@@ -265,7 +265,9 @@ public class Appointment {
 
     /**
      * Returns whether the appointment has been paid (boolean convenience getter).
+     * Excluded from JSON serialization — paymentStatus field is the canonical form.
      */
+    @JsonIgnore
     public boolean isPaid() {
         return paymentStatus == PaymentStatus.PAID;
     }
@@ -277,15 +279,7 @@ public class Appointment {
         this.paymentStatus = paymentStatus;
     }
 
-    /**
-     * Sets the payment status from a boolean (backward-compatible: true → PAID, false → UNPAID).
-     */
-    @JsonIgnore
-    public void setPaymentStatus(boolean paid) {
-        this.paymentStatus = paid ? PaymentStatus.PAID : PaymentStatus.UNPAID;
-    }
-
-    /**
+/**
      * Returns the current lifecycle status as a String (backward-compatible for templates and controllers).
      */
     public String getStatus() {
@@ -368,5 +362,29 @@ public class Appointment {
         }
         this.dateTime = newDateTime;
         this.status = AppointmentStatus.RESCHEDULED;
+    }
+
+    /**
+     * Marks this appointment as pending payment after initial booking.
+     */
+    public void awaitPayment() {
+        this.status = AppointmentStatus.PENDING;
+        this.paymentStatus = PaymentStatus.UNPAID;
+    }
+
+    /**
+     * Records a successful payment and confirms the appointment.
+     *
+     * @throws IllegalStateException if the appointment is already paid or cancelled
+     */
+    public void pay() {
+        if (paymentStatus == PaymentStatus.PAID) {
+            throw new IllegalStateException("Appointment is already paid");
+        }
+        if (status == AppointmentStatus.CANCELLED) {
+            throw new IllegalStateException("Cannot pay for a cancelled appointment");
+        }
+        this.paymentStatus = PaymentStatus.PAID;
+        this.status = AppointmentStatus.CONFIRMED;
     }
 }

@@ -186,15 +186,40 @@ public class SecretaryController {
     @PostMapping("/patients/admit")
     public String admitPatient(@RequestParam Long patientId,
                                @RequestParam Long roomId,
+                               @RequestParam(required = false) Boolean confirmTransfer,
                                HttpSession session,
                                RedirectAttributes redirectAttributes) {
         try {
             Secretary secretary = getSecretaryFromSession(session);
+
+            // Check if the patient is already assigned to a room
+            InternationRoom currentRoom = roomService.findPatientRoom(patientId);
+
+            if (currentRoom != null && !Long.valueOf(currentRoom.getId()).equals(roomId)) {
+                if (!Boolean.TRUE.equals(confirmTransfer)) {
+                    // Ask for confirmation before transferring
+                    Patient patient = patientService.findById(patientId);
+                    Room targetRoom = roomService.findById(roomId);
+                    String targetNum = targetRoom.getNumber();
+                    redirectAttributes.addFlashAttribute("transferWarning",
+                            "Patient " + patient.getName() + " " + patient.getSurname()
+                            + " is currently assigned to Room " + currentRoom.getNumber()
+                            + ". Do you want to confirm transfer to Room " + targetNum + "?");
+                    redirectAttributes.addFlashAttribute("pendingPatientId", patientId);
+                    redirectAttributes.addFlashAttribute("pendingRoomId", roomId);
+                    return "redirect:/secretary/rooms";
+                }
+                // Confirmed — dismiss from current room first, then admit to new room
+                roomService.dismissPatient(secretary, patientId, currentRoom.getId());
+                auditService.log("TRANSFER_PATIENT", "Patient", String.valueOf(patientId),
+                    "Patient #" + patientId + " transferred from room #" + currentRoom.getId() + " to room #" + roomId);
+            }
+
             roomService.admitPatient(secretary, patientId, roomId);
             auditService.log("ADMIT_PATIENT", "Patient", String.valueOf(patientId),
                 "Secretary admitted patient #" + patientId + " to room #" + roomId);
             redirectAttributes.addFlashAttribute("message",
-                    "✅ Patient #" + patientId + " admitted successfully!");
+                    "✅ Patient admitted to Room " + roomId + " successfully!");
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("error", "❌ Admission failed: " + e.getMessage());
         }

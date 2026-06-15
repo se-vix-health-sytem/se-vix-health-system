@@ -192,6 +192,7 @@ public class Patient extends Person {
 
         appointment.setPatient(this);
         appointment.setMedicalSpecialist(m);
+        appointment.awaitPayment();
 
         appointments.add(appointment);
 

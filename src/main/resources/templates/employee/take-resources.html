@@ -3,18 +3,17 @@
 ==============================================================================
   FILE:    employee/take-resources.html
   ACCESS:  Any authenticated employee (session.user required)
-  PURPOSE: Form for an employee to record taking a resource from a storage
-           unit, with a table of currently available resources below.
+  PURPOSE: Form for an employee to record taking a resource from their
+           facility's storage, with a table of currently available resources.
 
   Model attributes:
-    - resources (List<Resource>) — available resources
-    - storages (List<Storage>) — available storage units
+    - resources (List<ResourceRow>) — resources in the employee's facility storage
+    - facilityName (String) — name of the employee's medical facility
     - message (String) — success flash
     - error (String) — error flash
 
   Dependencies:
     - fragments/head, fragments/dashboard-nav
-    - NOTE: footer fragment is missing from this template (pre-existing issue)
 ==============================================================================
 -->
 <html xmlns:th="http://www.thymeleaf.org">
@@ -47,27 +46,22 @@
 
         <!-- Take form -->
         <div class="card mb-4 shadow-sm border-0">
-            <div class="card-header">
+            <div class="card-header d-flex justify-content-between align-items-center">
                 <h5 class="mb-0"><i class="bi bi-box-arrow-up-right me-2"></i>Request a Resource</h5>
+                <span class="badge bg-secondary">
+                    <i class="bi bi-building me-1"></i>
+                    <span th:text="${facilityName}">Your Facility</span>
+                </span>
             </div>
             <div class="card-body">
                 <form th:action="@{/employee/resources/take}" method="post" class="row g-3">
-                    <div class="col-md-5">
+                    <div class="col-md-8">
                         <label class="form-label fw-semibold">Resource</label>
                         <select name="resourceId" class="form-select" required>
                             <option value="">Select resource…</option>
                             <option th:each="r : ${resources}"
                                     th:value="${r.id}"
                                     th:text="${r.name + (r.lowStock ? ' ⚠ LOW STOCK (' + r.quantity + ' left)' : ' (' + r.quantity + ' available)')}">-</option>
-                        </select>
-                    </div>
-                    <div class="col-md-3">
-                        <label class="form-label fw-semibold">Storage Facility</label>
-                        <select name="storageId" class="form-select" required>
-                            <option value="">Select storage…</option>
-                            <option th:each="s : ${storages}"
-                                    th:value="${s.id}"
-                                    th:text="${s.medicalFacility != null ? s.medicalFacility.name : 'Storage #' + s.id}">-</option>
                         </select>
                     </div>
                     <div class="col-md-2">

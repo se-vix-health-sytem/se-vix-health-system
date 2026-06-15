@@ -1,7 +1,6 @@
 package com.nvivx.vixhealthsystem.controllers.staff;
 
 import com.nvivx.vixhealthsystem.service.core.PatientService;
-import com.nvivx.vixhealthsystem.controllers.staff.EmployeeResourceController;
 import com.nvivx.vixhealthsystem.model.person.employee.Employee;
 import com.nvivx.vixhealthsystem.service.core.EmployeeService;
 import com.nvivx.vixhealthsystem.service.DevCredentialStore;
@@ -126,7 +125,7 @@ public class AuthController {
             String role = employee.getClass().getSimpleName().toUpperCase();
             session.setAttribute("user", employee);
             session.setAttribute("role", role);
-            session.setAttribute("canTakeResources", EmployeeResourceController.hasStorageAccess(employee));
+            session.setAttribute("canTakeResources", employee.hasFacilityStorage());
 
             // Register with Spring Security so route-level protection works
             SecurityContext ctx = SecurityContextHolder.createEmptyContext();
@@ -218,7 +217,7 @@ public class AuthController {
         if (demoUser != null) {
             session.setAttribute("user", demoUser);
             session.setAttribute("role", demoUser.getClass().getSimpleName().toUpperCase());
-            session.setAttribute("canTakeResources", EmployeeResourceController.hasStorageAccess(demoUser));
+            session.setAttribute("canTakeResources", demoUser.hasFacilityStorage());
         }
 
         return switch (role) {

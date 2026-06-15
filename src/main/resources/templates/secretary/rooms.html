@@ -39,6 +39,34 @@
         <div th:if="${message}" class="alert alert-success" th:text="${message}"></div>
         <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
 
+        <!-- Transfer confirmation modal — shown when patient is already in another room -->
+        <div th:if="${transferWarning != null}" class="modal d-block" tabindex="-1"
+             style="background: rgba(0,0,0,0.5);">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header" style="background: var(--vix-crimson); color: white;">
+                        <h5 class="modal-title"><i class="bi bi-exclamation-triangle me-2"></i>Patient Already Assigned</h5>
+                    </div>
+                    <div class="modal-body">
+                        <p th:text="${transferWarning}"></p>
+                    </div>
+                    <div class="modal-footer">
+                        <a th:href="@{/secretary/rooms}" class="btn btn-secondary">
+                            <i class="bi bi-x-circle me-1"></i> No, Keep Current Room
+                        </a>
+                        <form th:action="@{/secretary/patients/admit}" method="post" class="d-inline">
+                            <input type="hidden" name="patientId" th:value="${pendingPatientId}">
+                            <input type="hidden" name="roomId" th:value="${pendingRoomId}">
+                            <input type="hidden" name="confirmTransfer" value="true">
+                            <button type="submit" class="btn btn-warning">
+                                <i class="bi bi-arrow-left-right me-1"></i> Yes, Transfer Patient
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="row g-3">
             <div th:each="room : ${rooms}" class="col-md-6 col-lg-4">
                 <div class="card h-100">
