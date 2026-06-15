@@ -3,6 +3,11 @@
   "employeeId" : 3,
   "date" : "2026-06-14",
   "shiftType" : "NIGHT",
-  "notes" : "Assigned by Staff Manager",
-  "shiftTypeName" : "NIGHT"
+  "notes" : "Assigned by Staff Manager"
+}, {
+  "id" : 2,
+  "employeeId" : 100,
+  "date" : "2026-06-15",
+  "shiftType" : "MORNING",
+  "notes" : "Assigned by Staff Manager"
 } ]

@@ -169,9 +169,15 @@ public class InventoryService {
     public void deleteResource(Long id) {
         Resource resource = getResourceById(id);
 
-        // Check if resource is used in any storage
-        // This would require checking StorageResources table
-        // For now, we'll just delete and log
+        boolean usedInStorage = storageRepository.findAll().stream()
+                .anyMatch(storage -> storage.getResources().containsKey(resource));
+
+        if (usedInStorage) {
+            throw new IllegalStateException(
+                    "Cannot delete resource '" + resource.getName() +
+                            "' because it is still present in one or more storages."
+            );
+        }
 
         resourceRepository.delete(resource);
 
