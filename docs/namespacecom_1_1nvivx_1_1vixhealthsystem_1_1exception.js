@@ -1,0 +1,10 @@
+var namespacecom_1_1nvivx_1_1vixhealthsystem_1_1exception =
+[
+    [ "AppointmentConflictException", "classcom_1_1nvivx_1_1vixhealthsystem_1_1exception_1_1_appointment_conflict_exception.html", "classcom_1_1nvivx_1_1vixhealthsystem_1_1exception_1_1_appointment_conflict_exception" ],
+    [ "GlobalExceptionHandler", "classcom_1_1nvivx_1_1vixhealthsystem_1_1exception_1_1_global_exception_handler.html", "classcom_1_1nvivx_1_1vixhealthsystem_1_1exception_1_1_global_exception_handler" ],
+    [ "PatientNotFoundException", "classcom_1_1nvivx_1_1vixhealthsystem_1_1exception_1_1_patient_not_found_exception.html", "classcom_1_1nvivx_1_1vixhealthsystem_1_1exception_1_1_patient_not_found_exception" ],
+    [ "ResourceNotFoundException", "classcom_1_1nvivx_1_1vixhealthsystem_1_1exception_1_1_resource_not_found_exception.html", "classcom_1_1nvivx_1_1vixhealthsystem_1_1exception_1_1_resource_not_found_exception" ],
+    [ "SlotNotAvailableException", "classcom_1_1nvivx_1_1vixhealthsystem_1_1exception_1_1_slot_not_available_exception.html", "classcom_1_1nvivx_1_1vixhealthsystem_1_1exception_1_1_slot_not_available_exception" ],
+    [ "UnauthorizedAccessException", "classcom_1_1nvivx_1_1vixhealthsystem_1_1exception_1_1_unauthorized_access_exception.html", "classcom_1_1nvivx_1_1vixhealthsystem_1_1exception_1_1_unauthorized_access_exception" ],
+    [ "VacationNotFoundException", "classcom_1_1nvivx_1_1vixhealthsystem_1_1exception_1_1_vacation_not_found_exception.html", "classcom_1_1nvivx_1_1vixhealthsystem_1_1exception_1_1_vacation_not_found_exception" ]
+];

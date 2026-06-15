@@ -1,0 +1,5 @@
+var namespacecom_1_1nvivx_1_1vixhealthsystem_1_1service_1_1medical =
+[
+    [ "AppointmentService", "classcom_1_1nvivx_1_1vixhealthsystem_1_1service_1_1medical_1_1_appointment_service.html", "classcom_1_1nvivx_1_1vixhealthsystem_1_1service_1_1medical_1_1_appointment_service" ],
+    [ "MedicalRecordService", "classcom_1_1nvivx_1_1vixhealthsystem_1_1service_1_1medical_1_1_medical_record_service.html", "classcom_1_1nvivx_1_1vixhealthsystem_1_1service_1_1medical_1_1_medical_record_service" ]
+];

@@ -1,0 +1,6 @@
+var namespacecom_1_1nvivx_1_1vixhealthsystem_1_1controllers_1_1patient =
+[
+    [ "MockSpidController", "classcom_1_1nvivx_1_1vixhealthsystem_1_1controllers_1_1patient_1_1_mock_spid_controller.html", "classcom_1_1nvivx_1_1vixhealthsystem_1_1controllers_1_1patient_1_1_mock_spid_controller" ],
+    [ "PatientAppointmentController", "classcom_1_1nvivx_1_1vixhealthsystem_1_1controllers_1_1patient_1_1_patient_appointment_controller.html", "classcom_1_1nvivx_1_1vixhealthsystem_1_1controllers_1_1patient_1_1_patient_appointment_controller" ],
+    [ "PatientAuthController", "classcom_1_1nvivx_1_1vixhealthsystem_1_1controllers_1_1patient_1_1_patient_auth_controller.html", "classcom_1_1nvivx_1_1vixhealthsystem_1_1controllers_1_1patient_1_1_patient_auth_controller" ]
+];
