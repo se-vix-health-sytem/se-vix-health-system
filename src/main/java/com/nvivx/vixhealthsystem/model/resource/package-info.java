@@ -11,7 +11,7 @@
  *                          operational status ({@code MachineStatus}).</li>
  * </ul>
  *
- * Main curator: Viviana Fraccarolli
+ * Main curator: Viviana Fraccaroli
  *
  * Note: All team members may contribute to files in this package.
  */

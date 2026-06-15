@@ -10,7 +10,7 @@
  * {@code Hospital} extends {@code MedicalFacility} and is the concrete type persisted
  * in the database.
  *
- * Main curator: Viviana Fraccarolli
+ * Main curator: Viviana Fraccaroli
  *
  * Note: All team members may contribute to files in this package.
  */

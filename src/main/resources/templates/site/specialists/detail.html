@@ -16,7 +16,7 @@
 ==============================================================================
 -->
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragments/head :: head(pageTitle)}"></head>
+<head th:replace="~{fragments/head :: head(${specialist.name + ' ' + specialist.surname})}"></head>
 <body>
 <div th:replace="~{fragments/navbar :: navbar}"></div>
 
@@ -35,8 +35,11 @@
                              th:alt="'Dr. ' + ${specialist.name} + ' ' + ${specialist.surname}"
                              class="rounded-circle mx-auto mx-md-0 d-block"
                              width="120" height="120"
-                             style="object-fit:cover;border:3px solid var(--vix-gold);"
-                             onerror="this.onerror=null;this.src='/images/doctors/placeholder.jpg';">
+                             style="object-fit:cover;border:3px solid var(--vix-gold);cursor:pointer;"
+                             onerror="this.onerror=null;this.src='/images/doctors/placeholder.jpg';"
+                             data-bs-toggle="modal" data-bs-target="#photoModal"
+                             th:data-src="${doctorImages != null and doctorImages.containsKey(specialist.id) ? doctorImages[specialist.id] : '/images/doctors/placeholder.jpg'}">
+                        <small class="text-muted d-block mt-1" style="font-size:0.7rem;">Click to enlarge</small>
                     </div>
                     <div class="col-md-9">
                         <p class="section-eyebrow mb-1">Medical Specialist</p>
@@ -65,7 +68,8 @@
                             <dd class="col-7 small" th:text="${specialist.phoneNumber ?: 'Not available'}">-</dd>
 
                             <dt class="col-5 text-muted fw-normal small mt-2">Gender</dt>
-                            <dd class="col-7 small" th:text="${specialist.gender == 77 or specialist.gender == 109} ? 'Male' : 'Female'">-</dd>
+                            <dd class="col-7 small"
+                                th:text="${specialist.gender.toString() == 'M' or specialist.gender.toString() == 'm'} ? 'Male' : (${specialist.gender.toString() == 'F' or specialist.gender.toString() == 'f'} ? 'Female' : '-')">-</dd>
 
                             <dt class="col-5 text-muted fw-normal small mt-2">License No.</dt>
                             <dd class="col-7 small" th:text="${specialist.licenseNumber ?: 'Not available'}">-</dd>
@@ -95,9 +99,12 @@
                 <div class="card">
                     <div class="card-header">Book an Appointment</div>
                     <div class="card-body text-center py-4">
-                        <p>Ready to schedule a consultation?</p>
-                        <a th:href="@{/patient/appointments/book}" class="btn btn-primary rounded-pill px-5">
-                            Book Appointment
+                        <p>Ready to schedule a consultation with Dr. <span th:text="${specialist.name + ' ' + specialist.surname}">?</span></p>
+                        <a th:href="${session.patient != null}
+                                    ? @{/patient/appointments/book/{id}(id=${specialist.id})}
+                                    : @{/patient/login(redirect=${'appointments/book/' + specialist.id})}"
+                           class="btn btn-primary rounded-pill px-5">
+                            <i class="bi bi-calendar-plus me-1"></i> Book Appointment
                         </a>
                     </div>
                 </div>
@@ -106,7 +113,28 @@
     </div>
 </main>
 
+<!-- Photo expand modal -->
+<div class="modal fade" id="photoModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0" style="background:transparent;">
+            <div class="modal-body p-0 text-center">
+                <img id="photoModalImg" src="" alt="Specialist photo"
+                     class="img-fluid rounded-3"
+                     style="max-height:80vh;border:4px solid var(--vix-gold);">
+                <button type="button" class="btn btn-light rounded-pill mt-3"
+                        data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div th:replace="~{fragments/footer :: footer}"></div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    document.getElementById('photoModal').addEventListener('show.bs.modal', function(e) {
+        var src = e.relatedTarget.getAttribute('data-src');
+        document.getElementById('photoModalImg').src = src || e.relatedTarget.src;
+    });
+</script>
 </body>
 </html>

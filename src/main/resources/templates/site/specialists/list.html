@@ -16,7 +16,7 @@
 ==============================================================================
 -->
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragments/head :: head(pageTitle)}"></head>
+<head th:replace="~{fragments/head :: head('Medical Specialists')}"></head>
 <body>
 <div th:replace="~{fragments/navbar :: navbar}"></div>
 
@@ -96,7 +96,9 @@
                            class="btn btn-outline-primary rounded-pill btn-sm flex-grow-1">
                             View Profile
                         </a>
-                        <a th:href="@{/patient/appointments/book}"
+                        <a th:href="${session.patient != null}
+                                    ? @{/patient/appointments/book/{id}(id=${specialist.id})}
+                                    : @{/patient/login(redirect=${'appointments/book/' + specialist.id})}"
                            class="btn btn-primary rounded-pill btn-sm flex-grow-1">
                             Book
                         </a>

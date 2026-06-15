@@ -622,4 +622,172 @@
   "username" : "RSSMRA80A01F205X",
   "details" : "Patient RSSMRA80A01F205X logged out",
   "timestamp" : "2026-06-13T20:57:47.4186997"
+}, {
+  "id" : 79,
+  "action" : "PATIENT_LOGIN",
+  "entityType" : "Patient",
+  "entityId" : "2",
+  "username" : "BNCLRA92B41L219Y",
+  "details" : "Patient BNCLRA92B41L219Y logged in",
+  "timestamp" : "2026-06-15T16:27:51.4240241"
+}, {
+  "id" : 80,
+  "action" : "BOOK_APPOINTMENT",
+  "entityType" : "Appointment",
+  "entityId" : "6",
+  "username" : "BNCLRA92B41L219Y",
+  "details" : "Patient BNCLRA92B41L219Y booked appointment with Dr. Marco Rossi on 17/06/2026 09:00",
+  "timestamp" : "2026-06-15T16:28:18.2206096"
+}, {
+  "id" : 81,
+  "action" : "PATIENT_LOGIN",
+  "entityType" : "Patient",
+  "entityId" : "1",
+  "username" : "RSSMRA80A01F205X",
+  "details" : "Patient RSSMRA80A01F205X logged in",
+  "timestamp" : "2026-06-15T16:47:00.8625389"
+}, {
+  "id" : 82,
+  "action" : "PATIENT_LOGIN",
+  "entityType" : "Patient",
+  "entityId" : "1",
+  "username" : "RSSMRA80A01F205X",
+  "details" : "Patient RSSMRA80A01F205X logged in",
+  "timestamp" : "2026-06-15T16:56:36.3509313"
+}, {
+  "id" : 83,
+  "action" : "UPDATE_PATIENT",
+  "entityType" : "Patient",
+  "entityId" : "1",
+  "username" : "RSSMRA80A01F205X",
+  "details" : "Updated patient details",
+  "timestamp" : "2026-06-15T16:59:50.3526305"
+}, {
+  "id" : 84,
+  "action" : "PATIENT_LOGIN",
+  "entityType" : "Patient",
+  "entityId" : "1",
+  "username" : "RSSMRA80A01F205X",
+  "details" : "Patient RSSMRA80A01F205X logged in",
+  "timestamp" : "2026-06-15T18:53:16.2827248"
+}, {
+  "id" : 85,
+  "action" : "PATIENT_LOGIN",
+  "entityType" : "Patient",
+  "entityId" : "1",
+  "username" : "RSSMRA80A01F205X",
+  "details" : "Patient RSSMRA80A01F205X logged in",
+  "timestamp" : "2026-06-15T19:04:54.7533287"
+}, {
+  "id" : 86,
+  "action" : "PATIENT_LOGIN",
+  "entityType" : "Patient",
+  "entityId" : "2",
+  "username" : "BNCLRA92B41L219Y",
+  "details" : "Patient BNCLRA92B41L219Y logged in",
+  "timestamp" : "2026-06-15T19:05:11.5195237"
+}, {
+  "id" : 87,
+  "action" : "PATIENT_LOGIN",
+  "entityType" : "Patient",
+  "entityId" : "1",
+  "username" : "RSSMRA80A01F205X",
+  "details" : "Patient RSSMRA80A01F205X logged in",
+  "timestamp" : "2026-06-15T19:16:10.2001034"
+}, {
+  "id" : 88,
+  "action" : "BOOK_APPOINTMENT",
+  "entityType" : "Appointment",
+  "entityId" : "7",
+  "username" : "RSSMRA80A01F205X",
+  "details" : "Patient RSSMRA80A01F205X booked appointment with Dr. Marco Rossi on 25/06/2026 11:00",
+  "timestamp" : "2026-06-15T19:16:32.6244132"
+}, {
+  "id" : 89,
+  "action" : "CANCEL_APPOINTMENT",
+  "entityType" : "Appointment",
+  "entityId" : "4",
+  "username" : "RSSMRA80A01F205X",
+  "details" : "Patient RSSMRA80A01F205X cancelled their appointment",
+  "timestamp" : "2026-06-15T19:16:42.9949068"
+}, {
+  "id" : 90,
+  "action" : "PATIENT_LOGIN",
+  "entityType" : "Patient",
+  "entityId" : "1",
+  "username" : "RSSMRA80A01F205X",
+  "details" : "Patient RSSMRA80A01F205X logged in",
+  "timestamp" : "2026-06-15T19:30:00.4934142"
+}, {
+  "id" : 91,
+  "action" : "PATIENT_LOGOUT",
+  "entityType" : "Patient",
+  "entityId" : "1",
+  "username" : "RSSMRA80A01F205X",
+  "details" : "Patient RSSMRA80A01F205X logged out",
+  "timestamp" : "2026-06-15T19:34:42.9145823"
+}, {
+  "id" : 92,
+  "action" : "REMOVE_RESOURCE_FROM_STORAGE",
+  "entityType" : "Storage",
+  "entityId" : "1",
+  "username" : "sara.conti@vixhealth.com",
+  "details" : "Sara Conti (Secretary) took 1 units of Gloves",
+  "timestamp" : "2026-06-15T19:36:01.3175744"
+}, {
+  "id" : 93,
+  "action" : "REMOVE_RESOURCE_FROM_STORAGE",
+  "entityType" : "Storage",
+  "entityId" : "1",
+  "username" : "sara.conti@vixhealth.com",
+  "details" : "Sara Conti (Secretary) took 2 units of Bandages",
+  "timestamp" : "2026-06-15T19:36:19.2019147"
+}, {
+  "id" : 94,
+  "action" : "PATIENT_LOGIN",
+  "entityType" : "Patient",
+  "entityId" : "2",
+  "username" : "BNCLRA92B41L219Y",
+  "details" : "Patient BNCLRA92B41L219Y logged in",
+  "timestamp" : "2026-06-15T19:38:33.9487224"
+}, {
+  "id" : 95,
+  "action" : "PATIENT_LOGOUT",
+  "entityType" : "Patient",
+  "entityId" : "2",
+  "username" : "BNCLRA92B41L219Y",
+  "details" : "Patient BNCLRA92B41L219Y logged out",
+  "timestamp" : "2026-06-15T19:38:54.9681312"
+}, {
+  "id" : 96,
+  "action" : "DISMISS_PATIENT",
+  "entityType" : "Patient",
+  "entityId" : "5",
+  "username" : "sara.conti@vixhealth.com",
+  "details" : "Patient dismissed from room: H-103",
+  "timestamp" : "2026-06-15T19:43:54.1860923"
+}, {
+  "id" : 97,
+  "action" : "DISMISS_PATIENT",
+  "entityType" : "Patient",
+  "entityId" : "5",
+  "username" : "sara.conti@vixhealth.com",
+  "details" : "Secretary dismissed patient #5 from room #15",
+  "timestamp" : "2026-06-15T19:43:54.8763265"
+}, {
+  "id" : 98,
+  "action" : "CREATE_EMPLOYEE",
+  "entityType" : "Employee",
+  "entityId" : "20",
+  "username" : "alessia.moretti@vixhealth.com",
+  "details" : "Created employee: Sam Tokens (Type: MedicalSpecialist)",
+  "timestamp" : "2026-06-15T19:48:13.9439673"
+}, {
+  "id" : 99,
+  "action" : "CREATE_EMPLOYEE",
+  "entityType" : "Employee",
+  "entityId" : "1000",
+  "username" : "alessia.moretti@vixhealth.com",
+  "details" : "Created employee: Elena Smith (Type: MedicalSpecialist)",
+  "timestamp" : "2026-06-15T20:36:20.297384"
 } ]

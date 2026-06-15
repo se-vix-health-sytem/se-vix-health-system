@@ -1,6 +1,7 @@
 package com.nvivx.vixhealthsystem.controllers.staff;
 
 import com.nvivx.vixhealthsystem.service.core.PatientService;
+import com.nvivx.vixhealthsystem.controllers.staff.EmployeeResourceController;
 import com.nvivx.vixhealthsystem.model.person.employee.Employee;
 import com.nvivx.vixhealthsystem.service.core.EmployeeService;
 import com.nvivx.vixhealthsystem.service.DevCredentialStore;
@@ -118,12 +119,14 @@ public class AuthController {
 
             if (employee == null) {
                 model.addAttribute("error", "Employee account not linked to Firebase");
+                model.addAttribute("devCredentials", devCredentialStore.getAll());
                 return "login";
             }
 
             String role = employee.getClass().getSimpleName().toUpperCase();
             session.setAttribute("user", employee);
             session.setAttribute("role", role);
+            session.setAttribute("canTakeResources", EmployeeResourceController.hasStorageAccess(employee));
 
             // Register with Spring Security so route-level protection works
             SecurityContext ctx = SecurityContextHolder.createEmptyContext();
@@ -147,10 +150,12 @@ public class AuthController {
 
         } catch (Exception e) {
             model.addAttribute("error", "Invalid Firebase credentials");
+            model.addAttribute("devCredentials", devCredentialStore.getAll());
             return "login";
         }
 
         model.addAttribute("error", "Invalid role");
+        model.addAttribute("devCredentials", devCredentialStore.getAll());
         return "login";
     }
 
@@ -213,6 +218,7 @@ public class AuthController {
         if (demoUser != null) {
             session.setAttribute("user", demoUser);
             session.setAttribute("role", demoUser.getClass().getSimpleName().toUpperCase());
+            session.setAttribute("canTakeResources", EmployeeResourceController.hasStorageAccess(demoUser));
         }
 
         return switch (role) {

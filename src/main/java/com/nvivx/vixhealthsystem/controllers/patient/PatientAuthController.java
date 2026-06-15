@@ -3,6 +3,9 @@ package com.nvivx.vixhealthsystem.controllers.patient;
 import com.nvivx.vixhealthsystem.model.person.Patient;
 import com.nvivx.vixhealthsystem.service.AuditService;
 import com.nvivx.vixhealthsystem.service.core.PatientService;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -152,11 +155,12 @@ public class PatientAuthController {
      */
     @GetMapping("/spid-callback")
     public String spidCallback(@RequestParam String fiscalCode,
+                               @RequestParam(required = false) String redirect,
                                HttpSession session,
                                HttpServletRequest request,
                                HttpServletResponse response,
                                Model model) {
-        return createPatientSession(fiscalCode, session, model);
+        return createPatientSession(fiscalCode, redirect, session, model);
     }
 
     /**
@@ -175,11 +179,12 @@ public class PatientAuthController {
      */
     @GetMapping("/cie-callback")
     public String cieCallback(@RequestParam String fiscalCode,
+                              @RequestParam(required = false) String redirect,
                               HttpSession session,
                               HttpServletRequest request,
                               HttpServletResponse response,
                               Model model) {
-        return createPatientSession(fiscalCode, session, model);
+        return createPatientSession(fiscalCode, redirect, session, model);
     }
 
     // =========================================================
@@ -257,6 +262,58 @@ public class PatientAuthController {
         return "patient/records";
     }
 
+    /**
+     * GET /patient/profile/edit — show the profile edit form pre-filled with current data.
+     */
+    @GetMapping("/profile/edit")
+    public String editProfile(HttpSession session, Model model) {
+        Patient patient = getLoggedInPatient(session);
+        if (patient == null) return "redirect:/patient/login";
+        model.addAttribute("patient", patient);
+        model.addAttribute("pageTitle", "Edit Profile");
+        model.addAttribute("currentPage", "profile");
+        return "patient/profile-edit";
+    }
+
+    /**
+     * POST /patient/profile/update — apply profile changes and refresh the session patient.
+     */
+    @PostMapping("/profile/update")
+    public String updateProfile(@RequestParam(required = false) String name,
+                                @RequestParam(required = false) String surname,
+                                @RequestParam(required = false) String email,
+                                @RequestParam(required = false) String phoneNumber,
+                                @RequestParam(required = false) String birthPlace,
+                                @RequestParam(required = false) String birthDate,
+                                @RequestParam(required = false) String gender,
+                                HttpSession session,
+                                RedirectAttributes redirectAttributes) {
+        Patient patient = getLoggedInPatient(session);
+        if (patient == null) return "redirect:/patient/login";
+
+        Patient carrier = new Patient();
+        carrier.setName(name);
+        carrier.setSurname(surname);
+        carrier.setEmail(email != null && email.isBlank() ? null : email);
+        carrier.setPhoneNumber(phoneNumber != null && phoneNumber.isBlank() ? null : phoneNumber);
+        carrier.setBirthPlace(birthPlace);
+
+        if (birthDate != null && !birthDate.isBlank()) {
+            try { carrier.setBirthDate(LocalDate.parse(birthDate)); }
+            catch (DateTimeParseException ignored) {}
+        }
+
+        if (gender != null && !gender.isBlank()) {
+            carrier.setGender(gender.charAt(0));
+        }
+
+        Patient updated = patientService.updatePatient(patient.getId(), carrier);
+        session.setAttribute("patient", updated);
+
+        redirectAttributes.addFlashAttribute("success", "Profile updated successfully.");
+        return "redirect:/patient/profile";
+    }
+
     // =========================================================
     // ACCOUNT DELETION
     // =========================================================
@@ -316,7 +373,7 @@ public class PatientAuthController {
      * @return            Redirect to {@code /patient/dashboard} on success,
      *                    or {@code patient/login} with an error message on failure.
      */
-    private String createPatientSession(String fiscalCode, HttpSession session, Model model) {
+    private String createPatientSession(String fiscalCode, String redirect, HttpSession session, Model model) {
         var patientOpt = patientService.findByFiscalCode(fiscalCode.trim().toUpperCase());
         if (patientOpt.isEmpty()) {
             model.addAttribute("error", "Autenticazione fallita. Riprova.");
@@ -335,6 +392,10 @@ public class PatientAuthController {
         session.setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, ctx);
         auditService.log("PATIENT_LOGIN", "Patient", String.valueOf(patient.getId()),
             "Patient " + fiscalCode + " logged in");
+
+        if (redirect != null && !redirect.isBlank() && !redirect.equals("dashboard")) {
+            return "redirect:/patient/" + redirect;
+        }
         return "redirect:/patient/dashboard";
     }
 

@@ -1,4 +1,24 @@
 [ {
+  "id" : "92691d8f-7c53-43e8-9125-5a37d40ebc49",
+  "employeeId" : 4,
+  "employeeName" : "Sara Conti",
+  "employeeRole" : "Secretary",
+  "resourceId" : 3,
+  "resourceName" : "Bandages",
+  "storageId" : 1,
+  "quantity" : 2,
+  "takenAt" : "2026-06-15T19:36:19.1957604"
+}, {
+  "id" : "85c6725e-1a2c-4388-9930-7a5620c7516c",
+  "employeeId" : 4,
+  "employeeName" : "Sara Conti",
+  "employeeRole" : "Secretary",
+  "resourceId" : 2,
+  "resourceName" : "Gloves",
+  "storageId" : 1,
+  "quantity" : 1,
+  "takenAt" : "2026-06-15T19:36:01.3060546"
+}, {
   "id" : "ae5c040c-d2ba-4bd4-9ff1-71d6cf338c99",
   "employeeId" : 6,
   "employeeName" : "Giulia Romano",

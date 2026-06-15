@@ -78,6 +78,7 @@
                     <div th:if="${error}" class="alert alert-danger py-2" th:text="${error}"></div>
 
                     <form th:action="@{/mock-spid/authenticate}" method="post">
+                        <input type="hidden" name="redirect" th:value="${redirect}">
                         <div class="mb-3">
                             <label class="form-label fw-semibold">Codice Fiscale</label>
                             <input type="text" name="fiscalCode" class="form-control form-control-lg"
@@ -153,25 +154,28 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
+                    <tr style="cursor:pointer;" onclick="fillSpid('RSSMRA80A01F205X')" title="Click to auto-fill">
                         <td>Mario Rossi</td>
-                        <td><code style="cursor:pointer;" onclick="navigator.clipboard.writeText(this.innerText);document.querySelector('input[name=fiscalCode]').value=this.innerText;" title="Click to copy &amp; fill">RSSMRA80A01F205X</code></td>
-                        <td class="text-muted">any 6 digits</td>
+                        <td><code>RSSMRA80A01F205X</code></td>
+                        <td><code>123456</code></td>
+                        <td style="font-size:0.72rem;color:#0a6;">▶ Use</td>
                     </tr>
-                    <tr>
+                    <tr style="cursor:pointer;" onclick="fillSpid('BNCLRA92B41L219Y')" title="Click to auto-fill">
                         <td>Laura Bianchi</td>
-                        <td><code style="cursor:pointer;" onclick="navigator.clipboard.writeText(this.innerText);document.querySelector('input[name=fiscalCode]').value=this.innerText;" title="Click to copy &amp; fill">BNCLRA92B41L219Y</code></td>
-                        <td class="text-muted">any 6 digits</td>
+                        <td><code>BNCLRA92B41L219Y</code></td>
+                        <td><code>123456</code></td>
+                        <td style="font-size:0.72rem;color:#0a6;">▶ Use</td>
                     </tr>
-                    <tr>
+                    <tr style="cursor:pointer;" onclick="fillSpid('VRDGPP75C12H501Z')" title="Click to auto-fill">
                         <td>Giuseppe Verdi</td>
-                        <td><code style="cursor:pointer;" onclick="navigator.clipboard.writeText(this.innerText);document.querySelector('input[name=fiscalCode]').value=this.innerText;" title="Click to copy &amp; fill">VRDGPP75C12H501Z</code></td>
-                        <td class="text-muted">any 6 digits</td>
+                        <td><code>VRDGPP75C12H501Z</code></td>
+                        <td><code>123456</code></td>
+                        <td style="font-size:0.72rem;color:#0a6;">▶ Use</td>
                     </tr>
                 </tbody>
             </table>
             <div style="font-size:0.73rem; color:#888;">
-                Click a fiscal code to copy it and auto-fill the field above. Enter any 6-digit PIN.
+                Click a row to auto-fill the form. PIN is always <code>123456</code>.
             </div>
         </div>
     </div>
@@ -190,6 +194,12 @@
     document.querySelector('input[name="fiscalCode"]').addEventListener('input', function() {
         this.value = this.value.toUpperCase();
     });
+
+    function fillSpid(fiscalCode) {
+        document.querySelector('input[name="fiscalCode"]').value = fiscalCode;
+        document.querySelector('input[name="pin"]').value = '123456';
+        document.getElementById('devModalSpid').style.display = 'none';
+    }
 </script>
 </body>
 </html>

@@ -719,7 +719,7 @@
                         My Medical Records
                     </a>
 
-                    <a th:href="@{/patient/appointments}" class="quick-link-item">
+                    <a th:href="@{/patient/login(redirect='appointments')}" class="quick-link-item">
                         <div class="quick-link-icon" style="background:rgba(184,149,42,.12)">
                             <i class="bi bi-calendar-check" style="color:var(--vix-gold)"></i>
                         </div>
@@ -826,29 +826,6 @@
 
 
 <!-- ═══════════════════════════════════════════════════════════
-     QUESTIONNAIRE BANNER  (FR2.7 – Aid Questionnaire)
-     ══════════════════════════════════════════════════════════ -->
-<section id="questionnaire-banner" class="py-4" style="background:var(--vix-cream)">
-    <div class="container">
-        <div class="quiz-banner d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3">
-            <div>
-                <div class="section-eyebrow mb-1">Not Sure Where to Start?</div>
-                <h3 class="mb-1">Find the Right Specialist</h3>
-                <p class="text-muted mb-0" style="font-size:.9rem">
-                    Answer a few short questions and we'll point you to the right department and doctor.
-                </p>
-            </div>
-            <a th:href="@{/questionnaire}"
-               class="btn btn-primary rounded-pill px-4 flex-shrink-0"
-               style="background:var(--vix-crimson);border-color:var(--vix-crimson)">
-                <i class="bi bi-clipboard2-pulse me-2"></i>Start Questionnaire
-            </a>
-        </div>
-    </div>
-</section>
-
-
-<!-- ═══════════════════════════════════════════════════════════
      BOOK APPOINTMENT SECTION  (UC10 – Book an Appointment)
      ══════════════════════════════════════════════════════════ -->
 <section class="book-section" id="book-appointment">
@@ -909,6 +886,29 @@
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════════
+     QUESTIONNAIRE BANNER  (FR2.7 – Aid Questionnaire)
+     ══════════════════════════════════════════════════════════ -->
+<section id="questionnaire-banner" class="py-4" style="background:var(--vix-cream)">
+    <div class="container">
+        <div class="quiz-banner d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3">
+            <div>
+                <div class="section-eyebrow mb-1">Not Sure Where to Start?</div>
+                <h3 class="mb-1">Find the Right Specialist</h3>
+                <p class="text-muted mb-0" style="font-size:.9rem">
+                    Answer a few short questions and we'll point you to the right department and doctor.
+                </p>
+            </div>
+            <a th:href="@{/questionnaire}"
+               class="btn btn-primary rounded-pill px-4 flex-shrink-0"
+               style="background:var(--vix-crimson);border-color:var(--vix-crimson)">
+                <i class="bi bi-clipboard2-pulse me-2"></i>Start Questionnaire
+            </a>
         </div>
     </div>
 </section>

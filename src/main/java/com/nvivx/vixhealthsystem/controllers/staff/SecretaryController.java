@@ -97,11 +97,12 @@ public class SecretaryController {
      */
     @GetMapping("/dashboard")
     public String dashboard(HttpSession session, Model model) {
-        var allRooms = roomService.getAllInpatientRooms();
-        var availableRooms = roomService.getAvailableRooms();
-        var allAppointments = appointmentRepository.findAll();
+        int totalRooms = 0, availableRoomsCount = 0, totalAppointments = 0, totalBeds = 0;
+        try { totalRooms = roomService.getAllInpatientRooms().size(); } catch (Exception ignored) {}
+        try { availableRoomsCount = roomService.getAvailableRooms().size(); } catch (Exception ignored) {}
+        try { totalAppointments = appointmentRepository.findAll().size(); } catch (Exception ignored) {}
+        try { totalBeds = roomService.getTotalAvailableBeds(); } catch (Exception ignored) {}
 
-        // Resolve department name within this request to avoid lazy-loading the detached session entity
         String departmentName = "No department assigned";
         Employee sessionUser = (Employee) session.getAttribute("user");
         if (sessionUser != null) {
@@ -116,10 +117,10 @@ public class SecretaryController {
         model.addAttribute("pageTitle", "Secretary Dashboard");
         model.addAttribute("currentPage", "dashboard");
         model.addAttribute("departmentName", departmentName);
-        model.addAttribute("totalRooms", allRooms.size());
-        model.addAttribute("availableRooms", availableRooms.size());
-        model.addAttribute("totalAppointments", allAppointments.size());
-        model.addAttribute("totalAvailableBeds", roomService.getTotalAvailableBeds());
+        model.addAttribute("totalRooms", totalRooms);
+        model.addAttribute("availableRooms", availableRoomsCount);
+        model.addAttribute("totalAppointments", totalAppointments);
+        model.addAttribute("totalAvailableBeds", totalBeds);
         return "secretary/dashboard";
     }
 
@@ -293,32 +294,6 @@ public class SecretaryController {
                     "✅ Appointment booked successfully!\nID: " + saved.getId());
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("error", "❌ Booking failed: " + e.getMessage());
-        }
-        return "redirect:/secretary/appointments";
-    }
-
-    /**
-     * POST /secretary/appointments/{appointmentId}/confirm — set an appointment status to CONFIRMED.
-     *
-     * @param appointmentId       Numeric ID of the appointment to confirm.
-     * @param redirectAttributes  Flash attributes for the redirect.
-     * @return                    Redirect to {@code /secretary/appointments}.
-     */
-    @PostMapping("/appointments/{appointmentId}/confirm")
-    public String confirmAppointment(@PathVariable int appointmentId,
-                                     RedirectAttributes redirectAttributes) {
-        try {
-            Appointment appointment = appointmentRepository.findById(appointmentId);
-            if (appointment != null) {
-                appointment.setStatus("CONFIRMED");
-                appointmentRepository.save(appointment);
-                String patientInfo = appointment.getPatient() != null ? appointment.getPatient().getFiscalCode() : "unknown";
-                auditService.log("CONFIRM_APPOINTMENT", "Appointment", String.valueOf(appointmentId),
-                    "Secretary confirmed appointment for patient " + patientInfo);
-            }
-            redirectAttributes.addFlashAttribute("message", "✅ Appointment confirmed successfully!");
-        } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("error", "❌ Confirmation failed: " + e.getMessage());
         }
         return "redirect:/secretary/appointments";
     }

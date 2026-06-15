@@ -49,7 +49,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * - **Frontend:** Thymeleaf, Bootstrap 5, Leaflet.js
  *
  * @section authors Authors
- * - Viviana Fraccarolli
+ * - Viviana Fraccaroli
  * - Lorena Valentina Buitrón Zambrano
  * - Navjot Kaur
  * - Alexandrina Harti

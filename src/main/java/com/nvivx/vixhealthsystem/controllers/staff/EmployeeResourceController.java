@@ -57,7 +57,15 @@ public class EmployeeResourceController {
      * @return         Thymeleaf template {@code employee/take-resources}.
      */
     @GetMapping
-    public String viewResources(HttpSession session, Model model) {
+    public String viewResources(HttpSession session, Model model,
+                                RedirectAttributes redirectAttributes) {
+        Employee sessionUser = (Employee) session.getAttribute("user");
+        if (!hasStorageAccess(sessionUser)) {
+            redirectAttributes.addFlashAttribute("info",
+                    "Your department does not have storage access. Resource management is not available for your role.");
+            return resolveDashboard(session);
+        }
+
         List<Storage> storages = storageRepository.findAll();
         var totalInventory = inventoryService.getTotalInventory();
 
@@ -102,6 +110,9 @@ public class EmployeeResourceController {
             redirectAttributes.addFlashAttribute("error", "Not authenticated.");
             return "redirect:/employee/resources";
         }
+        if (!hasStorageAccess(sessionUser)) {
+            return resolveDashboard(session);
+        }
         try {
             Employee employee = employeeService.findById(sessionUser.getId());
             inventoryService.removeResourceFromStorage(employee, resourceId, quantity);
@@ -137,6 +148,30 @@ public class EmployeeResourceController {
         model.addAttribute("pageTitle", "My Resource History");
         model.addAttribute("currentPage", "resources");
         return "employee/resource-history";
+    }
+
+    public static boolean hasStorageAccess(Employee employee) {
+        if (employee == null) return false;
+        try {
+            return employee.getDepartment() != null
+                    && employee.getDepartment().getMedicalFacility() != null
+                    && employee.getDepartment().getMedicalFacility().getStorage() != null;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    private String resolveDashboard(HttpSession session) {
+        String role = (String) session.getAttribute("role");
+        if (role == null) return "redirect:/login";
+        return switch (role) {
+            case "MEDICALSPECIALIST" -> "redirect:/medical-specialist/dashboard";
+            case "SECRETARY"         -> "redirect:/secretary/dashboard";
+            case "TECHNICIAN"        -> "redirect:/technician/dashboard";
+            case "STAFFMANAGER"      -> "redirect:/staff-manager/dashboard";
+            case "BUYER"             -> "redirect:/buyer/dashboard";
+            default -> "redirect:/login";
+        };
     }
 
     public record ResourceRow(Long id, String name, String description, int quantity, boolean lowStock) {}

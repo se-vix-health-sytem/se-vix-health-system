@@ -320,16 +320,16 @@ INSERT INTO RoomPatients (room_id, patient_id)
 -- These run on every restart. The values must be above any IDs that may
 -- have been inserted by users in previous sessions, so we use 100 for
 -- transactional tables and small fixed offsets for reference tables.
-ALTER TABLE MedicalFacilities ALTER COLUMN id RESTART WITH 10;
-ALTER TABLE Storages           ALTER COLUMN id RESTART WITH 10;
-ALTER TABLE Resources          ALTER COLUMN id RESTART WITH 50;
-ALTER TABLE Departments        ALTER COLUMN id RESTART WITH 50;
-ALTER TABLE Employees          ALTER COLUMN id RESTART WITH 20;
-ALTER TABLE Rooms              ALTER COLUMN id RESTART WITH 50;
-ALTER TABLE Patients           ALTER COLUMN id RESTART WITH 50;
-ALTER TABLE MedicalRecords     ALTER COLUMN id RESTART WITH 50;
+ALTER TABLE MedicalFacilities ALTER COLUMN id RESTART WITH 1000;
+ALTER TABLE Storages           ALTER COLUMN id RESTART WITH 1000;
+ALTER TABLE Resources          ALTER COLUMN id RESTART WITH 1000;
+ALTER TABLE Departments        ALTER COLUMN id RESTART WITH 1000;
+ALTER TABLE Employees          ALTER COLUMN id RESTART WITH 1000;
+ALTER TABLE Rooms              ALTER COLUMN id RESTART WITH 1000;
+ALTER TABLE Patients           ALTER COLUMN id RESTART WITH 1000;
+ALTER TABLE MedicalRecords     ALTER COLUMN id RESTART WITH 1000;
 ALTER TABLE MedicalConditions  ALTER COLUMN id RESTART WITH 10000;
 ALTER TABLE Prescriptions      ALTER COLUMN id RESTART WITH 10000;
 ALTER TABLE Surgeries          ALTER COLUMN id RESTART WITH 10000;
-ALTER TABLE Machines           ALTER COLUMN id RESTART WITH 50;
+ALTER TABLE Machines           ALTER COLUMN id RESTART WITH 1000;
 

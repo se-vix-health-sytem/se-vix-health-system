@@ -8,7 +8,7 @@
  * For all regular persistence, prefer the Spring Data repositories in
  * {@code com.nvivx.vixhealthsystem.repository}.
  *
- * Main curator: Viviana Fraccarolli
+ * Main curator: Viviana Fraccaroli
  *
  * Note: All team members may contribute to files in this package.
  */

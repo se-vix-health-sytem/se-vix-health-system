@@ -58,7 +58,7 @@ class AppointmentTest {
         assertEquals("Routine checkup", appointment.getNotes());
         assertEquals(patient, appointment.getPatient());
         assertEquals(specialist, appointment.getMedicalSpecialist());
-        assertFalse(appointment.isPaymentStatus());
+        assertFalse(appointment.isPaid());
         assertEquals(PaymentStatus.UNPAID, appointment.getPaymentStatus());
         assertEquals("CONFIRMED", appointment.getStatus());
         assertEquals(AppointmentStatus.CONFIRMED, appointment.getStatusEnum());
@@ -72,11 +72,11 @@ class AppointmentTest {
     void setPaymentStatus_WithBoolean_ShouldSetCorrectPaymentStatus() {
         appointment.setPaymentStatus(true);
         assertEquals(PaymentStatus.PAID, appointment.getPaymentStatus());
-        assertTrue(appointment.isPaymentStatus());
+        assertTrue(appointment.isPaid());
 
         appointment.setPaymentStatus(false);
         assertEquals(PaymentStatus.UNPAID, appointment.getPaymentStatus());
-        assertFalse(appointment.isPaymentStatus());
+        assertFalse(appointment.isPaid());
     }
 
     /**
@@ -87,7 +87,7 @@ class AppointmentTest {
     void setPaymentStatus_WithEnum_ShouldSetCorrectPaymentStatus() {
         appointment.setPaymentStatus(PaymentStatus.PAID);
         assertEquals(PaymentStatus.PAID, appointment.getPaymentStatus());
-        assertTrue(appointment.isPaymentStatus());
+        assertTrue(appointment.isPaid());
     }
 
     /**

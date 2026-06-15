@@ -6,7 +6,7 @@
  * - Spring Security rules and role-based access control
  *
  * Main curator:
- * Viviana Fraccarolli
+ * Viviana Fraccaroli
  *
  * Note:
  * All team members may contribute to files in this package.

@@ -168,7 +168,7 @@ class PaymentControllerTest {
 
         assertEquals("redirect:/payment/confirmation/1", result);
 
-        assertTrue(appointment.isPaymentStatus());
+        assertTrue(appointment.isPaid());
 
         verify(appointmentRepository).save(appointment);
         verify(redirectAttributes)

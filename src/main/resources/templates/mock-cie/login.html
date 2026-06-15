@@ -113,6 +113,7 @@
                     <!-- MANUAL TAB -->
                     <div id="panel-manual" style="display:none;">
                         <form th:action="@{/mock-cie/authenticate}" method="post" id="manual-form">
+                            <input type="hidden" name="redirect" th:value="${redirect}">
                             <div class="mb-3">
                                 <label class="form-label fw-semibold">Codice Fiscale</label>
                                 <input type="text" name="fiscalCode" id="manual-fc" class="form-control"
@@ -136,6 +137,7 @@
                     <form th:action="@{/mock-cie/authenticate}" method="post" id="nfc-form" style="display:none;">
                         <input type="hidden" name="fiscalCode" id="nfc-fc">
                         <input type="hidden" name="pin" value="0000">
+                        <input type="hidden" name="redirect" th:value="${redirect}">
                     </form>
 
                     <hr class="my-3">
@@ -196,24 +198,34 @@
             <button onclick="this.closest('#devModalCie').style.display='none'" style="background:none; border:none; font-size:1.3rem;">✕</button>
         </div>
         <div style="padding:1rem;">
-            <p class="small text-muted mb-2">Click a fiscal code to auto-fill the field above:</p>
+            <p class="small text-muted mb-2">Click a patient to log in instantly (simulates NFC tap):</p>
             <div class="d-flex flex-column gap-2">
-                <button type="button" class="btn btn-outline-primary btn-sm" onclick="fillFiscalCode('RSSMRA80A01F205X')">Mario Rossi · RSSMRA80A01F205X</button>
-                <button type="button" class="btn btn-outline-primary btn-sm" onclick="fillFiscalCode('BNCLRA92B41L219Y')">Laura Bianchi · BNCLRA92B41L219Y</button>
-                <button type="button" class="btn btn-outline-primary btn-sm" onclick="fillFiscalCode('VRDGPP75C12H501Z')">Giuseppe Verdi · VRDGPP75C12H501Z</button>
+                <button type="button" class="btn btn-sm text-start"
+                        style="background:#fff3cd;border:1px solid #ffc107;color:#856404;"
+                        onclick="document.getElementById('devModalCie').style.display='none'; simulateTap('RSSMRA80A01F205X')">
+                    <i class="bi bi-person-fill me-2"></i>Mario Rossi
+                    <code class="ms-2" style="font-size:0.75rem;">RSSMRA80A01F205X</code>
+                    <span class="float-end" style="font-size:0.7rem;">▶ Login</span>
+                </button>
+                <button type="button" class="btn btn-sm text-start"
+                        style="background:#fff3cd;border:1px solid #ffc107;color:#856404;"
+                        onclick="document.getElementById('devModalCie').style.display='none'; simulateTap('BNCLRA92B41L219Y')">
+                    <i class="bi bi-person-fill me-2"></i>Laura Bianchi
+                    <code class="ms-2" style="font-size:0.75rem;">BNCLRA92B41L219Y</code>
+                    <span class="float-end" style="font-size:0.7rem;">▶ Login</span>
+                </button>
+                <button type="button" class="btn btn-sm text-start"
+                        style="background:#fff3cd;border:1px solid #ffc107;color:#856404;"
+                        onclick="document.getElementById('devModalCie').style.display='none'; simulateTap('VRDGPP75C12H501Z')">
+                    <i class="bi bi-person-fill me-2"></i>Giuseppe Verdi
+                    <code class="ms-2" style="font-size:0.75rem;">VRDGPP75C12H501Z</code>
+                    <span class="float-end" style="font-size:0.7rem;">▶ Login</span>
+                </button>
             </div>
-            <div class="mt-2 small text-muted">PIN: any 4 digits (e.g. 0000)</div>
+            <div class="mt-2" style="font-size:0.72rem;color:#aaa;">Submits automatically — no PIN needed.</div>
         </div>
     </div>
 </div>
-
-<script>
-    function fillFiscalCode(fc) {
-        const input = document.querySelector('input[name="fiscalCode"]');
-        if (input) input.value = fc;
-        document.getElementById('devModalCie').style.display = 'none';
-    }
-</script>
 
 </body>
 </html>

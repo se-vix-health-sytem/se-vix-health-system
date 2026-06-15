@@ -61,13 +61,22 @@
 
             <!-- CTA -->
             <div class="d-flex gap-3 flex-wrap mt-4">
+                <!-- Link to the specific department where the relevant specialists are -->
                 <a th:if="${recommendation['departmentLink'] != null}"
                    th:href="${recommendation['departmentLink']}"
                    class="btn btn-primary rounded-pill">
-                    <i class="bi bi-hospital me-2"></i>View Department
+                    <i class="bi bi-calendar-check me-2"></i>Book with a Specialist
                 </a>
-                <a th:href="@{/patient/appointments/book}" class="btn btn-outline-primary rounded-pill">
-                    <i class="bi bi-calendar-check me-2"></i>Book Appointment
+                <!-- Fallback for General Medicine (no department) -->
+                <a th:if="${recommendation['departmentLink'] == null}"
+                   th:href="@{/specialists}"
+                   class="btn btn-primary rounded-pill">
+                    <i class="bi bi-calendar-check me-2"></i>Browse Specialists
+                </a>
+                <a th:if="${recommendation['departmentLink'] != null}"
+                   th:href="${recommendation['departmentLink']}"
+                   class="btn btn-outline-primary rounded-pill">
+                    <i class="bi bi-hospital me-2"></i>View Department
                 </a>
                 <a th:href="@{/questionnaire}" class="btn btn-outline-secondary rounded-pill">
                     <i class="bi bi-arrow-repeat me-2"></i>Start Over

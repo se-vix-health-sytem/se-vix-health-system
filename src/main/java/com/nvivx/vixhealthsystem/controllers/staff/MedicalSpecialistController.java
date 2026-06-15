@@ -410,25 +410,35 @@ public class MedicalSpecialistController {
         YearMonth prev = ym.minusMonths(1);
         YearMonth next = ym.plusMonths(1);
 
-        // Collect event dates for the month
-        Set<LocalDate> shiftDates = shiftService.getShiftsForEmployee(user.getId()).stream()
-                .filter(s -> s.getDate() != null && YearMonth.from(s.getDate()).equals(ym))
-                .map(Shift::getDate).collect(Collectors.toSet());
+        // Collect event dates for the month — each service call wrapped to prevent a single failure from crashing the page
+        Set<LocalDate> shiftDates = new HashSet<>();
+        try {
+            shiftDates = shiftService.getShiftsForEmployee(user.getId()).stream()
+                    .filter(s -> s.getDate() != null && YearMonth.from(s.getDate()).equals(ym))
+                    .map(Shift::getDate).collect(Collectors.toSet());
+        } catch (Exception ignored) {}
 
-        Set<LocalDate> apptDates = appointmentRepository.findAll().stream()
-                .filter(a -> a.getMedicalSpecialist() != null
-                        && a.getMedicalSpecialist().getId().equals(user.getId())
-                        && !"CANCELLED".equals(a.getStatus())
-                        && a.getDateTime() != null
-                        && YearMonth.from(a.getDateTime().toLocalDate()).equals(ym))
-                .map(a -> a.getDateTime().toLocalDate()).collect(Collectors.toSet());
+        Set<LocalDate> apptDates = new HashSet<>();
+        try {
+            apptDates = appointmentRepository.findAll().stream()
+                    .filter(a -> a.getMedicalSpecialist() != null
+                            && a.getMedicalSpecialist().getId().equals(user.getId())
+                            && !"CANCELLED".equals(a.getStatus())
+                            && a.getDateTime() != null
+                            && YearMonth.from(a.getDateTime().toLocalDate()).equals(ym))
+                    .map(a -> a.getDateTime().toLocalDate()).collect(Collectors.toSet());
+        } catch (Exception ignored) {}
 
-        Set<LocalDate> surgeryDates = surgeryRepository.findByMedicalSpecialistId(user.getId()).stream()
-                .filter(s -> s.getDateTime() != null
-                        && YearMonth.from(s.getDateTime().toLocalDate()).equals(ym))
-                .map(s -> s.getDateTime().toLocalDate()).collect(Collectors.toSet());
+        Set<LocalDate> surgeryDates = new HashSet<>();
+        try {
+            surgeryDates = surgeryRepository.findByMedicalSpecialistId(user.getId()).stream()
+                    .filter(s -> s.getDateTime() != null
+                            && YearMonth.from(s.getDateTime().toLocalDate()).equals(ym))
+                    .map(s -> s.getDateTime().toLocalDate()).collect(Collectors.toSet());
+        } catch (Exception ignored) {}
 
-        List<VacationRequest> vacations = vacationService.getApprovedRequestsForEmployee(user.getId().intValue());
+        List<VacationRequest> vacations = new java.util.ArrayList<>();
+        try { vacations = vacationService.getApprovedRequestsForEmployee(user.getId().intValue()); } catch (Exception ignored) {}
 
         // Pass date sets as simple String lists — JavaScript builds the grid
         List<String> shiftDatesList   = shiftDates.stream().map(LocalDate::toString).collect(Collectors.toList());
@@ -486,25 +496,35 @@ public class MedicalSpecialistController {
         LocalDate prev = selectedDate.minusDays(1);
         LocalDate next = selectedDate.plusDays(1);
 
-        List<Shift> todayShifts = shiftService.getShiftsForEmployee(user.getId()).stream()
-                .filter(s -> s.getDate() != null && s.getDate().equals(selectedDate))
-                .collect(Collectors.toList());
+        List<Shift> todayShifts = new java.util.ArrayList<>();
+        try {
+            todayShifts = shiftService.getShiftsForEmployee(user.getId()).stream()
+                    .filter(s -> s.getDate() != null && s.getDate().equals(selectedDate))
+                    .collect(Collectors.toList());
+        } catch (Exception ignored) {}
 
-        List<Appointment> todayAppts = appointmentRepository.findAll().stream()
-                .filter(a -> a.getMedicalSpecialist() != null
-                        && a.getMedicalSpecialist().getId().equals(user.getId())
-                        && !"CANCELLED".equals(a.getStatus())
-                        && a.getDateTime() != null
-                        && a.getDateTime().toLocalDate().equals(selectedDate))
-                .sorted(java.util.Comparator.comparing(Appointment::getDateTime))
-                .collect(Collectors.toList());
+        List<Appointment> todayAppts = new java.util.ArrayList<>();
+        try {
+            todayAppts = appointmentRepository.findAll().stream()
+                    .filter(a -> a.getMedicalSpecialist() != null
+                            && a.getMedicalSpecialist().getId().equals(user.getId())
+                            && !"CANCELLED".equals(a.getStatus())
+                            && a.getDateTime() != null
+                            && a.getDateTime().toLocalDate().equals(selectedDate))
+                    .sorted(java.util.Comparator.comparing(Appointment::getDateTime))
+                    .collect(Collectors.toList());
+        } catch (Exception ignored) {}
 
-        List<Surgery> todaySurgeries = surgeryRepository.findByMedicalSpecialistId(user.getId()).stream()
-                .filter(s -> s.getDateTime() != null && s.getDateTime().toLocalDate().equals(selectedDate))
-                .sorted(java.util.Comparator.comparing(Surgery::getDateTime))
-                .collect(Collectors.toList());
+        List<Surgery> todaySurgeries = new java.util.ArrayList<>();
+        try {
+            todaySurgeries = surgeryRepository.findByMedicalSpecialistId(user.getId()).stream()
+                    .filter(s -> s.getDateTime() != null && s.getDateTime().toLocalDate().equals(selectedDate))
+                    .sorted(java.util.Comparator.comparing(Surgery::getDateTime))
+                    .collect(Collectors.toList());
+        } catch (Exception ignored) {}
 
-        List<VacationRequest> vacations = vacationService.getApprovedRequestsForEmployee(user.getId().intValue());
+        List<VacationRequest> vacations = new java.util.ArrayList<>();
+        try { vacations = vacationService.getApprovedRequestsForEmployee(user.getId().intValue()); } catch (Exception ignored) {}
         boolean onVacation = vacations.stream().anyMatch(v ->
                 v.getStartDate() != null && v.getEndDate() != null
                 && !selectedDate.isBefore(v.getStartDate()) && !selectedDate.isAfter(v.getEndDate()));

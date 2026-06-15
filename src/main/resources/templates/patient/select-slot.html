@@ -35,35 +35,60 @@
                     </p>
                 </div>
 
-                <form th:action="@{/patient/appointments/book}" method="post">
-                    <input type="hidden" name="specialistId" th:value="${specialist.id}">
+                <!-- Embed available slots as JSON for JS to read -->
+                <script th:inline="javascript">
+                    const AVAILABLE_SLOTS = /*[[${availableSlots != null ? availableSlots.![#temporals.format(#this, 'yyyy-MM-dd''T''HH:mm')] : {}}]]*/ [];
+                </script>
 
+                <div th:if="${availableSlots == null or availableSlots.isEmpty()}" class="alert alert-warning mb-4">
+                    <i class="bi bi-calendar-x me-2"></i>
+                    No available slots found for this specialist in the next 14 days.
+                </div>
+
+                <form th:action="@{/patient/appointments/book}" method="post" th:if="${availableSlots != null and !availableSlots.isEmpty()}">
+                    <input type="hidden" name="specialistId" th:value="${specialist.id}">
+                    <input type="hidden" name="dateTime" id="selectedDateTime">
+
+                    <!-- Step 1: pick a date -->
                     <div class="mb-4">
-                        <label class="form-label">Select Date & Time:</label>
-                        <div th:if="${availableSlots != null and !availableSlots.isEmpty()}">
-                            <select name="dateTime" class="form-select" required>
-                                <option value="">Choose a time slot...</option>
-                                <option th:each="slot : ${availableSlots}"
-                                        th:value="${slot}"
-                                        th:text="${#temporals.format(slot, 'EEEE, dd MMMM yyyy - HH:mm')}">
-                                </option>
-                            </select>
+                        <label class="form-label">Step 1 — Pick a date</label>
+                        <input type="date" id="datePicker" class="form-control"
+                               style="max-width:220px;"
+                               th:min="${#temporals.format(availableSlots[0], 'yyyy-MM-dd')}"
+                               th:max="${#temporals.format(availableSlots[availableSlots.size()-1], 'yyyy-MM-dd')}">
+                    </div>
+
+                    <!-- Step 2: pick a time slot -->
+                    <div class="mb-4" id="slotSection" style="display:none;">
+                        <label class="form-label">Step 2 — Choose a time slot</label>
+                        <div id="slotGrid" class="d-flex flex-wrap gap-2 mt-2"></div>
+                        <div id="noSlots" class="text-muted small mt-2" style="display:none;">
+                            No slots available on this date.
                         </div>
-                        <div th:if="${availableSlots == null or availableSlots.isEmpty()}" class="alert alert-warning">
-                            <i class="bi bi-calendar-x me-2"></i>
-                            No available slots found for this specialist in the next 14 days.
-                        </div>
+                    </div>
+
+                    <!-- Selected summary -->
+                    <div id="selectedSummary" class="alert mb-4"
+                         style="display:none;background:var(--vix-gold-pale);border:1px solid var(--vix-gold);color:var(--vix-text);">
+                        <i class="bi bi-calendar-check me-2" style="color:var(--vix-gold);"></i>
+                        <span id="selectedLabel"></span>
                     </div>
 
                     <div class="d-flex gap-3">
-                        <button type="submit" class="btn btn-primary rounded-pill px-5" th:disabled="${availableSlots == null or availableSlots.isEmpty()}">
-                            <i class="bi bi-check-circle me-2"></i> Confirm Booking
+                        <button type="submit" id="confirmBtn" class="btn btn-primary rounded-pill px-5" disabled>
+                            <i class="bi bi-check-circle me-2"></i>Confirm Booking
                         </button>
                         <a th:href="@{/patient/appointments/book}" class="btn btn-outline-secondary rounded-pill">
-                            <i class="bi bi-arrow-left me-1"></i> Back
+                            <i class="bi bi-arrow-left me-1"></i>Back
                         </a>
                     </div>
                 </form>
+
+                <div th:if="${availableSlots == null or availableSlots.isEmpty()}" class="mt-3">
+                    <a th:href="@{/patient/appointments/book}" class="btn btn-outline-secondary rounded-pill">
+                        <i class="bi bi-arrow-left me-1"></i>Back
+                    </a>
+                </div>
             </div>
         </div>
     </div>
@@ -71,5 +96,73 @@
 
 <div th:replace="~{fragments/footer :: footer}"></div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+(function () {
+    const datePicker    = document.getElementById('datePicker');
+    const slotSection   = document.getElementById('slotSection');
+    const slotGrid      = document.getElementById('slotGrid');
+    const noSlots       = document.getElementById('noSlots');
+    const summary       = document.getElementById('selectedSummary');
+    const summaryLabel  = document.getElementById('selectedLabel');
+    const hiddenDT      = document.getElementById('selectedDateTime');
+    const confirmBtn    = document.getElementById('confirmBtn');
+
+    if (!datePicker) return; // no slots → form not rendered
+
+    // Restrict date picker to only dates that have at least one slot
+    const slotDates = new Set(AVAILABLE_SLOTS.map(s => s.slice(0, 10)));
+    datePicker.min = [...slotDates].sort()[0];
+    datePicker.max = [...slotDates].sort().slice(-1)[0];
+
+    datePicker.addEventListener('input', function () {
+        const chosen = this.value;
+        const slots  = AVAILABLE_SLOTS.filter(s => s.startsWith(chosen));
+
+        slotGrid.innerHTML = '';
+        hiddenDT.value = '';
+        confirmBtn.disabled = true;
+        summary.style.display = 'none';
+
+        if (slots.length === 0) {
+            slotSection.style.display = 'block';
+            noSlots.style.display     = 'block';
+            return;
+        }
+
+        noSlots.style.display = 'none';
+        slotSection.style.display = 'block';
+
+        slots.forEach(function (slot) {
+            const time = slot.slice(11); // HH:mm
+            const btn  = document.createElement('button');
+            btn.type      = 'button';
+            btn.className = 'btn btn-sm rounded-pill slot-btn';
+            btn.style.cssText = 'border:1.5px solid var(--vix-gold);color:var(--vix-crimson);background:#fff;min-width:80px;';
+            btn.textContent = time;
+            btn.dataset.value = slot;
+
+            btn.addEventListener('click', function () {
+                document.querySelectorAll('.slot-btn').forEach(b => {
+                    b.style.background = '#fff';
+                    b.style.color      = 'var(--vix-crimson)';
+                });
+                this.style.background = 'var(--vix-gold)';
+                this.style.color      = '#fff';
+
+                hiddenDT.value     = slot;
+                confirmBtn.disabled = false;
+
+                const [date, t] = slot.split('T');
+                const [y, m, d] = date.split('-');
+                const label = `${d}/${m}/${y} at ${t}`;
+                summaryLabel.textContent = 'Selected: ' + label;
+                summary.style.display    = 'block';
+            });
+
+            slotGrid.appendChild(btn);
+        });
+    });
+})();
+</script>
 </body>
 </html>

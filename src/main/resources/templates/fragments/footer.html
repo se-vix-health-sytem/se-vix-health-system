@@ -11,7 +11,7 @@
 -->
 <html xmlns:th="http://www.thymeleaf.org">
 <footer th:fragment="footer" class="vix-footer"
-        th:style="'background: var(--vix-crimson-dk); color: rgba(255,255,255,.72); padding: 4rem 0 2rem;' + (${session.user != null or session.patient != null} ? ' margin-left: 280px;' : '')">
+        th:style="'background: var(--vix-crimson-dk); color: rgba(255,255,255,.72); padding: 4rem 0 2rem; margin-top: auto;'">
     <div class="container">
         <div class="row g-5">
             <div class="col-lg-4">
@@ -35,7 +35,7 @@
                     SERVICES
                 </div>
                 <a th:href="@{/departments}" class="d-block mb-2" style="color: rgba(255,255,255,.6); font-size: 0.84rem; text-decoration: none;">Departments</a>
-                <a th:href="@{/doctors}" class="d-block mb-2" style="color: rgba(255,255,255,.6); font-size: 0.84rem; text-decoration: none;">Our Doctors</a>
+                <a th:href="@{/specialists}" class="d-block mb-2" style="color: rgba(255,255,255,.6); font-size: 0.84rem; text-decoration: none;">Our Medical Specialists</a>
                 <a th:href="@{/patient/appointments/book}" class="d-block mb-2" style="color: rgba(255,255,255,.6); font-size: 0.84rem; text-decoration: none;">Book Appointment</a>
                 <a th:href="@{/questionnaire}" class="d-block mb-2" style="color: rgba(255,255,255,.6); font-size: 0.84rem; text-decoration: none;">Find a Specialist</a>
             </div>
@@ -43,7 +43,9 @@
                 <div class="mb-3" style="color: var(--vix-gold-lt); font-size: 0.78rem; font-weight: 700; letter-spacing: 0.08em;">
                     PATIENTS
                 </div>
-                <a th:href="@{/patient/login}" class="d-block mb-2" style="color: rgba(255,255,255,.6); font-size: 0.84rem; text-decoration: none;">Patient Login</a>
+                <a th:href="${session.patient != null} ? @{/patient/profile} : @{/patient/login}"
+                   th:text="${session.patient != null} ? 'My Profile' : 'Patient Login'"
+                   class="d-block mb-2" style="color: rgba(255,255,255,.6); font-size: 0.84rem; text-decoration: none;">Patient Login</a>
                 <a th:href="@{/patient/appointments}" class="d-block mb-2" style="color: rgba(255,255,255,.6); font-size: 0.84rem; text-decoration: none;">My Appointments</a>
                 <a th:href="@{/patient/records}" class="d-block mb-2" style="color: rgba(255,255,255,.6); font-size: 0.84rem; text-decoration: none;">Medical Records</a>
             </div>
@@ -59,9 +61,10 @@
                 <div class="mb-3" style="color: var(--vix-gold-lt); font-size: 0.78rem; font-weight: 700; letter-spacing: 0.08em;">
                     LEGAL
                 </div>
-                <a href="#" class="d-block mb-2" style="color: rgba(255,255,255,.6); font-size: 0.84rem; text-decoration: none;">Privacy Policy</a>
-                <a href="#" class="d-block mb-2" style="color: rgba(255,255,255,.6); font-size: 0.84rem; text-decoration: none;">GDPR Information</a>
-                <a href="#" class="d-block mb-2" style="color: rgba(255,255,255,.6); font-size: 0.84rem; text-decoration: none;">Terms of Use</a>
+                <a th:href="@{/privacy}" class="d-block mb-2" style="color: rgba(255,255,255,.6); font-size: 0.84rem; text-decoration: none;">Privacy Policy</a>
+                <a th:href="@{/gdpr}" class="d-block mb-2" style="color: rgba(255,255,255,.6); font-size: 0.84rem; text-decoration: none;">GDPR Information</a>
+                <a th:href="@{/terms}" class="d-block mb-2" style="color: rgba(255,255,255,.6); font-size: 0.84rem; text-decoration: none;">Terms of Use</a>
+                <a th:href="@{/accessibility}" class="d-block mb-2" style="color: rgba(255,255,255,.6); font-size: 0.84rem; text-decoration: none;">Accessibility</a>
             </div>
         </div>
         <hr class="my-4" style="border-color: rgba(184,149,42,.2);">

@@ -266,7 +266,7 @@ public class Appointment {
     /**
      * Returns whether the appointment has been paid (boolean convenience getter).
      */
-    public boolean isPaymentStatus() {
+    public boolean isPaid() {
         return paymentStatus == PaymentStatus.PAID;
     }
 
@@ -280,6 +280,7 @@ public class Appointment {
     /**
      * Sets the payment status from a boolean (backward-compatible: true → PAID, false → UNPAID).
      */
+    @JsonIgnore
     public void setPaymentStatus(boolean paid) {
         this.paymentStatus = paid ? PaymentStatus.PAID : PaymentStatus.UNPAID;
     }

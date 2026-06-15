@@ -76,9 +76,14 @@ public class PatientAppointmentController {
             return "redirect:/patient/login";
         }
 
-        List<Appointment> allAppointments = appointmentRepository.findAll().stream()
-                .filter(a -> a.getPatient() != null && a.getPatient().getId().equals(patient.getId()))
-                .collect(Collectors.toList());
+        List<Appointment> allAppointments;
+        try {
+            allAppointments = appointmentRepository.findAll().stream()
+                    .filter(a -> a.getPatient() != null && a.getPatient().getId().equals(patient.getId()))
+                    .collect(Collectors.toList());
+        } catch (Exception e) {
+            allAppointments = new java.util.ArrayList<>();
+        }
 
         LocalDateTime now = LocalDateTime.now();
 
@@ -143,7 +148,7 @@ public class PatientAppointmentController {
     public String showTimeSlots(@PathVariable Long specialistId, Model model, HttpSession session) {
         Patient patient = getLoggedInPatient(session);
         if (patient == null) {
-            return "redirect:/patient/login";
+            return "redirect:/patient/login?redirect=appointments/book/" + specialistId;
         }
 
         MedicalSpecialist specialist = null;
@@ -197,9 +202,9 @@ public class PatientAppointmentController {
             return "redirect:/patient/login";
         }
 
-        LocalDateTime appointmentTime = LocalDateTime.parse(dateTime, DT_FORM);
-
         try {
+            LocalDateTime appointmentTime = LocalDateTime.parse(dateTime, DT_FORM);
+
             var employee = employeeService.findById(specialistId);
             if (!(employee instanceof MedicalSpecialist specialist)) {
                 throw new RuntimeException("Medical specialist not found");
@@ -211,11 +216,11 @@ public class PatientAppointmentController {
 
             // Domain: patient creates their own appointment via model method
             Appointment appointment = patient.makeAppointment(specialist, appointmentTime);
-            appointment.setId((int) System.currentTimeMillis());
+            appointment.setId(0); // let the repository assign a sequential ID
             appointment.setDuration(30);
             appointment.setNotes("Booked via patient portal");
             appointment.setPaymentStatus(false);
-            appointment.setStatus("PENDING");
+            appointment.setStatus("CONFIRMED");
 
             Appointment saved = appointmentRepository.save(appointment);
             auditService.log("BOOK_APPOINTMENT", "Appointment", String.valueOf(saved.getId()),
@@ -259,9 +264,8 @@ public class PatientAppointmentController {
             return "redirect:/patient/login";
         }
 
-        LocalDateTime newTime = LocalDateTime.parse(newDateTime, DT_FORM);
-
         try {
+            LocalDateTime newTime = LocalDateTime.parse(newDateTime, DT_FORM);
             Appointment appointment = appointmentRepository.findById(apptId);
             if (appointment == null) {
                 throw new RuntimeException("Appointment not found");
@@ -367,14 +371,15 @@ public class PatientAppointmentController {
      * @return              {@code true} if no conflicting appointment exists.
      */
     private boolean isSlotAvailable(Long specialistId, LocalDateTime dateTime) {
-        List<Appointment> existingAppointments = appointmentRepository.findAll().stream()
-                .filter(a -> a.getMedicalSpecialist() != null &&
-                        a.getMedicalSpecialist().getId().equals(specialistId))
-                .filter(a -> !"CANCELLED".equals(a.getStatus()))
-                .collect(Collectors.toList());
-
-        return existingAppointments.stream()
-                .noneMatch(a -> a.getDateTime().equals(dateTime));
+        try {
+            return appointmentRepository.findAll().stream()
+                    .filter(a -> a.getMedicalSpecialist() != null &&
+                            a.getMedicalSpecialist().getId().equals(specialistId))
+                    .filter(a -> !"CANCELLED".equals(a.getStatus()))
+                    .noneMatch(a -> a.getDateTime().equals(dateTime));
+        } catch (Exception e) {
+            return true; // assume available if we can't read existing appointments
+        }
     }
 
     /**
@@ -391,11 +396,16 @@ public class PatientAppointmentController {
     private List<LocalDateTime> getAvailableSlots(Long specialistId) {
         List<LocalDateTime> availableSlots = new java.util.ArrayList<>();
 
-        List<Appointment> existingAppointments = appointmentRepository.findAll().stream()
-                .filter(a -> a.getMedicalSpecialist() != null &&
-                        a.getMedicalSpecialist().getId().equals(specialistId))
-                .filter(a -> !"CANCELLED".equals(a.getStatus()))
-                .collect(Collectors.toList());
+        List<Appointment> existingAppointments;
+        try {
+            existingAppointments = appointmentRepository.findAll().stream()
+                    .filter(a -> a.getMedicalSpecialist() != null &&
+                            a.getMedicalSpecialist().getId().equals(specialistId))
+                    .filter(a -> !"CANCELLED".equals(a.getStatus()))
+                    .collect(Collectors.toList());
+        } catch (Exception e) {
+            existingAppointments = new java.util.ArrayList<>();
+        }
 
         LocalDateTime now = LocalDateTime.now();
         LocalDateTime endDate = now.plusDays(14);

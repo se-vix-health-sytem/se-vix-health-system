@@ -60,9 +60,9 @@
                                               th:text="${appt.status ?: '-'}">-</span>
                                     </td>
                                     <td>
-                                        <span th:if="${appt.paymentStatus}"
+                                        <span th:if="${appt.paid}"
                                               class="badge bg-success rounded-pill">Paid</span>
-                                        <span th:unless="${appt.paymentStatus}"
+                                        <span th:unless="${appt.paid}"
                                               class="badge bg-warning text-dark rounded-pill">Unpaid</span>
                                     </td>
                                     <td class="small text-muted" th:text="${appt.notes ?: '-'}">-</td>

@@ -19,7 +19,7 @@
  * {@code JsonAppointmentRepository}, {@code JsonAuditLogRepository},
  * {@code JsonShiftRepository}, {@code JsonVacationRepository}
  *
- * Main curator: Viviana Fraccarolli
+ * Main curator: Viviana Fraccaroli
  *
  * Note: All team members may contribute to files in this package.
  */

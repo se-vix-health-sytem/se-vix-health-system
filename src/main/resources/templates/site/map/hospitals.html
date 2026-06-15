@@ -55,13 +55,14 @@
                         </div>
                         <div class="d-flex justify-content-between align-items-center">
                             <span th:if="${loc.type}" class="badge rounded-pill"
-                                  th:classappend="${loc.type == 'HOSPITAL' ? 'bg-primary' :
-                                                   loc.type == 'CLINIC' ? 'bg-info text-dark' : 'bg-secondary'}"
+                                  style="background:var(--vix-crimson);color:#fff;"
                                   th:text="${loc.type}">-</span>
                             <a th:if="${loc.lat != null and loc.lng != null}"
-                               th:href="@{/map/directions(lat=${loc.lat},lng=${loc.lng},name=${loc.name})}"
-                               class="btn btn-outline-primary rounded-pill btn-sm ms-auto">
-                                <i class="bi bi-signpost me-1"></i>Directions
+                               th:href="'https://www.google.com/maps/dir/?api=1&destination=' + ${loc.lat} + ',' + ${loc.lng}"
+                               target="_blank" rel="noopener"
+                               class="btn btn-sm rounded-pill ms-auto"
+                               style="background:var(--vix-gold);color:#fff;border:none;">
+                                <i class="bi bi-signpost-split me-1"></i>Get Directions
                             </a>
                         </div>
                     </div>
@@ -109,7 +110,7 @@
                     '<strong style="color:#7a1428;">' + (loc.name || '') + '</strong>' +
                     (loc.address ? '<br><small>' + loc.address + '</small>' : '') +
                     (loc.phone ? '<br><small>' + loc.phone + '</small>' : '') +
-                    '<br><a href="' + dirUrl + '" class="btn btn-sm btn-primary rounded-pill mt-2" style="font-size:0.75rem;">Get Directions</a>'
+                    '<br><a href="https://www.google.com/maps/dir/?api=1&destination=' + loc.lat + ',' + loc.lng + '" target="_blank" rel="noopener" style="display:inline-block;margin-top:0.5rem;padding:0.25rem 0.85rem;background:#7a1428;color:#fff;text-decoration:none;border-radius:2rem;font-size:0.75rem;font-weight:600;">&#x2197; Get Directions</a>'
                 );
 
                 markers.push(marker);

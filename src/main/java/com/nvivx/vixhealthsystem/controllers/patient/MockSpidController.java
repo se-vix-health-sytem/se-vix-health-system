@@ -45,7 +45,8 @@ public class MockSpidController {
      * @return Thymeleaf template {@code mock-spid/login}.
      */
     @GetMapping("/mock-spid/login")
-    public String spidLogin() {
+    public String spidLogin(@RequestParam(required = false) String redirect, Model model) {
+        model.addAttribute("redirect", redirect);
         return "mock-spid/login";
     }
 
@@ -66,25 +67,29 @@ public class MockSpidController {
     @PostMapping("/mock-spid/authenticate")
     public String spidAuthenticate(@RequestParam String fiscalCode,
                                    @RequestParam String pin,
+                                   @RequestParam(required = false) String redirect,
                                    Model model) {
         String fc = fiscalCode.trim().toUpperCase();
 
         if (fc.length() != 16) {
             model.addAttribute("error", "Codice fiscale non valido. Deve essere di 16 caratteri.");
+            model.addAttribute("redirect", redirect);
             return "mock-spid/login";
         }
         if (pin == null || pin.isBlank() || pin.length() < 6) {
             model.addAttribute("error", "PIN non valido. Inserisci almeno 6 cifre.");
+            model.addAttribute("redirect", redirect);
             return "mock-spid/login";
         }
 
         if (patientService.findByFiscalCode(fc).isEmpty()) {
             model.addAttribute("error", "Nessun account trovato per il codice fiscale inserito.");
+            model.addAttribute("redirect", redirect);
             return "mock-spid/login";
         }
 
-        // Hand off to the patient auth callback; fiscalCode acts as the "token"
-        return "redirect:/patient/spid-callback?fiscalCode=" + fc;
+        String redirectParam = (redirect != null && !redirect.isBlank()) ? "&redirect=" + redirect : "";
+        return "redirect:/patient/spid-callback?fiscalCode=" + fc + redirectParam;
     }
 
     // =========================================================
@@ -97,7 +102,8 @@ public class MockSpidController {
      * @return Thymeleaf template {@code mock-cie/login}.
      */
     @GetMapping("/mock-cie/login")
-    public String cieLogin() {
+    public String cieLogin(@RequestParam(required = false) String redirect, Model model) {
+        model.addAttribute("redirect", redirect);
         return "mock-cie/login";
     }
 
@@ -116,19 +122,23 @@ public class MockSpidController {
     @PostMapping("/mock-cie/authenticate")
     public String cieAuthenticate(@RequestParam String fiscalCode,
                                   @RequestParam String pin,
+                                  @RequestParam(required = false) String redirect,
                                   Model model) {
         String fc = fiscalCode.trim().toUpperCase();
 
         if (fc.length() != 16) {
             model.addAttribute("error", "Codice fiscale non valido. Deve essere di 16 caratteri.");
+            model.addAttribute("redirect", redirect);
             return "mock-cie/login";
         }
 
         if (patientService.findByFiscalCode(fc).isEmpty()) {
             model.addAttribute("error", "Nessun account trovato per il codice fiscale inserito.");
+            model.addAttribute("redirect", redirect);
             return "mock-cie/login";
         }
 
-        return "redirect:/patient/cie-callback?fiscalCode=" + fc;
+        String redirectParam = (redirect != null && !redirect.isBlank()) ? "&redirect=" + redirect : "";
+        return "redirect:/patient/cie-callback?fiscalCode=" + fc + redirectParam;
     }
 }

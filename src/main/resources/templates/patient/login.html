@@ -26,7 +26,7 @@
         <div class="p-4">
             <div th:if="${error}" class="alert alert-danger mb-3" th:text="${error}"></div>
 
-            <a th:href="@{/mock-spid/login}" class="d-block mb-3 text-decoration-none">
+            <a th:href="@{/mock-spid/login(redirect=${redirectUrl})}" class="d-block mb-3 text-decoration-none">
                 <div class="d-flex align-items-center p-3" style="border: 2px solid #06c; border-radius: 0.75rem;">
                     <div style="width: 52px; height: 52px; background: #06c; border-radius: 0.5rem; display:flex; align-items:center; justify-content:center;">
                         <span style="color:white; font-weight:900;">SPID</span>
@@ -39,7 +39,7 @@
                 </div>
             </a>
 
-            <a th:href="@{/mock-cie/login}" class="d-block mb-4 text-decoration-none">
+            <a th:href="@{/mock-cie/login(redirect=${redirectUrl})}" class="d-block mb-4 text-decoration-none">
                 <div class="d-flex align-items-center p-3" style="border: 2px solid #003da5; border-radius: 0.75rem;">
                     <div style="width: 52px; height: 52px; background: #003da5; border-radius: 0.5rem; display:flex; align-items:center; justify-content:center;">
                         <span style="color:white; font-weight:900;">CIE</span>
@@ -81,25 +81,38 @@
             <button onclick="this.closest('#devModalPatient').style.display='none'" style="background:none; border:none; font-size:1.3rem;">✕</button>
         </div>
         <div style="padding:1rem;">
-            <table style="width:100%; font-size:0.85rem;">
-                <thead><tr><th>Name</th><th>Fiscal Code (click to copy)</th></tr></thead>
-                <tbody>
-                <tr><td>Mario Rossi</td><td><code style="cursor:pointer;" onclick="copyToClipboard('RSSMRA80A01F205X')">RSSMRA80A01F205X</code></td></tr>
-                <tr><td>Laura Bianchi</td><td><code style="cursor:pointer;" onclick="copyToClipboard('BNCLRA92B41L219Y')">BNCLRA92B41L219Y</code></td></tr>
-                <tr><td>Giuseppe Verdi</td><td><code style="cursor:pointer;" onclick="copyToClipboard('VRDGPP75C12H501Z')">VRDGPP75C12H501Z</code></td></tr>
-                </tbody>
-            </table>
-            <div class="mt-2 small text-muted">Click a fiscal code to copy. Use any PIN (6+ digits).</div>
+            <p style="font-size:0.78rem; color:#888; margin-bottom:0.6rem;">
+                Click a patient to log in instantly via SPID (dev shortcut).
+            </p>
+            <div class="d-flex flex-column gap-2">
+                <a th:href="@{/patient/spid-callback(fiscalCode='RSSMRA80A01F205X',redirect=${redirectUrl})}"
+                   class="btn btn-sm text-start"
+                   style="background:#fff3cd;border:1px solid #ffc107;color:#856404;">
+                    <i class="bi bi-person-fill me-2"></i>Mario Rossi
+                    <code class="ms-2" style="font-size:0.75rem;">RSSMRA80A01F205X</code>
+                    <span class="ms-auto float-end" style="font-size:0.7rem;">▶ Login</span>
+                </a>
+                <a th:href="@{/patient/spid-callback(fiscalCode='BNCLRA92B41L219Y',redirect=${redirectUrl})}"
+                   class="btn btn-sm text-start"
+                   style="background:#fff3cd;border:1px solid #ffc107;color:#856404;">
+                    <i class="bi bi-person-fill me-2"></i>Laura Bianchi
+                    <code class="ms-2" style="font-size:0.75rem;">BNCLRA92B41L219Y</code>
+                    <span class="ms-auto float-end" style="font-size:0.7rem;">▶ Login</span>
+                </a>
+                <a th:href="@{/patient/spid-callback(fiscalCode='VRDGPP75C12H501Z',redirect=${redirectUrl})}"
+                   class="btn btn-sm text-start"
+                   style="background:#fff3cd;border:1px solid #ffc107;color:#856404;">
+                    <i class="bi bi-person-fill me-2"></i>Giuseppe Verdi
+                    <code class="ms-2" style="font-size:0.75rem;">VRDGPP75C12H501Z</code>
+                    <span class="ms-auto float-end" style="font-size:0.7rem;">▶ Login</span>
+                </a>
+            </div>
+            <div class="mt-2" style="font-size:0.72rem;color:#aaa;">
+                Or choose SPID / CIE above and use the 🔧 DEV button there to fill the form manually.
+            </div>
         </div>
     </div>
 </div>
-
-<script>
-    function copyToClipboard(text) {
-        navigator.clipboard.writeText(text);
-        alert('Copied: ' + text);
-    }
-</script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

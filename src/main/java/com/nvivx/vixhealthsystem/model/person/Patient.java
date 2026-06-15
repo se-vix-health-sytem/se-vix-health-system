@@ -224,6 +224,30 @@ public class Patient extends Person {
     }
 
     /**
+     * Updates the patient's editable profile fields in place.
+     * Identity fields (fiscalCode, id) are never touched here.
+     *
+     * @param name        new first name (ignored if blank)
+     * @param surname     new surname (ignored if blank)
+     * @param email       new email (may be null to clear)
+     * @param phoneNumber new phone (may be null to clear)
+     * @param birthPlace  new birth place (ignored if blank)
+     * @param birthDate   new birth date (ignored if null)
+     * @param gender      new gender ('M' or 'F'; ignored if '\0')
+     */
+    public void updateProfile(String name, String surname, String email,
+                              String phoneNumber, String birthPlace,
+                              java.time.LocalDate birthDate, char gender) {
+        if (name != null && !name.isBlank())     setName(name.trim());
+        if (surname != null && !surname.isBlank()) setSurname(surname.trim());
+        setEmail(email);
+        setPhoneNumber(phoneNumber);
+        if (birthPlace != null && !birthPlace.isBlank()) setBirthPlace(birthPlace.trim());
+        if (birthDate != null)  setBirthDate(birthDate);
+        if (gender != '\0')     setGender(gender);
+    }
+
+    /**
      * Deletes the patient's account by clearing all appointments
      * and removing the reference to the medical record.
      * <p>

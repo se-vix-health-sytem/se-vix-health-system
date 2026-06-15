@@ -104,14 +104,23 @@
 
                 <hr>
 
+                <!-- Success flash -->
+                <div th:if="${success}" class="alert alert-success rounded-3 mb-3"
+                     th:text="${success}"></div>
+
                 <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
                     <a th:href="@{/patient/dashboard}" class="btn btn-outline-secondary rounded-pill">
                         <i class="bi bi-arrow-left me-1"></i>Back to Dashboard
                     </a>
-                    <button class="btn btn-outline-danger rounded-pill"
-                            data-bs-toggle="modal" data-bs-target="#deleteModal">
-                        <i class="bi bi-trash me-1"></i>Delete Account
-                    </button>
+                    <div class="d-flex gap-2">
+                        <a th:href="@{/patient/profile/edit}" class="btn btn-primary rounded-pill">
+                            <i class="bi bi-pencil me-1"></i>Edit Profile
+                        </a>
+                        <button class="btn btn-outline-danger rounded-pill"
+                                data-bs-toggle="modal" data-bs-target="#deleteModal">
+                            <i class="bi bi-trash me-1"></i>Delete Account
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>

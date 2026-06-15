@@ -53,9 +53,14 @@
                     <div class="card-header"><i class="bi bi-clipboard2-pulse me-2"></i>Services Offered</div>
                     <div class="card-body">
                         <ul class="list-unstyled mb-0">
-                            <li th:each="svc : ${services}" class="py-1 border-bottom small">
-                                <i class="bi bi-check-circle me-2" style="color:var(--vix-gold);"></i>
-                                <span th:text="${svc}">Service</span>
+                            <li th:each="svc : ${services}" class="border-bottom">
+                                <a th:href="@{/patient/appointments/book}"
+                                   class="d-flex align-items-center gap-2 py-2 px-1 text-decoration-none"
+                                   style="color:inherit;">
+                                    <i class="bi bi-check-circle flex-shrink-0" style="color:var(--vix-gold);"></i>
+                                    <span class="small" th:text="${svc}">Service</span>
+                                    <i class="bi bi-arrow-right ms-auto small text-muted"></i>
+                                </a>
                             </li>
                         </ul>
                     </div>
@@ -72,20 +77,25 @@
                     </div>
                     <div class="card-body p-0">
                         <div th:if="${doctors != null and !doctors.isEmpty()}">
-                            <div th:each="doc : ${doctors}"
-                                 class="d-flex align-items-center gap-3 border-bottom px-3 py-2">
+                            <a th:each="doc : ${doctors}"
+                               th:href="@{/specialists/{id}(id=${doc.id})}"
+                               class="d-flex align-items-center gap-3 border-bottom px-3 py-2 text-decoration-none"
+                               style="color:inherit; transition:background .15s;"
+                               onmouseover="this.style.background='var(--vix-cream)'"
+                               onmouseout="this.style.background=''">
                                 <img th:src="${doctorImages != null and doctorImages.containsKey(doc.id) ? doctorImages[doc.id] : '/images/doctors/placeholder.jpg'}"
                                      th:alt="'Dr. ' + ${doc.name} + ' ' + ${doc.surname}"
                                      class="rounded-circle flex-shrink-0"
                                      width="48" height="48"
                                      style="object-fit:cover;border:2px solid var(--vix-gold);"
                                      onerror="this.onerror=null;this.src='/images/doctors/placeholder.jpg';">
-                                <div>
+                                <div class="flex-grow-1">
                                     <div class="fw-semibold small"
                                          th:text="'Dr. ' + ${doc.name} + ' ' + ${doc.surname}">-</div>
                                     <div class="text-muted small" th:text="${doc.specialty ?: '-'}">-</div>
                                 </div>
-                            </div>
+                                <i class="bi bi-chevron-right text-muted small"></i>
+                            </a>
                         </div>
                         <div th:if="${doctors == null or doctors.isEmpty()}"
                              class="text-center py-4 text-muted small">

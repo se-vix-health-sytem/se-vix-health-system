@@ -26,12 +26,12 @@
         <form th:action="@{/authenticate}" method="post">
             <div class="mb-3">
                 <label class="form-label">Email</label>
-                <input type="text" name="username" class="form-control" required autofocus>
+                <input type="text" name="username" id="staffEmail" class="form-control" required autofocus>
             </div>
 
             <div class="mb-3">
                 <label class="form-label">Password</label>
-                <input type="password" name="password" class="form-control" required>
+                <input type="password" name="password" id="staffPassword" class="form-control" required>
             </div>
 
             <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
@@ -98,36 +98,35 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr th:each="cred : ${devCredentials}">
+                        <tr th:each="cred : ${devCredentials}"
+                            th:if="${!cred.passwordResetTriggered}"
+                            style="cursor:pointer;"
+                            th:data-email="${cred.email}"
+                            th:data-password="${cred.password}"
+                            onclick="fillStaffCredentials(this.dataset.email, this.dataset.password)"
+                            title="Click to auto-fill login form">
                             <td th:text="${cred.name}">-</td>
                             <td><span class="badge bg-secondary" style="font-size:0.7rem;" th:text="${cred.role}">-</span></td>
-                            <td>
-                                <code style="font-size:0.78rem; cursor:pointer;"
-                                      th:text="${cred.email}"
-                                      onclick="navigator.clipboard.writeText(this.innerText)"
-                                      title="Click to copy">-</code>
-                            </td>
-                            <td>
-                                <span th:if="${!cred.passwordResetTriggered}">
-                                    <code style="color:#c0392b; cursor:pointer;"
-                                          th:text="${cred.password}"
-                                          onclick="navigator.clipboard.writeText(this.innerText)"
-                                          title="Click to copy">-</code>
-                                </span>
-                                <span th:if="${cred.passwordResetTriggered}"
-                                      class="badge bg-warning text-dark"
-                                      title="Reset link was sent — employee chose their own password. Update dev-credentials.json manually."
-                                      style="font-size:0.7rem;">
-                                    ⚠ reset triggered — unknown
-                                </span>
+                            <td><code style="font-size:0.78rem;" th:text="${cred.email}">-</code></td>
+                            <td><code style="color:#c0392b;" th:text="${cred.password}">-</code></td>
+                            <td><span style="font-size:0.72rem;color:#0a6;">▶ Use</span></td>
+                        </tr>
+                        <tr th:each="cred : ${devCredentials}" th:if="${cred.passwordResetTriggered}">
+                            <td th:text="${cred.name}">-</td>
+                            <td><span class="badge bg-secondary" style="font-size:0.7rem;" th:text="${cred.role}">-</span></td>
+                            <td><code style="font-size:0.78rem;" th:text="${cred.email}">-</code></td>
+                            <td colspan="2">
+                                <span class="badge bg-warning text-dark"
+                                      title="Reset link was sent — update dev-credentials.json manually."
+                                      style="font-size:0.7rem;">⚠ reset — unknown password</span>
                             </td>
                         </tr>
                     </tbody>
                 </table>
                 <div style="font-size:0.73rem; color:#888;">
+                    Click a row to auto-fill the login form &nbsp;·&nbsp;
                     Default password: <code>ChangeMe123!</code> &nbsp;·&nbsp;
-                    Click any email or password to copy &nbsp;·&nbsp;
-                    ⚠ badge = reset link was sent, update <code>dev-credentials.json</code> manually after confirming new password
+                    ⚠ = reset link sent, update <code>dev-credentials.json</code> manually
                 </div>
             </div>
 
@@ -140,5 +139,12 @@
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+function fillStaffCredentials(email, password) {
+    document.getElementById('staffEmail').value = email;
+    document.getElementById('staffPassword').value = password;
+    document.getElementById('devModal').style.display = 'none';
+}
+</script>
 </body>
 </html>

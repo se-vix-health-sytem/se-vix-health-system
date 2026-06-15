@@ -18,7 +18,7 @@
 ==============================================================================
 -->
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragments/head :: head(pageTitle)}"></head>
+<head th:replace="~{fragments/head :: head(${employee.name + ' ' + employee.surname})}"></head>
 <body>
 <div th:replace="~{fragments/dashboard-nav :: dashboardNav}"></div>
 
@@ -176,7 +176,7 @@
                                         <td th:text="${appt.patient != null ? appt.patient.name + ' ' + appt.patient.surname : 'Unknown'}">-</td>
                                         <td th:text="${appt.dateTime != null ? #temporals.format(appt.dateTime, 'dd/MM/yyyy HH:mm') : '-'}">-</td>
                                         <td><span class="badge rounded-pill" th:text="${appt.status ?: 'PENDING'}">-</span></td>
-                                        <td><i th:classappend="${appt.paymentStatus} ? 'bi-check-circle-fill text-success' : 'bi-x-circle text-danger'" class="bi"></i></td>
+                                        <td><i th:classappend="${appt.paid} ? 'bi-check-circle-fill text-success' : 'bi-x-circle text-danger'" class="bi"></i></td>
                                     </tr>
                                     </tbody>
                                 </table>

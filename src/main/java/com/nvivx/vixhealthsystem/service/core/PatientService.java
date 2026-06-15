@@ -139,16 +139,15 @@ public class PatientService {
     @Transactional
     public Patient updatePatient(long id, Patient updatedData) {
         Patient patient = findById(id);
-
-        if (updatedData.getName() != null) patient.setName(updatedData.getName());
-        if (updatedData.getSurname() != null) patient.setSurname(updatedData.getSurname());
-        if (updatedData.getEmail() != null) patient.setEmail(updatedData.getEmail());
-        if (updatedData.getPhoneNumber() != null) patient.setPhoneNumber(updatedData.getPhoneNumber());
-        if (updatedData.getFiscalCode() != null) patient.setFiscalCode(updatedData.getFiscalCode());
-        if (updatedData.getBirthDate() != null) patient.setBirthDate(updatedData.getBirthDate());
-        if (updatedData.getBirthPlace() != null) patient.setBirthPlace(updatedData.getBirthPlace());
-        if (updatedData.getGender() != '\0') patient.setGender(updatedData.getGender());
-
+        patient.updateProfile(
+                updatedData.getName(),
+                updatedData.getSurname(),
+                updatedData.getEmail(),
+                updatedData.getPhoneNumber(),
+                updatedData.getBirthPlace(),
+                updatedData.getBirthDate(),
+                updatedData.getGender()
+        );
         Patient saved = patientRepository.save(patient);
         auditService.log("UPDATE_PATIENT", "Patient", String.valueOf(id), "Updated patient details");
         return saved;
