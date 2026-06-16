@@ -129,7 +129,7 @@ document.addEventListener('DOMContentLoaded',() => { initNavTree('classvixhealth
 </div><!--header-->
 <div class="contents">
 
-<p>Controller for the public department directory — base URL <code class="JavaDocCode">/departments</code>.  
+<p>Controller for the public department directory : base URL <code class="JavaDocCode">/departments</code>.  
  <a href="#details">More...</a></p>
 <div class="dynheader">
 Collaboration diagram for DepartmentController:</div>
@@ -140,12 +140,12 @@ Collaboration diagram for DepartmentController:</div>
 <tr class="heading"><td colspan="2"><h2 id="header-pub-methods" class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a15cf8be3b9325adfb3a7bd6534384800" id="r_a15cf8be3b9325adfb3a7bd6534384800"><td class="memItemLeft">String&#160;</td><td class="memItemRight"><a class="el" href="#a15cf8be3b9325adfb3a7bd6534384800">listDepartments</a> (Model model)</td></tr>
-<tr class="memdesc:a15cf8be3b9325adfb3a7bd6534384800"><td class="mdescLeft">&#160;</td><td class="mdescRight">GET /departments — list all patient-facing clinical departments.  <br /></td></tr>
+<tr class="memdesc:a15cf8be3b9325adfb3a7bd6534384800"><td class="mdescLeft">&#160;</td><td class="mdescRight">GET /departments : list all patient-facing clinical departments.  <br /></td></tr>
 <tr class="memitem:ade8b9ce2f7a9d24050a86a3f56a824bc" id="r_ade8b9ce2f7a9d24050a86a3f56a824bc"><td class="memItemLeft">String&#160;</td><td class="memItemRight"><a class="el" href="#ade8b9ce2f7a9d24050a86a3f56a824bc">departmentDetail</a> (@PathVariable String id, Model model)</td></tr>
-<tr class="memdesc:ade8b9ce2f7a9d24050a86a3f56a824bc"><td class="mdescLeft">&#160;</td><td class="mdescRight">GET /departments/{id} — display the detail page for a single department.  <br /></td></tr>
+<tr class="memdesc:ade8b9ce2f7a9d24050a86a3f56a824bc"><td class="mdescLeft">&#160;</td><td class="mdescRight">GET /departments/{id} : display the detail page for a single department.  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Controller for the public department directory — base URL <code class="JavaDocCode">/departments</code>. </p>
+<div class="textblock"><p>Controller for the public department directory : base URL <code class="JavaDocCode">/departments</code>. </p>
 <p>Exposes a browseable listing of all clinical departments and a detail page for each one, showing the assigned doctors, the services offered, and a profile image map. The Administration department is hidden from the public list because it has no patient-facing services.</p>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="classvixhealthsystem_1_1service_1_1core_1_1_department_service.html" title="Manages hospital departments and their associated specialists.">DepartmentService</a> </dd></dl>
 
@@ -166,7 +166,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>GET /departments — list all patient-facing clinical departments. </p>
+<p>GET /departments : list all patient-facing clinical departments. </p>
 <p>The Administration department is excluded because it is internal-only and should not appear in the patient-facing section of the site.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -199,7 +199,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>GET /departments/{id} — display the detail page for a single department. </p>
+<p>GET /departments/{id} : display the detail page for a single department. </p>
 <p>Loads the department by its string identifier, then separately queries the doctors, services, and doctor image map that belong to it. Using the department's numeric <code class="JavaDocCode">Long</code> ID for the service calls avoids exposing the surrogate key in the URL path.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">

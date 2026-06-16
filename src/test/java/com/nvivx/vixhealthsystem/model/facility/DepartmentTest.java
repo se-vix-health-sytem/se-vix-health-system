@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * @brief Unit tests for Department.
  *
  * Checks that a department stores its identity fields, can be linked to a
- * MedicalFacility, and maintains a mutable employee list. Plain JUnit — no
+ * MedicalFacility, and maintains a mutable employee list. Plain JUnit : no
  * Spring context loaded.
  *
  * @see Department

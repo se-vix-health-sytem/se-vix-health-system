@@ -11,7 +11,7 @@
 <!-- Node1 -->
 <g id="Node000001" class="node">
 <title>Node1</title>
-<g id="a_Node000001"><a xlink:title="Manages hospital resource inventory — stock levels across all storage facilities, low&#45;stock detection...">
+<g id="a_Node000001"><a xlink:title="Manages hospital resource inventory : stock levels across all storage facilities, low&#45;stock detection...">
 <polygon fill="#999999" stroke="none" points="217.5,-392 0,-392 0,0 217.5,0 217.5,-392"/>
 <text xml:space="preserve" text-anchor="start" x="72" y="-378.25" font-family="Helvetica,sans-Serif" font-size="10.00">InventoryService</text>
 <text xml:space="preserve" text-anchor="start" x="107.25" y="-362.25" font-family="Helvetica,sans-Serif" font-size="10.00"> </text>

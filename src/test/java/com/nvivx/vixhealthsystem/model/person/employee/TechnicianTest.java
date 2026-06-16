@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.*;
  *
  * Verifies system role, employee type, and the getFaultyMachineList domain
  * method that filters machinery by FAULTY status without mutating the source
- * list. Plain JUnit — no Spring context loaded.
+ * list. Plain JUnit : no Spring context loaded.
  *
  * @see Technician
  */

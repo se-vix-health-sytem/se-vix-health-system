@@ -1,24 +1,23 @@
 /**
- * Business logic layer — all services, grouped by domain area.
+ * Business logic layer, grouped by domain area.
+ *
+ * Services are the only layer that should write to repositories directly.
+ * Controllers call services; services call repositories and each other where needed.
+ * Most service classes are annotated {@code @Transactional(readOnly=true)} at the
+ * class level, with {@code @Transactional} overrides on individual write methods.
  *
  * Sub-packages:
  * <ul>
- *   <li>{@code core}        — employee, patient, and department management</li>
- *   <li>{@code medical}     — appointments and medical records</li>
- *   <li>{@code resources}   — inventory, machinery, room availability</li>
- *   <li>{@code scheduling}  — shifts and vacation requests</li>
- *   <li>{@code integration} — Firebase authentication, payment simulation,
- *                             notifications, questionnaire</li>
+ *   <li>{@code core}        - employee, patient, and department management</li>
+ *   <li>{@code medical}     - appointments and medical records</li>
+ *   <li>{@code resources}   - inventory, machinery, room availability</li>
+ *   <li>{@code scheduling}  - shifts and vacation requests</li>
+ *   <li>{@code integration} - Firebase, payment simulation, notifications</li>
  * </ul>
  *
- * Root-level classes:
- * <ul>
- *   <li>{@code AuditService}      — writes immutable audit log entries (NFR02)</li>
- *   <li>{@code DevCredentialStore}— DEV-ONLY in-memory store for demo login credentials</li>
- * </ul>
- *
- * Most services are annotated {@code @Transactional(readOnly=true)} at the class level
- * and override with {@code @Transactional} on individual write methods.
+ * Root-level utilities:
+ * {@code AuditService} writes immutable log entries (NFR02);
+ * {@code DevCredentialStore} is a DEV-ONLY in-memory credential cache.
  *
  * Main curator: Lorena Valentina Buitrón Zambrano
  *

@@ -129,15 +129,15 @@ document.addEventListener('DOMContentLoaded',() => { initNavTree('namespacevixhe
 </div><!--header-->
 <div class="contents">
 
-<p>Hospital resource services — inventory, machinery, and rooms.  
+<p><a class="el" href="classvixhealthsystem_1_1model_1_1resource_1_1_resource.html" title="Represents a resource stored and managed by a medical facility.">Resource</a> management services: inventory, machinery, and room availability.  
 <a href="#details">More...</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-nested-classes" class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
 <tr class="memitem:InventoryService" id="r_InventoryService"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classvixhealthsystem_1_1service_1_1resources_1_1_inventory_service.html">InventoryService</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Manages hospital resource inventory — stock levels across all storage facilities, low-stock detection, and resource intake/consumption flows.  <a href="classvixhealthsystem_1_1service_1_1resources_1_1_inventory_service.html#details">More...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Manages hospital resource inventory : stock levels across all storage facilities, low-stock detection, and resource intake/consumption flows.  <a href="classvixhealthsystem_1_1service_1_1resources_1_1_inventory_service.html#details">More...</a><br /></td></tr>
 <tr class="memitem:InventoryServiceTest" id="r_InventoryServiceTest"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><b>InventoryServiceTest</b></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unit tests for <a class="el" href="classvixhealthsystem_1_1service_1_1resources_1_1_inventory_service.html" title="Manages hospital resource inventory — stock levels across all storage facilities, low-stock detection...">InventoryService</a> using Mockito mocks for all repositories and <a class="el" href="classvixhealthsystem_1_1service_1_1_audit_service.html" title="Writes immutable audit log entries for every significant action in the system (NFR02).">AuditService</a>. <br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unit tests for <a class="el" href="classvixhealthsystem_1_1service_1_1resources_1_1_inventory_service.html" title="Manages hospital resource inventory : stock levels across all storage facilities, low-stock detection...">InventoryService</a> using Mockito mocks for all repositories and <a class="el" href="classvixhealthsystem_1_1service_1_1_audit_service.html" title="Writes immutable audit log entries for every significant action in the system (NFR02).">AuditService</a>. <br /></td></tr>
 <tr class="memitem:MachineryService" id="r_MachineryService"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classvixhealthsystem_1_1service_1_1resources_1_1_machinery_service.html">MachineryService</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Manages the lifecycle and status of medical equipment across all hospital facilities.  <a href="classvixhealthsystem_1_1service_1_1resources_1_1_machinery_service.html#details">More...</a><br /></td></tr>
 <tr class="memitem:MachineryServiceTest" id="r_MachineryServiceTest"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><b>MachineryServiceTest</b></td></tr>
@@ -145,21 +145,22 @@ Classes</h2></td></tr>
 <tr class="memitem:ResourceTakeLogStore" id="r_ResourceTakeLogStore"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classvixhealthsystem_1_1service_1_1resources_1_1_resource_take_log_store.html">ResourceTakeLogStore</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">JSON-backed append log that records every resource takeout event performed by employees.  <a href="classvixhealthsystem_1_1service_1_1resources_1_1_resource_take_log_store.html#details">More...</a><br /></td></tr>
 <tr class="memitem:RoomService" id="r_RoomService"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classvixhealthsystem_1_1service_1_1resources_1_1_room_service.html">RoomService</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Manages patient admission and dismissal across inpatient rooms (UC22 — Triage, UC23 — <a class="el" href="classvixhealthsystem_1_1model_1_1person_1_1_patient.html" title="Represents a patient in the VIX Health System.">Patient</a> Dismissal) and provides bed-availability statistics for the dashboard.  <a href="classvixhealthsystem_1_1service_1_1resources_1_1_room_service.html#details">More...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Manages patient admission and dismissal across inpatient rooms (UC22 : Triage, UC23 : <a class="el" href="classvixhealthsystem_1_1model_1_1person_1_1_patient.html" title="Represents a patient in the VIX Health System.">Patient</a> Dismissal) and provides bed-availability statistics for the dashboard.  <a href="classvixhealthsystem_1_1service_1_1resources_1_1_room_service.html#details">More...</a><br /></td></tr>
 <tr class="memitem:RoomServiceTest" id="r_RoomServiceTest"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><b>RoomServiceTest</b></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unit tests for <a class="el" href="classvixhealthsystem_1_1service_1_1resources_1_1_room_service.html" title="Manages patient admission and dismissal across inpatient rooms (UC22 — Triage, UC23 — Patient Dismiss...">RoomService</a> using Mockito mocks for <a class="el" href="interfacevixhealthsystem_1_1repository_1_1_room_repository.html" title="JPA repository for Room entities.">RoomRepository</a>, <a class="el" href="interfacevixhealthsystem_1_1repository_1_1_patient_repository.html" title="JPA repository for Patient entities.">PatientRepository</a>, and <a class="el" href="classvixhealthsystem_1_1service_1_1_audit_service.html" title="Writes immutable audit log entries for every significant action in the system (NFR02).">AuditService</a>. <br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unit tests for <a class="el" href="classvixhealthsystem_1_1service_1_1resources_1_1_room_service.html" title="Manages patient admission and dismissal across inpatient rooms (UC22 : Triage, UC23 : Patient Dismiss...">RoomService</a> using Mockito mocks for <a class="el" href="interfacevixhealthsystem_1_1repository_1_1_room_repository.html" title="JPA repository for Room entities.">RoomRepository</a>, <a class="el" href="interfacevixhealthsystem_1_1repository_1_1_patient_repository.html" title="JPA repository for Patient entities.">PatientRepository</a>, and <a class="el" href="classvixhealthsystem_1_1service_1_1_audit_service.html" title="Writes immutable audit log entries for every significant action in the system (NFR02).">AuditService</a>. <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Hospital resource services — inventory, machinery, and rooms. </p>
+<div class="textblock"><p><a class="el" href="classvixhealthsystem_1_1model_1_1resource_1_1_resource.html" title="Represents a resource stored and managed by a medical facility.">Resource</a> management services: inventory, machinery, and room availability. </p>
+<p>The split between <code class="JavaDocCode">InventoryService</code> (consumables) and <code class="JavaDocCode">MachineryService</code> (equipment) reflects a real operational distinction; consumables are taken and replenished while machinery is tracked by status transitions and maintenance history.</p>
 <ul>
 <li>
-<code class="JavaDocCode">InventoryService</code> — manages consumable stock levels; buyers add resources, employees take them; both actions are audit-logged (UC25, UC27) </li>
+<code class="JavaDocCode">InventoryService</code> - stock levels; buyers add, employees take; both actions are audit-logged (UC25, UC27) </li>
 <li>
-<code class="JavaDocCode">MachineryService</code> — tracks the status and maintenance history of medical machinery </li>
+<code class="JavaDocCode">MachineryService</code> - machine status tracking and maintenance history </li>
 <li>
-<code class="JavaDocCode">RoomService</code> — queries room availability across departments </li>
+<code class="JavaDocCode">RoomService</code> - bed availability queries across departments </li>
 <li>
-<code class="JavaDocCode">ResourceTakeLogStore</code> — in-memory log of every resource taken by an employee, displayed on the staff manager's dashboard </li>
+<code class="JavaDocCode">ResourceTakeLogStore</code> - in-memory take log for the staff manager's view </li>
 </ul>
 <p>Main curator: Lorena Valentina Buitrón Zambrano</p>
 <p>Note: All team members may contribute to files in this package. </p>

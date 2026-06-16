@@ -1014,4 +1014,68 @@
   "username" : "RSSMRA80A01F205X",
   "details" : "Payment of €85.00 processed. Transaction: TXN-B1447A04",
   "timestamp" : "2026-06-15T23:05:10.6717943"
+}, {
+  "id" : 128,
+  "action" : "PATIENT_LOGIN",
+  "entityType" : "Patient",
+  "entityId" : "1",
+  "username" : "RSSMRA80A01F205X",
+  "details" : "Patient RSSMRA80A01F205X logged in",
+  "timestamp" : "2026-06-16T09:34:28.817656"
+}, {
+  "id" : 129,
+  "action" : "PATIENT_LOGIN",
+  "entityType" : "Patient",
+  "entityId" : "1",
+  "username" : "RSSMRA80A01F205X",
+  "details" : "Patient RSSMRA80A01F205X logged in",
+  "timestamp" : "2026-06-16T09:40:38.2738755"
+}, {
+  "id" : 130,
+  "action" : "PATIENT_LOGIN",
+  "entityType" : "Patient",
+  "entityId" : "1",
+  "username" : "RSSMRA80A01F205X",
+  "details" : "Patient RSSMRA80A01F205X logged in",
+  "timestamp" : "2026-06-16T10:03:16.7868543"
+}, {
+  "id" : 131,
+  "action" : "BOOK_APPOINTMENT",
+  "entityType" : "Appointment",
+  "entityId" : "1",
+  "username" : "RSSMRA80A01F205X",
+  "details" : "Patient RSSMRA80A01F205X booked appointment with Dr. Sofia Esposito on 22/06/2026 10:00",
+  "timestamp" : "2026-06-16T10:03:40.0747585"
+}, {
+  "id" : 132,
+  "action" : "PROCESS_PAYMENT",
+  "entityType" : "Appointment",
+  "entityId" : "1",
+  "username" : "RSSMRA80A01F205X",
+  "details" : "Payment of €85.00 processed. Transaction: TXN-A08B18E3",
+  "timestamp" : "2026-06-16T10:03:59.4219428"
+}, {
+  "id" : 133,
+  "action" : "PATIENT_LOGOUT",
+  "entityType" : "Patient",
+  "entityId" : "1",
+  "username" : "RSSMRA80A01F205X",
+  "details" : "Patient RSSMRA80A01F205X logged out",
+  "timestamp" : "2026-06-16T10:04:09.4211732"
+}, {
+  "id" : 134,
+  "action" : "REMOVE_RESOURCE_FROM_STORAGE",
+  "entityType" : "Storage",
+  "entityId" : "1",
+  "username" : "sara.conti@vixhealth.com",
+  "details" : "Sara Conti (Secretary) took 1 units of Bandages",
+  "timestamp" : "2026-06-16T10:04:24.6746178"
+}, {
+  "id" : 135,
+  "action" : "ADD_RESOURCE_TO_STORAGE",
+  "entityType" : "Storage",
+  "entityId" : "3",
+  "username" : "francesca.marini@vixhealth.com",
+  "details" : "Added 50 units of Thermometers to storage",
+  "timestamp" : "2026-06-16T10:04:46.6909631"
 } ]

@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 
 
 /**
- * @brief Manages hospital resource inventory — stock levels across all storage facilities,
+ * @brief Manages hospital resource inventory : stock levels across all storage facilities,
  *        low-stock detection, and resource intake/consumption flows.  Covers FR5.5 (inventory
  *        visibility) and UC25 (employee resource consumption) and UC27 (buyer restocking).
  *
@@ -72,9 +72,7 @@ public class InventoryService {
         this.takeLogStore = takeLogStore;
     }
 
-    // =========================================================
-    // READ OPERATIONS — RESOURCES
-    // =========================================================
+    // resource catalogue queries
 
     /**
      * Returns all resource catalogue entries in the system.
@@ -107,9 +105,9 @@ public class InventoryService {
         return resourceRepository.findByNameContainingIgnoreCase(name);
     }
 
-    // =========================================================
-    // WRITE OPERATIONS — RESOURCE CATALOGUE
-    // =========================================================
+    // =====================================================
+    // write operations
+    // =====================================================
 
     /**
      * Adds a new resource to the catalogue with zero initial stock.
@@ -185,9 +183,7 @@ public class InventoryService {
                 "Deleted resource: " + resource.getName());
     }
 
-    // =========================================================
-    // READ OPERATIONS — STOCK
-    // =========================================================
+    // stock and quantity helpers
 
     /**
      * Returns the stock map for a specific storage facility.
@@ -218,20 +214,6 @@ public class InventoryService {
     }
 
     /**
-     * Returns the stock quantities held in a single storage facility.
-     *
-     * Used when an employee can only draw from their own facility's storage.
-     *
-     * @param storageId  Primary key of the {@link Storage} to query.
-     * @return           Map of {@link Resource} to quantity in that storage; empty when not found.
-     */
-    public Map<Resource, Integer> getInventoryForStorage(Long storageId) {
-        return storageRepository.findById(storageId)
-                .map(Storage::getResources)
-                .orElse(java.util.Collections.emptyMap());
-    }
-
-    /**
      * Aggregates stock quantities across all storage facilities (FR7.2).
      *
      * Iterates all {@link Storage} entities and merges their resource maps by summing
@@ -242,7 +224,7 @@ public class InventoryService {
      */
     public Map<Resource, Integer> getTotalInventory() {
         Map<Resource, Integer> totalInventory = new HashMap<>();
-        // Iterate all storages — @ElementCollection(EAGER) loads each map in one query per storage
+        // Iterate all storages : @ElementCollection(EAGER) loads each map in one query per storage
         for (Storage storage : storageRepository.findAll()) {
             storage.getResources().forEach((resource, qty) ->
                     totalInventory.merge(resource, qty, Integer::sum));
@@ -252,7 +234,7 @@ public class InventoryService {
 
     /**
      * Returns all resources whose total stock across all facilities falls below
-     *        {@link #DEFAULT_LOW_STOCK_THRESHOLD} (FR5.5 — inventory alerts).
+     *        {@link #DEFAULT_LOW_STOCK_THRESHOLD} (FR5.5 : inventory alerts).
      *
      * @return Non-null list of {@link ResourceWithQuantity} wrappers; empty when all resources
      *         are adequately stocked.

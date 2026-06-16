@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <!--
 ==============================================================================
   FILE:    staff-manager/create-employee.html
@@ -7,8 +7,8 @@
            number fields are shown/hidden by JS based on the selected type.
 
   Model attributes:
-    - employeeTypes (List<String>) — available role types for the dropdown
-    - departments (List<Department>) — departments for the optional selector
+    - employeeTypes (List<String>): available role types for the dropdown
+    - departments (List<Department>): departments for the optional selector
 
   Dependencies:
     - fragments/head, fragments/dashboard-nav, fragments/footer
@@ -82,7 +82,7 @@
                     <div class="col-md-6">
                         <label class="form-label">Department <span class="text-muted small">(optional)</span></label>
                         <select name="departmentId" class="form-select">
-                            <option value="">— No department —</option>
+                            <option value="">-- No department --</option>
                             <option th:each="dept : ${departments}"
                                     th:value="${dept.id}"
                                     th:text="${dept.name + ' (ID ' + dept.id + ')'}">Department</option>

@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @brief Controller for the public hospital-location map pages — base URL {@code /map}.
+ * @brief Controller for the public hospital-location map pages : base URL {@code /map}.
  *
  * Provides the two location-related views: an interactive map that pins all
  * VIX Health System facilities, and a directions page that helps visitors plan
@@ -29,7 +29,7 @@ public class MapController {
     // =========================================================
 
     /**
-     * GET /map/hospitals — render the interactive hospital-location map.
+     * GET /map/hospitals : render the interactive hospital-location map.
      *
      * Each facility is projected into a plain {@link Map} ({@code name}, {@code lat},
      * {@code lng}, {@code address}, {@code phone}, {@code type}) so that Thymeleaf's
@@ -60,7 +60,7 @@ public class MapController {
     }
 
     /**
-     * GET /map/directions — render the directions and transport information page.
+     * GET /map/directions : render the directions and transport information page.
      *
      * @param model  Receives {@code pageTitle}.
      * @return       Thymeleaf template {@code site/map/directions}.

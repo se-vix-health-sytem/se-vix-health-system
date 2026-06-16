@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import java.util.List;
 
 /**
- * @brief Controller for the public-facing home page — base URL {@code /}.
+ * @brief Controller for the public-facing home page : base URL {@code /}.
  *
  * Assembles the data needed for the landing page: a curated selection of
  * featured specialists (first four in the database), the list of clinical
@@ -37,7 +37,7 @@ public class HomePageController {
     // =========================================================
 
     /**
-     * GET / — render the public home page.
+     * GET / : render the public home page.
      *
      * Limits featured specialists to the first four to keep the landing page
      * uncluttered.  The Administration department is filtered out because it

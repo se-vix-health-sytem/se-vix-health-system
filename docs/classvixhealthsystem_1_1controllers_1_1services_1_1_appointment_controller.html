@@ -129,7 +129,7 @@ document.addEventListener('DOMContentLoaded',() => { initNavTree('classvixhealth
 </div><!--header-->
 <div class="contents">
 
-<p>REST controller for the appointment resource — base URL <code class="JavaDocCode">/appointments</code>.  
+<p>REST controller for the appointment resource : base URL <code class="JavaDocCode">/appointments</code>.  
  <a href="#details">More...</a></p>
 <div class="dynheader">
 Collaboration diagram for AppointmentController:</div>
@@ -140,18 +140,18 @@ Collaboration diagram for AppointmentController:</div>
 <tr class="heading"><td colspan="2"><h2 id="header-pub-methods" class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a3855877771c2598017f6be07ff566af0" id="r_a3855877771c2598017f6be07ff566af0"><td class="memItemLeft"><a class="el" href="classvixhealthsystem_1_1model_1_1medical_1_1_appointment.html">Appointment</a>&#160;</td><td class="memItemRight"><a class="el" href="#a3855877771c2598017f6be07ff566af0">book</a> (@RequestBody <a class="el" href="classvixhealthsystem_1_1dto_1_1_create_appointment_request.html">CreateAppointmentRequest</a> req)</td></tr>
-<tr class="memdesc:a3855877771c2598017f6be07ff566af0"><td class="mdescLeft">&#160;</td><td class="mdescRight">POST /appointments — book a new appointment and return the saved entity.  <br /></td></tr>
+<tr class="memdesc:a3855877771c2598017f6be07ff566af0"><td class="mdescLeft">&#160;</td><td class="mdescRight">POST /appointments : book a new appointment and return the saved entity.  <br /></td></tr>
 <tr class="memitem:a21628cb98234120abbff3ed59335692b" id="r_a21628cb98234120abbff3ed59335692b"><td class="memItemLeft">List&lt; <a class="el" href="classvixhealthsystem_1_1model_1_1medical_1_1_appointment.html">Appointment</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a21628cb98234120abbff3ed59335692b">getAll</a> ()</td></tr>
-<tr class="memdesc:a21628cb98234120abbff3ed59335692b"><td class="mdescLeft">&#160;</td><td class="mdescRight">GET /appointments — retrieve all appointments in the system.  <br /></td></tr>
+<tr class="memdesc:a21628cb98234120abbff3ed59335692b"><td class="mdescLeft">&#160;</td><td class="mdescRight">GET /appointments : retrieve all appointments in the system.  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>REST controller for the appointment resource — base URL <code class="JavaDocCode">/appointments</code>. </p>
+<div class="textblock"><p>REST controller for the appointment resource : base URL <code class="JavaDocCode">/appointments</code>. </p>
 <p>Provides a minimal JSON API for creating and retrieving appointments programmatically (e.g., from integration tests or future front-end clients). Patient-facing appointment management lives in <code class="JavaDocCode">PatientAppointmentController</code>; secretary-facing management lives in <code class="JavaDocCode">SecretaryController</code>. This controller is intentionally thin and delegates all business logic to <code><a class="el" href="classvixhealthsystem_1_1service_1_1medical_1_1_appointment_service.html">AppointmentService</a></code>.</p>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="classvixhealthsystem_1_1service_1_1medical_1_1_appointment_service.html" title="Manages appointment booking, rescheduling, and cancellation for the VIX Health System.">AppointmentService</a> </dd>
 <dd>
-<a class="el" href="classvixhealthsystem_1_1controllers_1_1patient_1_1_patient_appointment_controller.html" title="Controller for patient-side appointment operations — base URL /patient.">vixhealthsystem.controllers.patient.PatientAppointmentController</a> </dd>
+<a class="el" href="classvixhealthsystem_1_1controllers_1_1patient_1_1_patient_appointment_controller.html" title="Controller for patient-side appointment operations : base URL /patient.">vixhealthsystem.controllers.patient.PatientAppointmentController</a> </dd>
 <dd>
-<a class="el" href="classvixhealthsystem_1_1controllers_1_1staff_1_1_secretary_controller.html" title="Controller for Secretary staff members — base URL /secretary.">vixhealthsystem.controllers.staff.SecretaryController</a> </dd></dl>
+<a class="el" href="classvixhealthsystem_1_1controllers_1_1staff_1_1_secretary_controller.html" title="Controller for Secretary staff members : base URL /secretary.">vixhealthsystem.controllers.staff.SecretaryController</a> </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="_appointment_controller_8java_source.html#l00027">27</a> of file <a class="el" href="_appointment_controller_8java_source.html">AppointmentController.java</a>.</p>
 </div><a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Member Function Documentation</h2>
@@ -170,7 +170,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>POST /appointments — book a new appointment and return the saved entity. </p>
+<p>POST /appointments : book a new appointment and return the saved entity. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">req</td><td>JSON body deserialised into a <code><a class="el" href="classvixhealthsystem_1_1dto_1_1_create_appointment_request.html">CreateAppointmentRequest</a></code>; must contain a valid patient ID, specialist ID, and date/time. </td></tr>
@@ -202,7 +202,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>GET /appointments — retrieve all appointments in the system. </p>
+<p>GET /appointments : retrieve all appointments in the system. </p>
 <dl class="section return"><dt>Returns</dt><dd>List of every <code><a class="el" href="classvixhealthsystem_1_1model_1_1medical_1_1_appointment.html">Appointment</a></code> currently stored, unsorted. </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="_appointment_controller_8java_source.html#l00062">62</a> of file <a class="el" href="_appointment_controller_8java_source.html">AppointmentController.java</a>.</p>

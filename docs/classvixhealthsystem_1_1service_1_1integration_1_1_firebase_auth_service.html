@@ -151,8 +151,8 @@ Public Member Functions</h2></td></tr>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Thin wrapper around the Firebase Admin SDK and the Identity Toolkit REST API. </p>
 <p>Handles the three account-management operations the hospital system needs: creating staff accounts on hire, generating password-reset links, deleting accounts on termination, and verifying credentials on login.</p>
-<p>The Admin SDK is used for privileged server-side operations (create/delete/reset). Sign-in uses the public REST endpoint because the Admin SDK does not expose password verification — it is intended for server-side management, not auth.</p>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="classvixhealthsystem_1_1service_1_1core_1_1_employee_service.html" title="Central service for employee lifecycle management — creation, lookup, update, deletion,...">vixhealthsystem.service.core.EmployeeService</a> </dd>
+<p>The Admin SDK is used for privileged server-side operations (create/delete/reset). Sign-in uses the public REST endpoint because the Admin SDK does not expose password verification : it is intended for server-side management, not auth.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="classvixhealthsystem_1_1service_1_1core_1_1_employee_service.html" title="Central service for employee lifecycle management : creation, lookup, update, deletion,...">vixhealthsystem.service.core.EmployeeService</a> </dd>
 <dd>
 <a class="el" href="classvixhealthsystem_1_1config_1_1_firebase_config.html" title="Sets up the Firebase Admin SDK from a service-account JSON file.">vixhealthsystem.config.FirebaseConfig</a> </dd></dl>
 
@@ -287,7 +287,7 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Verifies an email/password pair against Firebase and returns the user's Firebase UID. </p>
-<p>Uses the Identity Toolkit REST endpoint rather than the Admin SDK because the Admin SDK does not provide password verification — that is intentional by design. The returned UID is used to look up the matching <code><a class="el" href="classvixhealthsystem_1_1model_1_1person_1_1employee_1_1_employee.html">vixhealthsystem.model.person.employee.Employee</a></code> row in the database.</p>
+<p>Uses the Identity Toolkit REST endpoint rather than the Admin SDK because the Admin SDK does not provide password verification : that is intentional by design. The returned UID is used to look up the matching <code><a class="el" href="classvixhealthsystem_1_1model_1_1person_1_1employee_1_1_employee.html">vixhealthsystem.model.person.employee.Employee</a></code> row in the database.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">email</td><td>The account's email address. </td></tr>

@@ -129,25 +129,20 @@ document.addEventListener('DOMContentLoaded',() => { initNavTree('namespacevixhe
 </div><!--header-->
 <div class="contents">
 
-<p>Service-layer controllers — appointment management and payment.  
+<p>Shared service controllers: appointment CRUD and payment processing.  
 <a href="#details">More...</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-nested-classes" class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
 <tr class="memitem:AppointmentController" id="r_AppointmentController"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classvixhealthsystem_1_1controllers_1_1services_1_1_appointment_controller.html">AppointmentController</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">REST controller for the appointment resource — base URL <code class="JavaDocCode">/appointments</code>.  <a href="classvixhealthsystem_1_1controllers_1_1services_1_1_appointment_controller.html#details">More...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">REST controller for the appointment resource : base URL <code class="JavaDocCode">/appointments</code>.  <a href="classvixhealthsystem_1_1controllers_1_1services_1_1_appointment_controller.html#details">More...</a><br /></td></tr>
 <tr class="memitem:PaymentController" id="r_PaymentController"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classvixhealthsystem_1_1controllers_1_1services_1_1_payment_controller.html">PaymentController</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Controller for the payment workflow — base URL <code class="JavaDocCode">/payment</code>.  <a href="classvixhealthsystem_1_1controllers_1_1services_1_1_payment_controller.html#details">More...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Controller for the payment workflow : base URL <code class="JavaDocCode">/payment</code>.  <a href="classvixhealthsystem_1_1controllers_1_1services_1_1_payment_controller.html#details">More...</a><br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Service-layer controllers — appointment management and payment. </p>
-<p>Unlike the role-specific sub-packages, these controllers handle shared functionality accessed by multiple user types:</p>
-<ul>
-<li>
-<code class="JavaDocCode">AppointmentController</code> — CRUD operations on appointments; used by both secretaries and medical specialists </li>
-<li>
-<code class="JavaDocCode">PaymentController</code> — shows the payment form, processes (simulated) charges, and serves the confirmation page </li>
-</ul>
+<div class="textblock"><p>Shared service controllers: appointment CRUD and payment processing. </p>
+<p>Unlike the role-specific sub-packages, these two controllers serve multiple user types. <code class="JavaDocCode">AppointmentController</code> is used by both secretaries and specialists; <code class="JavaDocCode">PaymentController</code> is accessible to patients and secretaries.</p>
+<p>The payment flow is simulated (no real charges) and exists only to demonstrate the end-to-end booking lifecycle for the demo.</p>
 <p>Main curator: Lorena Valentina Buitrón Zambrano</p>
 <p>Note: All team members may contribute to files in this package. </p>
 </div></div><!-- contents -->

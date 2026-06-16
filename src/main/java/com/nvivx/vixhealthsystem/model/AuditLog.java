@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
  * Represents an audit log entry for tracking system changes (NFR02).
  * <p>
  * Audit log entries are stored as JSON (audit-logs.json), not in the SQL database.
- * These records cannot be deleted or modified by normal users —
+ * These records cannot be deleted or modified by normal users :
  * they provide an immutable history of all significant actions in the system.
  */
 public class AuditLog {

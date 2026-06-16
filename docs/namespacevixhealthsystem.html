@@ -137,19 +137,17 @@ Packages</h2></td></tr>
 <tr class="memitem:config" id="r_config"><td class="memItemLeft">package &#160;</td><td class="memItemRight"><a class="el" href="namespacevixhealthsystem_1_1config.html">config</a></td></tr>
 <tr class="memdesc:namespacevixhealthsystem_1_1config"><td class="mdescLeft">&#160;</td><td class="mdescRight">Spring configuration classes for the VIX Health System. <br /></td></tr>
 <tr class="memitem:controllers" id="r_controllers"><td class="memItemLeft">package &#160;</td><td class="memItemRight"><a class="el" href="namespacevixhealthsystem_1_1controllers.html">controllers</a></td></tr>
-<tr class="memdesc:namespacevixhealthsystem_1_1controllers"><td class="mdescLeft">&#160;</td><td class="mdescRight">MVC controllers — one sub-package per user role. <br /></td></tr>
-<tr class="memitem:database" id="r_database"><td class="memItemLeft">package &#160;</td><td class="memItemRight"><a class="el" href="namespacevixhealthsystem_1_1database.html">database</a></td></tr>
-<tr class="memdesc:namespacevixhealthsystem_1_1database"><td class="mdescLeft">&#160;</td><td class="mdescRight">Low-level database access utilities. <br /></td></tr>
+<tr class="memdesc:namespacevixhealthsystem_1_1controllers"><td class="mdescLeft">&#160;</td><td class="mdescRight">MVC controllers, organised by user role. <br /></td></tr>
 <tr class="memitem:dto" id="r_dto"><td class="memItemLeft">package &#160;</td><td class="memItemRight"><a class="el" href="namespacevixhealthsystem_1_1dto.html">dto</a></td></tr>
-<tr class="memdesc:namespacevixhealthsystem_1_1dto"><td class="mdescLeft">&#160;</td><td class="mdescRight">Data Transfer Objects that move data across layer boundaries. <br /></td></tr>
+<tr class="memdesc:namespacevixhealthsystem_1_1dto"><td class="mdescLeft">&#160;</td><td class="mdescRight">Data Transfer Objects for crossing layer boundaries. <br /></td></tr>
 <tr class="memitem:exception" id="r_exception"><td class="memItemLeft">package &#160;</td><td class="memItemRight"><a class="el" href="namespacevixhealthsystem_1_1exception.html">exception</a></td></tr>
-<tr class="memdesc:namespacevixhealthsystem_1_1exception"><td class="mdescLeft">&#160;</td><td class="mdescRight">Custom exceptions and the global error handler. <br /></td></tr>
+<tr class="memdesc:namespacevixhealthsystem_1_1exception"><td class="mdescLeft">&#160;</td><td class="mdescRight">Typed business exceptions for the VIX domain. <br /></td></tr>
 <tr class="memitem:model" id="r_model"><td class="memItemLeft">package &#160;</td><td class="memItemRight"><a class="el" href="namespacevixhealthsystem_1_1model.html">model</a></td></tr>
-<tr class="memdesc:namespacevixhealthsystem_1_1model"><td class="mdescLeft">&#160;</td><td class="mdescRight">Domain model — the core of the application. <br /></td></tr>
+<tr class="memdesc:namespacevixhealthsystem_1_1model"><td class="mdescLeft">&#160;</td><td class="mdescRight">Domain model: JPA entities and enums that form the core of VIX. <br /></td></tr>
 <tr class="memitem:repository" id="r_repository"><td class="memItemLeft">package &#160;</td><td class="memItemRight"><a class="el" href="namespacevixhealthsystem_1_1repository.html">repository</a></td></tr>
-<tr class="memdesc:namespacevixhealthsystem_1_1repository"><td class="mdescLeft">&#160;</td><td class="mdescRight">Data access layer — Spring Data JPA repositories and JSON-backed stores. <br /></td></tr>
+<tr class="memdesc:namespacevixhealthsystem_1_1repository"><td class="mdescLeft">&#160;</td><td class="mdescRight">Data access layer: JPA repositories and JSON-backed stores. <br /></td></tr>
 <tr class="memitem:service" id="r_service"><td class="memItemLeft">package &#160;</td><td class="memItemRight"><a class="el" href="namespacevixhealthsystem_1_1service.html">service</a></td></tr>
-<tr class="memdesc:namespacevixhealthsystem_1_1service"><td class="mdescLeft">&#160;</td><td class="mdescRight">Business logic layer — all services, grouped by domain area. <br /></td></tr>
+<tr class="memdesc:namespacevixhealthsystem_1_1service"><td class="mdescLeft">&#160;</td><td class="mdescRight">Business logic layer, grouped by domain area. <br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-nested-classes" class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
@@ -160,25 +158,8 @@ Classes</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Root package of the VIX Health System. </p>
-<p>VIX is a hospital management platform developed as a university software engineering project. It covers patient registration and authentication, appointment booking, staff management, medical records, inventory tracking, and basic payment simulation.</p>
-<p>The codebase is split into the following sub-packages: </p><ul>
-<li>
-<code class="JavaDocCode">config</code> — Spring Security and Firebase bootstrap </li>
-<li>
-<code class="JavaDocCode">controllers</code> — MVC controllers, one sub-package per user role </li>
-<li>
-<code class="JavaDocCode">database</code> — low-level JDBC utilities (used outside JPA) </li>
-<li>
-<code class="JavaDocCode">dto</code> — lightweight objects that cross controller/service boundaries </li>
-<li>
-<code class="JavaDocCode">exception</code> — custom exceptions and the global error handler </li>
-<li>
-<code class="JavaDocCode">model</code> — JPA entities and enums; the core domain </li>
-<li>
-<code class="JavaDocCode">repository</code> — Spring Data JPA interfaces and JSON-backed stores </li>
-<li>
-<code class="JavaDocCode">service</code> — all business logic, grouped by domain area </li>
-</ul>
+<p>VIX is a hospital management platform built for a university software engineering project. It handles patient authentication via a mock SPID/CIE flow, appointment booking, staff management across six role types, medical records, inventory and machinery tracking, and a simulated payment flow.</p>
+<p>The code is split into eight sub-packages: <code class="JavaDocCode">config</code> (security and Firebase bootstrap), <code class="JavaDocCode">controllers</code> (MVC, one sub-package per role), <code class="JavaDocCode">database</code> (low-level JDBC utilities), <code class="JavaDocCode">dto</code> (cross-layer data carriers), <code class="JavaDocCode">exception</code> (typed business exceptions), <code class="JavaDocCode">model</code> (JPA entities and enums), <code class="JavaDocCode">repository</code> (Spring Data and JSON-backed stores), and <code class="JavaDocCode">service</code> (all business logic).</p>
 <p>Entry point: <code><a class="el" href="classvixhealthsystem_1_1_vix_health_system_application.html">vixhealthsystem.VixHealthSystemApplication</a></code> </p>
 </div></div><!-- contents -->
 </div><!-- doc-content -->

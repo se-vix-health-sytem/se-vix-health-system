@@ -13,7 +13,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
- * @brief Controller for the public symptom-triage questionnaire — base URL {@code /questionnaire}.
+ * @brief Controller for the public symptom-triage questionnaire : base URL {@code /questionnaire}.
  *
  * Guides prospective patients through a lightweight symptom assessment and
  * recommends the appropriate specialist or department.  The mapping from
@@ -30,7 +30,7 @@ public class QuestionnaireController {
     // =========================================================
 
     /**
-     * GET /questionnaire — render the symptom-input questionnaire form.
+     * GET /questionnaire : render the symptom-input questionnaire form.
      *
      * @param model  Receives {@code pageTitle} and {@code symptomCategories}
      *               (a map of symptom keys to human-readable labels).
@@ -48,16 +48,16 @@ public class QuestionnaireController {
     // =========================================================
 
     /**
-     * POST /questionnaire/result — evaluate the submitted symptoms and display a recommendation.
+     * POST /questionnaire/result : evaluate the submitted symptoms and display a recommendation.
      *
      * Passes the symptom inputs to {@link #analyzeSymptoms} to determine the
      * appropriate specialist type and urgency level, then forwards the result
      * map to the result template.
      *
      * @param symptomArea  Key identifying the primary symptom (e.g., {@code "chest_pain"}).
-     * @param severity     Optional severity level — {@code "high"}, {@code "medium"}, or
+     * @param severity     Optional severity level : {@code "high"}, {@code "medium"}, or
      *                     {@code "low"}; affects the urgency calculation.
-     * @param duration     Optional duration hint — e.g., {@code "weeks"}; affects urgency.
+     * @param duration     Optional duration hint : e.g., {@code "weeks"}; affects urgency.
      * @param model        Receives {@code recommendation} (the analysis result map)
      *                     and {@code pageTitle}.
      * @param redirectAttributes  Unused; retained for future flash-message needs.

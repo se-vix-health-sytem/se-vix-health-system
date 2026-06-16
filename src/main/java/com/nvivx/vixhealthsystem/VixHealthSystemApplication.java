@@ -26,7 +26,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  *   edge [color="#888888", arrowhead=open, arrowsize=0.8];
  *
  *   root [label="VIX Health System", fillcolor="#1e3a5f", fontcolor=white, penwidth=2];
- *   ctrl [label="controllers\n(MVC — one per role)",      fillcolor="#1e5f3a", fontcolor=white];
+ *   ctrl [label="controllers\n(MVC : one per role)",      fillcolor="#1e5f3a", fontcolor=white];
  *   model[label="model\n(JPA entities)",                  fillcolor="#1e3a5f", fontcolor="#a8d4ff"];
  *   svc  [label="service\n(business logic)",              fillcolor="#3a1e5f", fontcolor=white];
  *   repo [label="repository\n(data access)",              fillcolor="#5f3a1e", fontcolor=white];

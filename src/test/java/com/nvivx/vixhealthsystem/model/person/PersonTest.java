@@ -13,7 +13,7 @@ class TestPerson extends Person {}
  * @brief Unit tests for the abstract Person base class.
  *
  * Uses a minimal TestPerson subclass to exercise shared demographic fields and
- * the age-calculation helper. Plain JUnit — no Spring context loaded.
+ * the age-calculation helper. Plain JUnit : no Spring context loaded.
  *
  * @see Person
  */

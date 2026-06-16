@@ -129,7 +129,7 @@ document.addEventListener('DOMContentLoaded',() => { initNavTree('classvixhealth
 </div><!--header-->
 <div class="contents">
 
-<p>Controller for <a class="el" href="classvixhealthsystem_1_1model_1_1person_1_1employee_1_1_buyer.html" title="Part of the purchasing department.">Buyer</a> staff members — base URL <code class="JavaDocCode">/buyer</code>.  
+<p>Controller for <a class="el" href="classvixhealthsystem_1_1model_1_1person_1_1employee_1_1_buyer.html" title="Part of the purchasing department.">Buyer</a> staff members : base URL <code class="JavaDocCode">/buyer</code>.  
  <a href="#details">More...</a></p>
 <div class="dynheader">
 Collaboration diagram for BuyerController:</div>
@@ -144,32 +144,32 @@ Classes</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 id="header-pub-methods" class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:ad54bda4156edb99e36df40ff0e3065bb" id="r_ad54bda4156edb99e36df40ff0e3065bb"><td class="memItemLeft">String&#160;</td><td class="memItemRight"><a class="el" href="#ad54bda4156edb99e36df40ff0e3065bb">dashboard</a> (Model model)</td></tr>
-<tr class="memdesc:ad54bda4156edb99e36df40ff0e3065bb"><td class="mdescLeft">&#160;</td><td class="mdescRight">GET /buyer/dashboard — render the buyer's overview dashboard.  <br /></td></tr>
+<tr class="memdesc:ad54bda4156edb99e36df40ff0e3065bb"><td class="mdescLeft">&#160;</td><td class="mdescRight">GET /buyer/dashboard : render the buyer's overview dashboard.  <br /></td></tr>
 <tr class="memitem:ab9c44748643fb740d2c98ec1e43b1c9e" id="r_ab9c44748643fb740d2c98ec1e43b1c9e"><td class="memItemLeft">String&#160;</td><td class="memItemRight"><a class="el" href="#ab9c44748643fb740d2c98ec1e43b1c9e">viewInventory</a> (Model model, HttpSession session)</td></tr>
-<tr class="memdesc:ab9c44748643fb740d2c98ec1e43b1c9e"><td class="mdescLeft">&#160;</td><td class="mdescRight">GET /buyer/inventory — list all resources currently in storage.  <br /></td></tr>
+<tr class="memdesc:ab9c44748643fb740d2c98ec1e43b1c9e"><td class="mdescLeft">&#160;</td><td class="mdescRight">GET /buyer/inventory : list all resources currently in storage.  <br /></td></tr>
 <tr class="memitem:a5f098df36529704103a6c51a421a0e05" id="r_a5f098df36529704103a6c51a421a0e05"><td class="memItemLeft">String&#160;</td><td class="memItemRight"><a class="el" href="#a5f098df36529704103a6c51a421a0e05">viewLowStock</a> (Model model)</td></tr>
-<tr class="memdesc:a5f098df36529704103a6c51a421a0e05"><td class="mdescLeft">&#160;</td><td class="mdescRight">GET /buyer/inventory/low-stock — list only resources below the stock threshold.  <br /></td></tr>
+<tr class="memdesc:a5f098df36529704103a6c51a421a0e05"><td class="mdescLeft">&#160;</td><td class="mdescRight">GET /buyer/inventory/low-stock : list only resources below the stock threshold.  <br /></td></tr>
 <tr class="memitem:abcb4ea8061f83e83f51da6cb1eb5cde5" id="r_abcb4ea8061f83e83f51da6cb1eb5cde5"><td class="memItemLeft">String&#160;</td><td class="memItemRight"><a class="el" href="#abcb4ea8061f83e83f51da6cb1eb5cde5">showAddResourceForm</a> (Model model)</td></tr>
-<tr class="memdesc:abcb4ea8061f83e83f51da6cb1eb5cde5"><td class="mdescLeft">&#160;</td><td class="mdescRight">GET /buyer/inventory/add — render the add-resource form.  <br /></td></tr>
+<tr class="memdesc:abcb4ea8061f83e83f51da6cb1eb5cde5"><td class="mdescLeft">&#160;</td><td class="mdescRight">GET /buyer/inventory/add : render the add-resource form.  <br /></td></tr>
 <tr class="memitem:a3e2d80d9ff0fd98771aae045affb82a5" id="r_a3e2d80d9ff0fd98771aae045affb82a5"><td class="memItemLeft">String&#160;</td><td class="memItemRight"><a class="el" href="#a3e2d80d9ff0fd98771aae045affb82a5">addResource</a> (@RequestParam String name, @RequestParam String description, @RequestParam int quantity, @RequestParam float price, @RequestParam String unit, HttpSession session, Model model)</td></tr>
-<tr class="memdesc:a3e2d80d9ff0fd98771aae045affb82a5"><td class="mdescLeft">&#160;</td><td class="mdescRight">POST /buyer/inventory/add — create a new resource and add initial stock.  <br /></td></tr>
+<tr class="memdesc:a3e2d80d9ff0fd98771aae045affb82a5"><td class="mdescLeft">&#160;</td><td class="mdescRight">POST /buyer/inventory/add : create a new resource and add initial stock.  <br /></td></tr>
 <tr class="memitem:a3f8ce4db86494225c4f76d3426ec731a" id="r_a3f8ce4db86494225c4f76d3426ec731a"><td class="memItemLeft">String&#160;</td><td class="memItemRight"><a class="el" href="#a3f8ce4db86494225c4f76d3426ec731a">viewResourceDetails</a> (@PathVariable Long resourceId, Model model)</td></tr>
-<tr class="memdesc:a3f8ce4db86494225c4f76d3426ec731a"><td class="mdescLeft">&#160;</td><td class="mdescRight">GET /buyer/inventory/{resourceId} — display details for a single resource.  <br /></td></tr>
+<tr class="memdesc:a3f8ce4db86494225c4f76d3426ec731a"><td class="mdescLeft">&#160;</td><td class="mdescRight">GET /buyer/inventory/{resourceId} : display details for a single resource.  <br /></td></tr>
 <tr class="memitem:a8e32da3753aa3128c29fd7117fe16de4" id="r_a8e32da3753aa3128c29fd7117fe16de4"><td class="memItemLeft">String&#160;</td><td class="memItemRight"><a class="el" href="#a8e32da3753aa3128c29fd7117fe16de4">updateQuantity</a> (@RequestParam Long resourceId, @RequestParam int quantity, @RequestParam String action, HttpSession session, Model model)</td></tr>
-<tr class="memdesc:a8e32da3753aa3128c29fd7117fe16de4"><td class="mdescLeft">&#160;</td><td class="mdescRight">POST /buyer/inventory/update-quantity — add or remove units for an existing resource.  <br /></td></tr>
+<tr class="memdesc:a8e32da3753aa3128c29fd7117fe16de4"><td class="mdescLeft">&#160;</td><td class="mdescRight">POST /buyer/inventory/update-quantity : add or remove units for an existing resource.  <br /></td></tr>
 <tr class="memitem:a673a49a3b18bcd731676b1d26420d146" id="r_a673a49a3b18bcd731676b1d26420d146"><td class="memItemLeft">String&#160;</td><td class="memItemRight"><a class="el" href="#a673a49a3b18bcd731676b1d26420d146">viewMyShifts</a> (HttpSession session, Model model)</td></tr>
-<tr class="memdesc:a673a49a3b18bcd731676b1d26420d146"><td class="mdescLeft">&#160;</td><td class="mdescRight">GET /buyer/my-shifts — display the buyer's assigned shifts and approved vacations.  <br /></td></tr>
+<tr class="memdesc:a673a49a3b18bcd731676b1d26420d146"><td class="mdescLeft">&#160;</td><td class="mdescRight">GET /buyer/my-shifts : display the buyer's assigned shifts and approved vacations.  <br /></td></tr>
 <tr class="memitem:a91a5eaa17c492bffb6ee02a0e679817c" id="r_a91a5eaa17c492bffb6ee02a0e679817c"><td class="memItemLeft">String&#160;</td><td class="memItemRight"><a class="el" href="#a91a5eaa17c492bffb6ee02a0e679817c">viewProfile</a> (HttpSession session, Model model)</td></tr>
-<tr class="memdesc:a91a5eaa17c492bffb6ee02a0e679817c"><td class="mdescLeft">&#160;</td><td class="mdescRight">GET /buyer/profile — display the buyer's personal profile page.  <br /></td></tr>
+<tr class="memdesc:a91a5eaa17c492bffb6ee02a0e679817c"><td class="mdescLeft">&#160;</td><td class="mdescRight">GET /buyer/profile : display the buyer's personal profile page.  <br /></td></tr>
 <tr class="memitem:aaa57a3e202e08250b1bfc7f158e687c2" id="r_aaa57a3e202e08250b1bfc7f158e687c2"><td class="memItemLeft">String&#160;</td><td class="memItemRight"><a class="el" href="#aaa57a3e202e08250b1bfc7f158e687c2">viewResourceLog</a> (Model model)</td></tr>
-<tr class="memdesc:aaa57a3e202e08250b1bfc7f158e687c2"><td class="mdescLeft">&#160;</td><td class="mdescRight">GET /buyer/resource-log — show the full resource-take audit log.  <br /></td></tr>
+<tr class="memdesc:aaa57a3e202e08250b1bfc7f158e687c2"><td class="mdescLeft">&#160;</td><td class="mdescRight">GET /buyer/resource-log : show the full resource-take audit log.  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Controller for <a class="el" href="classvixhealthsystem_1_1model_1_1person_1_1employee_1_1_buyer.html" title="Part of the purchasing department.">Buyer</a> staff members — base URL <code class="JavaDocCode">/buyer</code>. </p>
+<div class="textblock"><p>Controller for <a class="el" href="classvixhealthsystem_1_1model_1_1person_1_1employee_1_1_buyer.html" title="Part of the purchasing department.">Buyer</a> staff members : base URL <code class="JavaDocCode">/buyer</code>. </p>
 <p>Buyers are responsible for procurement and inventory management. This controller covers the full purchasing workflow: viewing and updating stock levels, adding new resources, monitoring low-stock alerts, reviewing the resource-take audit log, and accessing personal shift and profile pages.</p>
 <p>Only accessible to users with <code class="JavaDocCode">ROLE_BUYER</code>.</p>
 <p>Use cases covered: UC25 (resource management), UC30 (profile/shifts).</p>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="classvixhealthsystem_1_1service_1_1resources_1_1_inventory_service.html" title="Manages hospital resource inventory — stock levels across all storage facilities, low-stock detection...">InventoryService</a> </dd>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="classvixhealthsystem_1_1service_1_1resources_1_1_inventory_service.html" title="Manages hospital resource inventory : stock levels across all storage facilities, low-stock detection...">InventoryService</a> </dd>
 <dd>
 <a class="el" href="classvixhealthsystem_1_1service_1_1resources_1_1_resource_take_log_store.html" title="JSON-backed append log that records every resource takeout event performed by employees.">ResourceTakeLogStore</a> </dd>
 <dd>
@@ -194,7 +194,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>GET /buyer/dashboard — render the buyer's overview dashboard. </p>
+<p>GET /buyer/dashboard : render the buyer's overview dashboard. </p>
 <p>Populates low-stock count, total resource count, and the buyer's display name (resolved from the first buyer in the database as a temporary measure until session-backed identity is fully wired).</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -231,7 +231,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>GET /buyer/inventory — list all resources currently in storage. </p>
+<p>GET /buyer/inventory : list all resources currently in storage. </p>
 <p>Aggregates stock quantities across all storage locations and wraps each entry in an <code><a class="el" href="classvixhealthsystem_1_1controllers_1_1staff_1_1_buyer_controller_1_1_inventory_item.html">InventoryItem</a></code> for the view. Resources with fewer than 50 units are flagged as low-stock. An empty list is substituted and an error banner is shown if the service call fails.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -265,7 +265,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>GET /buyer/inventory/low-stock — list only resources below the stock threshold. </p>
+<p>GET /buyer/inventory/low-stock : list only resources below the stock threshold. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">model</td><td>Receives <code class="JavaDocCode">resources</code> (all items flagged as low-stock), <code class="JavaDocCode">pageTitle</code>, and <code class="JavaDocCode">isLowStockView=true</code>. </td></tr>
@@ -297,7 +297,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>GET /buyer/inventory/add — render the add-resource form. </p>
+<p>GET /buyer/inventory/add : render the add-resource form. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">model</td><td>Receives <code class="JavaDocCode">pageTitle</code>. </td></tr>
@@ -358,7 +358,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>POST /buyer/inventory/add — create a new resource and add initial stock. </p>
+<p>POST /buyer/inventory/add : create a new resource and add initial stock. </p>
 <p>Creates the resource entity via <code><a class="el" href="classvixhealthsystem_1_1service_1_1resources_1_1_inventory_service.html">InventoryService</a></code>, then calls the domain method <code class="JavaDocCode">Buyer.addResourceToStorage</code> to record the initial quantity. The acting buyer is resolved from the session.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -367,7 +367,7 @@ Public Member Functions</h2></td></tr>
     <tr><td class="paramname">quantity</td><td>Initial quantity to add to storage; must be positive. </td></tr>
     <tr><td class="paramname">price</td><td>Unit price in euros. </td></tr>
     <tr><td class="paramname">unit</td><td>Unit of measure label (e.g., "units", "boxes"). </td></tr>
-    <tr><td class="paramname">session</td><td>HTTP session; used to resolve the authenticated <a class="el" href="classvixhealthsystem_1_1model_1_1person_1_1employee_1_1_buyer.html" title="Part of the purchasing department.">Buyer</a> via <code class="JavaDocCode">"user"</code> — needed because the <a class="el" href="classvixhealthsystem_1_1model_1_1person_1_1employee_1_1_buyer.html" title="Part of the purchasing department.">Buyer</a> domain object contains the business logic for adding stock. </td></tr>
+    <tr><td class="paramname">session</td><td>HTTP session; used to resolve the authenticated <a class="el" href="classvixhealthsystem_1_1model_1_1person_1_1employee_1_1_buyer.html" title="Part of the purchasing department.">Buyer</a> via <code class="JavaDocCode">"user"</code> : needed because the <a class="el" href="classvixhealthsystem_1_1model_1_1person_1_1employee_1_1_buyer.html" title="Part of the purchasing department.">Buyer</a> domain object contains the business logic for adding stock. </td></tr>
     <tr><td class="paramname">model</td><td>Receives a success or error <code class="JavaDocCode">message</code> attribute. </td></tr>
   </table>
   </dd>
@@ -401,7 +401,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>GET /buyer/inventory/{resourceId} — display details for a single resource. </p>
+<p>GET /buyer/inventory/{resourceId} : display details for a single resource. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">resourceId</td><td>Database ID of the resource to display. </td></tr>
@@ -453,7 +453,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>POST /buyer/inventory/update-quantity — add or remove units for an existing resource. </p>
+<p>POST /buyer/inventory/update-quantity : add or remove units for an existing resource. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">resourceId</td><td>ID of the resource whose stock level is being changed. </td></tr>
@@ -493,7 +493,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>GET /buyer/my-shifts — display the buyer's assigned shifts and approved vacations. </p>
+<p>GET /buyer/my-shifts : display the buyer's assigned shifts and approved vacations. </p>
 <p>The session attribute <code class="JavaDocCode">"user"</code> is read directly (rather than using the Spring Security principal) to obtain the <a class="el" href="classvixhealthsystem_1_1model_1_1person_1_1employee_1_1_buyer.html" title="Part of the purchasing department.">Buyer</a>'s database ID, which is then used to query shifts and vacation records.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -531,7 +531,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>GET /buyer/profile — display the buyer's personal profile page. </p>
+<p>GET /buyer/profile : display the buyer's personal profile page. </p>
 <p>Reloads a fresh <a class="el" href="classvixhealthsystem_1_1model_1_1person_1_1employee_1_1_employee.html" title="Represents a generic employee in the system.">Employee</a> entity from the database to avoid using a potentially stale session object. Falls back to the session entity if the DB lookup fails.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -565,7 +565,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>GET /buyer/resource-log — show the full resource-take audit log. </p>
+<p>GET /buyer/resource-log : show the full resource-take audit log. </p>
 <p>Displays every recorded instance of an employee taking a resource from storage, giving the buyer visibility over consumption patterns.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">

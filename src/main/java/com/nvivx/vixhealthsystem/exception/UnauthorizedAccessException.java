@@ -3,7 +3,7 @@ package com.nvivx.vixhealthsystem.exception;
 /**
  * @brief Thrown when a user attempts an action they are not authorised to perform.
  *
- * Distinct from authentication failure — the user is known but lacks the required role
+ * Distinct from authentication failure : the user is known but lacks the required role
  * or ownership of the targeted resource.
  *
  * @see GlobalExceptionHandler

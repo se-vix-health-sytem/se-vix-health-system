@@ -187,6 +187,7 @@ public abstract class Employee extends Person {
      *
      * @return {@code true} when department, facility, and storage are all set.
      */
+    @JsonIgnore
     public boolean hasFacilityStorage() {
         return getDepartment() != null
                 && getDepartment().getMedicalFacility() != null
@@ -199,6 +200,7 @@ public abstract class Employee extends Person {
      * @return the facility's {@link Storage}
      * @throws IllegalStateException if department, facility, or storage is not set
      */
+    @JsonIgnore
     public Storage getFacilityStorage() {
         if (!hasFacilityStorage()) {
             throw new IllegalStateException("Employee has no department/facility/storage assigned");

@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
- * @brief Controller for the public contact form — no base URL prefix.
+ * @brief Controller for the public contact form : no base URL prefix.
  *
  * Presents a simple contact form and handles its submission.  In the current
  * implementation the message is logged to the application log rather than
@@ -27,7 +27,7 @@ public class ContactController {
     // =========================================================
 
     /**
-     * GET /contact — render the contact form page.
+     * GET /contact : render the contact form page.
      *
      * @param model  Receives {@code pageTitle}.
      * @return       Thymeleaf template {@code site/contact}.
@@ -43,7 +43,7 @@ public class ContactController {
     // =========================================================
 
     /**
-     * POST /contact/submit — log a contact-form submission and redirect with a confirmation.
+     * POST /contact/submit : log a contact-form submission and redirect with a confirmation.
      *
      * The message content is currently written to the application log only.
      * A real deployment would forward the message to the hospital's support

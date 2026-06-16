@@ -129,7 +129,7 @@ document.addEventListener('DOMContentLoaded',() => { initNavTree('classvixhealth
 </div><!--header-->
 <div class="contents">
 
-<p>Manages patient medical records — creation and appending of diagnoses, prescriptions, and exam results.  
+<p>Manages patient medical records : creation and appending of diagnoses, prescriptions, and exam results.  
  <a href="#details">More...</a></p>
 <div class="dynheader">
 Collaboration diagram for MedicalRecordService:</div>
@@ -161,7 +161,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a78d1d6c3da68a1167e0f5efbfa4d2fb1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns all surgeries recorded for the given patient.  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Manages patient medical records — creation and appending of diagnoses, prescriptions, and exam results. </p>
+<div class="textblock"><p>Manages patient medical records : creation and appending of diagnoses, prescriptions, and exam results. </p>
 <p>Annotated <code class="JavaDocCode">@Transactional(readOnly=true)</code> at the class level; write methods override with <code class="JavaDocCode">@Transactional</code>.</p>
 <p>All mutations are recorded via <code><a class="el" href="classvixhealthsystem_1_1service_1_1_audit_service.html">AuditService</a></code> to satisfy NFR02 (traceability). When a patient has no record yet, write operations auto-create one rather than failing.</p>
 <p><a class="el" href="classvixhealthsystem_1_1model_1_1medical_1_1_prescription.html" title="Represents a medical prescription issued by a medical specialist.">Prescription</a> issuance delegates to <code><a class="el" href="classvixhealthsystem_1_1model_1_1person_1_1employee_1_1_medical_specialist.html#a0f0408694c13420decc3b876340e5180">vixhealthsystem.model.person.employee.MedicalSpecialist#appPrescriptionForPatient</a></code> so that domain invariants are enforced by the model layer.</p>
@@ -250,7 +250,7 @@ Public Member Functions</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="_medical_record_service_8java_source.html#l00084">84</a> of file <a class="el" href="_medical_record_service_8java_source.html">MedicalRecordService.java</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_medical_record_service_8java_source.html#l00273">getConditions()</a>, <a class="el" href="_medical_record_service_8java_source.html#l00285">getPrescriptions()</a>, and <a class="el" href="_medical_record_service_8java_source.html#l00297">getSurgeries()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_medical_record_service_8java_source.html#l00271">getConditions()</a>, <a class="el" href="_medical_record_service_8java_source.html#l00283">getPrescriptions()</a>, and <a class="el" href="_medical_record_service_8java_source.html#l00295">getSurgeries()</a>.</p>
 
 </div>
 </div>
@@ -527,7 +527,7 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_medical_record_service_8java_source.html#l00273">273</a> of file <a class="el" href="_medical_record_service_8java_source.html">MedicalRecordService.java</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_medical_record_service_8java_source.html#l00271">271</a> of file <a class="el" href="_medical_record_service_8java_source.html">MedicalRecordService.java</a>.</p>
 
 <p class="reference">References <a class="el" href="_medical_record_service_8java_source.html#l00084">getMedicalRecordByPatientId()</a>.</p>
 
@@ -563,7 +563,7 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_medical_record_service_8java_source.html#l00285">285</a> of file <a class="el" href="_medical_record_service_8java_source.html">MedicalRecordService.java</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_medical_record_service_8java_source.html#l00283">283</a> of file <a class="el" href="_medical_record_service_8java_source.html">MedicalRecordService.java</a>.</p>
 
 <p class="reference">References <a class="el" href="_medical_record_service_8java_source.html#l00084">getMedicalRecordByPatientId()</a>.</p>
 
@@ -599,7 +599,7 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_medical_record_service_8java_source.html#l00297">297</a> of file <a class="el" href="_medical_record_service_8java_source.html">MedicalRecordService.java</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_medical_record_service_8java_source.html#l00295">295</a> of file <a class="el" href="_medical_record_service_8java_source.html">MedicalRecordService.java</a>.</p>
 
 <p class="reference">References <a class="el" href="_medical_record_service_8java_source.html#l00084">getMedicalRecordByPatientId()</a>.</p>
 

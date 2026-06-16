@@ -11,7 +11,7 @@
 <!-- Node1 -->
 <g id="Node000001" class="node">
 <title>Node1</title>
-<g id="a_Node000001"><a xlink:title="Manages the patient lifecycle — registration, lookup, partial updates, and GDPR&#45;compliant account del...">
+<g id="a_Node000001"><a xlink:title="Manages the patient lifecycle : registration, lookup, partial updates, and GDPR&#45;compliant account del...">
 <polygon fill="#999999" stroke="none" points="162.75,-288 0,-288 0,0 162.75,0 162.75,-288"/>
 <text xml:space="preserve" text-anchor="start" x="49.5" y="-274.25" font-family="Helvetica,sans-Serif" font-size="10.00">PatientService</text>
 <text xml:space="preserve" text-anchor="start" x="79.88" y="-258.25" font-family="Helvetica,sans-Serif" font-size="10.00"> </text>

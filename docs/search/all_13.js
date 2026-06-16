@@ -7,8 +7,9 @@ var searchData=
   ['updatemachinestatus_4',['updateMachineStatus',['../classvixhealthsystem_1_1controllers_1_1staff_1_1_technician_controller.html#a370f526131d08cb23b8e05853642cbc8',1,'vixhealthsystem.controllers.staff.TechnicianController.updateMachineStatus()'],['../classvixhealthsystem_1_1service_1_1resources_1_1_machinery_service.html#ad4d1be20b2ce24692b23c2b75c3ad0e7',1,'vixhealthsystem.service.resources.MachineryService.updateMachineStatus()']]],
   ['updatepassword_5',['updatePassword',['../classvixhealthsystem_1_1service_1_1_dev_credential_store.html#a67971b7a70dfd3d7f1868026a6cba4dd',1,'vixhealthsystem::service::DevCredentialStore']]],
   ['updatepatient_6',['updatePatient',['../classvixhealthsystem_1_1service_1_1core_1_1_patient_service.html#abf7f8aa067d45c3d45a9150431455483',1,'vixhealthsystem::service::core::PatientService']]],
-  ['updatequantity_7',['updateQuantity',['../classvixhealthsystem_1_1controllers_1_1staff_1_1_buyer_controller.html#a8e32da3753aa3128c29fd7117fe16de4',1,'vixhealthsystem::controllers::staff::BuyerController']]],
-  ['updateresource_8',['updateResource',['../classvixhealthsystem_1_1service_1_1resources_1_1_inventory_service.html#ab0c470265b0b3d29bca529a0a1fa721c',1,'vixhealthsystem::service::resources::InventoryService']]],
-  ['updatestatus_9',['updateStatus',['../classvixhealthsystem_1_1model_1_1resource_1_1_machinery.html#a4bb9486757ce225941aaaf759b357a57',1,'vixhealthsystem::model::resource::Machinery']]],
-  ['used_10',['Technologies Used',['../index.html#technologies',1,'']]]
+  ['updateprofile_7',['updateProfile',['../classvixhealthsystem_1_1controllers_1_1patient_1_1_patient_auth_controller.html#a65141bcec6f067e88388ee717e90d815',1,'vixhealthsystem.controllers.patient.PatientAuthController.updateProfile()'],['../classvixhealthsystem_1_1model_1_1person_1_1_patient.html#ac2be1dc7b1c4a9fb4439df378ac4b485',1,'vixhealthsystem.model.person.Patient.updateProfile()']]],
+  ['updatequantity_8',['updateQuantity',['../classvixhealthsystem_1_1controllers_1_1staff_1_1_buyer_controller.html#a8e32da3753aa3128c29fd7117fe16de4',1,'vixhealthsystem::controllers::staff::BuyerController']]],
+  ['updateresource_9',['updateResource',['../classvixhealthsystem_1_1service_1_1resources_1_1_inventory_service.html#ab0c470265b0b3d29bca529a0a1fa721c',1,'vixhealthsystem::service::resources::InventoryService']]],
+  ['updatestatus_10',['updateStatus',['../classvixhealthsystem_1_1model_1_1resource_1_1_machinery.html#a4bb9486757ce225941aaaf759b357a57',1,'vixhealthsystem::model::resource::Machinery']]],
+  ['used_11',['Technologies Used',['../index.html#technologies',1,'']]]
 ];

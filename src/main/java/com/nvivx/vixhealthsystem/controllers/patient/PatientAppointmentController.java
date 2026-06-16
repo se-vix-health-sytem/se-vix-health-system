@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * @brief Controller for patient-side appointment operations — base URL {@code /patient}.
+ * @brief Controller for patient-side appointment operations : base URL {@code /patient}.
  *
  * Lets authenticated patients view their appointment history, browse available
  * time slots for a given specialist, book a new appointment, reschedule an
@@ -57,7 +57,7 @@ public class PatientAppointmentController {
     // =========================================================
 
     /**
-     * GET /patient/appointments — display the logged-in patient's appointments split into upcoming and past.
+     * GET /patient/appointments : display the logged-in patient's appointments split into upcoming and past.
      *
      * Upcoming appointments are those in the future with a status that is neither
      * CANCELLED nor COMPLETED.  Past appointments cover everything else, including
@@ -110,7 +110,7 @@ public class PatientAppointmentController {
     }
 
     /**
-     * GET /patient/appointments/book — render the specialist selection step of the booking flow.
+     * GET /patient/appointments/book : render the specialist selection step of the booking flow.
      *
      * @param model    Receives {@code specialists}, {@code patient}, and {@code pageTitle}.
      * @param session  HTTP session; must contain a {@code "patient"} attribute.
@@ -133,7 +133,7 @@ public class PatientAppointmentController {
     }
 
     /**
-     * GET /patient/appointments/book/{specialistId} — display available time slots for a specialist.
+     * GET /patient/appointments/book/{specialistId} : display available time slots for a specialist.
      *
      * Generates hourly slots over the next 14 weekdays (09:00–17:00) and
      * removes any slot already taken by a non-cancelled appointment.
@@ -179,7 +179,7 @@ public class PatientAppointmentController {
     // =========================================================
 
     /**
-     * POST /patient/appointments/book — save a new appointment for the logged-in patient.
+     * POST /patient/appointments/book : save a new appointment for the logged-in patient.
      *
      * Uses the domain method {@code Patient.makeAppointment} to create the
      * {@link Appointment} entity so that model-level invariants are enforced.
@@ -240,7 +240,7 @@ public class PatientAppointmentController {
     }
 
     /**
-     * POST /patient/appointments/{apptId}/reschedule — move an existing appointment to a new slot.
+     * POST /patient/appointments/{apptId}/reschedule : move an existing appointment to a new slot.
      *
      * Verifies that the appointment belongs to the logged-in patient before
      * delegating to the domain method {@code Appointment.reschedule}.  The new
@@ -300,7 +300,7 @@ public class PatientAppointmentController {
     }
 
     /**
-     * POST /patient/appointments/{apptId}/cancel — cancel one of the patient's appointments.
+     * POST /patient/appointments/{apptId}/cancel : cancel one of the patient's appointments.
      *
      * Verifies ownership before calling the domain method {@code Appointment.cancel}
      * so that a patient cannot cancel another patient's appointment by guessing an ID.

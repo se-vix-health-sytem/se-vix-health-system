@@ -129,7 +129,7 @@ document.addEventListener('DOMContentLoaded',() => { initNavTree('namespacevixhe
 </div><!--header-->
 <div class="contents">
 
-<p>Staff scheduling data — shifts and vacation requests.  
+<p><a class="el" href="classvixhealthsystem_1_1model_1_1staff_1_1_shift.html" title="Represents a work shift assigned to an employee.">Shift</a> and vacation data for hospital staff.  
 <a href="#details">More...</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-nested-classes" class="groupheader"><a id="nested-classes" name="nested-classes"></a>
@@ -144,14 +144,9 @@ Classes</h2></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unit tests for <a class="el" href="classvixhealthsystem_1_1model_1_1staff_1_1_vacation_request.html" title="Represents a vacation request submitted by an employee.">VacationRequest</a> using plain JUnit (no Spring context). <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Staff scheduling data — shifts and vacation requests. </p>
-<p>These entities are stored as JSON (not SQL) because they change frequently and don't require relational joins with the rest of the database. The JSON files live under <code class="JavaDocCode">src/main/resources/storage/</code>.</p>
-<ul>
-<li>
-<code class="JavaDocCode">Shift</code> — a single work shift assigned to an employee (date, type: MORNING/AFTERNOON/NIGHT, optional notes) </li>
-<li>
-<code class="JavaDocCode">VacationRequest</code> — a leave request submitted by an employee; approved or denied by the staff manager </li>
-</ul>
+<div class="textblock"><p><a class="el" href="classvixhealthsystem_1_1model_1_1staff_1_1_shift.html" title="Represents a work shift assigned to an employee.">Shift</a> and vacation data for hospital staff. </p>
+<p>These entities are backed by JSON files under <code class="JavaDocCode">src/main/resources/storage/</code> rather than the SQL database. The rationale: shifts and vacations change constantly, have no foreign-key constraints to protect, and would generate schema migrations for little relational benefit.</p>
+<p><code class="JavaDocCode">Shift</code> represents a single work period (date + MORNING/AFTERNOON/NIGHT). <code class="JavaDocCode">VacationRequest</code> is submitted by any staff member and approved or denied by the staff manager; once approved it should block shift assignments for the covered date range.</p>
 <p>Main curator: Navjot Kaur</p>
 <p>Note: All team members may contribute to files in this package. </p>
 </div></div><!-- contents -->

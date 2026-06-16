@@ -1,11 +1,11 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <!--
   ============================================================
   Template : site/index.html
-  Role     : Public — all visitors
+  Role     : Public: all visitors
   Access   : Public
   Purpose  : Homepage with hero, stats, departments, booking CTA, specialists, map, and contact sections.
-  Model    : siteName (String) — browser tab title; departments (List<Department>); featuredSpecialists (List<MedicalSpecialist>); doctorImages (Map<Long,String>); totalDepartments (int); totalSpecialists (int); session.patient / session.user — auth state for nav and booking card
+  Model    : siteName (String): browser tab title; departments (List<Department>); featuredSpecialists (List<MedicalSpecialist>); doctorImages (Map<Long,String>); totalDepartments (int); totalSpecialists (int); session.patient / session.user: auth state for nav and booking card
   Controller: SiteController (GET /)
   ============================================================
 -->
@@ -687,7 +687,7 @@
                 <h1>Your Health,<br/>Our Priority</h1>
                 <p class="lead">
                     VIX Health System brings together one full-service hospital and two day-healthcare
-                    centres in Trento — offering seamless online booking, secure medical records,
+                    centres in Trento: offering seamless online booking, secure medical records,
                     and real-time care coordination.
                 </p>
                 <div class="d-flex flex-wrap gap-3 mt-4">
@@ -839,7 +839,7 @@
                 </h2>
                 <div class="section-divider" style="background:linear-gradient(90deg,var(--vix-gold-lt),transparent)"></div>
                 <p style="opacity:.85;line-height:1.75;font-size:.95rem">
-                    Choose your department, doctor, and preferred time slot — all from home.
+                    Choose your department, doctor, and preferred time slot: all from home.
                     Receive instant email confirmation and a reminder 48 hours before your visit.
                 </p>
                 <ul class="list-unstyled mt-3" style="font-size:.88rem;opacity:.85">
@@ -857,7 +857,7 @@
                     <div th:if="${session.patient != null}">
                         <p class="text-muted mb-4" style="font-size:.9rem; line-height:1.7">
                             Welcome back, <strong th:text="${session.patient.name}">Patient</strong>!
-                            You're all set — jump straight to booking.
+                            You're all set: jump straight to booking.
                         </p>
                         <a th:href="@{/patient/appointments/book}" class="btn-book-primary d-block text-center">
                             <i class="bi bi-calendar-plus me-2"></i>Book an Appointment
@@ -870,7 +870,7 @@
                     <!-- Not logged in -->
                     <div th:if="${session.patient == null}">
                         <p class="text-muted mb-3" style="font-size:.84rem">
-                            Select your preferences below — login required to confirm.
+                            Select your preferences below: login required to confirm.
                         </p>
                         <p class="text-muted mb-4" style="font-size:.9rem; line-height:1.7">
                             Log in to your patient account to view available slots, choose your preferred

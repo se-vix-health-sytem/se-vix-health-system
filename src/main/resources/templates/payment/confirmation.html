@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <!--
 ==============================================================================
   FILE:    payment/confirmation.html
@@ -7,10 +7,10 @@
            error (flash error), and fallback (direct navigation with no flash).
 
   Model attributes:
-    - message (String) — success flash (redirect attribute)
-    - error (String) — failure flash (redirect attribute)
-    - appointmentId (Long) — the appointment that was paid
-    - appointment (Appointment) — appointment details (may be null)
+    - message (String): success flash (redirect attribute)
+    - error (String): failure flash (redirect attribute)
+    - appointmentId (Long): the appointment that was paid
+    - appointment (Appointment): appointment details (may be null)
 
   Dependencies:
     - fragments/head, fragments/navbar, fragments/footer
@@ -95,7 +95,7 @@
         </div>
     </div>
 
-    <!-- Fallback (no flash attributes — direct navigation) -->
+    <!-- Fallback (no flash attributes: direct navigation) -->
     <div th:if="${message == null and error == null}" class="text-center">
         <div class="rounded-circle mx-auto d-flex align-items-center justify-content-center mb-4"
              style="width:90px;height:90px;background:var(--vix-cream);border:2px solid var(--vix-gold);">

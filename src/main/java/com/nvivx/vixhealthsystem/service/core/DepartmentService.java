@@ -49,9 +49,7 @@ public class DepartmentService {
         this.employeeRepository = employeeRepository;
     }
 
-    // =========================================================
-    // READ OPERATIONS — DEPARTMENTS
-    // =========================================================
+    // department finders
 
     /**
      * Returns every department persisted in the database.
@@ -89,9 +87,9 @@ public class DepartmentService {
         }
     }
 
-    // =========================================================
-    // READ OPERATIONS — SPECIALISTS
-    // =========================================================
+    // =============================
+    // specialist queries
+    // =============================
 
     /**
      * Returns all {@link MedicalSpecialist} employees assigned to the given department.
@@ -127,9 +125,7 @@ public class DepartmentService {
         }
     }
 
-    // =========================================================
-    // READ OPERATIONS — DOCTOR IMAGE MAPS
-    // =========================================================
+    // image path resolution
 
     /**
      * Builds a stable {@code specialistId → image-path} map for every specialist
@@ -198,9 +194,7 @@ public class DepartmentService {
         return imageMap;
     }
 
-    // =========================================================
-    // READ OPERATIONS — SERVICE CATALOGUE
-    // =========================================================
+    // service catalogue
 
     /**
      * Returns the catalogue of clinical services offered by the given department.

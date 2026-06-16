@@ -126,7 +126,7 @@ public class AppointmentService {
                 .findFirst()
                 .orElseThrow(() -> new RuntimeException("Appointment not found: " + appointmentId));
 
-        appt.cancel(); // domain method — enforces isCancellable()
+        appt.cancel(); // domain method : enforces isCancellable()
         repo.saveAll(all);
         return appt;
     }
@@ -146,7 +146,7 @@ public class AppointmentService {
                 .findFirst()
                 .orElseThrow(() -> new RuntimeException("Appointment not found: " + appointmentId));
 
-        appt.reschedule(newDateTime); // domain method — enforces isActive()
+        appt.reschedule(newDateTime); // domain method : enforces isActive()
         repo.saveAll(all);
         return appt;
     }

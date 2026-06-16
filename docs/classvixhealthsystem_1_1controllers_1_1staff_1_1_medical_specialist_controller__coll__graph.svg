@@ -11,7 +11,7 @@
 <!-- Node1 -->
 <g id="Node000001" class="node">
 <title>Node1</title>
-<g id="a_Node000001"><a xlink:title="Controller for MedicalSpecialist staff members — base URL /medical&#45;specialist.">
+<g id="a_Node000001"><a xlink:title="Controller for MedicalSpecialist staff members : base URL /medical&#45;specialist.">
 <polygon fill="#999999" stroke="none" points="224.25,-760 0,-760 0,0 224.25,0 224.25,-760"/>
 <text xml:space="preserve" text-anchor="start" x="52.88" y="-746.25" font-family="Helvetica,sans-Serif" font-size="10.00">MedicalSpecialistController</text>
 <text xml:space="preserve" text-anchor="start" x="110.62" y="-730.25" font-family="Helvetica,sans-Serif" font-size="10.00"> </text>

@@ -46,7 +46,7 @@ public class MedicalSpecialist extends Employee {
 
     /**
      * Appointments assigned to this specialist.
-     * Stored as a transient field — managed via JSON, not the SQL database.
+     * Stored as a transient field : managed via JSON, not the SQL database.
      */
     @Transient
     private List<Appointment> appointments = new ArrayList<>();

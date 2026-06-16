@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
  *
  * Persists audit logs to {@code src/main/resources/storage/audit-logs.json}.
  * Intentionally exposes no {@code delete} or {@code update} methods to enforce
- * NFR02 (Traceability) — once written, a log entry is immutable for normal users.
+ * NFR02 (Traceability) : once written, a log entry is immutable for normal users.
  * The {@link #save(AuditLog)} method is {@code synchronized} to prevent ID
  * collisions under concurrent request handling.
  *
@@ -79,7 +79,7 @@ public class JsonAuditLogRepository {
     // =========================================================
 
     /**
-     * Returns all audit log entries in insertion order (NFR02 — read-only access).
+     * Returns all audit log entries in insertion order (NFR02 : read-only access).
      *
      * @return all log entries; never {@code null}, empty list if file is empty
      * @throws RuntimeException if the file cannot be parsed

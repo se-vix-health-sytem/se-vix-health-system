@@ -1,4 +1,14 @@
 [ {
+  "id" : "7e9f4f0b-9f11-4e47-893e-8e001ce88fd8",
+  "employeeId" : 4,
+  "employeeName" : "Sara Conti",
+  "employeeRole" : "Secretary",
+  "resourceId" : 3,
+  "resourceName" : "Bandages",
+  "storageId" : 1,
+  "quantity" : 1,
+  "takenAt" : "2026-06-16T10:04:24.631389"
+}, {
   "id" : "92691d8f-7c53-43e8-9125-5a37d40ebc49",
   "employeeId" : 4,
   "employeeName" : "Sara Conti",

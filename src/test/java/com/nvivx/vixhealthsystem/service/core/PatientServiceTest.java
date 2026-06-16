@@ -343,7 +343,6 @@ class PatientServiceTest {
         updatedData.setSurname("NewSurname");
         updatedData.setEmail("new@test.com");
         updatedData.setPhoneNumber("+39123456789");
-        updatedData.setFiscalCode("NEW123");
         updatedData.setBirthDate(LocalDate.of(2000, 1, 1));
         updatedData.setBirthPlace("Trento");
         updatedData.setGender('F');
@@ -362,7 +361,7 @@ class PatientServiceTest {
         assertEquals("NewSurname", result.getSurname());
         assertEquals("new@test.com", result.getEmail());
         assertEquals("+39123456789", result.getPhoneNumber());
-        assertEquals("NEW123", result.getFiscalCode());
+        assertEquals("OLD123", result.getFiscalCode()); // fiscal code is immutable via profile update
         assertEquals(LocalDate.of(2000, 1, 1), result.getBirthDate());
         assertEquals("Trento", result.getBirthPlace());
         assertEquals('F', result.getGender());

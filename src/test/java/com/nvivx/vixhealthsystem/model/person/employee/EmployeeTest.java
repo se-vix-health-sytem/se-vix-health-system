@@ -26,7 +26,7 @@ class TestEmployee extends Employee {
  *
  * Uses a minimal TestEmployee stub to exercise shared fields (hire date,
  * Firebase UID) and the takeResource domain method that withdraws stock from
- * facility storage. Plain JUnit — no Spring context loaded.
+ * facility storage. Plain JUnit : no Spring context loaded.
  *
  * @see Employee
  */

@@ -129,7 +129,7 @@ document.addEventListener('DOMContentLoaded',() => { initNavTree('namespacevixhe
 </div><!--header-->
 <div class="contents">
 
-<p>Hospital resources — consumables and medical machinery.  
+<p>Consumable resources and medical machinery.  
 <a href="#details">More...</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-nested-classes" class="groupheader"><a id="nested-classes" name="nested-classes"></a>
@@ -148,15 +148,8 @@ Classes</h2></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unit tests for <a class="el" href="classvixhealthsystem_1_1model_1_1resource_1_1_storage.html" title="Represents the storage of a medical facility.">Storage</a> using plain JUnit (no Spring context). <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Hospital resources — consumables and medical machinery. </p>
-<ul>
-<li>
-<code class="JavaDocCode">Resource</code> — a trackable consumable item (gloves, syringes, medication, etc.) with a name, description, and unit price. </li>
-<li>
-<code class="JavaDocCode">Storage</code> — holds a map of <code class="JavaDocCode">Resource → quantity</code>; owned by a <code class="JavaDocCode">MedicalFacility</code>. Domain methods enforce that quantity never goes negative. </li>
-<li>
-<code class="JavaDocCode">Machinery</code>— a piece of medical equipment with a serial number and operational status (<code class="JavaDocCode">MachineStatus</code>). </li>
-</ul>
+<div class="textblock"><p>Consumable resources and medical machinery. </p>
+<p><code class="JavaDocCode">Resource</code> is anything that gets stocked and consumed: gloves, syringes, medication. <code class="JavaDocCode">Storage</code> is the container that holds them, owned by a facility; its domain methods enforce that quantity never drops below zero. <code class="JavaDocCode">Machinery</code> is tracked separately because it has a different lifecycle (status transitions, maintenance history) rather than a quantity that goes up and down.</p>
 <p>Main curator: Viviana Fraccaroli</p>
 <p>Note: All team members may contribute to files in this package. </p>
 </div></div><!-- contents -->

@@ -129,7 +129,7 @@ document.addEventListener('DOMContentLoaded',() => { initNavTree('namespacevixhe
 </div><!--header-->
 <div class="contents">
 
-<p>Shared enumerations used across the domain model.  
+<p>Shared enumerations across the domain model.  
 <a href="#details">More...</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-nested-classes" class="groupheader"><a id="nested-classes" name="nested-classes"></a>
@@ -154,27 +154,26 @@ Classes</h2></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Review state of a <code><a class="el" href="classvixhealthsystem_1_1model_1_1staff_1_1_vacation_request.html">vixhealthsystem.model.staff.VacationRequest</a></code>.  <a href="enumvixhealthsystem_1_1model_1_1enums_1_1_vacation_status.html#details">More...</a><br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Shared enumerations used across the domain model. </p>
-<p>Using enums instead of raw strings gives us compile-time safety and makes it impossible to accidentally store an invalid status value in the database.</p>
+<div class="textblock"><p>Shared enumerations across the domain model. </p>
+<p>Using enums instead of raw strings prevents invalid status values from ever reaching the database, and gives us clean switch sites in service code. Backward-compatible <code class="JavaDocCode">String</code> getters are provided on the entities that use these enums so Thymeleaf templates and Jackson serialisation don't break.</p>
 <ul>
 <li>
-<code class="JavaDocCode">AppointmentStatus</code> — PENDING, CONFIRMED, CANCELLED, RESCHEDULED </li>
+<code class="JavaDocCode">AppointmentStatus</code> - PENDING, CONFIRMED, CANCELLED, RESCHEDULED </li>
 <li>
-<code class="JavaDocCode">BedStatus</code> — FREE / OCCUPIED (computed, not stored) </li>
+<code class="JavaDocCode">BedStatus</code> - FREE / OCCUPIED (computed at runtime, not stored) </li>
 <li>
-<code class="JavaDocCode">EmployeeType</code> — discriminator values for the employee hierarchy </li>
+<code class="JavaDocCode">EmployeeType</code> - discriminator values for the employee hierarchy </li>
 <li>
-<code class="JavaDocCode">MachineStatus</code> — operational state of medical machinery </li>
+<code class="JavaDocCode">MachineStatus</code> - operational state of medical machinery </li>
 <li>
-<code class="JavaDocCode">PaymentStatus</code> — PAID / UNPAID for appointment billing </li>
+<code class="JavaDocCode">PaymentStatus</code> - PAID / UNPAID for appointment billing </li>
 <li>
-<code class="JavaDocCode">Role</code> — Spring Security authority names </li>
+<code class="JavaDocCode">Role</code> - Spring Security authority names </li>
 <li>
-<code class="JavaDocCode">ShiftType</code> — MORNING, AFTERNOON, NIGHT </li>
+<code class="JavaDocCode">ShiftType</code> - MORNING, AFTERNOON, NIGHT </li>
 <li>
-<code class="JavaDocCode">VacationStatus</code> — PENDING, APPROVED, DENIED </li>
+<code class="JavaDocCode">VacationStatus</code> - PENDING, APPROVED, DENIED </li>
 </ul>
-<p>Backward-compatible getters (returning <code class="JavaDocCode">String</code>) are provided on the entities that use these enums so that Thymeleaf templates and Jackson serialisation don't break on existing data.</p>
 <p>Main curator: Alexandrina Harti</p>
 <p>Note: All team members may contribute to files in this package. </p>
 </div></div><!-- contents -->

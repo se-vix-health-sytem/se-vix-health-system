@@ -129,53 +129,53 @@ document.addEventListener('DOMContentLoaded',() => { initNavTree('namespacevixhe
 </div><!--header-->
 <div class="contents">
 
-<p>MVC controllers — one sub-package per user role.  
+<p>MVC controllers, organised by user role.  
 <a href="#details">More...</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-namespaces" class="groupheader"><a id="namespaces" name="namespaces"></a>
 Packages</h2></td></tr>
 <tr class="memitem:patient" id="r_patient"><td class="memItemLeft">package &#160;</td><td class="memItemRight"><a class="el" href="namespacevixhealthsystem_1_1controllers_1_1patient.html">patient</a></td></tr>
-<tr class="memdesc:namespacevixhealthsystem_1_1controllers_1_1patient"><td class="mdescLeft">&#160;</td><td class="mdescRight">Controllers for authenticated patients — base paths <code class="JavaDocCode">/patient</code>, <code class="JavaDocCode">/mock-spid</code>. <br /></td></tr>
+<tr class="memdesc:namespacevixhealthsystem_1_1controllers_1_1patient"><td class="mdescLeft">&#160;</td><td class="mdescRight">Patient-facing controllers: authentication, appointment management, and profile. <br /></td></tr>
 <tr class="memitem:services" id="r_services"><td class="memItemLeft">package &#160;</td><td class="memItemRight"><a class="el" href="namespacevixhealthsystem_1_1controllers_1_1services.html">services</a></td></tr>
-<tr class="memdesc:namespacevixhealthsystem_1_1controllers_1_1services"><td class="mdescLeft">&#160;</td><td class="mdescRight">Service-layer controllers — appointment management and payment. <br /></td></tr>
+<tr class="memdesc:namespacevixhealthsystem_1_1controllers_1_1services"><td class="mdescLeft">&#160;</td><td class="mdescRight">Shared service controllers: appointment CRUD and payment processing. <br /></td></tr>
 <tr class="memitem:site" id="r_site"><td class="memItemLeft">package &#160;</td><td class="memItemRight"><a class="el" href="namespacevixhealthsystem_1_1controllers_1_1site.html">site</a></td></tr>
-<tr class="memdesc:namespacevixhealthsystem_1_1controllers_1_1site"><td class="mdescLeft">&#160;</td><td class="mdescRight">Public-facing site controllers — no authentication required. <br /></td></tr>
+<tr class="memdesc:namespacevixhealthsystem_1_1controllers_1_1site"><td class="mdescLeft">&#160;</td><td class="mdescRight">Public site controllers, no authentication required. <br /></td></tr>
 <tr class="memitem:staff" id="r_staff"><td class="memItemLeft">package &#160;</td><td class="memItemRight"><a class="el" href="namespacevixhealthsystem_1_1controllers_1_1staff.html">staff</a></td></tr>
-<tr class="memdesc:namespacevixhealthsystem_1_1controllers_1_1staff"><td class="mdescLeft">&#160;</td><td class="mdescRight">Controllers for hospital staff — one controller per role, plus shared utilities. <br /></td></tr>
+<tr class="memdesc:namespacevixhealthsystem_1_1controllers_1_1staff"><td class="mdescLeft">&#160;</td><td class="mdescRight">Staff-side controllers, one per role plus two shared classes. <br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-nested-classes" class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
 <tr class="memitem:AppointmentControllerTest" id="r_AppointmentControllerTest"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><b>AppointmentControllerTest</b></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unit tests for <a class="el" href="classvixhealthsystem_1_1controllers_1_1services_1_1_appointment_controller.html" title="REST controller for the appointment resource — base URL /appointments.">AppointmentController</a> (REST layer). <br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unit tests for <a class="el" href="classvixhealthsystem_1_1controllers_1_1services_1_1_appointment_controller.html" title="REST controller for the appointment resource : base URL /appointments.">AppointmentController</a> (REST layer). <br /></td></tr>
 <tr class="memitem:DepartmentControllerTest" id="r_DepartmentControllerTest"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><b>DepartmentControllerTest</b></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unit tests for <a class="el" href="classvixhealthsystem_1_1controllers_1_1site_1_1_department_controller.html" title="Controller for the public department directory — base URL /departments.">DepartmentController</a> (public site module). <br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unit tests for <a class="el" href="classvixhealthsystem_1_1controllers_1_1site_1_1_department_controller.html" title="Controller for the public department directory : base URL /departments.">DepartmentController</a> (public site module). <br /></td></tr>
 <tr class="memitem:MapControllerTest" id="r_MapControllerTest"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><b>MapControllerTest</b></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unit tests for <a class="el" href="classvixhealthsystem_1_1controllers_1_1site_1_1_map_controller.html" title="Controller for the public hospital-location map pages — base URL /map.">MapController</a> (site map features). <br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unit tests for <a class="el" href="classvixhealthsystem_1_1controllers_1_1site_1_1_map_controller.html" title="Controller for the public hospital-location map pages : base URL /map.">MapController</a> (site map features). <br /></td></tr>
 <tr class="memitem:PatientAppointmentControllerTest" id="r_PatientAppointmentControllerTest"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><b>PatientAppointmentControllerTest</b></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unit tests for <a class="el" href="classvixhealthsystem_1_1controllers_1_1patient_1_1_patient_appointment_controller.html" title="Controller for patient-side appointment operations — base URL /patient.">PatientAppointmentController</a> (patient booking module). <br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unit tests for <a class="el" href="classvixhealthsystem_1_1controllers_1_1patient_1_1_patient_appointment_controller.html" title="Controller for patient-side appointment operations : base URL /patient.">PatientAppointmentController</a> (patient booking module). <br /></td></tr>
 <tr class="memitem:PatientAuthControllerTest" id="r_PatientAuthControllerTest"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><b>PatientAuthControllerTest</b></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unit tests for <a class="el" href="classvixhealthsystem_1_1controllers_1_1patient_1_1_patient_auth_controller.html" title="Controller for patient authentication, dashboard, profile, and account management — base URL /patient...">PatientAuthController</a> (patient authentication module). <br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unit tests for <a class="el" href="classvixhealthsystem_1_1controllers_1_1patient_1_1_patient_auth_controller.html" title="Controller for patient authentication, dashboard, profile, and account management : base URL /patient...">PatientAuthController</a> (patient authentication module). <br /></td></tr>
 <tr class="memitem:PaymentControllerTest" id="r_PaymentControllerTest"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><b>PaymentControllerTest</b></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unit tests for <a class="el" href="classvixhealthsystem_1_1controllers_1_1services_1_1_payment_controller.html" title="Controller for the payment workflow — base URL /payment.">PaymentController</a> (payment processing module). <br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unit tests for <a class="el" href="classvixhealthsystem_1_1controllers_1_1services_1_1_payment_controller.html" title="Controller for the payment workflow : base URL /payment.">PaymentController</a> (payment processing module). <br /></td></tr>
 <tr class="memitem:SecretaryControllerTest" id="r_SecretaryControllerTest"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><b>SecretaryControllerTest</b></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unit tests for <a class="el" href="classvixhealthsystem_1_1controllers_1_1staff_1_1_secretary_controller.html" title="Controller for Secretary staff members — base URL /secretary.">SecretaryController</a> (hospital administration module). <br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unit tests for <a class="el" href="classvixhealthsystem_1_1controllers_1_1staff_1_1_secretary_controller.html" title="Controller for Secretary staff members : base URL /secretary.">SecretaryController</a> (hospital administration module). <br /></td></tr>
 <tr class="memitem:StaffManagerControllerTest" id="r_StaffManagerControllerTest"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><b>StaffManagerControllerTest</b></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unit tests for <a class="el" href="classvixhealthsystem_1_1controllers_1_1staff_1_1_staff_manager_controller.html" title="Controller for StaffManager users — base URL /staff-manager.">StaffManagerController</a> (staff administration module). <br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unit tests for <a class="el" href="classvixhealthsystem_1_1controllers_1_1staff_1_1_staff_manager_controller.html" title="Controller for StaffManager users : base URL /staff-manager.">StaffManagerController</a> (staff administration module). <br /></td></tr>
 <tr class="memitem:TechnicianControllerTest" id="r_TechnicianControllerTest"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><b>TechnicianControllerTest</b></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unit tests for <a class="el" href="classvixhealthsystem_1_1controllers_1_1staff_1_1_technician_controller.html" title="Controller for Technician staff members — base URL /technician.">TechnicianController</a> (technical maintenance module). <br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unit tests for <a class="el" href="classvixhealthsystem_1_1controllers_1_1staff_1_1_technician_controller.html" title="Controller for Technician staff members : base URL /technician.">TechnicianController</a> (technical maintenance module). <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>MVC controllers — one sub-package per user role. </p>
-<p>All controllers return Thymeleaf template names or redirects; there are no REST-only endpoints except inside <code class="JavaDocCode">controllers.services</code> (payment status polling) and <code class="JavaDocCode">controllers.services.AppointmentController</code>.</p>
+<div class="textblock"><p>MVC controllers, organised by user role. </p>
+<p>There are no REST-only endpoints outside <code class="JavaDocCode">controllers.services</code>; everything else returns a Thymeleaf template name or a redirect. Role-specific routes are protected by Spring Security before the controller is ever reached, so controllers don't re-check permissions themselves.</p>
 <p>Sub-packages: </p><ul>
 <li>
-<code class="JavaDocCode">patient</code> — patient authentication (SPID/CIE mock), appointment booking, profile, and medical records </li>
+<code class="JavaDocCode">patient</code> - patient auth (SPID/CIE mock), appointment booking, profile, and medical records </li>
 <li>
-<code class="JavaDocCode">services</code> — appointment management API and payment processing </li>
+<code class="JavaDocCode">services</code> - appointment management API and payment </li>
 <li>
-<code class="JavaDocCode">site</code> — public-facing pages (home, about, departments, map, contact, specialists, questionnaire, legal) </li>
+<code class="JavaDocCode">site</code> - public-facing pages, no authentication required </li>
 <li>
-<code class="JavaDocCode">staff</code> — all staff dashboards: specialist, secretary, buyer, technician, staff manager; plus the shared auth and resource-take flow </li>
+<code class="JavaDocCode">staff</code> - one controller per staff role, plus shared auth and the resource-take flow </li>
 </ul>
 <p>Main curator: Lorena Valentina Buitrón Zambrano</p>
 <p>Note: All team members may contribute to files in this package. </p>

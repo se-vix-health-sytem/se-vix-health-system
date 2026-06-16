@@ -1,13 +1,11 @@
 /**
- * Core entity services — employees, patients, and departments.
+ * Core entity services: employees, patients, and departments.
  *
- * <ul>
- *   <li>{@code EmployeeService}   — full employee lifecycle: create, update, delete,
- *                                   plus Firebase account provisioning and password resets</li>
- *   <li>{@code PatientService}    — patient registration, lookup, and profile updates</li>
- *   <li>{@code DepartmentService} — department queries used by public site pages
- *                                   (specialist listings, department detail views)</li>
- * </ul>
+ * {@code EmployeeService} covers the full employee lifecycle including Firebase
+ * account provisioning and password resets. {@code PatientService} handles
+ * registration, profile lookup, and updates. {@code DepartmentService} is
+ * primarily read-only and serves the public site pages (specialist listings,
+ * department detail views, and the service catalogue).
  *
  * Main curator: Lorena Valentina Buitrón Zambrano
  *

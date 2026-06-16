@@ -134,12 +134,12 @@ document.addEventListener('DOMContentLoaded',() => { initNavTree('classvixhealth
 <div class="dynheader">
 Inheritance diagram for Employee:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="classvixhealthsystem_1_1model_1_1person_1_1employee_1_1_employee__inherit__graph.svg" width="1279" height="806"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="classvixhealthsystem_1_1model_1_1person_1_1employee_1_1_employee__inherit__graph.svg" width="1279" height="870"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 <div class="dynheader">
 Collaboration diagram for Employee:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="classvixhealthsystem_1_1model_1_1person_1_1employee_1_1_employee__coll__graph.svg" width="215" height="379"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="classvixhealthsystem_1_1model_1_1person_1_1employee_1_1_employee__coll__graph.svg" width="215" height="443"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-methods" class="groupheader"><a id="pub-methods" name="pub-methods"></a>
@@ -150,8 +150,14 @@ abstract <a class="el" href="enumvixhealthsystem_1_1model_1_1enums_1_1_role.html
 <tr class="memitem:a3274e76ab3815cb4bdd6dd750c387be3" id="r_a3274e76ab3815cb4bdd6dd750c387be3"><td class="memItemLeft"><a id="a3274e76ab3815cb4bdd6dd750c387be3" name="a3274e76ab3815cb4bdd6dd750c387be3"></a>
 abstract <a class="el" href="enumvixhealthsystem_1_1model_1_1enums_1_1_employee_type.html">EmployeeType</a>&#160;</td><td class="memItemRight"><b>getEmployeeType</b> ()</td></tr>
 <tr class="memdesc:a3274e76ab3815cb4bdd6dd750c387be3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the employee type enum identifying this employee's role in the organisation. <br /></td></tr>
+<tr class="memitem:a40cc36243e321a1c3db00398370623dc" id="r_a40cc36243e321a1c3db00398370623dc"><td class="memItemLeft">boolean&#160;</td><td class="memItemRight"><a class="el" href="#a40cc36243e321a1c3db00398370623dc">hasFacilityStorage</a> ()</td></tr>
+<tr class="memdesc:a40cc36243e321a1c3db00398370623dc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Takes a quantity of a resource from the facility storage, navigating through the employee's own department → facility → storage chain.  <br /></td></tr>
+<tr class="memitem:a6e5144cd2e3ae7433e9605e8a9a793d4" id="r_a6e5144cd2e3ae7433e9605e8a9a793d4"><td class="memItemLeft"><a class="el" href="classvixhealthsystem_1_1model_1_1resource_1_1_storage.html">Storage</a>&#160;</td><td class="memItemRight"><a class="el" href="#a6e5144cd2e3ae7433e9605e8a9a793d4">getFacilityStorage</a> ()</td></tr>
+<tr class="memdesc:a6e5144cd2e3ae7433e9605e8a9a793d4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the storage unit belonging to this employee's facility.  <br /></td></tr>
+<tr class="memitem:a3a8b0354712c68d3a3a8c23410b3d419" id="r_a3a8b0354712c68d3a3a8c23410b3d419"><td class="memItemLeft">String&#160;</td><td class="memItemRight"><a class="el" href="#a3a8b0354712c68d3a3a8c23410b3d419">getFacilityName</a> ()</td></tr>
+<tr class="memdesc:a3a8b0354712c68d3a3a8c23410b3d419"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the name of the medical facility this employee belongs to.  <br /></td></tr>
 <tr class="memitem:a6246b049aea841f81071f30a57adf35d" id="r_a6246b049aea841f81071f30a57adf35d"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a6246b049aea841f81071f30a57adf35d">takeResource</a> (<a class="el" href="classvixhealthsystem_1_1model_1_1resource_1_1_resource.html">Resource</a> r, int q)  throws Exception </td></tr>
-<tr class="memdesc:a6246b049aea841f81071f30a57adf35d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Takes a quantity of a resource from the facility storage, navigating through the employee's own department → facility → storage chain.  <br /></td></tr>
+<tr class="memdesc:a6246b049aea841f81071f30a57adf35d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Withdraws a quantity of a resource from this employee's facility storage.  <br /></td></tr>
 <tr class="inherit_header pub_methods_classvixhealthsystem_1_1model_1_1person_1_1_person"><td colspan="2">Public Member Functions inherited from <a class="el" href="classvixhealthsystem_1_1model_1_1person_1_1_person.html">Person</a></td></tr>
 <tr class="memitem:a6e8beda784bb6efbbcccdc1a80830f6e pub_methods_classvixhealthsystem_1_1model_1_1person_1_1_person" id="r_a6e8beda784bb6efbbcccdc1a80830f6e"><td class="memItemLeft">
 &#160;</td><td class="memItemRight"><b>Person</b> ()</td></tr>
@@ -175,8 +181,102 @@ abstract <a class="el" href="enumvixhealthsystem_1_1model_1_1enums_1_1_employee_
 <dd>
 <a class="el" href="classvixhealthsystem_1_1model_1_1person_1_1employee_1_1_technician.html" title="Responsible for managing and maintaining medical machinery.">Technician</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_employee_8java_source.html#l00038">38</a> of file <a class="el" href="_employee_8java_source.html">Employee.java</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_employee_8java_source.html#l00039">39</a> of file <a class="el" href="_employee_8java_source.html">Employee.java</a>.</p>
 </div><a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Member Function Documentation</h2>
+<a id="a40cc36243e321a1c3db00398370623dc" name="a40cc36243e321a1c3db00398370623dc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a40cc36243e321a1c3db00398370623dc">&#9670;&#160;</a></span>hasFacilityStorage()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">boolean hasFacilityStorage </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Takes a quantity of a resource from the facility storage, navigating through the employee's own department → facility → storage chain. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">r</td><td>the resource to take </td></tr>
+    <tr><td class="paramname">q</td><td>the quantity to take </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">IllegalStateException</td><td>if department, facility or storage is not set </td></tr>
+    <tr><td class="paramname">Exception</td><td>if the storage has insufficient stock Returns whether this employee has a facility storage they can draw from.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><code class="JavaDocCode">true</code> when department, facility, and storage are all set. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="_employee_8java_source.html#l00191">191</a> of file <a class="el" href="_employee_8java_source.html">Employee.java</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="_auth_controller_8java_source.html#l00105">AuthController.authenticate()</a>, <a class="el" href="_employee_8java_source.html#l00204">getFacilityStorage()</a>, <a class="el" href="_auth_controller_8java_source.html#l00195">AuthController.processLogin()</a>, <a class="el" href="_employee_resource_controller_8java_source.html#l00098">EmployeeResourceController.takeResource()</a>, and <a class="el" href="_employee_resource_controller_8java_source.html#l00054">EmployeeResourceController.viewResources()</a>.</p>
+
+</div>
+</div>
+<a id="a6e5144cd2e3ae7433e9605e8a9a793d4" name="a6e5144cd2e3ae7433e9605e8a9a793d4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6e5144cd2e3ae7433e9605e8a9a793d4">&#9670;&#160;</a></span>getFacilityStorage()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classvixhealthsystem_1_1model_1_1resource_1_1_storage.html">Storage</a> getFacilityStorage </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns the storage unit belonging to this employee's facility. </p>
+<dl class="section return"><dt>Returns</dt><dd>the facility's <code><a class="el" href="classvixhealthsystem_1_1model_1_1resource_1_1_storage.html">Storage</a></code> </dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">IllegalStateException</td><td>if department, facility, or storage is not set </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="_employee_8java_source.html#l00204">204</a> of file <a class="el" href="_employee_8java_source.html">Employee.java</a>.</p>
+
+<p class="reference">References <a class="el" href="_employee_8java_source.html#l00191">hasFacilityStorage()</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="_employee_8java_source.html#l00229">takeResource()</a>, and <a class="el" href="_employee_resource_controller_8java_source.html#l00054">EmployeeResourceController.viewResources()</a>.</p>
+
+</div>
+</div>
+<a id="a3a8b0354712c68d3a3a8c23410b3d419" name="a3a8b0354712c68d3a3a8c23410b3d419"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3a8b0354712c68d3a3a8c23410b3d419">&#9670;&#160;</a></span>getFacilityName()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">String getFacilityName </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns the name of the medical facility this employee belongs to. </p>
+<dl class="section return"><dt>Returns</dt><dd>facility name, or <code class="JavaDocCode">null</code> if no facility is assigned </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="_employee_8java_source.html#l00216">216</a> of file <a class="el" href="_employee_8java_source.html">Employee.java</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="_employee_resource_controller_8java_source.html#l00054">EmployeeResourceController.viewResources()</a>.</p>
+
+</div>
+</div>
 <a id="a6246b049aea841f81071f30a57adf35d" name="a6246b049aea841f81071f30a57adf35d"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a6246b049aea841f81071f30a57adf35d">&#9670;&#160;</a></span>takeResource()</h2>
 
@@ -196,7 +296,7 @@ abstract <a class="el" href="enumvixhealthsystem_1_1model_1_1enums_1_1_employee_
       </table>
 </div><div class="memdoc">
 
-<p>Takes a quantity of a resource from the facility storage, navigating through the employee's own department → facility → storage chain. </p>
+<p>Withdraws a quantity of a resource from this employee's facility storage. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">r</td><td>the resource to take </td></tr>
@@ -212,9 +312,11 @@ abstract <a class="el" href="enumvixhealthsystem_1_1model_1_1enums_1_1_employee_
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_employee_8java_source.html#l00184">184</a> of file <a class="el" href="_employee_8java_source.html">Employee.java</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_employee_8java_source.html#l00229">229</a> of file <a class="el" href="_employee_8java_source.html">Employee.java</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_inventory_service_8java_source.html#l00299">InventoryService.removeResourceFromStorage()</a>.</p>
+<p class="reference">References <a class="el" href="_employee_8java_source.html#l00204">getFacilityStorage()</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="_inventory_service_8java_source.html#l00301">InventoryService.removeResourceFromStorage()</a>.</p>
 
 </div>
 </div>

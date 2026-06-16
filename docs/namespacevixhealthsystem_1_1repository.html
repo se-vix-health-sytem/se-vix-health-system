@@ -129,7 +129,7 @@ document.addEventListener('DOMContentLoaded',() => { initNavTree('namespacevixhe
 </div><!--header-->
 <div class="contents">
 
-<p>Data access layer — Spring Data JPA repositories and JSON-backed stores.  
+<p>Data access layer: JPA repositories and JSON-backed stores.  
 <a href="#details">More...</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-nested-classes" class="groupheader"><a id="nested-classes" name="nested-classes"></a>
@@ -170,8 +170,8 @@ Classes</h2></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">JPA repository for <code><a class="el" href="classvixhealthsystem_1_1model_1_1medical_1_1_surgery.html">Surgery</a></code> entities.  <a href="interfacevixhealthsystem_1_1repository_1_1_surgery_repository.html#details">More...</a><br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Data access layer — Spring Data JPA repositories and JSON-backed stores. </p>
-<p>Most repositories here are standard Spring Data interfaces that extend <code class="JavaDocCode">JpaRepository</code>. The JSON-backed ones (prefixed <code class="JavaDocCode">Json…</code>) manage entities that are stored in flat files rather than the SQL database — this was a design choice for data that changes frequently and doesn't need relational integrity (appointments, shifts, vacation requests, audit logs).</p>
+<div class="textblock"><p>Data access layer: JPA repositories and JSON-backed stores. </p>
+<p>The split here is intentional. Entities with relational structure and foreign-key constraints use standard Spring Data <code class="JavaDocCode">JpaRepository</code> interfaces. Entities that change frequently and don't need relational integrity (appointments, shifts, vacations, audit logs) are stored as flat JSON files and accessed through custom <code class="JavaDocCode">Json...</code> store classes.</p>
 <p>JPA repositories: <code class="JavaDocCode">DepartmentRepository</code>, <code class="JavaDocCode">EmployeeRepository</code>, <code class="JavaDocCode">MachineryRepository</code>, <code class="JavaDocCode">MedicalConditionRepository</code>, <code class="JavaDocCode">MedicalFacilityRepository</code>, <code class="JavaDocCode">MedicalRecordRepository</code>, <code class="JavaDocCode">PatientRepository</code>, <code class="JavaDocCode">PrescriptionRepository</code>, <code class="JavaDocCode">ResourceRepository</code>, <code class="JavaDocCode">RoomRepository</code>, <code class="JavaDocCode">StorageRepository</code>, <code class="JavaDocCode">SurgeryRepository</code></p>
 <p>JSON-backed stores: <code class="JavaDocCode">JsonAppointmentRepository</code>, <code class="JavaDocCode">JsonAuditLogRepository</code>, <code class="JavaDocCode">JsonShiftRepository</code>, <code class="JavaDocCode">JsonVacationRepository</code></p>
 <p>Main curator: Viviana Fraccaroli</p>

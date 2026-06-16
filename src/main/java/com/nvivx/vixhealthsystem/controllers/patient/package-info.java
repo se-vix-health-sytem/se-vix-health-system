@@ -1,14 +1,15 @@
 /**
- * Controllers for authenticated patients — base paths {@code /patient}, {@code /mock-spid}.
+ * Patient-facing controllers: authentication, appointment management, and profile.
  *
- * <ul>
- *   <li>{@code PatientAuthController} — login, registration, and logout for patients
- *                                       authenticated via Firebase (SPID/CIE flow)</li>
- *   <li>{@code MockSpidController}    — simulates the Italian SPID identity provider
- *                                       for demo purposes (not production-safe)</li>
- *   <li>{@code PatientAppointmentController} — appointment booking, cancellation,
- *                                              payment initiation, and history view</li>
- * </ul>
+ * The patient side uses a mock SPID/CIE identity-provider flow for login rather
+ * than a username/password form. {@code MockSpidController} simulates that provider
+ * locally and is not safe for production use.
+ *
+ * {@code PatientAuthController} handles the full session lifecycle (login, dashboard,
+ * profile edits, account deletion), while {@code PatientAppointmentController} covers
+ * booking, rescheduling, cancellation, and payment initiation.
+ *
+ * Base paths: {@code /patient}, {@code /mock-spid}, {@code /mock-cie}
  *
  * Main curator: Lorena Valentina Buitrón Zambrano
  *

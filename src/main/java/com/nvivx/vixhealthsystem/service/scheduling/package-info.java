@@ -1,17 +1,17 @@
 /**
- * Scheduling services — shifts and vacation requests.
+ * Shift and vacation services.
  *
- * Both services back their data with JSON files under
- * {@code src/main/resources/storage/} rather than the SQL database.
- * This avoids schema migrations for data that changes constantly and
- * has no foreign-key dependencies on other tables.
+ * Both services store data in JSON files ({@code src/main/resources/storage/})
+ * rather than the SQL database, to avoid schema migrations for data that
+ * changes often and has no foreign-key constraints to protect.
  *
- * <ul>
- *   <li>{@code ShiftService}    — creates, updates, and deletes work shifts;
- *                                 queries shifts by employee or date range</li>
- *   <li>{@code VacationService} — handles vacation request submission, approval,
- *                                 and denial by the staff manager</li>
- * </ul>
+ * {@code ShiftService} creates, updates, and deletes work shifts, and can
+ * query by employee or date range. Shift IDs come from an atomic counter so
+ * they keep incrementing across server restarts and are never reused.
+ *
+ * {@code VacationService} manages the request lifecycle: submission by any
+ * staff member, then approval or denial exclusively by the staff manager.
+ * The service enforces the actor restriction rather than relying on the controller.
  *
  * Main curator: Lorena Valentina Buitrón Zambrano
  *

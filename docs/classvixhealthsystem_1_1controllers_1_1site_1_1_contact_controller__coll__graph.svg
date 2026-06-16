@@ -11,7 +11,7 @@
 <!-- Node1 -->
 <g id="Node000001" class="node">
 <title>Node1</title>
-<g id="a_Node000001"><a xlink:title="Controller for the public contact form — no base URL prefix.">
+<g id="a_Node000001"><a xlink:title="Controller for the public contact form : no base URL prefix.">
 <polygon fill="#999999" stroke="none" points="155.25,-140 0,-140 0,0 155.25,0 155.25,-140"/>
 <text xml:space="preserve" text-anchor="start" x="39.38" y="-126.25" font-family="Helvetica,sans-Serif" font-size="10.00">ContactController</text>
 <text xml:space="preserve" text-anchor="start" x="76.12" y="-110.25" font-family="Helvetica,sans-Serif" font-size="10.00"> </text>

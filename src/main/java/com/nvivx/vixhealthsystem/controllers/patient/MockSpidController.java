@@ -40,7 +40,7 @@ public class MockSpidController {
     // =========================================================
 
     /**
-     * GET /mock-spid/login — render the mock SPID login form.
+     * GET /mock-spid/login : render the mock SPID login form.
      *
      * @return Thymeleaf template {@code mock-spid/login}.
      */
@@ -51,7 +51,7 @@ public class MockSpidController {
     }
 
     /**
-     * POST /mock-spid/authenticate — validate the fiscal code and PIN, then redirect to the SPID callback.
+     * POST /mock-spid/authenticate : validate the fiscal code and PIN, then redirect to the SPID callback.
      *
      * Checks that the fiscal code is exactly 16 characters, the PIN is at least
      * 6 digits long, and the patient exists in the database.  On success the
@@ -97,7 +97,7 @@ public class MockSpidController {
     // =========================================================
 
     /**
-     * GET /mock-cie/login — render the mock CIE login form.
+     * GET /mock-cie/login : render the mock CIE login form.
      *
      * @return Thymeleaf template {@code mock-cie/login}.
      */
@@ -108,7 +108,7 @@ public class MockSpidController {
     }
 
     /**
-     * POST /mock-cie/authenticate — validate the fiscal code and PIN, then redirect to the CIE callback.
+     * POST /mock-cie/authenticate : validate the fiscal code and PIN, then redirect to the CIE callback.
      *
      * Follows the same validation rules as the SPID flow but without a PIN
      * length check (CIE uses a different credential scheme in production).

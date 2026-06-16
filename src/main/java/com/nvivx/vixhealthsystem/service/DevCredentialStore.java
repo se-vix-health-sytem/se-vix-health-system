@@ -20,7 +20,7 @@ import java.util.List;
  * alongside the employee's name and role so the staff manager demo page can display it.
  *
  * Credentials are written to {@code dev-credentials.json} and are never used for actual
- * authentication — all auth goes through Firebase.  Do NOT include this service in any
+ * authentication : all auth goes through Firebase.  Do NOT include this service in any
  * production build.
  *
  * All public methods are {@code synchronized} to prevent concurrent read/write corruption
@@ -45,7 +45,7 @@ public class DevCredentialStore {
         public String name;
         public String role;
         public String password;
-        /** Set to {@code true} when a Firebase reset link was sent — password is no longer known. */
+        /** Set to {@code true} when a Firebase reset link was sent : password is no longer known. */
         public boolean passwordResetTriggered;
         public LocalDateTime updatedAt;
 

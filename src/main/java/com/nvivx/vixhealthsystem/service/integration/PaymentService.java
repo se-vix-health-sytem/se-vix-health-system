@@ -15,7 +15,7 @@ import java.util.UUID;
  * Simulates payment processing for appointment fees (UC-Payment flow).
  *
  * In the current demo, every charge always succeeds and returns a randomly generated
- * transaction ID.  Completed transactions are stored in memory only — they do not
+ * transaction ID.  Completed transactions are stored in memory only : they do not
  * survive a server restart.  A real implementation would replace {@link #processPayment}
  * with an actual payment-gateway call (Stripe, Braintree, etc.) and persist
  * the result to the database.
@@ -85,7 +85,7 @@ public class PaymentService {
      *
      * Always succeeds in demo mode.  Generates a {@code TXN-XXXXXXXX} transaction ID,
      * stores the completed status in memory, and writes an audit entry.
-     * The 500 ms delay is intentional — it mimics a real gateway round-trip for the demo.
+     * The 500 ms delay is intentional : it mimics a real gateway round-trip for the demo.
      *
      * @param request  Payment details including appointment ID and amount.
      * @return         Response containing the transaction ID and SUCCESS status.

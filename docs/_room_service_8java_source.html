@@ -144,8 +144,8 @@ document.addEventListener('DOMContentLoaded',() => { initNavTree('_room_service_
 <div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="keyword">import</span> java.util.stream.Collectors;</div>
 <div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="comment"></span> </div>
 <div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="comment">/**</span></div>
-<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="comment"> * @brief Manages patient admission and dismissal across inpatient rooms (UC22 — Triage,</span></div>
-<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span><span class="comment"> *        UC23 — Patient Dismissal) and provides bed-availability statistics for the dashboard.</span></div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="comment"> * @brief Manages patient admission and dismissal across inpatient rooms (UC22 : Triage,</span></div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span><span class="comment"> *        UC23 : Patient Dismissal) and provides bed-availability statistics for the dashboard.</span></div>
 <div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span><span class="comment"> *</span></div>
 <div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span><span class="comment"> * Annotated {@code @Transactional(readOnly=true)} at the class level; write methods override</span></div>
 <div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span><span class="comment"> * with {@code @Transactional}.</span></div>
@@ -179,7 +179,7 @@ document.addEventListener('DOMContentLoaded',() => { initNavTree('_room_service_
 <div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span><span class="comment">     *</span></div>
 <div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span><span class="comment">     * @param roomRepository     Persistence layer for all {@link Room} subtypes.</span></div>
 <div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span><span class="comment">     * @param patientRepository  Needed to load patients by ID during admission/dismissal.</span></div>
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span><span class="comment">     * @param auditService       Records every bed assignment change (NFR02 — traceability).</span></div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span><span class="comment">     * @param auditService       Records every bed assignment change (NFR02 : traceability).</span></div>
 <div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span><span class="comment">     */</span></div>
 <div class="foldopen" id="foldopen00053" data-start="{" data-end="}">
 <div class="line"><a id="l00053" name="l00053"></a><span class="lineno"><a class="line" href="classvixhealthsystem_1_1service_1_1resources_1_1_room_service.html#a736e60af51b2e98a9e22814b1787bdc0">   53</a></span>    <span class="keyword">public</span> <a class="code hl_function" href="classvixhealthsystem_1_1service_1_1resources_1_1_room_service.html#a736e60af51b2e98a9e22814b1787bdc0">RoomService</a>(<a class="code hl_interface" href="interfacevixhealthsystem_1_1repository_1_1_room_repository.html">RoomRepository</a> roomRepository,</div>

@@ -7,7 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 /**
- * @brief Controller for the public About page — base URL {@code /about}.
+ * @brief Controller for the public About page : base URL {@code /about}.
  *
  * Populates the About page with live statistics: the number of medical
  * specialists, the count of distinct clinical departments, and the total
@@ -33,7 +33,7 @@ public class AboutController {
     // =========================================================
 
     /**
-     * GET /about — render the public About page.
+     * GET /about : render the public About page.
      *
      * Department count is computed by de-duplicating on lowercase name so that
      * departments sharing a name across different facilities are not double-counted

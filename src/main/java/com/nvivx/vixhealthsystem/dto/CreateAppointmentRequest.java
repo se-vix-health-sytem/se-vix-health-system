@@ -5,7 +5,7 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 /**
- * @brief Request body for scheduling a new appointment (UC05 — Book Appointment).
+ * @brief Request body for scheduling a new appointment (UC05 : Book Appointment).
  *
  * Both {@code patientId} and {@code specialistId} must reference existing entities;
  * the service layer validates slot availability before persisting.

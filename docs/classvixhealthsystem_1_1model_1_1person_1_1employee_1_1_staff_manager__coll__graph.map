@@ -1,7 +1,7 @@
 <map id="StaffManager" name="StaffManager">
-<area shape="rect" id="Node000001" title="Manages employee accounts in the system." alt="" coords="5,421,218,640"/>
-<area shape="rect" id="Node000002" href="$classvixhealthsystem_1_1model_1_1person_1_1employee_1_1_employee.html" title="Represents a generic employee in the system." alt="" coords="10,229,214,373"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="113,386,114,422,109,421,111,391"/>
+<area shape="rect" id="Node000001" title="Manages employee accounts in the system." alt="" coords="5,485,218,704"/>
+<area shape="rect" id="Node000002" href="$classvixhealthsystem_1_1model_1_1person_1_1employee_1_1_employee.html" title="Represents a generic employee in the system." alt="" coords="10,229,214,437"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="113,450,114,486,109,485,111,455"/>
 <area shape="rect" id="Node000003" href="$classvixhealthsystem_1_1model_1_1person_1_1_person.html" title="Base class for all people in the system." alt="" coords="17,5,206,181"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="112,194,114,230,109,230,111,199"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="112,193,114,230,109,229,112,199"/>
 </map>

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <!--
 ==============================================================================
   FILE:    secretary/rooms.html
@@ -7,11 +7,11 @@
            Can show all rooms or available-only depending on isAvailableView.
 
   Model attributes:
-    - rooms (List<Room>) — rooms to display
-    - patients (List<Patient>) — all patients for the admit dropdown
-    - message (String) — success flash
-    - error (String) — error flash
-    - isAvailableView (boolean) — true when showing available rooms only
+    - rooms (List<Room>): rooms to display
+    - patients (List<Patient>): all patients for the admit dropdown
+    - message (String): success flash
+    - error (String): error flash
+    - isAvailableView (boolean): true when showing available rooms only
 
   Dependencies:
     - fragments/head, fragments/dashboard-nav, fragments/footer
@@ -39,7 +39,7 @@
         <div th:if="${message}" class="alert alert-success" th:text="${message}"></div>
         <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
 
-        <!-- Transfer confirmation modal — shown when patient is already in another room -->
+        <!-- Transfer confirmation modal: shown when patient is already in another room -->
         <div th:if="${transferWarning != null}" class="modal d-block" tabindex="-1"
              style="background: rgba(0,0,0,0.5);">
             <div class="modal-dialog modal-dialog-centered">
@@ -119,7 +119,7 @@
                         <!-- Other room types -->
                         <div th:unless="${room instanceof T(com.nvivx.vixhealthsystem.model.facility.InternationRoom)}"
                              class="text-muted small">
-                            Non-inpatient room — no bed management required.
+                            Non-inpatient room: no bed management required.
                         </div>
                     </div>
                 </div>

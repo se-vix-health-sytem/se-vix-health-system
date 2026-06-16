@@ -142,7 +142,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a6ebb29ad58749e28075c49760f2ce828" id="r_a6ebb29ad58749e28075c49760f2ce828"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a6ebb29ad58749e28075c49760f2ce828">JsonAuditLogRepository</a> ()</td></tr>
 <tr class="memdesc:a6ebb29ad58749e28075c49760f2ce828"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configures the mapper and ensures the backing file exists on disk.  <br /></td></tr>
 <tr class="memitem:a3d6dd758ddf3b9c114b17cc495d16b82" id="r_a3d6dd758ddf3b9c114b17cc495d16b82"><td class="memItemLeft">List&lt; <a class="el" href="classvixhealthsystem_1_1model_1_1_audit_log.html">AuditLog</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a3d6dd758ddf3b9c114b17cc495d16b82">findAll</a> ()</td></tr>
-<tr class="memdesc:a3d6dd758ddf3b9c114b17cc495d16b82"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns all audit log entries in insertion order (NFR02 — read-only access).  <br /></td></tr>
+<tr class="memdesc:a3d6dd758ddf3b9c114b17cc495d16b82"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns all audit log entries in insertion order (NFR02 : read-only access).  <br /></td></tr>
 <tr class="memitem:a72ee4ea8e888d71390486daf7525e09d" id="r_a72ee4ea8e888d71390486daf7525e09d"><td class="memItemLeft">synchronized <a class="el" href="classvixhealthsystem_1_1model_1_1_audit_log.html">AuditLog</a>&#160;</td><td class="memItemRight"><a class="el" href="#a72ee4ea8e888d71390486daf7525e09d">save</a> (<a class="el" href="classvixhealthsystem_1_1model_1_1_audit_log.html">AuditLog</a> log)</td></tr>
 <tr class="memdesc:a72ee4ea8e888d71390486daf7525e09d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Appends a new log entry, assigning a sequential ID if absent (NFR02).  <br /></td></tr>
 <tr class="memitem:a0481e5a2464f6fc1e2704523780698d3" id="r_a0481e5a2464f6fc1e2704523780698d3"><td class="memItemLeft">List&lt; <a class="el" href="classvixhealthsystem_1_1model_1_1_audit_log.html">AuditLog</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a0481e5a2464f6fc1e2704523780698d3">findByEntityType</a> (String entityType)</td></tr>
@@ -156,7 +156,7 @@ Public Member Functions</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Append-only JSON-file-backed repository for <code><a class="el" href="classvixhealthsystem_1_1model_1_1_audit_log.html">AuditLog</a></code> entries. </p>
-<p>Persists audit logs to <code class="JavaDocCode">src/main/resources/storage/audit-logs.json</code>. Intentionally exposes no <code class="JavaDocCode">delete</code> or <code class="JavaDocCode">update</code> methods to enforce NFR02 (Traceability) — once written, a log entry is immutable for normal users. The <code><a class="el" href="#a72ee4ea8e888d71390486daf7525e09d">save(AuditLog)</a></code> method is <code class="JavaDocCode">synchronized</code> to prevent ID collisions under concurrent request handling.</p>
+<p>Persists audit logs to <code class="JavaDocCode">src/main/resources/storage/audit-logs.json</code>. Intentionally exposes no <code class="JavaDocCode">delete</code> or <code class="JavaDocCode">update</code> methods to enforce NFR02 (Traceability) : once written, a log entry is immutable for normal users. The <code><a class="el" href="#a72ee4ea8e888d71390486daf7525e09d">save(AuditLog)</a></code> method is <code class="JavaDocCode">synchronized</code> to prevent ID collisions under concurrent request handling.</p>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="classvixhealthsystem_1_1model_1_1_audit_log.html" title="Represents an audit log entry for tracking system changes (NFR02).">vixhealthsystem.model.AuditLog</a> </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="_json_audit_log_repository_8java_source.html#l00027">27</a> of file <a class="el" href="_json_audit_log_repository_8java_source.html">JsonAuditLogRepository.java</a>.</p>
@@ -199,7 +199,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Returns all audit log entries in insertion order (NFR02 — read-only access). </p>
+<p>Returns all audit log entries in insertion order (NFR02 : read-only access). </p>
 <dl class="section return"><dt>Returns</dt><dd>all log entries; never <code class="JavaDocCode">null</code>, empty list if file is empty </dd></dl>
 <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">

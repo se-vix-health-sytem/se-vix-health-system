@@ -29,7 +29,7 @@ import java.util.stream.Collectors;
 import java.util.ArrayList;
 
 /**
- * @brief Controller for StaffManager users — base URL {@code /staff-manager}.
+ * @brief Controller for StaffManager users : base URL {@code /staff-manager}.
  *
  * Staff managers administer the entire workforce of VIX Health System.
  * This controller covers employee lifecycle management (create, delete,
@@ -78,7 +78,7 @@ public class StaffManagerController {
     // =========================================================
 
     /**
-     * GET /staff-manager/dashboard — render the staff manager's overview dashboard.
+     * GET /staff-manager/dashboard : render the staff manager's overview dashboard.
      *
      * @param model  Receives {@code totalEmployees}, {@code activeEmployees},
      *               {@code pendingVacations}, and {@code recentActivities} (last 10 audit entries).
@@ -100,7 +100,7 @@ public class StaffManagerController {
     // =========================================================
 
     /**
-     * GET /staff-manager/employees — list all employees, optionally filtered by type.
+     * GET /staff-manager/employees : list all employees, optionally filtered by type.
      *
      * @param type   Optional filter string: one of {@code MEDICAL_SPECIALIST}, {@code SECRETARY},
      *               {@code TECHNICIAN}, {@code BUYER}, {@code STAFF_MANAGER}; all employees
@@ -148,7 +148,7 @@ public class StaffManagerController {
     }
 
     /**
-     * GET /staff-manager/employees/create — render the create-employee form.
+     * GET /staff-manager/employees/create : render the create-employee form.
      *
      * @param model  Receives {@code employeeTypes} and {@code departments} for form dropdowns.
      * @return       Thymeleaf template {@code staff-manager/create-employee}.
@@ -163,7 +163,7 @@ public class StaffManagerController {
     }
 
     /**
-     * POST /staff-manager/employees/create — create a new employee account.
+     * POST /staff-manager/employees/create : create a new employee account.
      *
      * Builds the correct Employee subtype from the {@code employeeType} parameter,
      * then calls the domain method {@code StaffManager.createAccountForEmployee}
@@ -264,7 +264,7 @@ public class StaffManagerController {
     }
 
     /**
-     * POST /staff-manager/employees/reset-password — trigger a Firebase password-reset email.
+     * POST /staff-manager/employees/reset-password : trigger a Firebase password-reset email.
      *
      * Calls the domain method {@code StaffManager.credentialsRecovery} for business-rule
      * validation before delegating to {@link EmployeeService#requestEmployeePasswordReset}.
@@ -302,7 +302,7 @@ public class StaffManagerController {
     }
 
     /**
-     * POST /staff-manager/employees/delete — permanently delete an employee account.
+     * POST /staff-manager/employees/delete : permanently delete an employee account.
      *
      * Calls {@code StaffManager.deleteEmployeeAccount} first; that domain method
      * enforces the rule that a manager cannot delete their own account.
@@ -339,7 +339,7 @@ public class StaffManagerController {
     // =========================================================
 
     /**
-     * GET /staff-manager/shifts — display all shifts with a form to assign new ones.
+     * GET /staff-manager/shifts : display all shifts with a form to assign new ones.
      *
      * @param model  Receives {@code employees} and {@code shifts} attributes.
      * @return       Thymeleaf template {@code staff-manager/shifts}.
@@ -354,7 +354,7 @@ public class StaffManagerController {
     }
 
     /**
-     * POST /staff-manager/shifts/assign — assign a shift to an employee on a specific date.
+     * POST /staff-manager/shifts/assign : assign a shift to an employee on a specific date.
      *
      * Rejects the assignment with an error message when the employee has an
      * approved vacation that overlaps with {@code date}.
@@ -400,7 +400,7 @@ public class StaffManagerController {
     // =========================================================
 
     /**
-     * GET /staff-manager/vacations — display all vacation requests with approve/deny controls.
+     * GET /staff-manager/vacations : display all vacation requests with approve/deny controls.
      *
      * @param model  Receives {@code pendingRequests}, {@code allRequests}, and {@code employees}.
      * @return       Thymeleaf template {@code staff-manager/vacations}.
@@ -416,7 +416,7 @@ public class StaffManagerController {
     }
 
     /**
-     * POST /staff-manager/vacations/add — submit a new vacation request for an employee.
+     * POST /staff-manager/vacations/add : submit a new vacation request for an employee.
      *
      * @param employeeId  Database ID of the employee.
      * @param startDate   ISO date string ({@code yyyy-MM-dd}) for the first day of leave.
@@ -449,7 +449,7 @@ public class StaffManagerController {
     }
 
     /**
-     * POST /staff-manager/vacations/approve — approve a pending vacation request.
+     * POST /staff-manager/vacations/approve : approve a pending vacation request.
      *
      * @param requestId  Numeric ID of the vacation request to approve.
      * @param model      Receives a success or error {@code message} attribute.
@@ -470,7 +470,7 @@ public class StaffManagerController {
     }
 
     /**
-     * POST /staff-manager/vacations/deny — deny a pending vacation request.
+     * POST /staff-manager/vacations/deny : deny a pending vacation request.
      *
      * @param requestId  Numeric ID of the vacation request to deny.
      * @param model      Receives a success or error {@code message} attribute.
@@ -495,7 +495,7 @@ public class StaffManagerController {
     // =========================================================
 
     /**
-     * GET /staff-manager/availability — show a cross-referenced availability overview.
+     * GET /staff-manager/availability : show a cross-referenced availability overview.
      *
      * Builds maps of shifts, approved vacations, and upcoming appointments
      * (for MedicalSpecialists) keyed by employee ID so the template can render
@@ -558,7 +558,7 @@ public class StaffManagerController {
      * {@code StaffManager.createAccountForEmployee} and {@code deleteEmployeeAccount}
      * require the full StaffManager object, which the Spring Security principal does
      * not provide.  Falls back to a transient {@code new StaffManager()} (no DB
-     * restrictions) when the session user is absent or is not a StaffManager — this
+     * restrictions) when the session user is absent or is not a StaffManager : this
      * supports automated test scenarios where no real session is present.
      *
      * @param session  HTTP session carrying the {@code "user"} attribute.
@@ -583,7 +583,7 @@ public class StaffManagerController {
     // =========================================================
 
     /**
-     * GET /staff-manager/audit-logs — display system-wide audit log entries.
+     * GET /staff-manager/audit-logs : display system-wide audit log entries.
      *
      * All entries are shown sorted newest-first.  An optional entity-type filter
      * narrows the list to a single domain object category.
@@ -619,7 +619,7 @@ public class StaffManagerController {
     }
 
     /**
-     * GET /staff-manager/profile — display the staff manager's personal profile page.
+     * GET /staff-manager/profile : display the staff manager's personal profile page.
      *
      * @param session  HTTP session carrying the {@code "user"} Employee attribute.
      * @param model    Receives {@code employee}, {@code roleLabel}, {@code dashboardLink},
@@ -649,7 +649,7 @@ public class StaffManagerController {
     }
 
     /**
-     * GET /staff-manager/resource-log — display the global resource-take audit log.
+     * GET /staff-manager/resource-log : display the global resource-take audit log.
      *
      * @param model  Receives {@code logs} (all entries from {@link ResourceTakeLogStore}).
      * @return       Thymeleaf template {@code staff-manager/resource-log}.
@@ -663,7 +663,7 @@ public class StaffManagerController {
     }
 
     /**
-     * GET /staff-manager/employees/{id} — display a detailed view of a single employee.
+     * GET /staff-manager/employees/{id} : display a detailed view of a single employee.
      *
      * Shows the employee's shifts, approved vacations, and (for MedicalSpecialists)
      * their upcoming non-cancelled appointments.

@@ -129,7 +129,7 @@ document.addEventListener('DOMContentLoaded',() => { initNavTree('classvixhealth
 </div><!--header-->
 <div class="contents">
 
-<p>Controller for <a class="el" href="classvixhealthsystem_1_1model_1_1person_1_1employee_1_1_medical_specialist.html" title="Represents medical personnel such as doctors, surgeons, specialists and nurses.">MedicalSpecialist</a> staff members — base URL <code class="JavaDocCode">/medical-specialist</code>.  
+<p>Controller for <a class="el" href="classvixhealthsystem_1_1model_1_1person_1_1employee_1_1_medical_specialist.html" title="Represents medical personnel such as doctors, surgeons, specialists and nurses.">MedicalSpecialist</a> staff members : base URL <code class="JavaDocCode">/medical-specialist</code>.  
  <a href="#details">More...</a></p>
 <div class="dynheader">
 Collaboration diagram for MedicalSpecialistController:</div>
@@ -140,40 +140,40 @@ Collaboration diagram for MedicalSpecialistController:</div>
 <tr class="heading"><td colspan="2"><h2 id="header-pub-methods" class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:ad54bda4156edb99e36df40ff0e3065bb" id="r_ad54bda4156edb99e36df40ff0e3065bb"><td class="memItemLeft">String&#160;</td><td class="memItemRight"><a class="el" href="#ad54bda4156edb99e36df40ff0e3065bb">dashboard</a> (Model model)</td></tr>
-<tr class="memdesc:ad54bda4156edb99e36df40ff0e3065bb"><td class="mdescLeft">&#160;</td><td class="mdescRight">GET /medical-specialist/dashboard — render the specialist's overview dashboard.  <br /></td></tr>
+<tr class="memdesc:ad54bda4156edb99e36df40ff0e3065bb"><td class="mdescLeft">&#160;</td><td class="mdescRight">GET /medical-specialist/dashboard : render the specialist's overview dashboard.  <br /></td></tr>
 <tr class="memitem:aa7dc335af423be1e75c6a9f5a266d523" id="r_aa7dc335af423be1e75c6a9f5a266d523"><td class="memItemLeft">String&#160;</td><td class="memItemRight"><a class="el" href="#aa7dc335af423be1e75c6a9f5a266d523">searchPatientsForm</a> (Model model)</td></tr>
-<tr class="memdesc:aa7dc335af423be1e75c6a9f5a266d523"><td class="mdescLeft">&#160;</td><td class="mdescRight">GET /medical-specialist/patients/search — render the patient search form.  <br /></td></tr>
+<tr class="memdesc:aa7dc335af423be1e75c6a9f5a266d523"><td class="mdescLeft">&#160;</td><td class="mdescRight">GET /medical-specialist/patients/search : render the patient search form.  <br /></td></tr>
 <tr class="memitem:af357e8c653f8e4c5eb4c3e27b6281fb6" id="r_af357e8c653f8e4c5eb4c3e27b6281fb6"><td class="memItemLeft">String&#160;</td><td class="memItemRight"><a class="el" href="#af357e8c653f8e4c5eb4c3e27b6281fb6">searchPatients</a> (@RequestParam String query, Model model)</td></tr>
-<tr class="memdesc:af357e8c653f8e4c5eb4c3e27b6281fb6"><td class="mdescLeft">&#160;</td><td class="mdescRight">POST /medical-specialist/patients/search — execute a patient search and display results.  <br /></td></tr>
+<tr class="memdesc:af357e8c653f8e4c5eb4c3e27b6281fb6"><td class="mdescLeft">&#160;</td><td class="mdescRight">POST /medical-specialist/patients/search : execute a patient search and display results.  <br /></td></tr>
 <tr class="memitem:aab2745b5aed44ef798172935360dbf80" id="r_aab2745b5aed44ef798172935360dbf80"><td class="memItemLeft">String&#160;</td><td class="memItemRight"><a class="el" href="#aab2745b5aed44ef798172935360dbf80">viewMedicalRecord</a> (@PathVariable Long patientId, Model model)</td></tr>
-<tr class="memdesc:aab2745b5aed44ef798172935360dbf80"><td class="mdescLeft">&#160;</td><td class="mdescRight">GET /medical-specialist/patients/{patientId}/record — view a patient's full medical record.  <br /></td></tr>
+<tr class="memdesc:aab2745b5aed44ef798172935360dbf80"><td class="mdescLeft">&#160;</td><td class="mdescRight">GET /medical-specialist/patients/{patientId}/record : view a patient's full medical record.  <br /></td></tr>
 <tr class="memitem:afea13bf1d5f919fd2ed09a2f4001f829" id="r_afea13bf1d5f919fd2ed09a2f4001f829"><td class="memItemLeft">String&#160;</td><td class="memItemRight"><a class="el" href="#afea13bf1d5f919fd2ed09a2f4001f829">addSurgery</a> (@PathVariable Long patientId, @RequestParam String surgeryName, @RequestParam(required=false) String surgeryDescription, @RequestParam String surgeryDateTime, @RequestParam(required=false) Long roomId, HttpSession session, RedirectAttributes redirectAttributes)</td></tr>
-<tr class="memdesc:afea13bf1d5f919fd2ed09a2f4001f829"><td class="mdescLeft">&#160;</td><td class="mdescRight">POST /medical-specialist/patients/{patientId}/add-surgery — schedule a surgery for a patient.  <br /></td></tr>
+<tr class="memdesc:afea13bf1d5f919fd2ed09a2f4001f829"><td class="mdescLeft">&#160;</td><td class="mdescRight">POST /medical-specialist/patients/{patientId}/add-surgery : schedule a surgery for a patient.  <br /></td></tr>
 <tr class="memitem:a90c964144c751eb5ae8ac0738e908f12" id="r_a90c964144c751eb5ae8ac0738e908f12"><td class="memItemLeft">String&#160;</td><td class="memItemRight"><a class="el" href="#a90c964144c751eb5ae8ac0738e908f12">addDiagnosis</a> (@PathVariable Long patientId, @RequestParam String diagnosisName, @RequestParam(required=false) String description, @RequestParam String severity, RedirectAttributes redirectAttributes)</td></tr>
-<tr class="memdesc:a90c964144c751eb5ae8ac0738e908f12"><td class="mdescLeft">&#160;</td><td class="mdescRight">POST /medical-specialist/patients/{patientId}/add-diagnosis — add a diagnosis to a patient's record.  <br /></td></tr>
+<tr class="memdesc:a90c964144c751eb5ae8ac0738e908f12"><td class="mdescLeft">&#160;</td><td class="mdescRight">POST /medical-specialist/patients/{patientId}/add-diagnosis : add a diagnosis to a patient's record.  <br /></td></tr>
 <tr class="memitem:aeb8ad226968ecfe92f66dea05929f29c" id="r_aeb8ad226968ecfe92f66dea05929f29c"><td class="memItemLeft">String&#160;</td><td class="memItemRight"><a class="el" href="#aeb8ad226968ecfe92f66dea05929f29c">addPrescription</a> (@PathVariable Long patientId, @RequestParam String medication, @RequestParam String dosage, HttpSession session, RedirectAttributes redirectAttributes)</td></tr>
-<tr class="memdesc:aeb8ad226968ecfe92f66dea05929f29c"><td class="mdescLeft">&#160;</td><td class="mdescRight">POST /medical-specialist/patients/{patientId}/add-prescription — issue a prescription.  <br /></td></tr>
+<tr class="memdesc:aeb8ad226968ecfe92f66dea05929f29c"><td class="mdescLeft">&#160;</td><td class="mdescRight">POST /medical-specialist/patients/{patientId}/add-prescription : issue a prescription.  <br /></td></tr>
 <tr class="memitem:a7db6ca56a2845cef9b32f142e68780af" id="r_a7db6ca56a2845cef9b32f142e68780af"><td class="memItemLeft">String&#160;</td><td class="memItemRight"><a class="el" href="#a7db6ca56a2845cef9b32f142e68780af">addExamResult</a> (@PathVariable Long patientId, @RequestParam String examType, @RequestParam String result, @RequestParam(required=false) String notes, RedirectAttributes redirectAttributes)</td></tr>
-<tr class="memdesc:a7db6ca56a2845cef9b32f142e68780af"><td class="mdescLeft">&#160;</td><td class="mdescRight">POST /medical-specialist/patients/{patientId}/add-exam-result — record a diagnostic exam result.  <br /></td></tr>
+<tr class="memdesc:a7db6ca56a2845cef9b32f142e68780af"><td class="mdescLeft">&#160;</td><td class="mdescRight">POST /medical-specialist/patients/{patientId}/add-exam-result : record a diagnostic exam result.  <br /></td></tr>
 <tr class="memitem:a9506912eacdf6878e54cc51a490ba374" id="r_a9506912eacdf6878e54cc51a490ba374"><td class="memItemLeft">String&#160;</td><td class="memItemRight"><a class="el" href="#a9506912eacdf6878e54cc51a490ba374">viewAppointments</a> (HttpSession session, Model model)</td></tr>
-<tr class="memdesc:a9506912eacdf6878e54cc51a490ba374"><td class="mdescLeft">&#160;</td><td class="mdescRight">GET /medical-specialist/appointments — list all appointments assigned to this specialist.  <br /></td></tr>
+<tr class="memdesc:a9506912eacdf6878e54cc51a490ba374"><td class="mdescLeft">&#160;</td><td class="mdescRight">GET /medical-specialist/appointments : list all appointments assigned to this specialist.  <br /></td></tr>
 <tr class="memitem:a4669e5bd615158e688cfa42c80d80a0d" id="r_a4669e5bd615158e688cfa42c80d80a0d"><td class="memItemLeft">String&#160;</td><td class="memItemRight"><a class="el" href="#a4669e5bd615158e688cfa42c80d80a0d">viewCalendar</a> (@RequestParam(required=false) String month, HttpSession session, Model model)</td></tr>
-<tr class="memdesc:a4669e5bd615158e688cfa42c80d80a0d"><td class="mdescLeft">&#160;</td><td class="mdescRight">GET /medical-specialist/calendar — display a monthly calendar with event markers.  <br /></td></tr>
+<tr class="memdesc:a4669e5bd615158e688cfa42c80d80a0d"><td class="mdescLeft">&#160;</td><td class="mdescRight">GET /medical-specialist/calendar : display a monthly calendar with event markers.  <br /></td></tr>
 <tr class="memitem:a6feb9b9d43743c685b207875d62500a9" id="r_a6feb9b9d43743c685b207875d62500a9"><td class="memItemLeft">String&#160;</td><td class="memItemRight"><a class="el" href="#a6feb9b9d43743c685b207875d62500a9">viewMySchedule</a> (@RequestParam(required=false) String date, HttpSession session, Model model)</td></tr>
-<tr class="memdesc:a6feb9b9d43743c685b207875d62500a9"><td class="mdescLeft">&#160;</td><td class="mdescRight">GET /medical-specialist/my-schedule — display a day view of shifts, appointments, and surgeries.  <br /></td></tr>
+<tr class="memdesc:a6feb9b9d43743c685b207875d62500a9"><td class="mdescLeft">&#160;</td><td class="mdescRight">GET /medical-specialist/my-schedule : display a day view of shifts, appointments, and surgeries.  <br /></td></tr>
 <tr class="memitem:a91a5eaa17c492bffb6ee02a0e679817c" id="r_a91a5eaa17c492bffb6ee02a0e679817c"><td class="memItemLeft">String&#160;</td><td class="memItemRight"><a class="el" href="#a91a5eaa17c492bffb6ee02a0e679817c">viewProfile</a> (HttpSession session, Model model)</td></tr>
-<tr class="memdesc:a91a5eaa17c492bffb6ee02a0e679817c"><td class="mdescLeft">&#160;</td><td class="mdescRight">GET /medical-specialist/profile — display the specialist's personal profile.  <br /></td></tr>
+<tr class="memdesc:a91a5eaa17c492bffb6ee02a0e679817c"><td class="mdescLeft">&#160;</td><td class="mdescRight">GET /medical-specialist/profile : display the specialist's personal profile.  <br /></td></tr>
 <tr class="memitem:a07a80e4f53c2e950d6aaf86e92e705c9" id="r_a07a80e4f53c2e950d6aaf86e92e705c9"><td class="memItemLeft">String&#160;</td><td class="memItemRight"><a class="el" href="#a07a80e4f53c2e950d6aaf86e92e705c9">viewSurgeries</a> (HttpSession session, Model model)</td></tr>
-<tr class="memdesc:a07a80e4f53c2e950d6aaf86e92e705c9"><td class="mdescLeft">&#160;</td><td class="mdescRight">GET /medical-specialist/surgeries — list all surgeries assigned to this specialist.  <br /></td></tr>
+<tr class="memdesc:a07a80e4f53c2e950d6aaf86e92e705c9"><td class="mdescLeft">&#160;</td><td class="mdescRight">GET /medical-specialist/surgeries : list all surgeries assigned to this specialist.  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Controller for <a class="el" href="classvixhealthsystem_1_1model_1_1person_1_1employee_1_1_medical_specialist.html" title="Represents medical personnel such as doctors, surgeons, specialists and nurses.">MedicalSpecialist</a> staff members — base URL <code class="JavaDocCode">/medical-specialist</code>. </p>
+<div class="textblock"><p>Controller for <a class="el" href="classvixhealthsystem_1_1model_1_1person_1_1employee_1_1_medical_specialist.html" title="Represents medical personnel such as doctors, surgeons, specialists and nurses.">MedicalSpecialist</a> staff members : base URL <code class="JavaDocCode">/medical-specialist</code>. </p>
 <p>Medical specialists use this controller to manage clinical activities: searching patient records, adding diagnoses, prescriptions, exam results, and scheduling surgeries. Additional views cover the specialist's own appointments, a monthly calendar, a day-by-day schedule, and their profile.</p>
 <p>Only accessible to users with <code class="JavaDocCode">ROLE_MEDICALSPECIALIST</code>.</p>
 <p>Use cases covered: UC10 (view medical records), UC11 (add diagnosis), UC12 (add prescription), UC13 (schedule surgery), UC18 (appointments).</p>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="classvixhealthsystem_1_1service_1_1medical_1_1_medical_record_service.html" title="Manages patient medical records — creation and appending of diagnoses, prescriptions,...">MedicalRecordService</a> </dd>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="classvixhealthsystem_1_1service_1_1medical_1_1_medical_record_service.html" title="Manages patient medical records : creation and appending of diagnoses, prescriptions,...">MedicalRecordService</a> </dd>
 <dd>
-<a class="el" href="classvixhealthsystem_1_1service_1_1core_1_1_patient_service.html" title="Manages the patient lifecycle — registration, lookup, partial updates, and GDPR-compliant account del...">PatientService</a> </dd>
+<a class="el" href="classvixhealthsystem_1_1service_1_1core_1_1_patient_service.html" title="Manages the patient lifecycle : registration, lookup, partial updates, and GDPR-compliant account del...">PatientService</a> </dd>
 <dd>
 <a class="el" href="classvixhealthsystem_1_1service_1_1scheduling_1_1_shift_service.html" title="Manages employee shift assignments, backed by a JSON file rather than the database.">ShiftService</a> </dd>
 <dd>
@@ -198,7 +198,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>GET /medical-specialist/dashboard — render the specialist's overview dashboard. </p>
+<p>GET /medical-specialist/dashboard : render the specialist's overview dashboard. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">model</td><td>Receives <code class="JavaDocCode">pageTitle</code> and <code class="JavaDocCode">currentPage</code> attributes. </td></tr>
@@ -230,7 +230,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>GET /medical-specialist/patients/search — render the patient search form. </p>
+<p>GET /medical-specialist/patients/search : render the patient search form. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">model</td><td>Receives <code class="JavaDocCode">pageTitle</code> and <code class="JavaDocCode">currentPage</code> attributes. </td></tr>
@@ -266,7 +266,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>POST /medical-specialist/patients/search — execute a patient search and display results. </p>
+<p>POST /medical-specialist/patients/search : execute a patient search and display results. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">query</td><td>Free-text search term (name, fiscal code, etc.). </td></tr>
@@ -303,7 +303,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>GET /medical-specialist/patients/{patientId}/record — view a patient's full medical record. </p>
+<p>GET /medical-specialist/patients/{patientId}/record : view a patient's full medical record. </p>
 <p>Also loads the list of specialized operating rooms so the page can offer a room selector when scheduling a new surgery inline.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -366,7 +366,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>POST /medical-specialist/patients/{patientId}/add-surgery — schedule a surgery for a patient. </p>
+<p>POST /medical-specialist/patients/{patientId}/add-surgery : schedule a surgery for a patient. </p>
 <p>The acting specialist is resolved from the session to invoke the domain method <code class="JavaDocCode">MedicalSpecialist.scheduleSurgeryForPatient</code>. The session is consulted rather than the Spring Security principal because only the full <a class="el" href="classvixhealthsystem_1_1model_1_1person_1_1employee_1_1_medical_specialist.html" title="Represents medical personnel such as doctors, surgeons, specialists and nurses.">MedicalSpecialist</a> domain object carries the scheduling business logic. The operation is audited via <code><a class="el" href="classvixhealthsystem_1_1service_1_1_audit_service.html">AuditService</a></code>.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -424,7 +424,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>POST /medical-specialist/patients/{patientId}/add-diagnosis — add a diagnosis to a patient's record. </p>
+<p>POST /medical-specialist/patients/{patientId}/add-diagnosis : add a diagnosis to a patient's record. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">patientId</td><td>Database ID of the patient. </td></tr>
@@ -479,7 +479,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>POST /medical-specialist/patients/{patientId}/add-prescription — issue a prescription. </p>
+<p>POST /medical-specialist/patients/{patientId}/add-prescription : issue a prescription. </p>
 <p>The session <code class="JavaDocCode">"user"</code> attribute is read to obtain the specialist's ID, which is stored with the prescription for traceability. Medication and dosage are combined into a single string for the domain service.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -535,7 +535,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>POST /medical-specialist/patients/{patientId}/add-exam-result — record a diagnostic exam result. </p>
+<p>POST /medical-specialist/patients/{patientId}/add-exam-result : record a diagnostic exam result. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">patientId</td><td>Database ID of the patient. </td></tr>
@@ -575,7 +575,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>GET /medical-specialist/appointments — list all appointments assigned to this specialist. </p>
+<p>GET /medical-specialist/appointments : list all appointments assigned to this specialist. </p>
 <p>Filters the global appointment repository by the session user's ID and sorts results chronologically. The session <code class="JavaDocCode">"user"</code> attribute is used because appointment filtering requires the specialist's database ID.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -618,7 +618,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>GET /medical-specialist/calendar — display a monthly calendar with event markers. </p>
+<p>GET /medical-specialist/calendar : display a monthly calendar with event markers. </p>
 <p>Collects shift dates, appointment dates, surgery dates, and approved vacation ranges for the requested month and passes them to the template as JSON-serialisable string lists so the front-end JavaScript grid can render markers without an additional API call.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -662,7 +662,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>GET /medical-specialist/my-schedule — display a day view of shifts, appointments, and surgeries. </p>
+<p>GET /medical-specialist/my-schedule : display a day view of shifts, appointments, and surgeries. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">date</td><td>Optional ISO date string (<code class="JavaDocCode">yyyy-MM-dd</code>) for the day to display; defaults to today when absent or unparseable. </td></tr>
@@ -673,11 +673,11 @@ Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Thymeleaf template <code class="JavaDocCode">medical-specialist/schedule</code>, or <code class="JavaDocCode">redirect:/login</code> when no session user is found. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_medical_specialist_controller_8java_source.html#l00473">473</a> of file <a class="el" href="_medical_specialist_controller_8java_source.html">MedicalSpecialistController.java</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_medical_specialist_controller_8java_source.html#l00483">483</a> of file <a class="el" href="_medical_specialist_controller_8java_source.html">MedicalSpecialistController.java</a>.</p>
 
-<p class="reference">References <a class="el" href="_medical_specialist_controller_8java_source.html#l00473">viewMySchedule()</a>.</p>
+<p class="reference">References <a class="el" href="_medical_specialist_controller_8java_source.html#l00483">viewMySchedule()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_medical_specialist_controller_8java_source.html#l00473">viewMySchedule()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_medical_specialist_controller_8java_source.html#l00483">viewMySchedule()</a>.</p>
 
 </div>
 </div>
@@ -700,7 +700,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>GET /medical-specialist/profile — display the specialist's personal profile. </p>
+<p>GET /medical-specialist/profile : display the specialist's personal profile. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">session</td><td>HTTP session carrying the <code class="JavaDocCode">"user"</code> <a class="el" href="classvixhealthsystem_1_1model_1_1person_1_1employee_1_1_employee.html" title="Represents a generic employee in the system.">Employee</a> attribute. </td></tr>
@@ -710,11 +710,11 @@ Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Thymeleaf template <code class="JavaDocCode">employee/profile</code>, or <code class="JavaDocCode">redirect:/login</code> when no session user is found. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_medical_specialist_controller_8java_source.html#l00540">540</a> of file <a class="el" href="_medical_specialist_controller_8java_source.html">MedicalSpecialistController.java</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_medical_specialist_controller_8java_source.html#l00560">560</a> of file <a class="el" href="_medical_specialist_controller_8java_source.html">MedicalSpecialistController.java</a>.</p>
 
-<p class="reference">References <a class="el" href="_medical_specialist_controller_8java_source.html#l00540">viewProfile()</a>.</p>
+<p class="reference">References <a class="el" href="_medical_specialist_controller_8java_source.html#l00560">viewProfile()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_medical_specialist_controller_8java_source.html#l00540">viewProfile()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_medical_specialist_controller_8java_source.html#l00560">viewProfile()</a>.</p>
 
 </div>
 </div>
@@ -737,7 +737,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>GET /medical-specialist/surgeries — list all surgeries assigned to this specialist. </p>
+<p>GET /medical-specialist/surgeries : list all surgeries assigned to this specialist. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">session</td><td>HTTP session carrying the <code class="JavaDocCode">"user"</code> <a class="el" href="classvixhealthsystem_1_1model_1_1person_1_1employee_1_1_employee.html" title="Represents a generic employee in the system.">Employee</a> attribute. </td></tr>
@@ -747,11 +747,11 @@ Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Thymeleaf template <code class="JavaDocCode">medical-specialist/surgeries</code>, or <code class="JavaDocCode">redirect:/login</code> when no session user is found. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_medical_specialist_controller_8java_source.html#l00569">569</a> of file <a class="el" href="_medical_specialist_controller_8java_source.html">MedicalSpecialistController.java</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_medical_specialist_controller_8java_source.html#l00589">589</a> of file <a class="el" href="_medical_specialist_controller_8java_source.html">MedicalSpecialistController.java</a>.</p>
 
-<p class="reference">References <a class="el" href="_medical_specialist_controller_8java_source.html#l00569">viewSurgeries()</a>.</p>
+<p class="reference">References <a class="el" href="_medical_specialist_controller_8java_source.html#l00589">viewSurgeries()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_medical_specialist_controller_8java_source.html#l00569">viewSurgeries()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_medical_specialist_controller_8java_source.html#l00589">viewSurgeries()</a>.</p>
 
 </div>
 </div>

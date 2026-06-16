@@ -22,7 +22,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
- * @brief Central service for employee lifecycle management — creation, lookup, update, deletion,
+ * @brief Central service for employee lifecycle management : creation, lookup, update, deletion,
  *        and Firebase account synchronisation.
  *
  * Annotated {@code @Transactional(readOnly=true)} at the class level so that all read
@@ -83,9 +83,7 @@ public class EmployeeService {
         this.devCredentialStore = devCredentialStore;
     }
 
-    // =========================================================
-    // READ OPERATIONS — DEPARTMENTS
-    // =========================================================
+    // department queries
 
     /** @brief Returns all departments; used to populate department selectors in forms. */
     public List<Department> findAllDepartments() {
@@ -104,9 +102,9 @@ public class EmployeeService {
                 .orElseThrow(() -> new RuntimeException("Department not found with id: " + id));
     }
 
-    // =========================================================
-    // READ OPERATIONS — EMPLOYEES
-    // =========================================================
+    // -----------------------------------------------
+    // employee lookups
+    // -----------------------------------------------
 
     /**
      * Looks up an employee by primary key, throwing when absent.
@@ -276,7 +274,7 @@ public class EmployeeService {
 
             employee.setFirebaseUid(firebaseUid);
 
-            log.info("[DEMO] Firebase account created — Employee: {} {} | Email: {} | UID: {}",
+            log.info("[DEMO] Firebase account created : Employee: {} {} | Email: {} | UID: {}",
                     employee.getName(), employee.getSurname(), employee.getEmail(), firebaseUid);
 
             devCredentialStore.store(
@@ -364,7 +362,7 @@ public class EmployeeService {
             String resetLink =
                     firebaseAuthService.generatePasswordResetLink(employee.getEmail());
 
-            log.info("[DEMO] Password reset link generated — Employee: {} {} | Email: {} | Link: {}",
+            log.info("[DEMO] Password reset link generated : Employee: {} {} | Email: {} | Link: {}",
                     employee.getName(), employee.getSurname(), employee.getEmail(), resetLink);
 
             // Mark on the dev board that this account's password is no longer the default

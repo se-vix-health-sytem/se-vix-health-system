@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <!--
 ==============================================================================
   FILE:    medical-specialist/search-results.html
@@ -7,8 +7,8 @@
            a "View Record" button for each matched patient.
 
   Model attributes:
-    - patients (List<Patient>) — patients matching the query
-    - query (String) — the search term that was submitted
+    - patients (List<Patient>): patients matching the query
+    - query (String): the search term that was submitted
 
   Dependencies:
     - fragments/head, fragments/dashboard-nav, fragments/footer
@@ -44,7 +44,7 @@
                 <p class="text-muted small mb-3">
                     Results for: <strong th:text="${query}">-</strong>
                     <span th:if="${patients != null}">
-                        — <span th:text="${patients.size()}">0</span> patient(s) found
+                       : <span th:text="${patients.size()}">0</span> patient(s) found
                     </span>
                 </p>
 

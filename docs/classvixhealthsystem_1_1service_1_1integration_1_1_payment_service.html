@@ -150,10 +150,10 @@ Public Member Functions</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Simulates payment processing for appointment fees (UC-Payment flow). </p>
-<p>In the current demo, every charge always succeeds and returns a randomly generated transaction ID. Completed transactions are stored in memory only — they do not survive a server restart. A real implementation would replace <code><a class="el" href="#a6581f414f433de40af6f3480a5b93bfd">processPayment</a></code> with an actual payment-gateway call (Stripe, Braintree, etc.) and persist the result to the database.</p>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="classvixhealthsystem_1_1controllers_1_1services_1_1_payment_controller.html" title="Controller for the payment workflow — base URL /payment.">vixhealthsystem.controllers.services.PaymentController</a> </dd>
+<p>In the current demo, every charge always succeeds and returns a randomly generated transaction ID. Completed transactions are stored in memory only : they do not survive a server restart. A real implementation would replace <code><a class="el" href="#a6581f414f433de40af6f3480a5b93bfd">processPayment</a></code> with an actual payment-gateway call (Stripe, Braintree, etc.) and persist the result to the database.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="classvixhealthsystem_1_1controllers_1_1services_1_1_payment_controller.html" title="Controller for the payment workflow : base URL /payment.">vixhealthsystem.controllers.services.PaymentController</a> </dd>
 <dd>
-<a class="el" href="classvixhealthsystem_1_1dto_1_1_payment_request.html" title="Request body for initiating a payment for an appointment (UC11 — Pay for Service).">vixhealthsystem.dto.PaymentRequest</a> </dd>
+<a class="el" href="classvixhealthsystem_1_1dto_1_1_payment_request.html" title="Request body for initiating a payment for an appointment (UC11 : Pay for Service).">vixhealthsystem.dto.PaymentRequest</a> </dd>
 <dd>
 <a class="el" href="classvixhealthsystem_1_1dto_1_1_payment_response.html" title="Response payload returned after a payment attempt.">vixhealthsystem.dto.PaymentResponse</a> </dd></dl>
 
@@ -260,7 +260,7 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Processes a simulated payment and returns a transaction result. </p>
-<p>Always succeeds in demo mode. Generates a <code class="JavaDocCode">TXN-XXXXXXXX</code> transaction ID, stores the completed status in memory, and writes an audit entry. The 500 ms delay is intentional — it mimics a real gateway round-trip for the demo.</p>
+<p>Always succeeds in demo mode. Generates a <code class="JavaDocCode">TXN-XXXXXXXX</code> transaction ID, stores the completed status in memory, and writes an audit entry. The 500 ms delay is intentional : it mimics a real gateway round-trip for the demo.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">request</td><td>Payment details including appointment ID and amount. </td></tr>

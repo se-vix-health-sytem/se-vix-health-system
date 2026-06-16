@@ -129,7 +129,7 @@ document.addEventListener('DOMContentLoaded',() => { initNavTree('classvixhealth
 </div><!--header-->
 <div class="contents">
 
-<p>Controller for the public-facing specialist directory — base URL <code class="JavaDocCode">/specialists</code>.  
+<p>Controller for the public-facing specialist directory : base URL <code class="JavaDocCode">/specialists</code>.  
  <a href="#details">More...</a></p>
 <div class="dynheader">
 Collaboration diagram for SpecialistController:</div>
@@ -140,14 +140,14 @@ Collaboration diagram for SpecialistController:</div>
 <tr class="heading"><td colspan="2"><h2 id="header-pub-methods" class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a6f73f826e184839f0639b8c47e4f1643" id="r_a6f73f826e184839f0639b8c47e4f1643"><td class="memItemLeft">String&#160;</td><td class="memItemRight"><a class="el" href="#a6f73f826e184839f0639b8c47e4f1643">listSpecialists</a> (Model model)</td></tr>
-<tr class="memdesc:a6f73f826e184839f0639b8c47e4f1643"><td class="mdescLeft">&#160;</td><td class="mdescRight">GET /specialists — list all medical specialists.  <br /></td></tr>
+<tr class="memdesc:a6f73f826e184839f0639b8c47e4f1643"><td class="mdescLeft">&#160;</td><td class="mdescRight">GET /specialists : list all medical specialists.  <br /></td></tr>
 <tr class="memitem:af728d9f59698a28ef45dd1f970463ca9" id="r_af728d9f59698a28ef45dd1f970463ca9"><td class="memItemLeft">String&#160;</td><td class="memItemRight"><a class="el" href="#af728d9f59698a28ef45dd1f970463ca9">specialistDetail</a> (@PathVariable Long id, Model model)</td></tr>
-<tr class="memdesc:af728d9f59698a28ef45dd1f970463ca9"><td class="mdescLeft">&#160;</td><td class="mdescRight">GET /specialists/{id} — display a single specialist's profile page.  <br /></td></tr>
+<tr class="memdesc:af728d9f59698a28ef45dd1f970463ca9"><td class="mdescLeft">&#160;</td><td class="mdescRight">GET /specialists/{id} : display a single specialist's profile page.  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Controller for the public-facing specialist directory — base URL <code class="JavaDocCode">/specialists</code>. </p>
+<div class="textblock"><p>Controller for the public-facing specialist directory : base URL <code class="JavaDocCode">/specialists</code>. </p>
 <p>Lets site visitors browse the full list of medical specialists and drill into individual specialist profiles. The list view also computes a count of distinct departments represented so the page header can advertise the breadth of specialties available.</p>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="classvixhealthsystem_1_1service_1_1core_1_1_employee_service.html" title="Central service for employee lifecycle management — creation, lookup, update, deletion,...">EmployeeService</a> </dd>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="classvixhealthsystem_1_1service_1_1core_1_1_employee_service.html" title="Central service for employee lifecycle management : creation, lookup, update, deletion,...">EmployeeService</a> </dd>
 <dd>
 <a class="el" href="classvixhealthsystem_1_1service_1_1core_1_1_department_service.html" title="Manages hospital departments and their associated specialists.">DepartmentService</a> </dd></dl>
 
@@ -168,7 +168,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>GET /specialists — list all medical specialists. </p>
+<p>GET /specialists : list all medical specialists. </p>
 <p>Counts distinct departments from the specialists' own department references rather than from the department table, so the count reflects only departments that currently have active specialists.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -201,7 +201,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>GET /specialists/{id} — display a single specialist's profile page. </p>
+<p>GET /specialists/{id} : display a single specialist's profile page. </p>
 <p>Falls back to the specialist list with a redirect when the given ID does not correspond to a <a class="el" href="classvixhealthsystem_1_1model_1_1person_1_1employee_1_1_medical_specialist.html" title="Represents medical personnel such as doctors, surgeons, specialists and nurses.">MedicalSpecialist</a> (either the ID is unknown or the employee is of a different type).</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">

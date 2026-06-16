@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * @brief Controller for the public-facing specialist directory — base URL {@code /specialists}.
+ * @brief Controller for the public-facing specialist directory : base URL {@code /specialists}.
  *
  * Lets site visitors browse the full list of medical specialists and drill
  * into individual specialist profiles.  The list view also computes a count
@@ -40,7 +40,7 @@ public class SpecialistController {
     // =========================================================
 
     /**
-     * GET /specialists — list all medical specialists.
+     * GET /specialists : list all medical specialists.
      *
      * Counts distinct departments from the specialists' own department
      * references rather than from the department table, so the count
@@ -67,7 +67,7 @@ public class SpecialistController {
     }
 
     /**
-     * GET /specialists/{id} — display a single specialist's profile page.
+     * GET /specialists/{id} : display a single specialist's profile page.
      *
      * Falls back to the specialist list with a redirect when the given ID does
      * not correspond to a MedicalSpecialist (either the ID is unknown or the
@@ -89,7 +89,7 @@ public class SpecialistController {
                 return "site/specialists/detail";
             }
         } catch (Exception e) {
-            // Specialist not found — fall through to redirect
+            // Specialist not found : fall through to redirect
         }
         return "redirect:/specialists";
     }

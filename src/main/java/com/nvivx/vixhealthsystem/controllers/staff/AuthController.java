@@ -59,7 +59,7 @@ public class AuthController {
     // =========================================================
 
     /**
-     * GET /login — render the staff login form.
+     * GET /login : render the staff login form.
      *
      * Populates the model with pre-seeded dev credentials so testers can
      * one-click into any role from the login page.
@@ -81,7 +81,7 @@ public class AuthController {
     }
 
     /**
-     * POST /authenticate — verify Firebase credentials and open a staff session.
+     * POST /authenticate : verify Firebase credentials and open a staff session.
      *
      * Calls Firebase to exchange email/password for a UID, looks up the matching
      * Employee, registers a Spring Security context in the HTTP session, then
@@ -161,7 +161,7 @@ public class AuthController {
 
 
     /**
-     * GET /logout — invalidate the staff session and clear the security context.
+     * GET /logout : invalidate the staff session and clear the security context.
      *
      * @param session  HTTP session to invalidate.
      * @return         Redirect to the public home page {@code /}.
@@ -179,7 +179,7 @@ public class AuthController {
     // =========================================================
 
     /**
-     * POST /select-role — dev-only role selector that bypasses Firebase.
+     * POST /select-role : dev-only role selector that bypasses Firebase.
      *
      * Looks up the first employee of the requested type from the database,
      * seeds the HTTP session, registers a Spring Security context, then

@@ -129,7 +129,7 @@ document.addEventListener('DOMContentLoaded',() => { initNavTree('classvixhealth
 </div><!--header-->
 <div class="contents">
 
-<p>Controller for patient-side appointment operations — base URL <code class="JavaDocCode">/patient</code>.  
+<p>Controller for patient-side appointment operations : base URL <code class="JavaDocCode">/patient</code>.  
  <a href="#details">More...</a></p>
 <div class="dynheader">
 Collaboration diagram for PatientAppointmentController:</div>
@@ -140,22 +140,22 @@ Collaboration diagram for PatientAppointmentController:</div>
 <tr class="heading"><td colspan="2"><h2 id="header-pub-methods" class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a9506912eacdf6878e54cc51a490ba374" id="r_a9506912eacdf6878e54cc51a490ba374"><td class="memItemLeft">String&#160;</td><td class="memItemRight"><a class="el" href="#a9506912eacdf6878e54cc51a490ba374">viewAppointments</a> (HttpSession session, Model model)</td></tr>
-<tr class="memdesc:a9506912eacdf6878e54cc51a490ba374"><td class="mdescLeft">&#160;</td><td class="mdescRight">GET /patient/appointments — display the logged-in patient's appointments split into upcoming and past.  <br /></td></tr>
+<tr class="memdesc:a9506912eacdf6878e54cc51a490ba374"><td class="mdescLeft">&#160;</td><td class="mdescRight">GET /patient/appointments : display the logged-in patient's appointments split into upcoming and past.  <br /></td></tr>
 <tr class="memitem:a342dc07489e83c608f8c79f57bf6773d" id="r_a342dc07489e83c608f8c79f57bf6773d"><td class="memItemLeft">String&#160;</td><td class="memItemRight"><a class="el" href="#a342dc07489e83c608f8c79f57bf6773d">showBookingForm</a> (Model model, HttpSession session)</td></tr>
-<tr class="memdesc:a342dc07489e83c608f8c79f57bf6773d"><td class="mdescLeft">&#160;</td><td class="mdescRight">GET /patient/appointments/book — render the specialist selection step of the booking flow.  <br /></td></tr>
+<tr class="memdesc:a342dc07489e83c608f8c79f57bf6773d"><td class="mdescLeft">&#160;</td><td class="mdescRight">GET /patient/appointments/book : render the specialist selection step of the booking flow.  <br /></td></tr>
 <tr class="memitem:ac5c8f3380b95ba1c48f32c5d9cc013fc" id="r_ac5c8f3380b95ba1c48f32c5d9cc013fc"><td class="memItemLeft">String&#160;</td><td class="memItemRight"><a class="el" href="#ac5c8f3380b95ba1c48f32c5d9cc013fc">showTimeSlots</a> (@PathVariable Long specialistId, Model model, HttpSession session)</td></tr>
-<tr class="memdesc:ac5c8f3380b95ba1c48f32c5d9cc013fc"><td class="mdescLeft">&#160;</td><td class="mdescRight">GET /patient/appointments/book/{specialistId} — display available time slots for a specialist.  <br /></td></tr>
+<tr class="memdesc:ac5c8f3380b95ba1c48f32c5d9cc013fc"><td class="mdescLeft">&#160;</td><td class="mdescRight">GET /patient/appointments/book/{specialistId} : display available time slots for a specialist.  <br /></td></tr>
 <tr class="memitem:a2627dd0c93c8a122ce5bb452fc13e374" id="r_a2627dd0c93c8a122ce5bb452fc13e374"><td class="memItemLeft">String&#160;</td><td class="memItemRight"><a class="el" href="#a2627dd0c93c8a122ce5bb452fc13e374">bookAppointment</a> (@RequestParam Long specialistId, @RequestParam String dateTime, HttpSession session, RedirectAttributes redirectAttributes)</td></tr>
-<tr class="memdesc:a2627dd0c93c8a122ce5bb452fc13e374"><td class="mdescLeft">&#160;</td><td class="mdescRight">POST /patient/appointments/book — save a new appointment for the logged-in patient.  <br /></td></tr>
+<tr class="memdesc:a2627dd0c93c8a122ce5bb452fc13e374"><td class="mdescLeft">&#160;</td><td class="mdescRight">POST /patient/appointments/book : save a new appointment for the logged-in patient.  <br /></td></tr>
 <tr class="memitem:a9d0a838b605f270919b5c5e5ee99a2dd" id="r_a9d0a838b605f270919b5c5e5ee99a2dd"><td class="memItemLeft">String&#160;</td><td class="memItemRight"><a class="el" href="#a9d0a838b605f270919b5c5e5ee99a2dd">rescheduleAppointment</a> (@PathVariable int apptId, @RequestParam String newDateTime, HttpSession session, RedirectAttributes redirectAttributes)</td></tr>
-<tr class="memdesc:a9d0a838b605f270919b5c5e5ee99a2dd"><td class="mdescLeft">&#160;</td><td class="mdescRight">POST /patient/appointments/{apptId}/reschedule — move an existing appointment to a new slot.  <br /></td></tr>
+<tr class="memdesc:a9d0a838b605f270919b5c5e5ee99a2dd"><td class="mdescLeft">&#160;</td><td class="mdescRight">POST /patient/appointments/{apptId}/reschedule : move an existing appointment to a new slot.  <br /></td></tr>
 <tr class="memitem:a2b479b31dff32ca076e8c98c0714335f" id="r_a2b479b31dff32ca076e8c98c0714335f"><td class="memItemLeft">String&#160;</td><td class="memItemRight"><a class="el" href="#a2b479b31dff32ca076e8c98c0714335f">cancelAppointment</a> (@PathVariable int apptId, HttpSession session, RedirectAttributes redirectAttributes)</td></tr>
-<tr class="memdesc:a2b479b31dff32ca076e8c98c0714335f"><td class="mdescLeft">&#160;</td><td class="mdescRight">POST /patient/appointments/{apptId}/cancel — cancel one of the patient's appointments.  <br /></td></tr>
+<tr class="memdesc:a2b479b31dff32ca076e8c98c0714335f"><td class="mdescLeft">&#160;</td><td class="mdescRight">POST /patient/appointments/{apptId}/cancel : cancel one of the patient's appointments.  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Controller for patient-side appointment operations — base URL <code class="JavaDocCode">/patient</code>. </p>
+<div class="textblock"><p>Controller for patient-side appointment operations : base URL <code class="JavaDocCode">/patient</code>. </p>
 <p>Lets authenticated patients view their appointment history, browse available time slots for a given specialist, book a new appointment, reschedule an existing one, and cancel one. Every mutation is written to the audit log via <code><a class="el" href="classvixhealthsystem_1_1service_1_1_audit_service.html">AuditService</a></code>. All methods verify that the session contains a valid patient object and redirect to the login page when it does not.</p>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="classvixhealthsystem_1_1controllers_1_1patient_1_1_patient_auth_controller.html" title="Controller for patient authentication, dashboard, profile, and account management — base URL /patient...">PatientAuthController</a> </dd>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="classvixhealthsystem_1_1controllers_1_1patient_1_1_patient_auth_controller.html" title="Controller for patient authentication, dashboard, profile, and account management : base URL /patient...">PatientAuthController</a> </dd>
 <dd>
 <a class="el" href="classvixhealthsystem_1_1repository_1_1_json_appointment_repository.html" title="JSON-file-backed repository for Appointment entities.">JsonAppointmentRepository</a> </dd>
 <dd>
@@ -182,7 +182,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>GET /patient/appointments — display the logged-in patient's appointments split into upcoming and past. </p>
+<p>GET /patient/appointments : display the logged-in patient's appointments split into upcoming and past. </p>
 <p>Upcoming appointments are those in the future with a status that is neither CANCELLED nor COMPLETED. Past appointments cover everything else, including any future appointment that has been cancelled or marked complete early.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -220,7 +220,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>GET /patient/appointments/book — render the specialist selection step of the booking flow. </p>
+<p>GET /patient/appointments/book : render the specialist selection step of the booking flow. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">model</td><td>Receives <code class="JavaDocCode">specialists</code>, <code class="JavaDocCode">patient</code>, and <code class="JavaDocCode">pageTitle</code>. </td></tr>
@@ -230,11 +230,11 @@ Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Thymeleaf template <code class="JavaDocCode">patient/book-appointment</code>, or <code class="JavaDocCode">redirect:/patient/login</code> when no session patient is found. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_patient_appointment_controller_8java_source.html#l00116">116</a> of file <a class="el" href="_patient_appointment_controller_8java_source.html">PatientAppointmentController.java</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_patient_appointment_controller_8java_source.html#l00121">121</a> of file <a class="el" href="_patient_appointment_controller_8java_source.html">PatientAppointmentController.java</a>.</p>
 
-<p class="reference">References <a class="el" href="_patient_appointment_controller_8java_source.html#l00116">showBookingForm()</a>.</p>
+<p class="reference">References <a class="el" href="_patient_appointment_controller_8java_source.html#l00121">showBookingForm()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_patient_appointment_controller_8java_source.html#l00116">showBookingForm()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_patient_appointment_controller_8java_source.html#l00121">showBookingForm()</a>.</p>
 
 </div>
 </div>
@@ -262,7 +262,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>GET /patient/appointments/book/{specialistId} — display available time slots for a specialist. </p>
+<p>GET /patient/appointments/book/{specialistId} : display available time slots for a specialist. </p>
 <p>Generates hourly slots over the next 14 weekdays (09:00–17:00) and removes any slot already taken by a non-cancelled appointment.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -274,11 +274,11 @@ Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Thymeleaf template <code class="JavaDocCode">patient/select-slot</code>, or a redirect when the specialist is not found or the session is empty. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_patient_appointment_controller_8java_source.html#l00143">143</a> of file <a class="el" href="_patient_appointment_controller_8java_source.html">PatientAppointmentController.java</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_patient_appointment_controller_8java_source.html#l00148">148</a> of file <a class="el" href="_patient_appointment_controller_8java_source.html">PatientAppointmentController.java</a>.</p>
 
-<p class="reference">References <a class="el" href="_patient_appointment_controller_8java_source.html#l00143">showTimeSlots()</a>.</p>
+<p class="reference">References <a class="el" href="_patient_appointment_controller_8java_source.html#l00148">showTimeSlots()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_patient_appointment_controller_8java_source.html#l00143">showTimeSlots()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_patient_appointment_controller_8java_source.html#l00148">showTimeSlots()</a>.</p>
 
 </div>
 </div>
@@ -311,7 +311,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>POST /patient/appointments/book — save a new appointment for the logged-in patient. </p>
+<p>POST /patient/appointments/book : save a new appointment for the logged-in patient. </p>
 <p>Uses the domain method <code class="JavaDocCode">Patient.makeAppointment</code> to create the <code><a class="el" href="classvixhealthsystem_1_1model_1_1medical_1_1_appointment.html">Appointment</a></code> entity so that model-level invariants are enforced. The slot availability check is re-run here to guard against race conditions since the form was rendered.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -324,11 +324,11 @@ Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Redirect to <code class="JavaDocCode">/patient/appointments</code>. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_patient_appointment_controller_8java_source.html#l00191">191</a> of file <a class="el" href="_patient_appointment_controller_8java_source.html">PatientAppointmentController.java</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_patient_appointment_controller_8java_source.html#l00196">196</a> of file <a class="el" href="_patient_appointment_controller_8java_source.html">PatientAppointmentController.java</a>.</p>
 
-<p class="reference">References <a class="el" href="_patient_appointment_controller_8java_source.html#l00191">bookAppointment()</a>, <a class="el" href="_appointment_8java_source.html#l00276">Appointment.setPaymentStatus()</a>, and <a class="el" href="_appointment_8java_source.html#l00304">Appointment.setStatus()</a>.</p>
+<p class="reference">References <a class="el" href="_patient_appointment_controller_8java_source.html#l00196">bookAppointment()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_patient_appointment_controller_8java_source.html#l00191">bookAppointment()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_patient_appointment_controller_8java_source.html#l00196">bookAppointment()</a>.</p>
 
 </div>
 </div>
@@ -361,7 +361,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>POST /patient/appointments/{apptId}/reschedule — move an existing appointment to a new slot. </p>
+<p>POST /patient/appointments/{apptId}/reschedule : move an existing appointment to a new slot. </p>
 <p>Verifies that the appointment belongs to the logged-in patient before delegating to the domain method <code class="JavaDocCode">Appointment.reschedule</code>. The new slot availability is checked before the mutation to prevent double-booking.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -374,11 +374,11 @@ Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Redirect to <code class="JavaDocCode">/patient/appointments</code>. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_patient_appointment_controller_8java_source.html#l00253">253</a> of file <a class="el" href="_patient_appointment_controller_8java_source.html">PatientAppointmentController.java</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_patient_appointment_controller_8java_source.html#l00256">256</a> of file <a class="el" href="_patient_appointment_controller_8java_source.html">PatientAppointmentController.java</a>.</p>
 
-<p class="reference">References <a class="el" href="_appointment_8java_source.html#l00362">Appointment.reschedule()</a>, and <a class="el" href="_patient_appointment_controller_8java_source.html#l00253">rescheduleAppointment()</a>.</p>
+<p class="reference">References <a class="el" href="_appointment_8java_source.html#l00359">Appointment.reschedule()</a>, and <a class="el" href="_patient_appointment_controller_8java_source.html#l00256">rescheduleAppointment()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_patient_appointment_controller_8java_source.html#l00253">rescheduleAppointment()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_patient_appointment_controller_8java_source.html#l00256">rescheduleAppointment()</a>.</p>
 
 </div>
 </div>
@@ -406,7 +406,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>POST /patient/appointments/{apptId}/cancel — cancel one of the patient's appointments. </p>
+<p>POST /patient/appointments/{apptId}/cancel : cancel one of the patient's appointments. </p>
 <p>Verifies ownership before calling the domain method <code class="JavaDocCode">Appointment.cancel</code> so that a patient cannot cancel another patient's appointment by guessing an ID.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -418,11 +418,11 @@ Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Redirect to <code class="JavaDocCode">/patient/appointments</code>. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_patient_appointment_controller_8java_source.html#l00312">312</a> of file <a class="el" href="_patient_appointment_controller_8java_source.html">PatientAppointmentController.java</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_patient_appointment_controller_8java_source.html#l00314">314</a> of file <a class="el" href="_patient_appointment_controller_8java_source.html">PatientAppointmentController.java</a>.</p>
 
-<p class="reference">References <a class="el" href="_appointment_8java_source.html#l00347">Appointment.cancel()</a>, and <a class="el" href="_patient_appointment_controller_8java_source.html#l00312">cancelAppointment()</a>.</p>
+<p class="reference">References <a class="el" href="_appointment_8java_source.html#l00344">Appointment.cancel()</a>, and <a class="el" href="_patient_appointment_controller_8java_source.html#l00314">cancelAppointment()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_patient_appointment_controller_8java_source.html#l00312">cancelAppointment()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_patient_appointment_controller_8java_source.html#l00314">cancelAppointment()</a>.</p>
 
 </div>
 </div>

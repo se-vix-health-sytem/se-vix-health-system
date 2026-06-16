@@ -14,8 +14,8 @@ import static org.junit.jupiter.api.Assertions.*;
  * @brief Unit tests for Appointment.
  *
  * Verifies lifecycle state transitions (active, cancellable, cancel, reschedule),
- * dual-type payment status handling (boolean / enum), dual-type status handling
- * (String / enum), and the parameterized constructor. Plain JUnit — no Spring
+ * payment domain methods (pay, awaitPayment), dual-type status handling
+ * (String / enum), and the parameterized constructor. Plain JUnit : no Spring
  * context loaded.
  *
  * @see Appointment
@@ -42,7 +42,7 @@ class AppointmentTest {
         appointment.setNotes("Routine checkup");
         appointment.setPatient(patient);
         appointment.setMedicalSpecialist(specialist);
-        appointment.setPaymentStatus(false);
+        appointment.awaitPayment(); // sets UNPAID + PENDING; override status below
         appointment.setStatus(AppointmentStatus.CONFIRMED);
     }
 
@@ -65,29 +65,54 @@ class AppointmentTest {
     }
 
     /**
-     * Verifies that setting payment status with a boolean maps to the
-     *        correct PaymentStatus enum constant in both directions.
+     * Verifies that pay() transitions the appointment to PAID + CONFIRMED
+     * and that isPaid() reflects the change.
      */
     @Test
-    void setPaymentStatus_WithBoolean_ShouldSetCorrectPaymentStatus() {
-        appointment.setPaymentStatus(true);
+    void pay_ShouldMarkAppointmentAsPaidAndConfirmed() {
+        appointment.awaitPayment();
+
+        appointment.pay();
+
         assertEquals(PaymentStatus.PAID, appointment.getPaymentStatus());
         assertTrue(appointment.isPaid());
-
-        appointment.setPaymentStatus(false);
-        assertEquals(PaymentStatus.UNPAID, appointment.getPaymentStatus());
-        assertFalse(appointment.isPaid());
+        assertEquals(AppointmentStatus.CONFIRMED, appointment.getStatusEnum());
     }
 
     /**
-     * Verifies that setting payment status directly with a PaymentStatus
-     *        enum value also toggles the boolean convenience accessor.
+     * Verifies that calling pay() on an already-paid appointment throws,
+     * preventing duplicate payment processing.
      */
     @Test
-    void setPaymentStatus_WithEnum_ShouldSetCorrectPaymentStatus() {
-        appointment.setPaymentStatus(PaymentStatus.PAID);
-        assertEquals(PaymentStatus.PAID, appointment.getPaymentStatus());
-        assertTrue(appointment.isPaid());
+    void pay_ShouldThrowWhenAlreadyPaid() {
+        appointment.awaitPayment();
+        appointment.pay();
+
+        assertThrows(IllegalStateException.class, appointment::pay);
+    }
+
+    /**
+     * Verifies that pay() on a cancelled appointment throws,
+     * since no payment should be accepted for a cancelled visit.
+     */
+    @Test
+    void pay_ShouldThrowWhenAppointmentIsCancelled() {
+        appointment.setStatus(AppointmentStatus.CANCELLED);
+
+        assertThrows(IllegalStateException.class, appointment::pay);
+    }
+
+    /**
+     * Verifies that awaitPayment() resets the appointment to UNPAID + PENDING,
+     * the correct state immediately after booking.
+     */
+    @Test
+    void awaitPayment_ShouldSetUnpaidAndPending() {
+        appointment.awaitPayment();
+
+        assertEquals(PaymentStatus.UNPAID, appointment.getPaymentStatus());
+        assertFalse(appointment.isPaid());
+        assertEquals(AppointmentStatus.PENDING, appointment.getStatusEnum());
     }
 
     /**

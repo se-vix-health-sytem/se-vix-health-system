@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
- * @brief Controller for the public department directory — base URL {@code /departments}.
+ * @brief Controller for the public department directory : base URL {@code /departments}.
  *
  * Exposes a browseable listing of all clinical departments and a detail page
  * for each one, showing the assigned doctors, the services offered, and a
@@ -33,7 +33,7 @@ public class DepartmentController {
     // =========================================================
 
     /**
-     * GET /departments — list all patient-facing clinical departments.
+     * GET /departments : list all patient-facing clinical departments.
      *
      * The Administration department is excluded because it is internal-only
      * and should not appear in the patient-facing section of the site.
@@ -52,7 +52,7 @@ public class DepartmentController {
     }
 
     /**
-     * GET /departments/{id} — display the detail page for a single department.
+     * GET /departments/{id} : display the detail page for a single department.
      *
      * Loads the department by its string identifier, then separately queries
      * the doctors, services, and doctor image map that belong to it.  Using

@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.*;
  *
  * Verifies that geographic coordinates can be set via both constructors and
  * individual setters, and that null coordinates are accepted (representing an
- * unlocated facility). Plain JUnit — no Spring context loaded.
+ * unlocated facility). Plain JUnit : no Spring context loaded.
  *
  * @see Location
  */

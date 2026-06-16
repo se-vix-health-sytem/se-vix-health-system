@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
  *
  * Verifies that the constructor auto-assigns a timestamp, that all setters and
  * getters round-trip correctly, and that toString includes the key audit fields.
- * Plain JUnit — no Spring context loaded.
+ * Plain JUnit : no Spring context loaded.
  *
  * @see AuditLog
  */

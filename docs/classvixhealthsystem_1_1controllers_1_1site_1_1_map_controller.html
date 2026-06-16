@@ -129,7 +129,7 @@ document.addEventListener('DOMContentLoaded',() => { initNavTree('classvixhealth
 </div><!--header-->
 <div class="contents">
 
-<p>Controller for the public hospital-location map pages — base URL <code class="JavaDocCode">/map</code>.  
+<p>Controller for the public hospital-location map pages : base URL <code class="JavaDocCode">/map</code>.  
  <a href="#details">More...</a></p>
 <div class="dynheader">
 Collaboration diagram for MapController:</div>
@@ -145,12 +145,12 @@ Classes</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 id="header-pub-methods" class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a6ac0350e383e6417701f0ee81d2ebd3e" id="r_a6ac0350e383e6417701f0ee81d2ebd3e"><td class="memItemLeft">String&#160;</td><td class="memItemRight"><a class="el" href="#a6ac0350e383e6417701f0ee81d2ebd3e">showHospitalMap</a> (Model model)</td></tr>
-<tr class="memdesc:a6ac0350e383e6417701f0ee81d2ebd3e"><td class="mdescLeft">&#160;</td><td class="mdescRight">GET /map/hospitals — render the interactive hospital-location map.  <br /></td></tr>
+<tr class="memdesc:a6ac0350e383e6417701f0ee81d2ebd3e"><td class="mdescLeft">&#160;</td><td class="mdescRight">GET /map/hospitals : render the interactive hospital-location map.  <br /></td></tr>
 <tr class="memitem:a15ffe80a2f1009cc31811ca4c5b37278" id="r_a15ffe80a2f1009cc31811ca4c5b37278"><td class="memItemLeft">String&#160;</td><td class="memItemRight"><a class="el" href="#a15ffe80a2f1009cc31811ca4c5b37278">getDirections</a> (Model model)</td></tr>
-<tr class="memdesc:a15ffe80a2f1009cc31811ca4c5b37278"><td class="mdescLeft">&#160;</td><td class="mdescRight">GET /map/directions — render the directions and transport information page.  <br /></td></tr>
+<tr class="memdesc:a15ffe80a2f1009cc31811ca4c5b37278"><td class="mdescLeft">&#160;</td><td class="mdescRight">GET /map/directions : render the directions and transport information page.  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Controller for the public hospital-location map pages — base URL <code class="JavaDocCode">/map</code>. </p>
+<div class="textblock"><p>Controller for the public hospital-location map pages : base URL <code class="JavaDocCode">/map</code>. </p>
 <p>Provides the two location-related views: an interactive map that pins all VIX Health System facilities, and a directions page that helps visitors plan their journey. Facility coordinates are hard-coded to match the seeded <code class="JavaDocCode">MedicalFacilities</code> database rows; the data is serialised into plain <code class="JavaDocCode">Map</code> objects so Thymeleaf's inline JavaScript engine produces valid JS literals without any extra serialisation step. </p>
 
 <p class="definition">Definition at line <a class="el" href="_map_controller_8java_source.html#l00025">25</a> of file <a class="el" href="_map_controller_8java_source.html">MapController.java</a>.</p>
@@ -170,7 +170,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>GET /map/hospitals — render the interactive hospital-location map. </p>
+<p>GET /map/hospitals : render the interactive hospital-location map. </p>
 <p>Each facility is projected into a plain <code><a class="el" href="">Map</a></code> (<code class="JavaDocCode">name</code>, <code class="JavaDocCode">lat</code>, <code class="JavaDocCode">lng</code>, <code class="JavaDocCode">address</code>, <code class="JavaDocCode">phone</code>, <code class="JavaDocCode">type</code>) so that Thymeleaf's <code class="JavaDocCode">th:inline="javascript"</code> block can serialise the list directly as a JS array without a custom converter.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -203,7 +203,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>GET /map/directions — render the directions and transport information page. </p>
+<p>GET /map/directions : render the directions and transport information page. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">model</td><td>Receives <code class="JavaDocCode">pageTitle</code>. </td></tr>

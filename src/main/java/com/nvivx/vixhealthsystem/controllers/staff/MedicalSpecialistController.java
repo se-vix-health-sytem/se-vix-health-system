@@ -40,7 +40,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
- * @brief Controller for MedicalSpecialist staff members — base URL {@code /medical-specialist}.
+ * @brief Controller for MedicalSpecialist staff members : base URL {@code /medical-specialist}.
  *
  * Medical specialists use this controller to manage clinical activities:
  * searching patient records, adding diagnoses, prescriptions, exam results,
@@ -97,7 +97,7 @@ public class MedicalSpecialistController {
     // =========================================================
 
     /**
-     * GET /medical-specialist/dashboard — render the specialist's overview dashboard.
+     * GET /medical-specialist/dashboard : render the specialist's overview dashboard.
      *
      * @param model  Receives {@code pageTitle} and {@code currentPage} attributes.
      * @return       Thymeleaf template {@code medical-specialist/dashboard}.
@@ -114,7 +114,7 @@ public class MedicalSpecialistController {
     // =========================================================
 
     /**
-     * GET /medical-specialist/patients/search — render the patient search form.
+     * GET /medical-specialist/patients/search : render the patient search form.
      *
      * @param model  Receives {@code pageTitle} and {@code currentPage} attributes.
      * @return       Thymeleaf template {@code medical-specialist/patient-search}.
@@ -127,7 +127,7 @@ public class MedicalSpecialistController {
     }
 
     /**
-     * POST /medical-specialist/patients/search — execute a patient search and display results.
+     * POST /medical-specialist/patients/search : execute a patient search and display results.
      *
      * @param query  Free-text search term (name, fiscal code, etc.).
      * @param model  Receives {@code patients} list and echoes {@code query}.
@@ -144,7 +144,7 @@ public class MedicalSpecialistController {
     }
 
     /**
-     * GET /medical-specialist/patients/{patientId}/record — view a patient's full medical record.
+     * GET /medical-specialist/patients/{patientId}/record : view a patient's full medical record.
      *
      * Also loads the list of specialized operating rooms so the page can offer a
      * room selector when scheduling a new surgery inline.
@@ -178,7 +178,7 @@ public class MedicalSpecialistController {
     // =========================================================
 
     /**
-     * POST /medical-specialist/patients/{patientId}/add-surgery — schedule a surgery for a patient.
+     * POST /medical-specialist/patients/{patientId}/add-surgery : schedule a surgery for a patient.
      *
      * The acting specialist is resolved from the session to invoke the domain
      * method {@code MedicalSpecialist.scheduleSurgeryForPatient}.  The session is
@@ -251,7 +251,7 @@ public class MedicalSpecialistController {
     }
 
     /**
-     * POST /medical-specialist/patients/{patientId}/add-diagnosis — add a diagnosis to a patient's record.
+     * POST /medical-specialist/patients/{patientId}/add-diagnosis : add a diagnosis to a patient's record.
      *
      * @param patientId           Database ID of the patient.
      * @param diagnosisName       Short name of the diagnosis (e.g., "Type 2 Diabetes").
@@ -277,7 +277,7 @@ public class MedicalSpecialistController {
     }
 
     /**
-     * POST /medical-specialist/patients/{patientId}/add-prescription — issue a prescription.
+     * POST /medical-specialist/patients/{patientId}/add-prescription : issue a prescription.
      *
      * The session {@code "user"} attribute is read to obtain the specialist's ID,
      * which is stored with the prescription for traceability.  Medication and dosage
@@ -316,7 +316,7 @@ public class MedicalSpecialistController {
     }
 
     /**
-     * POST /medical-specialist/patients/{patientId}/add-exam-result — record a diagnostic exam result.
+     * POST /medical-specialist/patients/{patientId}/add-exam-result : record a diagnostic exam result.
      *
      * @param patientId           Database ID of the patient.
      * @param examType            Type of exam (e.g., "Blood Test", "MRI").
@@ -345,7 +345,7 @@ public class MedicalSpecialistController {
     // =========================================================
 
     /**
-     * GET /medical-specialist/appointments — list all appointments assigned to this specialist.
+     * GET /medical-specialist/appointments : list all appointments assigned to this specialist.
      *
      * Filters the global appointment repository by the session user's ID and
      * sorts results chronologically.  The session {@code "user"} attribute is
@@ -377,7 +377,7 @@ public class MedicalSpecialistController {
     }
 
     /**
-     * GET /medical-specialist/calendar — display a monthly calendar with event markers.
+     * GET /medical-specialist/calendar : display a monthly calendar with event markers.
      *
      * Collects shift dates, appointment dates, surgery dates, and approved vacation
      * ranges for the requested month and passes them to the template as JSON-serialisable
@@ -410,7 +410,7 @@ public class MedicalSpecialistController {
         YearMonth prev = ym.minusMonths(1);
         YearMonth next = ym.plusMonths(1);
 
-        // Collect event dates for the month — each service call wrapped to prevent a single failure from crashing the page
+        // Collect event dates for the month : each service call wrapped to prevent a single failure from crashing the page
         Set<LocalDate> shiftDates = new HashSet<>();
         try {
             shiftDates = shiftService.getShiftsForEmployee(user.getId()).stream()
@@ -440,7 +440,7 @@ public class MedicalSpecialistController {
         List<VacationRequest> vacations = new java.util.ArrayList<>();
         try { vacations = vacationService.getApprovedRequestsForEmployee(user.getId().intValue()); } catch (Exception ignored) {}
 
-        // Pass date sets as simple String lists — JavaScript builds the grid
+        // Pass date sets as simple String lists : JavaScript builds the grid
         List<String> shiftDatesList   = shiftDates.stream().map(LocalDate::toString).collect(Collectors.toList());
         List<String> apptDatesList    = apptDates.stream().map(LocalDate::toString).collect(Collectors.toList());
         List<String> surgeryDatesList = surgeryDates.stream().map(LocalDate::toString).collect(Collectors.toList());
@@ -468,7 +468,7 @@ public class MedicalSpecialistController {
     }
 
     /**
-     * GET /medical-specialist/my-schedule — display a day view of shifts, appointments, and surgeries.
+     * GET /medical-specialist/my-schedule : display a day view of shifts, appointments, and surgeries.
      *
      * @param date     Optional ISO date string ({@code yyyy-MM-dd}) for the day to display;
      *                 defaults to today when absent or unparseable.
@@ -548,7 +548,7 @@ public class MedicalSpecialistController {
     // =========================================================
 
     /**
-     * GET /medical-specialist/profile — display the specialist's personal profile.
+     * GET /medical-specialist/profile : display the specialist's personal profile.
      *
      * @param session  HTTP session carrying the {@code "user"} Employee attribute.
      * @param model    Receives {@code employee}, {@code roleLabel}, {@code dashboardLink},
@@ -578,7 +578,7 @@ public class MedicalSpecialistController {
     }
 
     /**
-     * GET /medical-specialist/surgeries — list all surgeries assigned to this specialist.
+     * GET /medical-specialist/surgeries : list all surgeries assigned to this specialist.
      *
      * @param session  HTTP session carrying the {@code "user"} Employee attribute.
      * @param model    Receives {@code surgeries} (empty list substituted when none exist).
