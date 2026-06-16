@@ -1,5 +1,9 @@
 VIX Health System
+
+Doxigen Documentation: https://se-vix-health-sytem.github.io/se-vix-health-system/
+
 Running the Project
+  
   Clone the repository:
   git clone <repository-url>
   
