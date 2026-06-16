@@ -92,21 +92,6 @@ public class MedicalFacility {
     }
 
     // =====================================================
-    // DOMAIN METHODS
-    // =====================================================
-
-    /**
-     * Returns all resources available in the facility storage.
-     *
-     * @return resource inventory map, or null if no storage exists
-     */
-    public Map<Resource, Integer> getResources() {
-        return storage != null
-                ? storage.getResources()
-                : null;
-    }
-
-    // =====================================================
     // GETTERS & SETTERS
     // =====================================================
 
