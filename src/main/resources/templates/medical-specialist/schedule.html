@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <!--
 ==============================================================================
   FILE:    medical-specialist/schedule.html
@@ -8,12 +8,12 @@
            the timetable section is hidden and a leave banner is shown.
 
   Model attributes:
-    - todayShifts (List<Shift>) — shifts assigned for the selected date
-    - todayAppts (List<Appointment>) — appointments for the selected date
-    - todaySurgeries (List<Surgery>) — surgeries for the selected date
-    - onVacation (boolean) — true if the specialist is on approved leave
-    - selectedDateLabel (String) — formatted date label for the heading
-    - prevDate, nextDate (String) — ISO dates for prev/next navigation
+    - todayShifts (List<Shift>): shifts assigned for the selected date
+    - todayAppts (List<Appointment>): appointments for the selected date
+    - todaySurgeries (List<Surgery>): surgeries for the selected date
+    - onVacation (boolean): true if the specialist is on approved leave
+    - selectedDateLabel (String): formatted date label for the heading
+    - prevDate, nextDate (String): ISO dates for prev/next navigation
 
   Dependencies:
     - fragments/head, fragments/dashboard-nav, fragments/footer
@@ -61,7 +61,7 @@
             <div class="card-body text-center py-5">
                 <i class="bi bi-umbrella fs-1" style="color: #495057;"></i>
                 <h4 class="mt-3" style="color: #343a40;">On Vacation Leave</h4>
-                <p class="mb-0" style="color: #495057;">No tasks scheduled — enjoy your time off.</p>
+                <p class="mb-0" style="color: #495057;">No tasks scheduled: enjoy your time off.</p>
             </div>
         </div>
 

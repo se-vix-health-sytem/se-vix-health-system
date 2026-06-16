@@ -129,7 +129,7 @@ document.addEventListener('DOMContentLoaded',() => { initNavTree('namespacevixhe
 </div><!--header-->
 <div class="contents">
 
-<p>Clinical domain — everything that happens to a patient medically.  
+<p>Clinical domain: everything that happens to a patient medically.  
 <a href="#details">More...</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-nested-classes" class="groupheader"><a id="nested-classes" name="nested-classes"></a>
@@ -156,20 +156,9 @@ Classes</h2></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unit tests for <a class="el" href="classvixhealthsystem_1_1model_1_1medical_1_1_surgery.html" title="Represents a surgical procedure performed on a patient.">Surgery</a>. <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Clinical domain — everything that happens to a patient medically. </p>
-<ul>
-<li>
-<code class="JavaDocCode">Appointment</code> — a scheduled visit between a patient and a specialist </li>
-<li>
-<code class="JavaDocCode">MedicalRecord</code> — the patient's full clinical history (owns prescriptions, surgeries, and conditions) </li>
-<li>
-<code class="JavaDocCode">MedicalCondition</code>— a diagnosis or exam result attached to a record </li>
-<li>
-<code class="JavaDocCode">Prescription</code> — a medication order issued by a specialist </li>
-<li>
-<code class="JavaDocCode">Surgery</code> — a surgical procedure linked to both a patient and a specialist </li>
-</ul>
-<p><code class="JavaDocCode">MedicalRecord</code> is the aggregate root for clinical data. Adding a prescription or surgery should always go through its domain methods (<code class="JavaDocCode">addPrescription</code>, <code class="JavaDocCode">addSurgery</code>) so that bidirectional associations stay consistent.</p>
+<div class="textblock"><p>Clinical domain: everything that happens to a patient medically. </p>
+<p><code class="JavaDocCode">MedicalRecord</code> is the aggregate root here. Prescriptions, surgeries, and conditions should always be added through its domain methods (<code class="JavaDocCode">addPrescription</code>, <code class="JavaDocCode">addSurgery</code>) to keep bidirectional associations consistent. Don't set the collections directly.</p>
+<p>The other classes in this package are owned by the record: <code class="JavaDocCode">Appointment</code> connects a patient to a specialist at a given time; <code class="JavaDocCode">MedicalCondition</code> stores diagnoses and exam results; <code class="JavaDocCode">Prescription</code> holds medication orders; <code class="JavaDocCode">Surgery</code> ties a procedure to both the patient and the operating specialist.</p>
 <p>Main curator: Navjot Kaur</p>
 <p>Note: All team members may contribute to files in this package. </p>
 </div></div><!-- contents -->

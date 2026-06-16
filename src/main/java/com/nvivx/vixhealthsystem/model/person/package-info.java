@@ -1,5 +1,5 @@
 /**
- * People in the system — the base class and the patient type.
+ * People in the system : the base class and the patient type.
  *
  * {@link com.nvivx.vixhealthsystem.model.person.Person} is an abstract JPA
  * mapped superclass that holds common fields (name, surname, date of birth,

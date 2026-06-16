@@ -1,15 +1,12 @@
 /**
- * Service-layer controllers — appointment management and payment.
+ * Shared service controllers: appointment CRUD and payment processing.
  *
- * Unlike the role-specific sub-packages, these controllers handle shared
- * functionality accessed by multiple user types:
+ * Unlike the role-specific sub-packages, these two controllers serve multiple
+ * user types. {@code AppointmentController} is used by both secretaries and
+ * specialists; {@code PaymentController} is accessible to patients and secretaries.
  *
- * <ul>
- *   <li>{@code AppointmentController} — CRUD operations on appointments; used by both
- *                                        secretaries and medical specialists</li>
- *   <li>{@code PaymentController}      — shows the payment form, processes (simulated)
- *                                        charges, and serves the confirmation page</li>
- * </ul>
+ * The payment flow is simulated (no real charges) and exists only to demonstrate
+ * the end-to-end booking lifecycle for the demo.
  *
  * Main curator: Lorena Valentina Buitrón Zambrano
  *

@@ -144,7 +144,7 @@ Public Member Functions</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Configures Spring Security for role-based URL access control. </p>
-<p>Authentication is handled entirely by Firebase (see <code><a class="el" href="classvixhealthsystem_1_1config_1_1_firebase_config.html">FirebaseConfig</a></code>). Spring Security's job here is authorisation only — it checks the role stored in the HTTP session and either lets the request through or redirects to the appropriate login page.</p>
+<p>Authentication is handled entirely by Firebase (see <code><a class="el" href="classvixhealthsystem_1_1config_1_1_firebase_config.html">FirebaseConfig</a></code>). Spring Security's job here is authorisation only : it checks the role stored in the HTTP session and either lets the request through or redirects to the appropriate login page.</p>
 <p>CSRF, form-login, and HTTP-Basic are all disabled because the app uses Firebase ID tokens and session attributes for auth state rather than Spring's built-in mechanisms.</p>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="classvixhealthsystem_1_1config_1_1_firebase_config.html" title="Sets up the Firebase Admin SDK from a service-account JSON file.">FirebaseConfig</a> </dd>
 <dd>
@@ -169,15 +169,15 @@ Public Member Functions</h2></td></tr>
 
 <p>Declares the security filter chain that governs every HTTP request. </p>
 <p>Access rules summary:</p><ul>
-<li>Public pages (site, assets, login endpoints) — <code class="JavaDocCode">permitAll()</code></li>
-<li><code class="JavaDocCode">/patient/**</code> — <code class="JavaDocCode">ROLE_PATIENT</code> only</li>
-<li><code class="JavaDocCode">/medical-specialist/**</code> — <code class="JavaDocCode">ROLE_MEDICALSPECIALIST</code> only</li>
-<li><code class="JavaDocCode">/secretary/**</code> — <code class="JavaDocCode">ROLE_SECRETARY</code> only</li>
-<li><code class="JavaDocCode">/buyer/**</code> — <code class="JavaDocCode">ROLE_BUYER</code> only</li>
-<li><code class="JavaDocCode">/technician/**</code> — <code class="JavaDocCode">ROLE_TECHNICIAN</code> only</li>
-<li><code class="JavaDocCode">/staff-manager/**</code> — <code class="JavaDocCode">ROLE_STAFFMANAGER</code> only</li>
-<li><code class="JavaDocCode">/payment/**</code> — patient or secretary</li>
-<li><code class="JavaDocCode">/employee/resources/**</code> — any staff role</li>
+<li>Public pages (site, assets, login endpoints) : <code class="JavaDocCode">permitAll()</code></li>
+<li><code class="JavaDocCode">/patient/**</code> : <code class="JavaDocCode">ROLE_PATIENT</code> only</li>
+<li><code class="JavaDocCode">/medical-specialist/**</code> : <code class="JavaDocCode">ROLE_MEDICALSPECIALIST</code> only</li>
+<li><code class="JavaDocCode">/secretary/**</code> : <code class="JavaDocCode">ROLE_SECRETARY</code> only</li>
+<li><code class="JavaDocCode">/buyer/**</code> : <code class="JavaDocCode">ROLE_BUYER</code> only</li>
+<li><code class="JavaDocCode">/technician/**</code> : <code class="JavaDocCode">ROLE_TECHNICIAN</code> only</li>
+<li><code class="JavaDocCode">/staff-manager/**</code> : <code class="JavaDocCode">ROLE_STAFFMANAGER</code> only</li>
+<li><code class="JavaDocCode">/payment/**</code> : patient or secretary</li>
+<li><code class="JavaDocCode">/employee/resources/**</code> : any staff role</li>
 </ul>
 <p>On auth failure: patient paths redirect to <code class="JavaDocCode">/patient/login</code>, all others to <code class="JavaDocCode">/login</code>.</p>
 <dl class="params"><dt>Parameters</dt><dd>

@@ -129,35 +129,35 @@ document.addEventListener('DOMContentLoaded',() => { initNavTree('classvixhealth
 </div><!--header-->
 <div class="contents">
 
-<p><a class="el" href="classvixhealthsystem_1_1model_1_1resource_1_1_resource.html" title="Represents a resource stored and managed by a medical facility.">Resource</a> self-service controller for any authenticated employee — base URL <code class="JavaDocCode">/employee/resources</code>.  
+<p><a class="el" href="classvixhealthsystem_1_1model_1_1resource_1_1_resource.html" title="Represents a resource stored and managed by a medical facility.">Resource</a> self-service controller for any authenticated employee : base URL <code class="JavaDocCode">/employee/resources</code>.  
  <a href="#details">More...</a></p>
 <div class="dynheader">
 Collaboration diagram for EmployeeResourceController:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="classvixhealthsystem_1_1controllers_1_1staff_1_1_employee_resource_controller__coll__graph.svg" width="210" height="267"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="classvixhealthsystem_1_1controllers_1_1staff_1_1_employee_resource_controller__coll__graph.svg" width="226" height="283"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-methods" class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a7ea892145712f845d762e9449d3b9d91" id="r_a7ea892145712f845d762e9449d3b9d91"><td class="memItemLeft">String&#160;</td><td class="memItemRight"><a class="el" href="#a7ea892145712f845d762e9449d3b9d91">viewResources</a> (HttpSession session, Model model)</td></tr>
-<tr class="memdesc:a7ea892145712f845d762e9449d3b9d91"><td class="mdescLeft">&#160;</td><td class="mdescRight">GET /employee/resources — show all resources available in storage with a take form.  <br /></td></tr>
+<tr class="memitem:acb282d5cdefa895a5f213aa39a5e4feb" id="r_acb282d5cdefa895a5f213aa39a5e4feb"><td class="memItemLeft">String&#160;</td><td class="memItemRight"><a class="el" href="#acb282d5cdefa895a5f213aa39a5e4feb">viewResources</a> (HttpSession session, Model model, RedirectAttributes redirectAttributes)</td></tr>
+<tr class="memdesc:acb282d5cdefa895a5f213aa39a5e4feb"><td class="mdescLeft">&#160;</td><td class="mdescRight">GET /employee/resources : show all resources available in storage with a take form.  <br /></td></tr>
 <tr class="memitem:af908e0fa9d478518a496eab258fe6a78" id="r_af908e0fa9d478518a496eab258fe6a78"><td class="memItemLeft">String&#160;</td><td class="memItemRight"><a class="el" href="#af908e0fa9d478518a496eab258fe6a78">takeResource</a> (@RequestParam Long resourceId, @RequestParam int quantity, HttpSession session, RedirectAttributes redirectAttributes)</td></tr>
-<tr class="memdesc:af908e0fa9d478518a496eab258fe6a78"><td class="mdescLeft">&#160;</td><td class="mdescRight">POST /employee/resources/take — withdraw a quantity of a resource from storage.  <br /></td></tr>
+<tr class="memdesc:af908e0fa9d478518a496eab258fe6a78"><td class="mdescLeft">&#160;</td><td class="mdescRight">POST /employee/resources/take : withdraw a quantity of a resource from storage.  <br /></td></tr>
 <tr class="memitem:a916e8637b32a5adc61afd498afe158dd" id="r_a916e8637b32a5adc61afd498afe158dd"><td class="memItemLeft">String&#160;</td><td class="memItemRight"><a class="el" href="#a916e8637b32a5adc61afd498afe158dd">viewMyHistory</a> (HttpSession session, Model model)</td></tr>
-<tr class="memdesc:a916e8637b32a5adc61afd498afe158dd"><td class="mdescLeft">&#160;</td><td class="mdescRight">GET /employee/resources/history — display the current employee's personal take history.  <br /></td></tr>
+<tr class="memdesc:a916e8637b32a5adc61afd498afe158dd"><td class="mdescLeft">&#160;</td><td class="mdescRight">GET /employee/resources/history : display the current employee's personal take history.  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
-<div class="textblock"><p><a class="el" href="classvixhealthsystem_1_1model_1_1resource_1_1_resource.html" title="Represents a resource stored and managed by a medical facility.">Resource</a> self-service controller for any authenticated employee — base URL <code class="JavaDocCode">/employee/resources</code>. </p>
+<div class="textblock"><p><a class="el" href="classvixhealthsystem_1_1model_1_1resource_1_1_resource.html" title="Represents a resource stored and managed by a medical facility.">Resource</a> self-service controller for any authenticated employee : base URL <code class="JavaDocCode">/employee/resources</code>. </p>
 <p>Any staff member (regardless of role) can view available stock and withdraw resources for their own use. Every take is recorded in <code><a class="el" href="classvixhealthsystem_1_1service_1_1resources_1_1_resource_take_log_store.html">ResourceTakeLogStore</a></code> for buyer/manager auditing.</p>
 <p>Use cases covered: UC25 (employee resource consumption with audit logging).</p>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="classvixhealthsystem_1_1service_1_1resources_1_1_inventory_service.html" title="Manages hospital resource inventory — stock levels across all storage facilities, low-stock detection...">InventoryService</a> </dd>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="classvixhealthsystem_1_1service_1_1resources_1_1_inventory_service.html" title="Manages hospital resource inventory : stock levels across all storage facilities, low-stock detection...">InventoryService</a> </dd>
 <dd>
 <a class="el" href="classvixhealthsystem_1_1service_1_1resources_1_1_resource_take_log_store.html" title="JSON-backed append log that records every resource takeout event performed by employees.">ResourceTakeLogStore</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_employee_resource_controller_8java_source.html#l00031">31</a> of file <a class="el" href="_employee_resource_controller_8java_source.html">EmployeeResourceController.java</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_employee_resource_controller_8java_source.html#l00028">28</a> of file <a class="el" href="_employee_resource_controller_8java_source.html">EmployeeResourceController.java</a>.</p>
 </div><a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Member Function Documentation</h2>
-<a id="a7ea892145712f845d762e9449d3b9d91" name="a7ea892145712f845d762e9449d3b9d91"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7ea892145712f845d762e9449d3b9d91">&#9670;&#160;</a></span>viewResources()</h2>
+<a id="acb282d5cdefa895a5f213aa39a5e4feb" name="acb282d5cdefa895a5f213aa39a5e4feb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acb282d5cdefa895a5f213aa39a5e4feb">&#9670;&#160;</a></span>viewResources()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -170,12 +170,17 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">Model</td>          <td class="paramname"><span class="paramname"><em>model</em></span>&#160;)</td>
+          <td class="paramtype">Model</td>          <td class="paramname"><span class="paramname"><em>model</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">RedirectAttributes</td>          <td class="paramname"><span class="paramname"><em>redirectAttributes</em></span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>GET /employee/resources — show all resources available in storage with a take form. </p>
+<p>GET /employee/resources : show all resources available in storage with a take form. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">session</td><td>HTTP session (available for future per-role filtering). </td></tr>
@@ -185,7 +190,9 @@ Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Thymeleaf template <code class="JavaDocCode">employee/take-resources</code>. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_employee_resource_controller_8java_source.html#l00060">60</a> of file <a class="el" href="_employee_resource_controller_8java_source.html">EmployeeResourceController.java</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_employee_resource_controller_8java_source.html#l00054">54</a> of file <a class="el" href="_employee_resource_controller_8java_source.html">EmployeeResourceController.java</a>.</p>
+
+<p class="reference">References <a class="el" href="_employee_8java_source.html#l00216">Employee.getFacilityName()</a>, <a class="el" href="_employee_8java_source.html#l00204">Employee.getFacilityStorage()</a>, and <a class="el" href="_employee_8java_source.html#l00191">Employee.hasFacilityStorage()</a>.</p>
 
 </div>
 </div>
@@ -218,7 +225,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>POST /employee/resources/take — withdraw a quantity of a resource from storage. </p>
+<p>POST /employee/resources/take : withdraw a quantity of a resource from storage. </p>
 <p>Resolves the acting employee from the session (the <code class="JavaDocCode">"user"</code> attribute is used because the full <a class="el" href="classvixhealthsystem_1_1model_1_1person_1_1employee_1_1_employee.html" title="Represents a generic employee in the system.">Employee</a> domain object is required by the inventory service's audit path), then delegates to <code><a class="el" href="classvixhealthsystem_1_1service_1_1resources_1_1_inventory_service.html#af56797c0bfca16ae35b7d2eecc4b6676">InventoryService#removeResourceFromStorage</a></code>. A flash attribute communicates success or failure back to the redirected view.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -231,11 +238,11 @@ Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Redirect to <code class="JavaDocCode">/employee/resources</code>. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_employee_resource_controller_8java_source.html#l00096">96</a> of file <a class="el" href="_employee_resource_controller_8java_source.html">EmployeeResourceController.java</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_employee_resource_controller_8java_source.html#l00098">98</a> of file <a class="el" href="_employee_resource_controller_8java_source.html">EmployeeResourceController.java</a>.</p>
 
-<p class="reference">References <a class="el" href="_employee_resource_controller_8java_source.html#l00096">takeResource()</a>.</p>
+<p class="reference">References <a class="el" href="_employee_8java_source.html#l00191">Employee.hasFacilityStorage()</a>, and <a class="el" href="_employee_resource_controller_8java_source.html#l00098">takeResource()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_employee_resource_controller_8java_source.html#l00096">takeResource()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_employee_resource_controller_8java_source.html#l00098">takeResource()</a>.</p>
 
 </div>
 </div>
@@ -258,7 +265,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>GET /employee/resources/history — display the current employee's personal take history. </p>
+<p>GET /employee/resources/history : display the current employee's personal take history. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">session</td><td>HTTP session carrying the <code class="JavaDocCode">"user"</code> <a class="el" href="classvixhealthsystem_1_1model_1_1person_1_1employee_1_1_employee.html" title="Represents a generic employee in the system.">Employee</a> attribute. </td></tr>
@@ -268,11 +275,11 @@ Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Thymeleaf template <code class="JavaDocCode">employee/resource-history</code>, or <code class="JavaDocCode">redirect:/login</code> when no session user is found. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_employee_resource_controller_8java_source.html#l00131">131</a> of file <a class="el" href="_employee_resource_controller_8java_source.html">EmployeeResourceController.java</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_employee_resource_controller_8java_source.html#l00136">136</a> of file <a class="el" href="_employee_resource_controller_8java_source.html">EmployeeResourceController.java</a>.</p>
 
-<p class="reference">References <a class="el" href="_employee_resource_controller_8java_source.html#l00131">viewMyHistory()</a>.</p>
+<p class="reference">References <a class="el" href="_employee_resource_controller_8java_source.html#l00136">viewMyHistory()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_employee_resource_controller_8java_source.html#l00131">viewMyHistory()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_employee_resource_controller_8java_source.html#l00136">viewMyHistory()</a>.</p>
 
 </div>
 </div>

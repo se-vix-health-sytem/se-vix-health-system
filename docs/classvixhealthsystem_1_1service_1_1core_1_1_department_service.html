@@ -164,7 +164,7 @@ Public Member Functions</h2></td></tr>
 <div class="textblock"><p>Manages hospital departments and their associated specialists. </p>
 <p>Covers department listing, doctor lookup, and department-service catalogue queries.</p>
 <p>Not annotated <code class="JavaDocCode">@Transactional(readOnly=true)</code> at the class level because most operations are already read-only and the service performs no writes; individual write paths can opt in if added in the future.</p>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="classvixhealthsystem_1_1service_1_1core_1_1_employee_service.html" title="Central service for employee lifecycle management — creation, lookup, update, deletion,...">EmployeeService</a> </dd>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="classvixhealthsystem_1_1service_1_1core_1_1_employee_service.html" title="Central service for employee lifecycle management : creation, lookup, update, deletion,...">EmployeeService</a> </dd>
 <dd>
 <a class="el" href="classvixhealthsystem_1_1model_1_1facility_1_1_department.html" title="Represents a department within a medical facility.">vixhealthsystem.model.facility.Department</a> </dd>
 <dd>
@@ -223,7 +223,7 @@ Public Member Functions</h2></td></tr>
 <p>Returns every department persisted in the database. </p>
 <dl class="section return"><dt>Returns</dt><dd>Non-null list; empty when no departments exist. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_department_service_8java_source.html#l00061">61</a> of file <a class="el" href="_department_service_8java_source.html">DepartmentService.java</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_department_service_8java_source.html#l00059">59</a> of file <a class="el" href="_department_service_8java_source.html">DepartmentService.java</a>.</p>
 
 </div>
 </div>
@@ -251,9 +251,9 @@ Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The matching <code><a class="el" href="classvixhealthsystem_1_1model_1_1facility_1_1_department.html">Department</a></code>, or <code class="JavaDocCode">null</code> if not found. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_department_service_8java_source.html#l00071">71</a> of file <a class="el" href="_department_service_8java_source.html">DepartmentService.java</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_department_service_8java_source.html#l00069">69</a> of file <a class="el" href="_department_service_8java_source.html">DepartmentService.java</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_department_service_8java_source.html#l00083">getDepartmentById()</a>, <a class="el" href="_department_service_8java_source.html#l00181">getDoctorImageMap()</a>, and <a class="el" href="_department_service_8java_source.html#l00216">getServicesByDepartment()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_department_service_8java_source.html#l00081">getDepartmentById()</a>, <a class="el" href="_department_service_8java_source.html#l00177">getDoctorImageMap()</a>, and <a class="el" href="_department_service_8java_source.html#l00210">getServicesByDepartment()</a>.</p>
 
 </div>
 </div>
@@ -281,9 +281,9 @@ Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The matching <code><a class="el" href="classvixhealthsystem_1_1model_1_1facility_1_1_department.html">Department</a></code>, or <code class="JavaDocCode">null</code> when the ID is non-numeric or does not exist. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_department_service_8java_source.html#l00083">83</a> of file <a class="el" href="_department_service_8java_source.html">DepartmentService.java</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_department_service_8java_source.html#l00081">81</a> of file <a class="el" href="_department_service_8java_source.html">DepartmentService.java</a>.</p>
 
-<p class="reference">References <a class="el" href="_department_service_8java_source.html#l00071">getDepartmentById()</a>.</p>
+<p class="reference">References <a class="el" href="_department_service_8java_source.html#l00069">getDepartmentById()</a>.</p>
 
 </div>
 </div>
@@ -312,9 +312,9 @@ Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Non-null list of specialists; empty if none are assigned. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_department_service_8java_source.html#l00105">105</a> of file <a class="el" href="_department_service_8java_source.html">DepartmentService.java</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_department_service_8java_source.html#l00103">103</a> of file <a class="el" href="_department_service_8java_source.html">DepartmentService.java</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_department_service_8java_source.html#l00181">getDoctorImageMap()</a>, and <a class="el" href="_department_service_8java_source.html#l00121">getDoctorsByDepartment()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_department_service_8java_source.html#l00177">getDoctorImageMap()</a>, and <a class="el" href="_department_service_8java_source.html#l00119">getDoctorsByDepartment()</a>.</p>
 
 </div>
 </div>
@@ -342,9 +342,9 @@ Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Non-null list; empty when the ID is non-numeric or has no specialists. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_department_service_8java_source.html#l00121">121</a> of file <a class="el" href="_department_service_8java_source.html">DepartmentService.java</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_department_service_8java_source.html#l00119">119</a> of file <a class="el" href="_department_service_8java_source.html">DepartmentService.java</a>.</p>
 
-<p class="reference">References <a class="el" href="_department_service_8java_source.html#l00105">getDoctorsByDepartment()</a>.</p>
+<p class="reference">References <a class="el" href="_department_service_8java_source.html#l00103">getDoctorsByDepartment()</a>.</p>
 
 </div>
 </div>
@@ -367,7 +367,7 @@ Public Member Functions</h2></td></tr>
 <p>Male and female counters reset per department; the image pool wraps at index 2 to avoid <code class="JavaDocCode">null</code> paths when there are more than two doctors of the same gender.</p>
 <dl class="section return"><dt>Returns</dt><dd><code><a class="el" href="">LinkedHashMap</a></code> ordered by department iteration order; never <code class="JavaDocCode">null</code>. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_department_service_8java_source.html#l00143">143</a> of file <a class="el" href="_department_service_8java_source.html">DepartmentService.java</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_department_service_8java_source.html#l00139">139</a> of file <a class="el" href="_department_service_8java_source.html">DepartmentService.java</a>.</p>
 
 </div>
 </div>
@@ -396,9 +396,9 @@ Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Ordered map of specialist ID to image path; empty map when the department does not exist. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_department_service_8java_source.html#l00181">181</a> of file <a class="el" href="_department_service_8java_source.html">DepartmentService.java</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_department_service_8java_source.html#l00177">177</a> of file <a class="el" href="_department_service_8java_source.html">DepartmentService.java</a>.</p>
 
-<p class="reference">References <a class="el" href="_department_service_8java_source.html#l00071">getDepartmentById()</a>, and <a class="el" href="_department_service_8java_source.html#l00105">getDoctorsByDepartment()</a>.</p>
+<p class="reference">References <a class="el" href="_department_service_8java_source.html#l00069">getDepartmentById()</a>, and <a class="el" href="_department_service_8java_source.html#l00103">getDoctorsByDepartment()</a>.</p>
 
 </div>
 </div>
@@ -428,11 +428,11 @@ Public Member Functions</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>Non-null list of service descriptions; empty when the department is not found. </dd></dl>
 <dl class="section see"><dt>See also</dt><dd>#getServicesByDepartmentName(String) </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_department_service_8java_source.html#l00216">216</a> of file <a class="el" href="_department_service_8java_source.html">DepartmentService.java</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_department_service_8java_source.html#l00210">210</a> of file <a class="el" href="_department_service_8java_source.html">DepartmentService.java</a>.</p>
 
-<p class="reference">References <a class="el" href="_department_service_8java_source.html#l00071">getDepartmentById()</a>.</p>
+<p class="reference">References <a class="el" href="_department_service_8java_source.html#l00069">getDepartmentById()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_department_service_8java_source.html#l00231">getServicesByDepartment()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_department_service_8java_source.html#l00225">getServicesByDepartment()</a>.</p>
 
 </div>
 </div>
@@ -460,9 +460,9 @@ Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Non-null list of service descriptions. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_department_service_8java_source.html#l00231">231</a> of file <a class="el" href="_department_service_8java_source.html">DepartmentService.java</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_department_service_8java_source.html#l00225">225</a> of file <a class="el" href="_department_service_8java_source.html">DepartmentService.java</a>.</p>
 
-<p class="reference">References <a class="el" href="_department_service_8java_source.html#l00216">getServicesByDepartment()</a>.</p>
+<p class="reference">References <a class="el" href="_department_service_8java_source.html#l00210">getServicesByDepartment()</a>.</p>
 
 </div>
 </div>

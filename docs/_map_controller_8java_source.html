@@ -141,7 +141,7 @@ document.addEventListener('DOMContentLoaded',() => { initNavTree('_map_controlle
 <div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="keyword">import</span> java.util.Map;</div>
 <div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="comment"></span> </div>
 <div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="comment">/**</span></div>
-<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="comment"> * @brief Controller for the public hospital-location map pages — base URL {@code /map}.</span></div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="comment"> * @brief Controller for the public hospital-location map pages : base URL {@code /map}.</span></div>
 <div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="comment"> *</span></div>
 <div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="comment"> * Provides the two location-related views: an interactive map that pins all</span></div>
 <div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="comment"> * VIX Health System facilities, and a directions page that helps visitors plan</span></div>
@@ -160,7 +160,7 @@ document.addEventListener('DOMContentLoaded',() => { initNavTree('_map_controlle
 <div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>    <span class="comment">// =========================================================</span></div>
 <div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span><span class="comment"></span> </div>
 <div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span><span class="comment">    /**</span></div>
-<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span><span class="comment">     * GET /map/hospitals — render the interactive hospital-location map.</span></div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span><span class="comment">     * GET /map/hospitals : render the interactive hospital-location map.</span></div>
 <div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span><span class="comment">     *</span></div>
 <div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span><span class="comment">     * Each facility is projected into a plain {@link Map} ({@code name}, {@code lat},</span></div>
 <div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span><span class="comment">     * {@code lng}, {@code address}, {@code phone}, {@code type}) so that Thymeleaf&#39;s</span></div>
@@ -193,7 +193,7 @@ document.addEventListener('DOMContentLoaded',() => { initNavTree('_map_controlle
 </div>
 <div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span><span class="comment"></span> </div>
 <div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span><span class="comment">    /**</span></div>
-<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span><span class="comment">     * GET /map/directions — render the directions and transport information page.</span></div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span><span class="comment">     * GET /map/directions : render the directions and transport information page.</span></div>
 <div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span><span class="comment">     *</span></div>
 <div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span><span class="comment">     * @param model  Receives {@code pageTitle}.</span></div>
 <div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span><span class="comment">     * @return       Thymeleaf template {@code site/map/directions}.</span></div>
@@ -286,10 +286,10 @@ document.addEventListener('DOMContentLoaded',() => { initNavTree('_map_controlle
 </div>
 <div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span>}</div>
 </div>
-<div class="ttc" id="aclassvixhealthsystem_1_1controllers_1_1site_1_1_map_controller_html"><div class="ttname"><a href="classvixhealthsystem_1_1controllers_1_1site_1_1_map_controller.html">vixhealthsystem.controllers.site.MapController</a></div><div class="ttdoc">Controller for the public hospital-location map pages — base URL /map.</div><div class="ttdef"><b>Definition</b> <a href="#l00025">MapController.java:25</a></div></div>
-<div class="ttc" id="aclassvixhealthsystem_1_1controllers_1_1site_1_1_map_controller_html_a15ffe80a2f1009cc31811ca4c5b37278"><div class="ttname"><a href="classvixhealthsystem_1_1controllers_1_1site_1_1_map_controller.html#a15ffe80a2f1009cc31811ca4c5b37278">vixhealthsystem.controllers.site.MapController.getDirections</a></div><div class="ttdeci">String getDirections(Model model)</div><div class="ttdoc">GET /map/directions — render the directions and transport information page.</div><div class="ttdef"><b>Definition</b> <a href="#l00069">MapController.java:69</a></div></div>
-<div class="ttc" id="aclassvixhealthsystem_1_1controllers_1_1site_1_1_map_controller_html_a6ac0350e383e6417701f0ee81d2ebd3e"><div class="ttname"><a href="classvixhealthsystem_1_1controllers_1_1site_1_1_map_controller.html#a6ac0350e383e6417701f0ee81d2ebd3e">vixhealthsystem.controllers.site.MapController.showHospitalMap</a></div><div class="ttdeci">String showHospitalMap(Model model)</div><div class="ttdoc">GET /map/hospitals — render the interactive hospital-location map.</div><div class="ttdef"><b>Definition</b> <a href="#l00043">MapController.java:43</a></div></div>
-<div class="ttc" id="anamespacevixhealthsystem_1_1model_html"><div class="ttname"><a href="namespacevixhealthsystem_1_1model.html">vixhealthsystem.model</a></div><div class="ttdoc">Domain model — the core of the application.</div><div class="ttdef"><b>Definition</b> <a href="_audit_log_8java_source.html#l00001">AuditLog.java:1</a></div></div>
+<div class="ttc" id="aclassvixhealthsystem_1_1controllers_1_1site_1_1_map_controller_html"><div class="ttname"><a href="classvixhealthsystem_1_1controllers_1_1site_1_1_map_controller.html">vixhealthsystem.controllers.site.MapController</a></div><div class="ttdoc">Controller for the public hospital-location map pages : base URL /map.</div><div class="ttdef"><b>Definition</b> <a href="#l00025">MapController.java:25</a></div></div>
+<div class="ttc" id="aclassvixhealthsystem_1_1controllers_1_1site_1_1_map_controller_html_a15ffe80a2f1009cc31811ca4c5b37278"><div class="ttname"><a href="classvixhealthsystem_1_1controllers_1_1site_1_1_map_controller.html#a15ffe80a2f1009cc31811ca4c5b37278">vixhealthsystem.controllers.site.MapController.getDirections</a></div><div class="ttdeci">String getDirections(Model model)</div><div class="ttdoc">GET /map/directions : render the directions and transport information page.</div><div class="ttdef"><b>Definition</b> <a href="#l00069">MapController.java:69</a></div></div>
+<div class="ttc" id="aclassvixhealthsystem_1_1controllers_1_1site_1_1_map_controller_html_a6ac0350e383e6417701f0ee81d2ebd3e"><div class="ttname"><a href="classvixhealthsystem_1_1controllers_1_1site_1_1_map_controller.html#a6ac0350e383e6417701f0ee81d2ebd3e">vixhealthsystem.controllers.site.MapController.showHospitalMap</a></div><div class="ttdeci">String showHospitalMap(Model model)</div><div class="ttdoc">GET /map/hospitals : render the interactive hospital-location map.</div><div class="ttdef"><b>Definition</b> <a href="#l00043">MapController.java:43</a></div></div>
+<div class="ttc" id="anamespacevixhealthsystem_1_1model_html"><div class="ttname"><a href="namespacevixhealthsystem_1_1model.html">vixhealthsystem.model</a></div><div class="ttdoc">Domain model: JPA entities and enums that form the core of VIX.</div><div class="ttdef"><b>Definition</b> <a href="_audit_log_8java_source.html#l00001">AuditLog.java:1</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 </div><!-- container -->

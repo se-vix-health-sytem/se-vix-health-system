@@ -1,16 +1,18 @@
 /**
- * External integration services — Firebase, payments, notifications, questionnaire.
+ * Adapters for external systems: Firebase, payments, notifications, and triage.
  *
- * Everything here talks to something outside the core domain:
+ * All four services here interact with something outside the core domain.
+ * In the current demo setup none of the side-effecting ones (payment,
+ * notifications) do anything real; they log to console and return simulated
+ * results. That boundary is intentional so the system runs without live credentials.
+ *
  * <ul>
- *   <li>{@code FirebaseAuthService}  — creates, deletes, and authenticates Firebase
- *                                      Authentication accounts for employees and patients</li>
- *   <li>{@code PaymentService}       — simulates a payment gateway (demo/prototype only;
- *                                      no real charges are made)</li>
- *   <li>{@code NotificationService}  — logs simulated email notifications (demo mode;
- *                                      no actual mail is sent)</li>
- *   <li>{@code QuestionnaireService} — processes patient intake questionnaires and
- *                                      returns a triage recommendation</li>
+ *   <li>{@code FirebaseAuthService}  - creates, deletes, and authenticates
+ *                                      Firebase accounts for staff and patients</li>
+ *   <li>{@code PaymentService}       - simulates a payment gateway; no charges made</li>
+ *   <li>{@code NotificationService}  - logs simulated email notifications; no mail sent</li>
+ *   <li>{@code QuestionnaireService} - processes symptom input and returns a
+ *                                      department and urgency recommendation</li>
  * </ul>
  *
  * Main curator: Lorena Valentina Buitrón Zambrano

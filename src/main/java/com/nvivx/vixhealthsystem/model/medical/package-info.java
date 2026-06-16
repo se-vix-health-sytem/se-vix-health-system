@@ -1,18 +1,16 @@
 /**
- * Clinical domain — everything that happens to a patient medically.
+ * Clinical domain: everything that happens to a patient medically.
  *
- * <ul>
- *   <li>{@code Appointment}     — a scheduled visit between a patient and a specialist</li>
- *   <li>{@code MedicalRecord}   — the patient's full clinical history (owns prescriptions,
- *                                 surgeries, and conditions)</li>
- *   <li>{@code MedicalCondition}— a diagnosis or exam result attached to a record</li>
- *   <li>{@code Prescription}    — a medication order issued by a specialist</li>
- *   <li>{@code Surgery}         — a surgical procedure linked to both a patient and a specialist</li>
- * </ul>
+ * {@code MedicalRecord} is the aggregate root here. Prescriptions, surgeries,
+ * and conditions should always be added through its domain methods
+ * ({@code addPrescription}, {@code addSurgery}) to keep bidirectional
+ * associations consistent. Don't set the collections directly.
  *
- * {@code MedicalRecord} is the aggregate root for clinical data. Adding a prescription
- * or surgery should always go through its domain methods ({@code addPrescription},
- * {@code addSurgery}) so that bidirectional associations stay consistent.
+ * The other classes in this package are owned by the record:
+ * {@code Appointment} connects a patient to a specialist at a given time;
+ * {@code MedicalCondition} stores diagnoses and exam results;
+ * {@code Prescription} holds medication orders; {@code Surgery} ties a
+ * procedure to both the patient and the operating specialist.
  *
  * Main curator: Navjot Kaur
  *

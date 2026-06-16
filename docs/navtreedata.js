@@ -43,11 +43,11 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "annotated.html",
-"classvixhealthsystem_1_1controllers_1_1staff_1_1_staff_manager_controller.html#aaa57a3e202e08250b1bfc7f158e687c2",
+"classvixhealthsystem_1_1controllers_1_1staff_1_1_staff_manager_controller.html#aa330a31151f4667300592a757cd57516",
 "classvixhealthsystem_1_1model_1_1person_1_1employee_1_1_buyer.html#a3fd93f5c21e689158eea2b58cf3d703e",
-"classvixhealthsystem_1_1service_1_1core_1_1_employee_service.html#a711cd370b708e2fa9198948dbf033f95",
+"classvixhealthsystem_1_1service_1_1core_1_1_employee_service.html#a579394c01bf58aae0b90499b7dced37e",
 "classvixhealthsystem_1_1service_1_1scheduling_1_1_shift_service.html#ae0752d9c6e1c549e3b9f2e4294e3d590",
-"namespacevixhealthsystem_1_1model_1_1person_1_1employee.html"
+"namespacevixhealthsystem_1_1model_1_1resource.html"
 ];
 
 const SYNCONMSG = 'click to disable panel synchronization';

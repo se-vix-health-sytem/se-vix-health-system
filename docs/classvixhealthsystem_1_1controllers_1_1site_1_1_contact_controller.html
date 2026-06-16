@@ -129,7 +129,7 @@ document.addEventListener('DOMContentLoaded',() => { initNavTree('classvixhealth
 </div><!--header-->
 <div class="contents">
 
-<p>Controller for the public contact form — no base URL prefix.  
+<p>Controller for the public contact form : no base URL prefix.  
  <a href="#details">More...</a></p>
 <div class="dynheader">
 Collaboration diagram for ContactController:</div>
@@ -140,12 +140,12 @@ Collaboration diagram for ContactController:</div>
 <tr class="heading"><td colspan="2"><h2 id="header-pub-methods" class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a6d776c745b0a95793c69cc470bff4423" id="r_a6d776c745b0a95793c69cc470bff4423"><td class="memItemLeft">String&#160;</td><td class="memItemRight"><a class="el" href="#a6d776c745b0a95793c69cc470bff4423">contact</a> (Model model)</td></tr>
-<tr class="memdesc:a6d776c745b0a95793c69cc470bff4423"><td class="mdescLeft">&#160;</td><td class="mdescRight">GET /contact — render the contact form page.  <br /></td></tr>
+<tr class="memdesc:a6d776c745b0a95793c69cc470bff4423"><td class="mdescLeft">&#160;</td><td class="mdescRight">GET /contact : render the contact form page.  <br /></td></tr>
 <tr class="memitem:a2d35ca015abe667564704fe36e745a36" id="r_a2d35ca015abe667564704fe36e745a36"><td class="memItemLeft">String&#160;</td><td class="memItemRight"><a class="el" href="#a2d35ca015abe667564704fe36e745a36">submitContact</a> (@RequestParam String name, @RequestParam String email, @RequestParam String message, RedirectAttributes redirectAttributes)</td></tr>
-<tr class="memdesc:a2d35ca015abe667564704fe36e745a36"><td class="mdescLeft">&#160;</td><td class="mdescRight">POST /contact/submit — log a contact-form submission and redirect with a confirmation.  <br /></td></tr>
+<tr class="memdesc:a2d35ca015abe667564704fe36e745a36"><td class="mdescLeft">&#160;</td><td class="mdescRight">POST /contact/submit : log a contact-form submission and redirect with a confirmation.  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Controller for the public contact form — no base URL prefix. </p>
+<div class="textblock"><p>Controller for the public contact form : no base URL prefix. </p>
 <p>Presents a simple contact form and handles its submission. In the current implementation the message is logged to the application log rather than forwarded to an email service; this is a deliberate placeholder that keeps the demo self-contained without requiring SMTP configuration. </p>
 
 <p class="definition">Definition at line <a class="el" href="_contact_controller_8java_source.html#l00021">21</a> of file <a class="el" href="_contact_controller_8java_source.html">ContactController.java</a>.</p>
@@ -165,7 +165,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>GET /contact — render the contact form page. </p>
+<p>GET /contact : render the contact form page. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">model</td><td>Receives <code class="JavaDocCode">pageTitle</code>. </td></tr>
@@ -211,7 +211,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>POST /contact/submit — log a contact-form submission and redirect with a confirmation. </p>
+<p>POST /contact/submit : log a contact-form submission and redirect with a confirmation. </p>
 <p>The message content is currently written to the application log only. A real deployment would forward the message to the hospital's support mailbox here instead. The redirect-after-POST pattern prevents duplicate submissions on browser reload.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">

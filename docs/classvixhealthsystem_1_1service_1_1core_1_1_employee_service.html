@@ -129,7 +129,7 @@ document.addEventListener('DOMContentLoaded',() => { initNavTree('classvixhealth
 </div><!--header-->
 <div class="contents">
 
-<p>Central service for employee lifecycle management — creation, lookup, update, deletion, and Firebase account synchronisation.  
+<p>Central service for employee lifecycle management : creation, lookup, update, deletion, and Firebase account synchronisation.  
  <a href="#details">More...</a></p>
 <div class="dynheader">
 Collaboration diagram for EmployeeService:</div>
@@ -195,7 +195,7 @@ long&#160;</td><td class="memItemRight"><b>getTotalEmployeeCount</b> ()</td></tr
 <tr class="memdesc:a711cd370b708e2fa9198948dbf033f95"><td class="mdescLeft">&#160;</td><td class="mdescRight">Deletes an employee from both the database and Firebase Authentication.  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Central service for employee lifecycle management — creation, lookup, update, deletion, and Firebase account synchronisation. </p>
+<div class="textblock"><p>Central service for employee lifecycle management : creation, lookup, update, deletion, and Firebase account synchronisation. </p>
 <p>Annotated <code class="JavaDocCode">@Transactional(readOnly=true)</code> at the class level so that all read operations benefit from connection-pool optimisations. Individual write operations override with <code class="JavaDocCode">@Transactional</code>.</p>
 <p>Every mutating action is recorded via <code><a class="el" href="classvixhealthsystem_1_1service_1_1_audit_service.html">AuditService</a></code> to satisfy NFR02 (traceability). Firebase accounts are provisioned alongside the database record so that employees can log in immediately after creation.</p>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="classvixhealthsystem_1_1service_1_1integration_1_1_firebase_auth_service.html" title="Thin wrapper around the Firebase Admin SDK and the Identity Toolkit REST API.">FirebaseAuthService</a> </dd>
@@ -289,7 +289,7 @@ long&#160;</td><td class="memItemRight"><b>getTotalEmployeeCount</b> ()</td></tr
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_employee_service_8java_source.html#l00102">102</a> of file <a class="el" href="_employee_service_8java_source.html">EmployeeService.java</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_employee_service_8java_source.html#l00100">100</a> of file <a class="el" href="_employee_service_8java_source.html">EmployeeService.java</a>.</p>
 
 </div>
 </div>
@@ -323,9 +323,9 @@ long&#160;</td><td class="memItemRight"><b>getTotalEmployeeCount</b> ()</td></tr
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_employee_service_8java_source.html#l00118">118</a> of file <a class="el" href="_employee_service_8java_source.html">EmployeeService.java</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_employee_service_8java_source.html#l00116">116</a> of file <a class="el" href="_employee_service_8java_source.html">EmployeeService.java</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_employee_service_8java_source.html#l00401">changeDepartment()</a>, <a class="el" href="_employee_service_8java_source.html#l00424">deleteEmployee()</a>, <a class="el" href="_employee_service_8java_source.html#l00356">requestEmployeePasswordReset()</a>, and <a class="el" href="_employee_service_8java_source.html#l00322">updateEmployee()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_employee_service_8java_source.html#l00399">changeDepartment()</a>, <a class="el" href="_employee_service_8java_source.html#l00422">deleteEmployee()</a>, <a class="el" href="_employee_service_8java_source.html#l00354">requestEmployeePasswordReset()</a>, and <a class="el" href="_employee_service_8java_source.html#l00320">updateEmployee()</a>.</p>
 
 </div>
 </div>
@@ -353,7 +353,7 @@ long&#160;</td><td class="memItemRight"><b>getTotalEmployeeCount</b> ()</td></tr
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><code><a class="el" href="">Optional</a></code> containing the employee, or empty if absent. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_employee_service_8java_source.html#l00129">129</a> of file <a class="el" href="_employee_service_8java_source.html">EmployeeService.java</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_employee_service_8java_source.html#l00127">127</a> of file <a class="el" href="_employee_service_8java_source.html">EmployeeService.java</a>.</p>
 
 </div>
 </div>
@@ -381,7 +381,7 @@ long&#160;</td><td class="memItemRight"><b>getTotalEmployeeCount</b> ()</td></tr
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The matching employee, or <code class="JavaDocCode">null</code> if not found. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_employee_service_8java_source.html#l00144">144</a> of file <a class="el" href="_employee_service_8java_source.html">EmployeeService.java</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_employee_service_8java_source.html#l00142">142</a> of file <a class="el" href="_employee_service_8java_source.html">EmployeeService.java</a>.</p>
 
 </div>
 </div>
@@ -409,7 +409,7 @@ long&#160;</td><td class="memItemRight"><b>getTotalEmployeeCount</b> ()</td></tr
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The matching employee, or <code class="JavaDocCode">null</code> if not found. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_employee_service_8java_source.html#l00154">154</a> of file <a class="el" href="_employee_service_8java_source.html">EmployeeService.java</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_employee_service_8java_source.html#l00152">152</a> of file <a class="el" href="_employee_service_8java_source.html">EmployeeService.java</a>.</p>
 
 </div>
 </div>
@@ -437,7 +437,7 @@ long&#160;</td><td class="memItemRight"><b>getTotalEmployeeCount</b> ()</td></tr
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Non-null list; empty if none found. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_employee_service_8java_source.html#l00164">164</a> of file <a class="el" href="_employee_service_8java_source.html">EmployeeService.java</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_employee_service_8java_source.html#l00162">162</a> of file <a class="el" href="_employee_service_8java_source.html">EmployeeService.java</a>.</p>
 
 </div>
 </div>
@@ -465,7 +465,7 @@ long&#160;</td><td class="memItemRight"><b>getTotalEmployeeCount</b> ()</td></tr
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Non-null list; empty if the department has no employees. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_employee_service_8java_source.html#l00174">174</a> of file <a class="el" href="_employee_service_8java_source.html">EmployeeService.java</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_employee_service_8java_source.html#l00172">172</a> of file <a class="el" href="_employee_service_8java_source.html">EmployeeService.java</a>.</p>
 
 </div>
 </div>
@@ -494,7 +494,7 @@ long&#160;</td><td class="memItemRight"><b>getTotalEmployeeCount</b> ()</td></tr
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Non-null list of employees that pass the instanceof check. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_employee_service_8java_source.html#l00187">187</a> of file <a class="el" href="_employee_service_8java_source.html">EmployeeService.java</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_employee_service_8java_source.html#l00185">185</a> of file <a class="el" href="_employee_service_8java_source.html">EmployeeService.java</a>.</p>
 
 </div>
 </div>
@@ -516,7 +516,7 @@ long&#160;</td><td class="memItemRight"><b>getTotalEmployeeCount</b> ()</td></tr
 <p>Returns the count of active employees. </p>
 <p>Currently equivalent to total count because no soft-delete / status flag is implemented; retained as a named method so callers need not change when an active/inactive distinction is introduced. </p>
 
-<p class="definition">Definition at line <a class="el" href="_employee_service_8java_source.html#l00245">245</a> of file <a class="el" href="_employee_service_8java_source.html">EmployeeService.java</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_employee_service_8java_source.html#l00243">243</a> of file <a class="el" href="_employee_service_8java_source.html">EmployeeService.java</a>.</p>
 
 </div>
 </div>
@@ -551,7 +551,7 @@ long&#160;</td><td class="memItemRight"><b>getTotalEmployeeCount</b> ()</td></tr
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_employee_service_8java_source.html#l00264">264</a> of file <a class="el" href="_employee_service_8java_source.html">EmployeeService.java</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_employee_service_8java_source.html#l00262">262</a> of file <a class="el" href="_employee_service_8java_source.html">EmployeeService.java</a>.</p>
 
 </div>
 </div>
@@ -591,9 +591,9 @@ long&#160;</td><td class="memItemRight"><b>getTotalEmployeeCount</b> ()</td></tr
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_employee_service_8java_source.html#l00322">322</a> of file <a class="el" href="_employee_service_8java_source.html">EmployeeService.java</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_employee_service_8java_source.html#l00320">320</a> of file <a class="el" href="_employee_service_8java_source.html">EmployeeService.java</a>.</p>
 
-<p class="reference">References <a class="el" href="_employee_service_8java_source.html#l00118">findById()</a>.</p>
+<p class="reference">References <a class="el" href="_employee_service_8java_source.html#l00116">findById()</a>.</p>
 
 </div>
 </div>
@@ -627,9 +627,9 @@ long&#160;</td><td class="memItemRight"><b>getTotalEmployeeCount</b> ()</td></tr
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_employee_service_8java_source.html#l00356">356</a> of file <a class="el" href="_employee_service_8java_source.html">EmployeeService.java</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_employee_service_8java_source.html#l00354">354</a> of file <a class="el" href="_employee_service_8java_source.html">EmployeeService.java</a>.</p>
 
-<p class="reference">References <a class="el" href="_employee_service_8java_source.html#l00118">findById()</a>.</p>
+<p class="reference">References <a class="el" href="_employee_service_8java_source.html#l00116">findById()</a>.</p>
 
 </div>
 </div>
@@ -668,9 +668,9 @@ long&#160;</td><td class="memItemRight"><b>getTotalEmployeeCount</b> ()</td></tr
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_employee_service_8java_source.html#l00401">401</a> of file <a class="el" href="_employee_service_8java_source.html">EmployeeService.java</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_employee_service_8java_source.html#l00399">399</a> of file <a class="el" href="_employee_service_8java_source.html">EmployeeService.java</a>.</p>
 
-<p class="reference">References <a class="el" href="_employee_service_8java_source.html#l00118">findById()</a>.</p>
+<p class="reference">References <a class="el" href="_employee_service_8java_source.html#l00116">findById()</a>.</p>
 
 </div>
 </div>
@@ -704,9 +704,9 @@ long&#160;</td><td class="memItemRight"><b>getTotalEmployeeCount</b> ()</td></tr
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_employee_service_8java_source.html#l00424">424</a> of file <a class="el" href="_employee_service_8java_source.html">EmployeeService.java</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_employee_service_8java_source.html#l00422">422</a> of file <a class="el" href="_employee_service_8java_source.html">EmployeeService.java</a>.</p>
 
-<p class="reference">References <a class="el" href="_employee_service_8java_source.html#l00118">findById()</a>.</p>
+<p class="reference">References <a class="el" href="_employee_service_8java_source.html#l00116">findById()</a>.</p>
 
 </div>
 </div>

@@ -1,16 +1,16 @@
 /**
- * Staff scheduling data — shifts and vacation requests.
+ * Shift and vacation data for hospital staff.
  *
- * These entities are stored as JSON (not SQL) because they change frequently
- * and don't require relational joins with the rest of the database. The JSON
- * files live under {@code src/main/resources/storage/}.
+ * These entities are backed by JSON files under
+ * {@code src/main/resources/storage/} rather than the SQL database.
+ * The rationale: shifts and vacations change constantly, have no foreign-key
+ * constraints to protect, and would generate schema migrations for little
+ * relational benefit.
  *
- * <ul>
- *   <li>{@code Shift}           — a single work shift assigned to an employee
- *                                 (date, type: MORNING/AFTERNOON/NIGHT, optional notes)</li>
- *   <li>{@code VacationRequest} — a leave request submitted by an employee;
- *                                 approved or denied by the staff manager</li>
- * </ul>
+ * {@code Shift} represents a single work period (date + MORNING/AFTERNOON/NIGHT).
+ * {@code VacationRequest} is submitted by any staff member and approved or denied
+ * by the staff manager; once approved it should block shift assignments for the
+ * covered date range.
  *
  * Main curator: Navjot Kaur
  *

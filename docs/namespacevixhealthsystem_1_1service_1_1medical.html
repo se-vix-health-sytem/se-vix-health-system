@@ -129,7 +129,7 @@ document.addEventListener('DOMContentLoaded',() => { initNavTree('namespacevixhe
 </div><!--header-->
 <div class="contents">
 
-<p>Clinical services — appointments and medical records.  
+<p>Clinical services: appointment scheduling and medical record management.  
 <a href="#details">More...</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-nested-classes" class="groupheader"><a id="nested-classes" name="nested-classes"></a>
@@ -139,18 +139,14 @@ Classes</h2></td></tr>
 <tr class="memitem:AppointmentServiceTest" id="r_AppointmentServiceTest"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><b>AppointmentServiceTest</b></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unit tests for <a class="el" href="classvixhealthsystem_1_1service_1_1medical_1_1_appointment_service.html" title="Manages appointment booking, rescheduling, and cancellation for the VIX Health System.">AppointmentService</a> using a Mockito mock of <a class="el" href="classvixhealthsystem_1_1repository_1_1_json_appointment_repository.html" title="JSON-file-backed repository for Appointment entities.">JsonAppointmentRepository</a>. <br /></td></tr>
 <tr class="memitem:MedicalRecordService" id="r_MedicalRecordService"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classvixhealthsystem_1_1service_1_1medical_1_1_medical_record_service.html">MedicalRecordService</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Manages patient medical records — creation and appending of diagnoses, prescriptions, and exam results.  <a href="classvixhealthsystem_1_1service_1_1medical_1_1_medical_record_service.html#details">More...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Manages patient medical records : creation and appending of diagnoses, prescriptions, and exam results.  <a href="classvixhealthsystem_1_1service_1_1medical_1_1_medical_record_service.html#details">More...</a><br /></td></tr>
 <tr class="memitem:MedicalRecordServiceTest" id="r_MedicalRecordServiceTest"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><b>MedicalRecordServiceTest</b></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unit tests for <a class="el" href="classvixhealthsystem_1_1service_1_1medical_1_1_medical_record_service.html" title="Manages patient medical records — creation and appending of diagnoses, prescriptions,...">MedicalRecordService</a> using Mockito mocks for all repositories and <a class="el" href="classvixhealthsystem_1_1service_1_1_audit_service.html" title="Writes immutable audit log entries for every significant action in the system (NFR02).">AuditService</a>. <br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unit tests for <a class="el" href="classvixhealthsystem_1_1service_1_1medical_1_1_medical_record_service.html" title="Manages patient medical records : creation and appending of diagnoses, prescriptions,...">MedicalRecordService</a> using Mockito mocks for all repositories and <a class="el" href="classvixhealthsystem_1_1service_1_1_audit_service.html" title="Writes immutable audit log entries for every significant action in the system (NFR02).">AuditService</a>. <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Clinical services — appointments and medical records. </p>
-<ul>
-<li>
-<code class="JavaDocCode">AppointmentService</code> — reads and writes the JSON appointment store; checks slot availability and handles cancellations </li>
-<li>
-<code class="JavaDocCode">MedicalRecordService</code> — creates patient records and appends diagnoses, prescriptions, and exam results; all writes are audit-logged for traceability (NFR02) </li>
-</ul>
+<div class="textblock"><p>Clinical services: appointment scheduling and medical record management. </p>
+<p><code class="JavaDocCode">AppointmentService</code> owns the JSON appointment store, checks slot availability before booking, and handles cancellations and reschedules.</p>
+<p><code class="JavaDocCode">MedicalRecordService</code> creates patient records and appends diagnoses, prescriptions, and exam results via the domain model's aggregate methods. Every write is audit-logged for traceability (NFR02), so don't bypass this service to write to the record repository directly.</p>
 <p>Main curator: Lorena Valentina Buitrón Zambrano</p>
 <p>Note: All team members may contribute to files in this package. </p>
 </div></div><!-- contents -->

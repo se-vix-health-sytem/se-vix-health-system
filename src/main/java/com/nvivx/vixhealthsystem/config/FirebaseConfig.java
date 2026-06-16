@@ -14,7 +14,7 @@ import java.io.InputStream;
  * @brief Sets up the Firebase Admin SDK from a service-account JSON file.
  *
  * Reads {@code firebase.service-account} from {@code application.properties}.
- * If {@code firebase.enabled=false}, skips initialisation entirely — useful for
+ * If {@code firebase.enabled=false}, skips initialisation entirely : useful for
  * running tests without a live Firebase project.
  *
  * @see SecurityConfig

@@ -11,7 +11,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
- * @brief Manages the patient lifecycle — registration, lookup, partial updates, and
+ * @brief Manages the patient lifecycle : registration, lookup, partial updates, and
  *        GDPR-compliant account deletion.
  *
  * Annotated {@code @Transactional(readOnly=true)} at the class level so that all read
@@ -46,7 +46,7 @@ public class PatientService {
      * Constructs the service with its required collaborators.
      *
      * @param patientRepository  Persistence layer for {@link Patient} entities.
-     * @param auditService       Records every mutating action (NFR02 — traceability).
+     * @param auditService       Records every mutating action (NFR02 : traceability).
      */
     public PatientService(PatientRepository patientRepository, AuditService auditService) {
         this.patientRepository = patientRepository;

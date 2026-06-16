@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /**
- * @brief Controller for patient authentication, dashboard, profile, and account management — base URL {@code /patient}.
+ * @brief Controller for patient authentication, dashboard, profile, and account management : base URL {@code /patient}.
  *
  * Patients authenticate using their Italian fiscal code (codice fiscale) either
  * directly through the portal form or via the mock SPID/CIE government-identity
@@ -51,7 +51,7 @@ public class PatientAuthController {
     // =========================================================
 
     /**
-     * GET /patient/login — render the patient login page.
+     * GET /patient/login : render the patient login page.
      *
      * @param redirect  Optional relative path to redirect to after a successful
      *                  login; stored in the model for the login form to forward.
@@ -65,7 +65,7 @@ public class PatientAuthController {
     }
 
     /**
-     * POST /patient/authenticate — log in a patient using their fiscal code.
+     * POST /patient/authenticate : log in a patient using their fiscal code.
      *
      * Looks up the patient by fiscal code, stores the entity in the HTTP session
      * under the {@code "patient"} key, registers a Spring Security context so
@@ -117,7 +117,7 @@ public class PatientAuthController {
     }
 
     /**
-     * GET /patient/logout — invalidate the patient session and redirect to the login page.
+     * GET /patient/logout : invalidate the patient session and redirect to the login page.
      *
      * @param session  HTTP session to invalidate.
      * @return         Redirect to {@code /patient/login}.
@@ -139,7 +139,7 @@ public class PatientAuthController {
     // =========================================================
 
     /**
-     * GET /patient/spid-callback — receive the fiscal code from the mock SPID portal and create a session.
+     * GET /patient/spid-callback : receive the fiscal code from the mock SPID portal and create a session.
      *
      * The fiscal code is treated as the identity assertion token (in production
      * this would be a signed SAML response).  Delegates to
@@ -164,7 +164,7 @@ public class PatientAuthController {
     }
 
     /**
-     * GET /patient/cie-callback — receive the fiscal code from the mock CIE portal and create a session.
+     * GET /patient/cie-callback : receive the fiscal code from the mock CIE portal and create a session.
      *
      * Identical flow to the SPID callback; both ultimately call
      * {@link #createPatientSession}.
@@ -192,7 +192,7 @@ public class PatientAuthController {
     // =========================================================
 
     /**
-     * GET /patient/dashboard — render the patient's personal dashboard.
+     * GET /patient/dashboard : render the patient's personal dashboard.
      *
      * Reloads a fresh Patient entity from the database so that any session
      * staleness does not affect the data displayed (e.g., newly booked
@@ -217,7 +217,7 @@ public class PatientAuthController {
     }
 
     /**
-     * GET /patient/profile — display the patient's personal profile.
+     * GET /patient/profile : display the patient's personal profile.
      *
      * @param session  HTTP session; must contain a {@code "patient"} attribute.
      * @param model    Receives {@code patient} and {@code pageTitle} attributes.
@@ -237,7 +237,7 @@ public class PatientAuthController {
     }
 
     /**
-     * GET /patient/records — display the patient's medical records.
+     * GET /patient/records : display the patient's medical records.
      *
      * Reloads from the database to ensure that the medical record and its
      * collections (diagnoses, prescriptions, etc.) are attached to an active
@@ -263,7 +263,7 @@ public class PatientAuthController {
     }
 
     /**
-     * GET /patient/profile/edit — show the profile edit form pre-filled with current data.
+     * GET /patient/profile/edit : show the profile edit form pre-filled with current data.
      */
     @GetMapping("/profile/edit")
     public String editProfile(HttpSession session, Model model) {
@@ -276,7 +276,7 @@ public class PatientAuthController {
     }
 
     /**
-     * POST /patient/profile/update — apply profile changes and refresh the session patient.
+     * POST /patient/profile/update : apply profile changes and refresh the session patient.
      */
     @PostMapping("/profile/update")
     public String updateProfile(@RequestParam(required = false) String name,
@@ -319,7 +319,7 @@ public class PatientAuthController {
     // =========================================================
 
     /**
-     * POST /patient/delete — anonymize and delete the patient's account.
+     * POST /patient/delete : anonymize and delete the patient's account.
      *
      * Requires the patient to submit the string {@code "CONFIRM"} as the
      * {@code confirm} parameter; any other value (or an absent value) renders

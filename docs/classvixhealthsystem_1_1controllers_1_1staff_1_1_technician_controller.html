@@ -129,7 +129,7 @@ document.addEventListener('DOMContentLoaded',() => { initNavTree('classvixhealth
 </div><!--header-->
 <div class="contents">
 
-<p>Controller for <a class="el" href="classvixhealthsystem_1_1model_1_1person_1_1employee_1_1_technician.html" title="Responsible for managing and maintaining medical machinery.">Technician</a> staff members — base URL <code class="JavaDocCode">/technician</code>.  
+<p>Controller for <a class="el" href="classvixhealthsystem_1_1model_1_1person_1_1employee_1_1_technician.html" title="Responsible for managing and maintaining medical machinery.">Technician</a> staff members : base URL <code class="JavaDocCode">/technician</code>.  
  <a href="#details">More...</a></p>
 <div class="dynheader">
 Collaboration diagram for TechnicianController:</div>
@@ -140,30 +140,30 @@ Collaboration diagram for TechnicianController:</div>
 <tr class="heading"><td colspan="2"><h2 id="header-pub-methods" class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:ad54bda4156edb99e36df40ff0e3065bb" id="r_ad54bda4156edb99e36df40ff0e3065bb"><td class="memItemLeft">String&#160;</td><td class="memItemRight"><a class="el" href="#ad54bda4156edb99e36df40ff0e3065bb">dashboard</a> (Model model)</td></tr>
-<tr class="memdesc:ad54bda4156edb99e36df40ff0e3065bb"><td class="mdescLeft">&#160;</td><td class="mdescRight">GET /technician/dashboard — render the technician's overview dashboard.  <br /></td></tr>
+<tr class="memdesc:ad54bda4156edb99e36df40ff0e3065bb"><td class="mdescLeft">&#160;</td><td class="mdescRight">GET /technician/dashboard : render the technician's overview dashboard.  <br /></td></tr>
 <tr class="memitem:a4263b7ecb231196f663bd01a5f4df68b" id="r_a4263b7ecb231196f663bd01a5f4df68b"><td class="memItemLeft">String&#160;</td><td class="memItemRight"><a class="el" href="#a4263b7ecb231196f663bd01a5f4df68b">viewAllMachines</a> (Model model)</td></tr>
-<tr class="memdesc:a4263b7ecb231196f663bd01a5f4df68b"><td class="mdescLeft">&#160;</td><td class="mdescRight">GET /technician/machines — list all machines in the hospital fleet.  <br /></td></tr>
+<tr class="memdesc:a4263b7ecb231196f663bd01a5f4df68b"><td class="mdescLeft">&#160;</td><td class="mdescRight">GET /technician/machines : list all machines in the hospital fleet.  <br /></td></tr>
 <tr class="memitem:a8085fd08aa3fa04f5015149a86bb708f" id="r_a8085fd08aa3fa04f5015149a86bb708f"><td class="memItemLeft">String&#160;</td><td class="memItemRight"><a class="el" href="#a8085fd08aa3fa04f5015149a86bb708f">viewFaultyMachines</a> (HttpSession session, Model model)</td></tr>
-<tr class="memdesc:a8085fd08aa3fa04f5015149a86bb708f"><td class="mdescLeft">&#160;</td><td class="mdescRight">GET /technician/machines/faulty — list only machines with FAULTY status.  <br /></td></tr>
+<tr class="memdesc:a8085fd08aa3fa04f5015149a86bb708f"><td class="mdescLeft">&#160;</td><td class="mdescRight">GET /technician/machines/faulty : list only machines with FAULTY status.  <br /></td></tr>
 <tr class="memitem:a0fbe79fc7469f394280616c19c4df454" id="r_a0fbe79fc7469f394280616c19c4df454"><td class="memItemLeft">String&#160;</td><td class="memItemRight"><a class="el" href="#a0fbe79fc7469f394280616c19c4df454">viewMaintenanceMachines</a> (Model model)</td></tr>
-<tr class="memdesc:a0fbe79fc7469f394280616c19c4df454"><td class="mdescLeft">&#160;</td><td class="mdescRight">GET /technician/machines/maintenance — list machines currently under maintenance.  <br /></td></tr>
+<tr class="memdesc:a0fbe79fc7469f394280616c19c4df454"><td class="mdescLeft">&#160;</td><td class="mdescRight">GET /technician/machines/maintenance : list machines currently under maintenance.  <br /></td></tr>
 <tr class="memitem:a370f526131d08cb23b8e05853642cbc8" id="r_a370f526131d08cb23b8e05853642cbc8"><td class="memItemLeft">String&#160;</td><td class="memItemRight"><a class="el" href="#a370f526131d08cb23b8e05853642cbc8">updateMachineStatus</a> (@RequestParam Long machineId, @RequestParam String status, Model model)</td></tr>
-<tr class="memdesc:a370f526131d08cb23b8e05853642cbc8"><td class="mdescLeft">&#160;</td><td class="mdescRight">POST /technician/machines/update-status — change the operational status of a machine.  <br /></td></tr>
+<tr class="memdesc:a370f526131d08cb23b8e05853642cbc8"><td class="mdescLeft">&#160;</td><td class="mdescRight">POST /technician/machines/update-status : change the operational status of a machine.  <br /></td></tr>
 <tr class="memitem:ae4f4b81d16852b6638db151e1a6ed42e" id="r_ae4f4b81d16852b6638db151e1a6ed42e"><td class="memItemLeft">String&#160;</td><td class="memItemRight"><a class="el" href="#ae4f4b81d16852b6638db151e1a6ed42e">viewAlerts</a> (Model model)</td></tr>
-<tr class="memdesc:ae4f4b81d16852b6638db151e1a6ed42e"><td class="mdescLeft">&#160;</td><td class="mdescRight">GET /technician/alerts — display all active machine fault alerts.  <br /></td></tr>
+<tr class="memdesc:ae4f4b81d16852b6638db151e1a6ed42e"><td class="mdescLeft">&#160;</td><td class="mdescRight">GET /technician/alerts : display all active machine fault alerts.  <br /></td></tr>
 <tr class="memitem:a673a49a3b18bcd731676b1d26420d146" id="r_a673a49a3b18bcd731676b1d26420d146"><td class="memItemLeft">String&#160;</td><td class="memItemRight"><a class="el" href="#a673a49a3b18bcd731676b1d26420d146">viewMyShifts</a> (HttpSession session, Model model)</td></tr>
-<tr class="memdesc:a673a49a3b18bcd731676b1d26420d146"><td class="mdescLeft">&#160;</td><td class="mdescRight">GET /technician/my-shifts — display the technician's assigned shifts and approved vacations.  <br /></td></tr>
+<tr class="memdesc:a673a49a3b18bcd731676b1d26420d146"><td class="mdescLeft">&#160;</td><td class="mdescRight">GET /technician/my-shifts : display the technician's assigned shifts and approved vacations.  <br /></td></tr>
 <tr class="memitem:a91a5eaa17c492bffb6ee02a0e679817c" id="r_a91a5eaa17c492bffb6ee02a0e679817c"><td class="memItemLeft">String&#160;</td><td class="memItemRight"><a class="el" href="#a91a5eaa17c492bffb6ee02a0e679817c">viewProfile</a> (HttpSession session, Model model)</td></tr>
-<tr class="memdesc:a91a5eaa17c492bffb6ee02a0e679817c"><td class="mdescLeft">&#160;</td><td class="mdescRight">GET /technician/profile — display the technician's personal profile page.  <br /></td></tr>
+<tr class="memdesc:a91a5eaa17c492bffb6ee02a0e679817c"><td class="mdescLeft">&#160;</td><td class="mdescRight">GET /technician/profile : display the technician's personal profile page.  <br /></td></tr>
 <tr class="memitem:ad75e291f2bd6dfc15c82bd1e200a6355" id="r_ad75e291f2bd6dfc15c82bd1e200a6355"><td class="memItemLeft">String&#160;</td><td class="memItemRight"><a class="el" href="#ad75e291f2bd6dfc15c82bd1e200a6355">viewMaintenanceHistory</a> (Model model)</td></tr>
-<tr class="memdesc:ad75e291f2bd6dfc15c82bd1e200a6355"><td class="mdescLeft">&#160;</td><td class="mdescRight">GET /technician/machines/maintenance-history — show the full maintenance history for all machines.  <br /></td></tr>
+<tr class="memdesc:ad75e291f2bd6dfc15c82bd1e200a6355"><td class="mdescLeft">&#160;</td><td class="mdescRight">GET /technician/machines/maintenance-history : show the full maintenance history for all machines.  <br /></td></tr>
 <tr class="memitem:af3a27f1657a607d108c7ca28e0893d87" id="r_af3a27f1657a607d108c7ca28e0893d87"><td class="memItemLeft">String&#160;</td><td class="memItemRight"><a class="el" href="#af3a27f1657a607d108c7ca28e0893d87">viewMachineDetails</a> (@PathVariable Long machineId, Model model)</td></tr>
-<tr class="memdesc:af3a27f1657a607d108c7ca28e0893d87"><td class="mdescLeft">&#160;</td><td class="mdescRight">GET /technician/machines/{machineId} — display the details of a single machine.  <br /></td></tr>
+<tr class="memdesc:af3a27f1657a607d108c7ca28e0893d87"><td class="mdescLeft">&#160;</td><td class="mdescRight">GET /technician/machines/{machineId} : display the details of a single machine.  <br /></td></tr>
 <tr class="memitem:add0eb0d7a683a4f5274d6fa986c0d91a" id="r_add0eb0d7a683a4f5274d6fa986c0d91a"><td class="memItemLeft">String&#160;</td><td class="memItemRight"><a class="el" href="#add0eb0d7a683a4f5274d6fa986c0d91a">repairMachine</a> (@PathVariable Long machineId, @RequestParam(required=false) String notes, Model model)</td></tr>
-<tr class="memdesc:add0eb0d7a683a4f5274d6fa986c0d91a"><td class="mdescLeft">&#160;</td><td class="mdescRight">POST /technician/repair/{machineId} — mark a machine as repaired and set it to WORKING.  <br /></td></tr>
+<tr class="memdesc:add0eb0d7a683a4f5274d6fa986c0d91a"><td class="mdescLeft">&#160;</td><td class="mdescRight">POST /technician/repair/{machineId} : mark a machine as repaired and set it to WORKING.  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Controller for <a class="el" href="classvixhealthsystem_1_1model_1_1person_1_1employee_1_1_technician.html" title="Responsible for managing and maintaining medical machinery.">Technician</a> staff members — base URL <code class="JavaDocCode">/technician</code>. </p>
+<div class="textblock"><p>Controller for <a class="el" href="classvixhealthsystem_1_1model_1_1person_1_1employee_1_1_technician.html" title="Responsible for managing and maintaining medical machinery.">Technician</a> staff members : base URL <code class="JavaDocCode">/technician</code>. </p>
 <p>Technicians maintain the hospital's machinery fleet. This controller covers viewing all machines, filtering by faulty or maintenance status, updating machine status, logging repairs, viewing active alerts, and the technician's own shift and profile pages.</p>
 <p>Only accessible to users with <code class="JavaDocCode">ROLE_TECHNICIAN</code>.</p>
 <p>Use cases covered: UC26 (machinery maintenance), UC27 (status updates), UC28 (alerts), UC30 (profile/shifts).</p>
@@ -190,7 +190,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>GET /technician/dashboard — render the technician's overview dashboard. </p>
+<p>GET /technician/dashboard : render the technician's overview dashboard. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">model</td><td>Receives <code class="JavaDocCode">totalMachines</code>, <code class="JavaDocCode">faultyCount</code>, <code class="JavaDocCode">maintenanceCount</code>, <code class="JavaDocCode">alertCount</code>, and <code class="JavaDocCode">activeAlerts</code>. </td></tr>
@@ -222,7 +222,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>GET /technician/machines — list all machines in the hospital fleet. </p>
+<p>GET /technician/machines : list all machines in the hospital fleet. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">model</td><td>Receives <code class="JavaDocCode">machines</code> and <code class="JavaDocCode">isFaultyView=false</code>. </td></tr>
@@ -258,7 +258,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>GET /technician/machines/faulty — list only machines with FAULTY status. </p>
+<p>GET /technician/machines/faulty : list only machines with FAULTY status. </p>
 <p>Delegates to the domain method via <code><a class="el" href="classvixhealthsystem_1_1service_1_1resources_1_1_machinery_service.html#abcda6d8301b736090e2bac5e6ee8ad59">MachineryService#getFaultyMachinesForTechnician</a></code>, which applies technician-specific filtering logic. The technician domain object is resolved from the session.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -292,7 +292,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>GET /technician/machines/maintenance — list machines currently under maintenance. </p>
+<p>GET /technician/machines/maintenance : list machines currently under maintenance. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">model</td><td>Receives <code class="JavaDocCode">machines</code>. </td></tr>
@@ -333,7 +333,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>POST /technician/machines/update-status — change the operational status of a machine. </p>
+<p>POST /technician/machines/update-status : change the operational status of a machine. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">machineId</td><td>Database ID of the machine to update. </td></tr>
@@ -367,7 +367,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>GET /technician/alerts — display all active machine fault alerts. </p>
+<p>GET /technician/alerts : display all active machine fault alerts. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">model</td><td>Receives <code class="JavaDocCode">alerts</code> and <code class="JavaDocCode">alertCount</code>. </td></tr>
@@ -403,7 +403,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>GET /technician/my-shifts — display the technician's assigned shifts and approved vacations. </p>
+<p>GET /technician/my-shifts : display the technician's assigned shifts and approved vacations. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">session</td><td>HTTP session carrying the <code class="JavaDocCode">"user"</code> <a class="el" href="classvixhealthsystem_1_1model_1_1person_1_1employee_1_1_employee.html" title="Represents a generic employee in the system.">Employee</a> attribute. </td></tr>
@@ -440,7 +440,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>GET /technician/profile — display the technician's personal profile page. </p>
+<p>GET /technician/profile : display the technician's personal profile page. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">session</td><td>HTTP session carrying the <code class="JavaDocCode">"user"</code> <a class="el" href="classvixhealthsystem_1_1model_1_1person_1_1employee_1_1_employee.html" title="Represents a generic employee in the system.">Employee</a> attribute. </td></tr>
@@ -473,7 +473,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>GET /technician/machines/maintenance-history — show the full maintenance history for all machines. </p>
+<p>GET /technician/machines/maintenance-history : show the full maintenance history for all machines. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">model</td><td>Receives <code class="JavaDocCode">machines</code> (all machines with their historical status records). </td></tr>
@@ -509,7 +509,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>GET /technician/machines/{machineId} — display the details of a single machine. </p>
+<p>GET /technician/machines/{machineId} : display the details of a single machine. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">machineId</td><td>Database ID of the machine to display. </td></tr>
@@ -551,7 +551,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>POST /technician/repair/{machineId} — mark a machine as repaired and set it to WORKING. </p>
+<p>POST /technician/repair/{machineId} : mark a machine as repaired and set it to WORKING. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">machineId</td><td>Database ID of the machine that has been repaired. </td></tr>

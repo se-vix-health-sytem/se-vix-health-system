@@ -1,15 +1,11 @@
 /**
- * Hospital resources — consumables and medical machinery.
+ * Consumable resources and medical machinery.
  *
- * <ul>
- *   <li>{@code Resource} — a trackable consumable item (gloves, syringes, medication, etc.)
- *                          with a name, description, and unit price.</li>
- *   <li>{@code Storage}  — holds a map of {@code Resource → quantity}; owned by a
- *                          {@code MedicalFacility}. Domain methods enforce that quantity
- *                          never goes negative.</li>
- *   <li>{@code Machinery}— a piece of medical equipment with a serial number and
- *                          operational status ({@code MachineStatus}).</li>
- * </ul>
+ * {@code Resource} is anything that gets stocked and consumed: gloves, syringes,
+ * medication. {@code Storage} is the container that holds them, owned by a facility;
+ * its domain methods enforce that quantity never drops below zero.
+ * {@code Machinery} is tracked separately because it has a different lifecycle
+ * (status transitions, maintenance history) rather than a quantity that goes up and down.
  *
  * Main curator: Viviana Fraccaroli
  *

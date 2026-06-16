@@ -1,12 +1,12 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <!--
   ============================================================
   Template : fragments/navbar.html
   Role     : All users (public, patient, staff)
-  Access   : Public — included on every public-facing page
+  Access   : Public: included on every public-facing page
   Purpose  : Renders the top navigation bar with brand, nav links, and context-sensitive auth controls.
-  Model    : session.patient, session.user, session.role — used to toggle login/logout buttons
-  Controller: N/A — reusable fragment
+  Model    : session.patient, session.user, session.role: used to toggle login/logout buttons
+  Controller: N/A: reusable fragment
   ============================================================
 -->
 <html xmlns:th="http://www.thymeleaf.org">
@@ -71,7 +71,7 @@
                             <i class="bi bi-calendar-plus me-1"></i> Patient Portal
                         </a>
                     </div>
-                    <!-- Patient logged in — compact dropdown -->
+                    <!-- Patient logged in: compact dropdown -->
                     <div th:if="${session.patient != null}" class="dropdown">
                         <button class="btn btn-success rounded-pill btn-sm dropdown-toggle px-3" type="button"
                                 data-bs-toggle="dropdown" aria-expanded="false">
@@ -90,7 +90,7 @@
                                 <i class="bi bi-box-arrow-right me-2"></i>Logout</a></li>
                         </ul>
                     </div>
-                    <!-- Staff logged in — compact dropdown -->
+                    <!-- Staff logged in: compact dropdown -->
                     <div th:if="${session.user != null}" class="dropdown">
                         <button class="btn btn-success rounded-pill btn-sm dropdown-toggle px-3" type="button"
                                 data-bs-toggle="dropdown" aria-expanded="false">

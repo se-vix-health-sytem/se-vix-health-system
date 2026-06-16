@@ -1,22 +1,22 @@
 /**
- * Domain model — the core of the application.
+ * Domain model: JPA entities and enums that form the core of VIX.
  *
- * All JPA entities live here, organised by area:
+ * The model follows a Rich Domain approach, meaning business rules live on
+ * the entity classes themselves rather than in the service layer. Before moving
+ * logic out of a model class, check whether it belongs there by design.
+ *
+ * Entities are organised into sub-packages by area:
  * <ul>
- *   <li>{@code enums}           — shared status and type enumerations</li>
- *   <li>{@code facility}        — hospitals, departments, rooms, and storage</li>
- *   <li>{@code medical}         — appointments, prescriptions, surgeries, medical records</li>
- *   <li>{@code person}          — patients and the base {@code Person} class</li>
- *   <li>{@code person.employee} — all staff subtypes (specialist, secretary, buyer, etc.)</li>
- *   <li>{@code resource}        — consumable resources and machinery</li>
- *   <li>{@code staff}           — shifts and vacation requests</li>
+ *   <li>{@code enums}           - shared status and type enumerations</li>
+ *   <li>{@code facility}        - hospitals, departments, rooms, and storage</li>
+ *   <li>{@code medical}         - appointments, prescriptions, surgeries, records</li>
+ *   <li>{@code person}          - patients and the base {@code Person} class</li>
+ *   <li>{@code person.employee} - all staff subtypes</li>
+ *   <li>{@code resource}        - consumable resources and machinery</li>
+ *   <li>{@code staff}           - shifts and vacation requests</li>
  * </ul>
  *
- * The project follows a Rich Domain Model approach — business rules and
- * state-changing operations are methods on the entity classes, not in the
- * service layer. Keep that in mind before moving logic out of the model.
- *
- * {@link com.nvivx.vixhealthsystem.model.AuditLog} also lives here (root level)
- * since it is used system-wide.
+ * {@link com.nvivx.vixhealthsystem.model.AuditLog} lives at the root level
+ * since it is used system-wide rather than belonging to any one subdomain.
  */
 package com.nvivx.vixhealthsystem.model;

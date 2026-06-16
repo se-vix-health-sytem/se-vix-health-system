@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * Verifies system role, employee type, and the addResource domain method that
  * adds stock to the facility storage through the buyer's department chain.
  * Also guards against the missing-department, missing-facility, and
- * missing-storage error paths. Plain JUnit — no Spring context loaded.
+ * missing-storage error paths. Plain JUnit : no Spring context loaded.
  *
  * @see Buyer
  */

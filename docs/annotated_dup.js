@@ -35,9 +35,6 @@
           [ "TechnicianController", "classvixhealthsystem_1_1controllers_1_1staff_1_1_technician_controller.html", "classvixhealthsystem_1_1controllers_1_1staff_1_1_technician_controller" ]
         ] ]
       ] ],
-      [ "database", null, [
-        [ "DBManager", "classvixhealthsystem_1_1database_1_1_d_b_manager.html", "classvixhealthsystem_1_1database_1_1_d_b_manager" ]
-      ] ],
       [ "dto", null, [
         [ "AppointmentResponse", "classvixhealthsystem_1_1dto_1_1_appointment_response.html", null ],
         [ "CreateAppointmentRequest", "classvixhealthsystem_1_1dto_1_1_create_appointment_request.html", null ],
@@ -132,9 +129,7 @@
         [ "integration", null, [
           [ "FirebaseAuthService", "classvixhealthsystem_1_1service_1_1integration_1_1_firebase_auth_service.html", "classvixhealthsystem_1_1service_1_1integration_1_1_firebase_auth_service" ],
           [ "NotificationService", "classvixhealthsystem_1_1service_1_1integration_1_1_notification_service.html", "classvixhealthsystem_1_1service_1_1integration_1_1_notification_service" ],
-          [ "PaymentService", "classvixhealthsystem_1_1service_1_1integration_1_1_payment_service.html", "classvixhealthsystem_1_1service_1_1integration_1_1_payment_service" ],
-          [ "QuestionaireServiceTest", "classvixhealthsystem_1_1service_1_1integration_1_1_questionaire_service_test.html", null ],
-          [ "QuestionnaireService", "classvixhealthsystem_1_1service_1_1integration_1_1_questionnaire_service.html", "classvixhealthsystem_1_1service_1_1integration_1_1_questionnaire_service" ]
+          [ "PaymentService", "classvixhealthsystem_1_1service_1_1integration_1_1_payment_service.html", "classvixhealthsystem_1_1service_1_1integration_1_1_payment_service" ]
         ] ],
         [ "medical", null, [
           [ "AppointmentService", "classvixhealthsystem_1_1service_1_1medical_1_1_appointment_service.html", "classvixhealthsystem_1_1service_1_1medical_1_1_appointment_service" ],

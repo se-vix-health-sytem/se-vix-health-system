@@ -129,7 +129,7 @@ document.addEventListener('DOMContentLoaded',() => { initNavTree('classvixhealth
 </div><!--header-->
 <div class="contents">
 
-<p>Controller for <a class="el" href="classvixhealthsystem_1_1model_1_1person_1_1employee_1_1_staff_manager.html" title="Manages employee accounts in the system.">StaffManager</a> users — base URL <code class="JavaDocCode">/staff-manager</code>.  
+<p>Controller for <a class="el" href="classvixhealthsystem_1_1model_1_1person_1_1employee_1_1_staff_manager.html" title="Manages employee accounts in the system.">StaffManager</a> users : base URL <code class="JavaDocCode">/staff-manager</code>.  
  <a href="#details">More...</a></p>
 <div class="dynheader">
 Collaboration diagram for StaffManagerController:</div>
@@ -140,46 +140,46 @@ Collaboration diagram for StaffManagerController:</div>
 <tr class="heading"><td colspan="2"><h2 id="header-pub-methods" class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:ad54bda4156edb99e36df40ff0e3065bb" id="r_ad54bda4156edb99e36df40ff0e3065bb"><td class="memItemLeft">String&#160;</td><td class="memItemRight"><a class="el" href="#ad54bda4156edb99e36df40ff0e3065bb">dashboard</a> (Model model)</td></tr>
-<tr class="memdesc:ad54bda4156edb99e36df40ff0e3065bb"><td class="mdescLeft">&#160;</td><td class="mdescRight">GET /staff-manager/dashboard — render the staff manager's overview dashboard.  <br /></td></tr>
+<tr class="memdesc:ad54bda4156edb99e36df40ff0e3065bb"><td class="mdescLeft">&#160;</td><td class="mdescRight">GET /staff-manager/dashboard : render the staff manager's overview dashboard.  <br /></td></tr>
 <tr class="memitem:af8093dd3d471db94c804784dc7c70aa2" id="r_af8093dd3d471db94c804784dc7c70aa2"><td class="memItemLeft">String&#160;</td><td class="memItemRight"><a class="el" href="#af8093dd3d471db94c804784dc7c70aa2">listEmployees</a> (@RequestParam(required=false) String type, Model model)</td></tr>
-<tr class="memdesc:af8093dd3d471db94c804784dc7c70aa2"><td class="mdescLeft">&#160;</td><td class="mdescRight">GET /staff-manager/employees — list all employees, optionally filtered by type.  <br /></td></tr>
+<tr class="memdesc:af8093dd3d471db94c804784dc7c70aa2"><td class="mdescLeft">&#160;</td><td class="mdescRight">GET /staff-manager/employees : list all employees, optionally filtered by type.  <br /></td></tr>
 <tr class="memitem:ab5c640050c20c4c4895a6329025f9ec7" id="r_ab5c640050c20c4c4895a6329025f9ec7"><td class="memItemLeft">String&#160;</td><td class="memItemRight"><a class="el" href="#ab5c640050c20c4c4895a6329025f9ec7">showCreateEmployeeForm</a> (Model model)</td></tr>
-<tr class="memdesc:ab5c640050c20c4c4895a6329025f9ec7"><td class="mdescLeft">&#160;</td><td class="mdescRight">GET /staff-manager/employees/create — render the create-employee form.  <br /></td></tr>
+<tr class="memdesc:ab5c640050c20c4c4895a6329025f9ec7"><td class="mdescLeft">&#160;</td><td class="mdescRight">GET /staff-manager/employees/create : render the create-employee form.  <br /></td></tr>
 <tr class="memitem:a21397f80221eaae2d7e303647c6ef207" id="r_a21397f80221eaae2d7e303647c6ef207"><td class="memItemLeft">String&#160;</td><td class="memItemRight"><a class="el" href="#a21397f80221eaae2d7e303647c6ef207">createEmployee</a> (@RequestParam String name, @RequestParam String surname, @RequestParam String email, @RequestParam String employeeType, @RequestParam(required=false) String specialty, @RequestParam(required=false) String licenseNumber, @RequestParam(required=false) Long departmentId, @RequestParam(required=false) String hireDate, @RequestParam(required=false) String gender, @RequestParam(required=false) String phone, @RequestParam(required=false) String birthDate, @RequestParam(required=false) String birthPlace, HttpSession session, Model model)</td></tr>
-<tr class="memdesc:a21397f80221eaae2d7e303647c6ef207"><td class="mdescLeft">&#160;</td><td class="mdescRight">POST /staff-manager/employees/create — create a new employee account.  <br /></td></tr>
+<tr class="memdesc:a21397f80221eaae2d7e303647c6ef207"><td class="mdescLeft">&#160;</td><td class="mdescRight">POST /staff-manager/employees/create : create a new employee account.  <br /></td></tr>
 <tr class="memitem:a0746d51df437ace26805c71c8012a474" id="r_a0746d51df437ace26805c71c8012a474"><td class="memItemLeft">String&#160;</td><td class="memItemRight"><a class="el" href="#a0746d51df437ace26805c71c8012a474">resetEmployeePassword</a> (@RequestParam Long employeeId, HttpSession session, Model model)</td></tr>
-<tr class="memdesc:a0746d51df437ace26805c71c8012a474"><td class="mdescLeft">&#160;</td><td class="mdescRight">POST /staff-manager/employees/reset-password — trigger a Firebase password-reset email.  <br /></td></tr>
+<tr class="memdesc:a0746d51df437ace26805c71c8012a474"><td class="mdescLeft">&#160;</td><td class="mdescRight">POST /staff-manager/employees/reset-password : trigger a Firebase password-reset email.  <br /></td></tr>
 <tr class="memitem:a1cfeba1225f6735cb59c78fff4f623d2" id="r_a1cfeba1225f6735cb59c78fff4f623d2"><td class="memItemLeft">String&#160;</td><td class="memItemRight"><a class="el" href="#a1cfeba1225f6735cb59c78fff4f623d2">deleteEmployee</a> (@RequestParam Long employeeId, HttpSession session, Model model)</td></tr>
-<tr class="memdesc:a1cfeba1225f6735cb59c78fff4f623d2"><td class="mdescLeft">&#160;</td><td class="mdescRight">POST /staff-manager/employees/delete — permanently delete an employee account.  <br /></td></tr>
+<tr class="memdesc:a1cfeba1225f6735cb59c78fff4f623d2"><td class="mdescLeft">&#160;</td><td class="mdescRight">POST /staff-manager/employees/delete : permanently delete an employee account.  <br /></td></tr>
 <tr class="memitem:a60996120f9437cc798e7c6b96ccb4941" id="r_a60996120f9437cc798e7c6b96ccb4941"><td class="memItemLeft">String&#160;</td><td class="memItemRight"><a class="el" href="#a60996120f9437cc798e7c6b96ccb4941">manageShifts</a> (Model model)</td></tr>
-<tr class="memdesc:a60996120f9437cc798e7c6b96ccb4941"><td class="mdescLeft">&#160;</td><td class="mdescRight">GET /staff-manager/shifts — display all shifts with a form to assign new ones.  <br /></td></tr>
+<tr class="memdesc:a60996120f9437cc798e7c6b96ccb4941"><td class="mdescLeft">&#160;</td><td class="mdescRight">GET /staff-manager/shifts : display all shifts with a form to assign new ones.  <br /></td></tr>
 <tr class="memitem:a30161604c556791efcdf5edd256b2b1d" id="r_a30161604c556791efcdf5edd256b2b1d"><td class="memItemLeft">String&#160;</td><td class="memItemRight"><a class="el" href="#a30161604c556791efcdf5edd256b2b1d">assignShift</a> (@RequestParam Long employeeId, @RequestParam String date, @RequestParam String shiftType, Model model)</td></tr>
-<tr class="memdesc:a30161604c556791efcdf5edd256b2b1d"><td class="mdescLeft">&#160;</td><td class="mdescRight">POST /staff-manager/shifts/assign — assign a shift to an employee on a specific date.  <br /></td></tr>
+<tr class="memdesc:a30161604c556791efcdf5edd256b2b1d"><td class="mdescLeft">&#160;</td><td class="mdescRight">POST /staff-manager/shifts/assign : assign a shift to an employee on a specific date.  <br /></td></tr>
 <tr class="memitem:ab48423d58757b66c930004293f016f99" id="r_ab48423d58757b66c930004293f016f99"><td class="memItemLeft">String&#160;</td><td class="memItemRight"><a class="el" href="#ab48423d58757b66c930004293f016f99">manageVacations</a> (Model model)</td></tr>
-<tr class="memdesc:ab48423d58757b66c930004293f016f99"><td class="mdescLeft">&#160;</td><td class="mdescRight">GET /staff-manager/vacations — display all vacation requests with approve/deny controls.  <br /></td></tr>
+<tr class="memdesc:ab48423d58757b66c930004293f016f99"><td class="mdescLeft">&#160;</td><td class="mdescRight">GET /staff-manager/vacations : display all vacation requests with approve/deny controls.  <br /></td></tr>
 <tr class="memitem:aa330a31151f4667300592a757cd57516" id="r_aa330a31151f4667300592a757cd57516"><td class="memItemLeft">String&#160;</td><td class="memItemRight"><a class="el" href="#aa330a31151f4667300592a757cd57516">addVacationRequest</a> (@RequestParam Long employeeId, @RequestParam String startDate, @RequestParam String endDate, @RequestParam(required=false) String reason, Model model)</td></tr>
-<tr class="memdesc:aa330a31151f4667300592a757cd57516"><td class="mdescLeft">&#160;</td><td class="mdescRight">POST /staff-manager/vacations/add — submit a new vacation request for an employee.  <br /></td></tr>
+<tr class="memdesc:aa330a31151f4667300592a757cd57516"><td class="mdescLeft">&#160;</td><td class="mdescRight">POST /staff-manager/vacations/add : submit a new vacation request for an employee.  <br /></td></tr>
 <tr class="memitem:ad8c31cc00e7e2f781aa24f8f5e412e28" id="r_ad8c31cc00e7e2f781aa24f8f5e412e28"><td class="memItemLeft">String&#160;</td><td class="memItemRight"><a class="el" href="#ad8c31cc00e7e2f781aa24f8f5e412e28">approveVacation</a> (@RequestParam int requestId, Model model)</td></tr>
-<tr class="memdesc:ad8c31cc00e7e2f781aa24f8f5e412e28"><td class="mdescLeft">&#160;</td><td class="mdescRight">POST /staff-manager/vacations/approve — approve a pending vacation request.  <br /></td></tr>
+<tr class="memdesc:ad8c31cc00e7e2f781aa24f8f5e412e28"><td class="mdescLeft">&#160;</td><td class="mdescRight">POST /staff-manager/vacations/approve : approve a pending vacation request.  <br /></td></tr>
 <tr class="memitem:a18638d52246791531b3a432e515033d5" id="r_a18638d52246791531b3a432e515033d5"><td class="memItemLeft">String&#160;</td><td class="memItemRight"><a class="el" href="#a18638d52246791531b3a432e515033d5">denyVacation</a> (@RequestParam int requestId, Model model)</td></tr>
-<tr class="memdesc:a18638d52246791531b3a432e515033d5"><td class="mdescLeft">&#160;</td><td class="mdescRight">POST /staff-manager/vacations/deny — deny a pending vacation request.  <br /></td></tr>
+<tr class="memdesc:a18638d52246791531b3a432e515033d5"><td class="mdescLeft">&#160;</td><td class="mdescRight">POST /staff-manager/vacations/deny : deny a pending vacation request.  <br /></td></tr>
 <tr class="memitem:ad48bc3afc950b7741adde54ed0eecb45" id="r_ad48bc3afc950b7741adde54ed0eecb45"><td class="memItemLeft">String&#160;</td><td class="memItemRight"><a class="el" href="#ad48bc3afc950b7741adde54ed0eecb45">viewAvailability</a> (Model model)</td></tr>
-<tr class="memdesc:ad48bc3afc950b7741adde54ed0eecb45"><td class="mdescLeft">&#160;</td><td class="mdescRight">GET /staff-manager/availability — show a cross-referenced availability overview.  <br /></td></tr>
+<tr class="memdesc:ad48bc3afc950b7741adde54ed0eecb45"><td class="mdescLeft">&#160;</td><td class="mdescRight">GET /staff-manager/availability : show a cross-referenced availability overview.  <br /></td></tr>
 <tr class="memitem:a53eaa9da25adac80d4ec948bd7791bf0" id="r_a53eaa9da25adac80d4ec948bd7791bf0"><td class="memItemLeft">String&#160;</td><td class="memItemRight"><a class="el" href="#a53eaa9da25adac80d4ec948bd7791bf0">viewAuditLogs</a> (@RequestParam(required=false) String entityType, Model model)</td></tr>
-<tr class="memdesc:a53eaa9da25adac80d4ec948bd7791bf0"><td class="mdescLeft">&#160;</td><td class="mdescRight">GET /staff-manager/audit-logs — display system-wide audit log entries.  <br /></td></tr>
+<tr class="memdesc:a53eaa9da25adac80d4ec948bd7791bf0"><td class="mdescLeft">&#160;</td><td class="mdescRight">GET /staff-manager/audit-logs : display system-wide audit log entries.  <br /></td></tr>
 <tr class="memitem:a91a5eaa17c492bffb6ee02a0e679817c" id="r_a91a5eaa17c492bffb6ee02a0e679817c"><td class="memItemLeft">String&#160;</td><td class="memItemRight"><a class="el" href="#a91a5eaa17c492bffb6ee02a0e679817c">viewProfile</a> (HttpSession session, Model model)</td></tr>
-<tr class="memdesc:a91a5eaa17c492bffb6ee02a0e679817c"><td class="mdescLeft">&#160;</td><td class="mdescRight">GET /staff-manager/profile — display the staff manager's personal profile page.  <br /></td></tr>
+<tr class="memdesc:a91a5eaa17c492bffb6ee02a0e679817c"><td class="mdescLeft">&#160;</td><td class="mdescRight">GET /staff-manager/profile : display the staff manager's personal profile page.  <br /></td></tr>
 <tr class="memitem:aaa57a3e202e08250b1bfc7f158e687c2" id="r_aaa57a3e202e08250b1bfc7f158e687c2"><td class="memItemLeft">String&#160;</td><td class="memItemRight"><a class="el" href="#aaa57a3e202e08250b1bfc7f158e687c2">viewResourceLog</a> (Model model)</td></tr>
-<tr class="memdesc:aaa57a3e202e08250b1bfc7f158e687c2"><td class="mdescLeft">&#160;</td><td class="mdescRight">GET /staff-manager/resource-log — display the global resource-take audit log.  <br /></td></tr>
+<tr class="memdesc:aaa57a3e202e08250b1bfc7f158e687c2"><td class="mdescLeft">&#160;</td><td class="mdescRight">GET /staff-manager/resource-log : display the global resource-take audit log.  <br /></td></tr>
 <tr class="memitem:a6c7f0dfff1f9c102bf27fb6c5f6ee0d1" id="r_a6c7f0dfff1f9c102bf27fb6c5f6ee0d1"><td class="memItemLeft">String&#160;</td><td class="memItemRight"><a class="el" href="#a6c7f0dfff1f9c102bf27fb6c5f6ee0d1">viewEmployeeDetail</a> (@PathVariable Long id, Model model, HttpSession session)</td></tr>
-<tr class="memdesc:a6c7f0dfff1f9c102bf27fb6c5f6ee0d1"><td class="mdescLeft">&#160;</td><td class="mdescRight">GET /staff-manager/employees/{id} — display a detailed view of a single employee.  <br /></td></tr>
+<tr class="memdesc:a6c7f0dfff1f9c102bf27fb6c5f6ee0d1"><td class="mdescLeft">&#160;</td><td class="mdescRight">GET /staff-manager/employees/{id} : display a detailed view of a single employee.  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Controller for <a class="el" href="classvixhealthsystem_1_1model_1_1person_1_1employee_1_1_staff_manager.html" title="Manages employee accounts in the system.">StaffManager</a> users — base URL <code class="JavaDocCode">/staff-manager</code>. </p>
+<div class="textblock"><p>Controller for <a class="el" href="classvixhealthsystem_1_1model_1_1person_1_1employee_1_1_staff_manager.html" title="Manages employee accounts in the system.">StaffManager</a> users : base URL <code class="JavaDocCode">/staff-manager</code>. </p>
 <p>Staff managers administer the entire workforce of VIX Health System. This controller covers employee lifecycle management (create, delete, password reset), shift assignment with vacation-conflict detection, vacation request approval/denial, an availability overview that cross-references shifts and appointments, system-wide audit-log browsing, and the manager's own profile view.</p>
 <p>Only accessible to users with <code class="JavaDocCode">ROLE_STAFFMANAGER</code>.</p>
 <p>Use cases covered: UC01–UC05 (staff management), UC06 (shifts), UC07 (vacations), UC08 (availability), UC09 (audit logs).</p>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="classvixhealthsystem_1_1service_1_1core_1_1_employee_service.html" title="Central service for employee lifecycle management — creation, lookup, update, deletion,...">EmployeeService</a> </dd>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="classvixhealthsystem_1_1service_1_1core_1_1_employee_service.html" title="Central service for employee lifecycle management : creation, lookup, update, deletion,...">EmployeeService</a> </dd>
 <dd>
 <a class="el" href="classvixhealthsystem_1_1service_1_1scheduling_1_1_shift_service.html" title="Manages employee shift assignments, backed by a JSON file rather than the database.">ShiftService</a> </dd>
 <dd>
@@ -204,7 +204,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>GET /staff-manager/dashboard — render the staff manager's overview dashboard. </p>
+<p>GET /staff-manager/dashboard : render the staff manager's overview dashboard. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">model</td><td>Receives <code class="JavaDocCode">totalEmployees</code>, <code class="JavaDocCode">activeEmployees</code>, <code class="JavaDocCode">pendingVacations</code>, and <code class="JavaDocCode">recentActivities</code> (last 10 audit entries). </td></tr>
@@ -240,7 +240,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>GET /staff-manager/employees — list all employees, optionally filtered by type. </p>
+<p>GET /staff-manager/employees : list all employees, optionally filtered by type. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">type</td><td>Optional filter string: one of <code class="JavaDocCode">MEDICAL_SPECIALIST</code>, <code class="JavaDocCode">SECRETARY</code>, <code class="JavaDocCode">TECHNICIAN</code>, <code class="JavaDocCode">BUYER</code>, <code class="JavaDocCode">STAFF_MANAGER</code>; all employees are returned when absent. </td></tr>
@@ -273,7 +273,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>GET /staff-manager/employees/create — render the create-employee form. </p>
+<p>GET /staff-manager/employees/create : render the create-employee form. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">model</td><td>Receives <code class="JavaDocCode">employeeTypes</code> and <code class="JavaDocCode">departments</code> for form dropdowns. </td></tr>
@@ -369,7 +369,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>POST /staff-manager/employees/create — create a new employee account. </p>
+<p>POST /staff-manager/employees/create : create a new employee account. </p>
 <p>Builds the correct <a class="el" href="classvixhealthsystem_1_1model_1_1person_1_1employee_1_1_employee.html" title="Represents a generic employee in the system.">Employee</a> subtype from the <code class="JavaDocCode">employeeType</code> parameter, then calls the domain method <code class="JavaDocCode">StaffManager.createAccountForEmployee</code> for business-rule validation before persisting. The acting <a class="el" href="classvixhealthsystem_1_1model_1_1person_1_1employee_1_1_staff_manager.html" title="Manages employee accounts in the system.">StaffManager</a> is resolved from the session.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -424,7 +424,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>POST /staff-manager/employees/reset-password — trigger a Firebase password-reset email. </p>
+<p>POST /staff-manager/employees/reset-password : trigger a Firebase password-reset email. </p>
 <p>Calls the domain method <code class="JavaDocCode">StaffManager.credentialsRecovery</code> for business-rule validation before delegating to <code><a class="el" href="classvixhealthsystem_1_1service_1_1core_1_1_employee_service.html#a7b06b8e078335ac8c130a7255f1dc0bf">EmployeeService#requestEmployeePasswordReset</a></code>.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -468,7 +468,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>POST /staff-manager/employees/delete — permanently delete an employee account. </p>
+<p>POST /staff-manager/employees/delete : permanently delete an employee account. </p>
 <p>Calls <code class="JavaDocCode">StaffManager.deleteEmployeeAccount</code> first; that domain method enforces the rule that a manager cannot delete their own account.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -503,7 +503,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>GET /staff-manager/shifts — display all shifts with a form to assign new ones. </p>
+<p>GET /staff-manager/shifts : display all shifts with a form to assign new ones. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">model</td><td>Receives <code class="JavaDocCode">employees</code> and <code class="JavaDocCode">shifts</code> attributes. </td></tr>
@@ -549,7 +549,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>POST /staff-manager/shifts/assign — assign a shift to an employee on a specific date. </p>
+<p>POST /staff-manager/shifts/assign : assign a shift to an employee on a specific date. </p>
 <p>Rejects the assignment with an error message when the employee has an approved vacation that overlaps with <code class="JavaDocCode">date</code>.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -585,7 +585,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>GET /staff-manager/vacations — display all vacation requests with approve/deny controls. </p>
+<p>GET /staff-manager/vacations : display all vacation requests with approve/deny controls. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">model</td><td>Receives <code class="JavaDocCode">pendingRequests</code>, <code class="JavaDocCode">allRequests</code>, and <code class="JavaDocCode">employees</code>. </td></tr>
@@ -636,7 +636,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>POST /staff-manager/vacations/add — submit a new vacation request for an employee. </p>
+<p>POST /staff-manager/vacations/add : submit a new vacation request for an employee. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">employeeId</td><td>Database ID of the employee. </td></tr>
@@ -676,7 +676,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>POST /staff-manager/vacations/approve — approve a pending vacation request. </p>
+<p>POST /staff-manager/vacations/approve : approve a pending vacation request. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">requestId</td><td>Numeric ID of the vacation request to approve. </td></tr>
@@ -713,7 +713,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>POST /staff-manager/vacations/deny — deny a pending vacation request. </p>
+<p>POST /staff-manager/vacations/deny : deny a pending vacation request. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">requestId</td><td>Numeric ID of the vacation request to deny. </td></tr>
@@ -746,7 +746,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>GET /staff-manager/availability — show a cross-referenced availability overview. </p>
+<p>GET /staff-manager/availability : show a cross-referenced availability overview. </p>
 <p>Builds maps of shifts, approved vacations, and upcoming appointments (for MedicalSpecialists) keyed by employee ID so the template can render each person's schedule at a glance.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -783,7 +783,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>GET /staff-manager/audit-logs — display system-wide audit log entries. </p>
+<p>GET /staff-manager/audit-logs : display system-wide audit log entries. </p>
 <p>All entries are shown sorted newest-first. An optional entity-type filter narrows the list to a single domain object category.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -821,7 +821,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>GET /staff-manager/profile — display the staff manager's personal profile page. </p>
+<p>GET /staff-manager/profile : display the staff manager's personal profile page. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">session</td><td>HTTP session carrying the <code class="JavaDocCode">"user"</code> <a class="el" href="classvixhealthsystem_1_1model_1_1person_1_1employee_1_1_employee.html" title="Represents a generic employee in the system.">Employee</a> attribute. </td></tr>
@@ -854,7 +854,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>GET /staff-manager/resource-log — display the global resource-take audit log. </p>
+<p>GET /staff-manager/resource-log : display the global resource-take audit log. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">model</td><td>Receives <code class="JavaDocCode">logs</code> (all entries from <code><a class="el" href="classvixhealthsystem_1_1service_1_1resources_1_1_resource_take_log_store.html">ResourceTakeLogStore</a></code>). </td></tr>
@@ -895,7 +895,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>GET /staff-manager/employees/{id} — display a detailed view of a single employee. </p>
+<p>GET /staff-manager/employees/{id} : display a detailed view of a single employee. </p>
 <p>Shows the employee's shifts, approved vacations, and (for MedicalSpecialists) their upcoming non-cancelled appointments.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">

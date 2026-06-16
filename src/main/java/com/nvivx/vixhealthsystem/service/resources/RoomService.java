@@ -14,8 +14,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * @brief Manages patient admission and dismissal across inpatient rooms (UC22 — Triage,
- *        UC23 — Patient Dismissal) and provides bed-availability statistics for the dashboard.
+ * @brief Manages patient admission and dismissal across inpatient rooms (UC22 : Triage,
+ *        UC23 : Patient Dismissal) and provides bed-availability statistics for the dashboard.
  *
  * Annotated {@code @Transactional(readOnly=true)} at the class level; write methods override
  * with {@code @Transactional}.
@@ -48,7 +48,7 @@ public class RoomService {
      *
      * @param roomRepository     Persistence layer for all {@link Room} subtypes.
      * @param patientRepository  Needed to load patients by ID during admission/dismissal.
-     * @param auditService       Records every bed assignment change (NFR02 — traceability).
+     * @param auditService       Records every bed assignment change (NFR02 : traceability).
      */
     public RoomService(RoomRepository roomRepository,
                        PatientRepository patientRepository,

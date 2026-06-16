@@ -129,13 +129,13 @@ document.addEventListener('DOMContentLoaded',() => { initNavTree('namespacevixhe
 </div><!--header-->
 <div class="contents">
 
-<p>People in the system — the base class and the patient type.  
+<p>People in the system : the base class and the patient type.  
 <a href="#details">More...</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-namespaces" class="groupheader"><a id="namespaces" name="namespaces"></a>
 Packages</h2></td></tr>
 <tr class="memitem:employee" id="r_employee"><td class="memItemLeft">package &#160;</td><td class="memItemRight"><a class="el" href="namespacevixhealthsystem_1_1model_1_1person_1_1employee.html">employee</a></td></tr>
-<tr class="memdesc:namespacevixhealthsystem_1_1model_1_1person_1_1employee"><td class="mdescLeft">&#160;</td><td class="mdescRight">Staff hierarchy — all employee types in the hospital. <br /></td></tr>
+<tr class="memdesc:namespacevixhealthsystem_1_1model_1_1person_1_1employee"><td class="mdescLeft">&#160;</td><td class="mdescRight">The employee type hierarchy, implemented with JPA Single Table Inheritance. <br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-nested-classes" class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
@@ -148,7 +148,7 @@ Classes</h2></td></tr>
 <tr class="memitem:TestPerson" id="r_TestPerson"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><b>TestPerson</b></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>People in the system — the base class and the patient type. </p>
+<div class="textblock"><p>People in the system : the base class and the patient type. </p>
 <p><code><a class="el" href="classvixhealthsystem_1_1model_1_1person_1_1_person.html">vixhealthsystem.model.person.Person</a></code> is an abstract JPA mapped superclass that holds common fields (name, surname, date of birth, contact info) shared by both patients and employees.</p>
 <p><code><a class="el" href="classvixhealthsystem_1_1model_1_1person_1_1_patient.html">vixhealthsystem.model.person.Patient</a></code> extends it with patient-specific data: fiscal code, medical record, and Firebase UID for authentication via the SPID/CIE mock flow.</p>
 <p>Employee subtypes live in the <code class="JavaDocCode">person.employee</code> sub-package.</p>

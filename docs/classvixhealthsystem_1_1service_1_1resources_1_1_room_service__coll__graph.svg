@@ -11,7 +11,7 @@
 <!-- Node1 -->
 <g id="Node000001" class="node">
 <title>Node1</title>
-<g id="a_Node000001"><a xlink:title="Manages patient admission and dismissal across inpatient rooms (UC22 — Triage, UC23 — Patient Dismiss...">
+<g id="a_Node000001"><a xlink:title="Manages patient admission and dismissal across inpatient rooms (UC22 : Triage, UC23 : Patient Dismiss...">
 <polygon fill="#999999" stroke="none" points="173.25,-372 0,-372 0,0 173.25,0 173.25,-372"/>
 <text xml:space="preserve" text-anchor="start" x="57" y="-358.25" font-family="Helvetica,sans-Serif" font-size="10.00">RoomService</text>
 <text xml:space="preserve" text-anchor="start" x="85.12" y="-342.25" font-family="Helvetica,sans-Serif" font-size="10.00"> </text>

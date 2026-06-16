@@ -1,3 +1,17 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="Node000000" href="$enumvixhealthsystem_1_1model_1_1enums_1_1_payment_status.html" title="Payment state of a patient vixhealthsystem.model.medical.Appointment." alt="" coords="5,5,117,32"/>
+<area shape="rect" id="Node000000" href="$classvixhealthsystem_1_1model_1_1person_1_1_person.html" title="Base class for all people in the system." alt="" coords="5,81,68,108"/>
+<area shape="rect" id="Node000001" href="$classvixhealthsystem_1_1model_1_1person_1_1_patient.html" title="Represents a patient in the VIX Health System." alt="" coords="124,56,186,83"/>
+<area shape="poly" id="edge14_Node000000_Node000001" title=" " alt="" coords="81,83,126,74,122,78,84,87"/>
+<area shape="rect" id="Node000002" href="$classvixhealthsystem_1_1model_1_1person_1_1employee_1_1_employee.html" title="Represents a generic employee in the system." alt="" coords="116,107,195,133"/>
+<area shape="poly" id="edge15_Node000000_Node000002" title=" " alt="" coords="82,102,118,110,113,113,83,107"/>
+<area shape="rect" id="Node000003" href="$classvixhealthsystem_1_1model_1_1person_1_1employee_1_1_buyer.html" title="Part of the purchasing department." alt="" coords="277,5,332,32"/>
+<area shape="poly" id="edge16_Node000002_Node000003" title=" " alt="" coords="190,95,193,93,216,67,226,55,242,42,279,26,275,29,244,46,230,58,220,70,197,97,193,99"/>
+<area shape="rect" id="Node000004" href="$classvixhealthsystem_1_1model_1_1person_1_1employee_1_1_medical_specialist.html" title="Represents medical personnel such as doctors, surgeons, specialists and nurses." alt="" coords="243,56,366,83"/>
+<area shape="poly" id="edge17_Node000002_Node000004" title=" " alt="" coords="209,99,266,82,261,84,211,104"/>
+<area shape="rect" id="Node000005" href="$classvixhealthsystem_1_1model_1_1person_1_1employee_1_1_secretary.html" title="Handles administrative tasks such as appointment scheduling, patient admissions and discharges." alt="" coords="266,107,343,133"/>
+<area shape="poly" id="edge18_Node000002_Node000005" title=" " alt="" coords="210,117,268,119,263,121,211,123"/>
+<area shape="rect" id="Node000006" href="$classvixhealthsystem_1_1model_1_1person_1_1employee_1_1_staff_manager.html" title="Manages employee accounts in the system." alt="" coords="256,157,354,184"/>
+<area shape="poly" id="edge19_Node000002_Node000006" title=" " alt="" coords="210,136,266,156,261,157,210,141"/>
+<area shape="rect" id="Node000007" href="$classvixhealthsystem_1_1model_1_1person_1_1employee_1_1_technician.html" title="Responsible for managing and maintaining medical machinery." alt="" coords="263,208,346,235"/>
+<area shape="poly" id="edge20_Node000002_Node000007" title=" " alt="" coords="181,142,211,169,244,194,268,208,263,207,242,198,207,173,180,147"/>
 </map>

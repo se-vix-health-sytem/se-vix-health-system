@@ -161,7 +161,7 @@ class RepositoryTest {
                 System.out.println(
                         specialist.getName() + " " + specialist.getSurname()
                         + " (" + specialist.getSpecialty() + ")"
-                        + " — " + surgeries.size() + " surgery(ies)"
+                        + " : " + surgeries.size() + " surgery(ies)"
                 );
                 for (Surgery s : surgeries) {
                     System.out.println("    → " + s.getName() + " on " + s.getDateTime());

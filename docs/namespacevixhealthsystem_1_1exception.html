@@ -129,7 +129,7 @@ document.addEventListener('DOMContentLoaded',() => { initNavTree('namespacevixhe
 </div><!--header-->
 <div class="contents">
 
-<p>Custom exceptions and the global error handler.  
+<p>Typed business exceptions for the VIX domain.  
 <a href="#details">More...</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-nested-classes" class="groupheader"><a id="nested-classes" name="nested-classes"></a>
@@ -150,21 +150,21 @@ Classes</h2></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Thrown when a vacation request with a given identifier cannot be found.  <a href="classvixhealthsystem_1_1exception_1_1_vacation_not_found_exception.html#details">More...</a><br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Custom exceptions and the global error handler. </p>
-<p>Every exception here maps to a specific business condition — they exist so that service code can throw something meaningful rather than a generic <code class="JavaDocCode">RuntimeException</code>, and so that <code class="JavaDocCode">GlobalExceptionHandler</code> can map each one to the right HTTP response or error page.</p>
-<p>Domain exceptions: </p><ul>
+<div class="textblock"><p>Typed business exceptions for the VIX domain. </p>
+<p>Each exception maps to a concrete failure condition so that service code can signal exactly what went wrong, and <code class="JavaDocCode">GlobalExceptionHandler</code> can turn it into the right HTTP response without inspecting message strings.</p>
+<ul>
 <li>
-<code class="JavaDocCode">AppointmentConflictException</code> — time slot is already taken </li>
+<code class="JavaDocCode">AppointmentConflictException</code> - time slot is already taken </li>
 <li>
-<code class="JavaDocCode">SlotNotAvailableException</code> — requested slot doesn't exist or is closed </li>
+<code class="JavaDocCode">SlotNotAvailableException</code> - requested slot doesn't exist or is closed </li>
 <li>
-<code class="JavaDocCode">PatientNotFoundException</code> — patient ID not found in the database </li>
+<code class="JavaDocCode">PatientNotFoundException</code> - patient ID not found in the database </li>
 <li>
-<code class="JavaDocCode">ResourceNotFoundException</code> — inventory resource not found </li>
+<code class="JavaDocCode">ResourceNotFoundException</code> - inventory resource not found </li>
 <li>
-<code class="JavaDocCode">VacationNotFoundException</code> — vacation request ID doesn't exist </li>
+<code class="JavaDocCode">VacationNotFoundException</code> - vacation request ID doesn't exist </li>
 <li>
-<code class="JavaDocCode">UnauthorizedAccessException</code> — caller lacks permission for the operation </li>
+<code class="JavaDocCode">UnauthorizedAccessException</code> - caller lacks the required role </li>
 </ul>
 <p>Main curator: Navjot Kaur</p>
 <p>Note: All team members may contribute to files in this package. </p>

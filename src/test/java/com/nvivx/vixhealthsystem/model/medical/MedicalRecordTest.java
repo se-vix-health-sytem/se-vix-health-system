@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.*;
  *
  * Verifies the parameterized constructor, all field setters/getters, and the
  * addCondition/addPrescription/addSurgery helpers that maintain bidirectional
- * back-references. Plain JUnit — no Spring context loaded.
+ * back-references. Plain JUnit : no Spring context loaded.
  *
  * @see MedicalRecord
  */

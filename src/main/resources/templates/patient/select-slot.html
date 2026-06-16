@@ -1,14 +1,14 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <!--
 ==============================================================================
   FILE:    patient/select-slot.html
   ACCESS:  ROLE_PATIENT (session.patient required)
-  PURPOSE: Step 2 of the booking flow — shows available time slots for the
+  PURPOSE: Step 2 of the booking flow: shows available time slots for the
            chosen specialist and lets the patient confirm a booking.
 
   Model attributes:
-    - specialist (MedicalSpecialist) — the selected doctor
-    - availableSlots (List<LocalDateTime>) — open appointment slots
+    - specialist (MedicalSpecialist): the selected doctor
+    - availableSlots (List<LocalDateTime>): open appointment slots
 
   Dependencies:
     - fragments/head, fragments/dashboard-nav, fragments/footer
@@ -51,7 +51,7 @@
 
                     <!-- Step 1: pick a date -->
                     <div class="mb-4">
-                        <label class="form-label">Step 1 — Pick a date</label>
+                        <label class="form-label">Step 1: Pick a date</label>
                         <input type="date" id="datePicker" class="form-control"
                                style="max-width:220px;"
                                th:min="${#temporals.format(availableSlots[0], 'yyyy-MM-dd')}"
@@ -60,7 +60,7 @@
 
                     <!-- Step 2: pick a time slot -->
                     <div class="mb-4" id="slotSection" style="display:none;">
-                        <label class="form-label">Step 2 — Choose a time slot</label>
+                        <label class="form-label">Step 2: Choose a time slot</label>
                         <div id="slotGrid" class="d-flex flex-wrap gap-2 mt-2"></div>
                         <div id="noSlots" class="text-muted small mt-2" style="display:none;">
                             No slots available on this date.

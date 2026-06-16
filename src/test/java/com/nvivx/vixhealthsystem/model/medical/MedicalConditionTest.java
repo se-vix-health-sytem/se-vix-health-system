@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
  *
  * Verifies field storage via setters, the parameterized constructor, back-reference
  * linking to a MedicalRecord, and null-safe behaviour on all optional fields.
- * Plain JUnit — no Spring context loaded.
+ * Plain JUnit : no Spring context loaded.
  *
  * @see MedicalCondition
  */

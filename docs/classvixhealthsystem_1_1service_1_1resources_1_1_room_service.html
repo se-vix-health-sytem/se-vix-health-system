@@ -129,7 +129,7 @@ document.addEventListener('DOMContentLoaded',() => { initNavTree('classvixhealth
 </div><!--header-->
 <div class="contents">
 
-<p>Manages patient admission and dismissal across inpatient rooms (UC22 — Triage, UC23 — <a class="el" href="classvixhealthsystem_1_1model_1_1person_1_1_patient.html" title="Represents a patient in the VIX Health System.">Patient</a> Dismissal) and provides bed-availability statistics for the dashboard.  
+<p>Manages patient admission and dismissal across inpatient rooms (UC22 : Triage, UC23 : <a class="el" href="classvixhealthsystem_1_1model_1_1person_1_1_patient.html" title="Represents a patient in the VIX Health System.">Patient</a> Dismissal) and provides bed-availability statistics for the dashboard.  
  <a href="#details">More...</a></p>
 <div class="dynheader">
 Collaboration diagram for RoomService:</div>
@@ -173,7 +173,7 @@ boolean&#160;</td><td class="memItemRight"><b>isPatientAdmitted</b> (Long patien
 <tr class="memdesc:a900625c651d59d22c27549aa914d6816"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if a patient is currently admitted. <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Manages patient admission and dismissal across inpatient rooms (UC22 — Triage, UC23 — <a class="el" href="classvixhealthsystem_1_1model_1_1person_1_1_patient.html" title="Represents a patient in the VIX Health System.">Patient</a> Dismissal) and provides bed-availability statistics for the dashboard. </p>
+<div class="textblock"><p>Manages patient admission and dismissal across inpatient rooms (UC22 : Triage, UC23 : <a class="el" href="classvixhealthsystem_1_1model_1_1person_1_1_patient.html" title="Represents a patient in the VIX Health System.">Patient</a> Dismissal) and provides bed-availability statistics for the dashboard. </p>
 <p>Annotated <code class="JavaDocCode">@Transactional(readOnly=true)</code> at the class level; write methods override with <code class="JavaDocCode">@Transactional</code>.</p>
 <p><a class="el" href="classvixhealthsystem_1_1model_1_1facility_1_1_room.html" title="Represents a generic room inside a medical facility.">Room</a> polymorphism: the repository stores all <code><a class="el" href="classvixhealthsystem_1_1model_1_1facility_1_1_room.html">Room</a></code> subtypes; only <code><a class="el" href="classvixhealthsystem_1_1model_1_1facility_1_1_internation_room.html">InternationRoom</a></code> instances support patient admission. Type-guard checks are applied in <code><a class="el" href="#a45813f54f528fbc5635681ece969fdf0">admitPatient</a></code> and <code><a class="el" href="#a065f83e08e4eb40f6c43324168aa84f9">dismissPatient</a></code> to provide clear error messages.</p>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="classvixhealthsystem_1_1model_1_1facility_1_1_internation_room.html" title="Represents an inpatient room used for patient hospitalization.">vixhealthsystem.model.facility.InternationRoom</a> </dd>
@@ -211,7 +211,7 @@ boolean&#160;</td><td class="memItemRight"><b>isPatientAdmitted</b> (Long patien
   <table class="params">
     <tr><td class="paramname">roomRepository</td><td>Persistence layer for all <code><a class="el" href="classvixhealthsystem_1_1model_1_1facility_1_1_room.html">Room</a></code> subtypes. </td></tr>
     <tr><td class="paramname">patientRepository</td><td>Needed to load patients by ID during admission/dismissal. </td></tr>
-    <tr><td class="paramname">auditService</td><td>Records every bed assignment change (NFR02 — traceability). </td></tr>
+    <tr><td class="paramname">auditService</td><td>Records every bed assignment change (NFR02 : traceability). </td></tr>
   </table>
   </dd>
 </dl>

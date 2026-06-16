@@ -129,7 +129,7 @@ document.addEventListener('DOMContentLoaded',() => { initNavTree('namespacevixhe
 </div><!--header-->
 <div class="contents">
 
-<p>Scheduling services — shifts and vacation requests.  
+<p><a class="el" href="classvixhealthsystem_1_1model_1_1staff_1_1_shift.html" title="Represents a work shift assigned to an employee.">Shift</a> and vacation services.  
 <a href="#details">More...</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-nested-classes" class="groupheader"><a id="nested-classes" name="nested-classes"></a>
@@ -144,14 +144,10 @@ Classes</h2></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unit tests for <a class="el" href="classvixhealthsystem_1_1service_1_1scheduling_1_1_vacation_service.html" title="Manages employee vacation requests from creation through approval/denial (UC29, FR6....">VacationService</a> using Mockito mocks for <a class="el" href="classvixhealthsystem_1_1repository_1_1_json_vacation_repository.html" title="JSON-file-backed repository for VacationRequest entities.">JsonVacationRepository</a> and <a class="el" href="classvixhealthsystem_1_1service_1_1_audit_service.html" title="Writes immutable audit log entries for every significant action in the system (NFR02).">AuditService</a>. <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Scheduling services — shifts and vacation requests. </p>
-<p>Both services back their data with JSON files under <code class="JavaDocCode">src/main/resources/storage/</code> rather than the SQL database. This avoids schema migrations for data that changes constantly and has no foreign-key dependencies on other tables.</p>
-<ul>
-<li>
-<code class="JavaDocCode">ShiftService</code> — creates, updates, and deletes work shifts; queries shifts by employee or date range </li>
-<li>
-<code class="JavaDocCode">VacationService</code> — handles vacation request submission, approval, and denial by the staff manager </li>
-</ul>
+<div class="textblock"><p><a class="el" href="classvixhealthsystem_1_1model_1_1staff_1_1_shift.html" title="Represents a work shift assigned to an employee.">Shift</a> and vacation services. </p>
+<p>Both services store data in JSON files (<code class="JavaDocCode">src/main/resources/storage/</code>) rather than the SQL database, to avoid schema migrations for data that changes often and has no foreign-key constraints to protect.</p>
+<p><code class="JavaDocCode">ShiftService</code> creates, updates, and deletes work shifts, and can query by employee or date range. <a class="el" href="classvixhealthsystem_1_1model_1_1staff_1_1_shift.html" title="Represents a work shift assigned to an employee.">Shift</a> IDs come from an atomic counter so they keep incrementing across server restarts and are never reused.</p>
+<p><code class="JavaDocCode">VacationService</code> manages the request lifecycle: submission by any staff member, then approval or denial exclusively by the staff manager. The service enforces the actor restriction rather than relying on the controller.</p>
 <p>Main curator: Lorena Valentina Buitrón Zambrano</p>
 <p>Note: All team members may contribute to files in this package. </p>
 </div></div><!-- contents -->

@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
  *
  * Requests are stored in {@code vacations.json} via {@link JsonVacationRepository} rather
  * than the relational database, keeping vacation data separate from the core HR schema.
- * The staff manager is the only actor who can add, approve, deny, or delete requests —
+ * The staff manager is the only actor who can add, approve, deny, or delete requests :
  * employees themselves cannot self-serve vacation through this system.
  *
  * @see ShiftService

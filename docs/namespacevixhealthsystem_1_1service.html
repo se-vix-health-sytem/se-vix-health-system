@@ -129,21 +129,21 @@ document.addEventListener('DOMContentLoaded',() => { initNavTree('namespacevixhe
 </div><!--header-->
 <div class="contents">
 
-<p>Business logic layer — all services, grouped by domain area.  
+<p>Business logic layer, grouped by domain area.  
 <a href="#details">More...</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-namespaces" class="groupheader"><a id="namespaces" name="namespaces"></a>
 Packages</h2></td></tr>
 <tr class="memitem:core" id="r_core"><td class="memItemLeft">package &#160;</td><td class="memItemRight"><a class="el" href="namespacevixhealthsystem_1_1service_1_1core.html">core</a></td></tr>
-<tr class="memdesc:namespacevixhealthsystem_1_1service_1_1core"><td class="mdescLeft">&#160;</td><td class="mdescRight">Core entity services — employees, patients, and departments. <br /></td></tr>
+<tr class="memdesc:namespacevixhealthsystem_1_1service_1_1core"><td class="mdescLeft">&#160;</td><td class="mdescRight">Core entity services: employees, patients, and departments. <br /></td></tr>
 <tr class="memitem:integration" id="r_integration"><td class="memItemLeft">package &#160;</td><td class="memItemRight"><a class="el" href="namespacevixhealthsystem_1_1service_1_1integration.html">integration</a></td></tr>
-<tr class="memdesc:namespacevixhealthsystem_1_1service_1_1integration"><td class="mdescLeft">&#160;</td><td class="mdescRight">External integration services — Firebase, payments, notifications, questionnaire. <br /></td></tr>
+<tr class="memdesc:namespacevixhealthsystem_1_1service_1_1integration"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adapters for external systems: Firebase, payments, notifications, and triage. <br /></td></tr>
 <tr class="memitem:medical" id="r_medical"><td class="memItemLeft">package &#160;</td><td class="memItemRight"><a class="el" href="namespacevixhealthsystem_1_1service_1_1medical.html">medical</a></td></tr>
-<tr class="memdesc:namespacevixhealthsystem_1_1service_1_1medical"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clinical services — appointments and medical records. <br /></td></tr>
+<tr class="memdesc:namespacevixhealthsystem_1_1service_1_1medical"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clinical services: appointment scheduling and medical record management. <br /></td></tr>
 <tr class="memitem:resources" id="r_resources"><td class="memItemLeft">package &#160;</td><td class="memItemRight"><a class="el" href="namespacevixhealthsystem_1_1service_1_1resources.html">resources</a></td></tr>
-<tr class="memdesc:namespacevixhealthsystem_1_1service_1_1resources"><td class="mdescLeft">&#160;</td><td class="mdescRight">Hospital resource services — inventory, machinery, and rooms. <br /></td></tr>
+<tr class="memdesc:namespacevixhealthsystem_1_1service_1_1resources"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classvixhealthsystem_1_1model_1_1resource_1_1_resource.html" title="Represents a resource stored and managed by a medical facility.">Resource</a> management services: inventory, machinery, and room availability. <br /></td></tr>
 <tr class="memitem:scheduling" id="r_scheduling"><td class="memItemLeft">package &#160;</td><td class="memItemRight"><a class="el" href="namespacevixhealthsystem_1_1service_1_1scheduling.html">scheduling</a></td></tr>
-<tr class="memdesc:namespacevixhealthsystem_1_1service_1_1scheduling"><td class="mdescLeft">&#160;</td><td class="mdescRight">Scheduling services — shifts and vacation requests. <br /></td></tr>
+<tr class="memdesc:namespacevixhealthsystem_1_1service_1_1scheduling"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classvixhealthsystem_1_1model_1_1staff_1_1_shift.html" title="Represents a work shift assigned to an employee.">Shift</a> and vacation services. <br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-nested-classes" class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
@@ -155,26 +155,21 @@ Classes</h2></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">DEV-ONLY store that keeps plaintext employee credentials visible on the demo login board.  <a href="classvixhealthsystem_1_1service_1_1_dev_credential_store.html#details">More...</a><br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Business logic layer — all services, grouped by domain area. </p>
+<div class="textblock"><p>Business logic layer, grouped by domain area. </p>
+<p>Services are the only layer that should write to repositories directly. Controllers call services; services call repositories and each other where needed. Most service classes are annotated <code class="JavaDocCode">@Transactional(readOnly=true)</code> at the class level, with <code class="JavaDocCode">@Transactional</code> overrides on individual write methods.</p>
 <p>Sub-packages: </p><ul>
 <li>
-<code class="JavaDocCode">core</code> — employee, patient, and department management </li>
+<code class="JavaDocCode">core</code> - employee, patient, and department management </li>
 <li>
-<code class="JavaDocCode">medical</code> — appointments and medical records </li>
+<code class="JavaDocCode">medical</code> - appointments and medical records </li>
 <li>
-<code class="JavaDocCode">resources</code> — inventory, machinery, room availability </li>
+<code class="JavaDocCode">resources</code> - inventory, machinery, room availability </li>
 <li>
-<code class="JavaDocCode">scheduling</code> — shifts and vacation requests </li>
+<code class="JavaDocCode">scheduling</code> - shifts and vacation requests </li>
 <li>
-<code class="JavaDocCode">integration</code> — Firebase authentication, payment simulation, notifications, questionnaire </li>
+<code class="JavaDocCode">integration</code> - Firebase, payment simulation, notifications </li>
 </ul>
-<p>Root-level classes: </p><ul>
-<li>
-<code class="JavaDocCode">AuditService</code> — writes immutable audit log entries (NFR02) </li>
-<li>
-<code class="JavaDocCode">DevCredentialStore</code>— DEV-ONLY in-memory store for demo login credentials </li>
-</ul>
-<p>Most services are annotated <code class="JavaDocCode">@Transactional(readOnly=true)</code> at the class level and override with <code class="JavaDocCode">@Transactional</code> on individual write methods.</p>
+<p>Root-level utilities: <code class="JavaDocCode">AuditService</code> writes immutable log entries (NFR02); <code class="JavaDocCode">DevCredentialStore</code> is a DEV-ONLY in-memory credential cache.</p>
 <p>Main curator: Lorena Valentina Buitrón Zambrano</p>
 <p>Note: All team members may contribute to files in this package. </p>
 </div></div><!-- contents -->

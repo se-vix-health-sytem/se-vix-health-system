@@ -1,80 +1,6 @@
 [ {
   "id" : 1,
-  "dateTime" : "2026-06-26T09:00:00",
-  "duration" : 30,
-  "notes" : "Booked via patient portal",
-  "patient" : {
-    "name" : "Mario",
-    "surname" : "Rossi",
-    "birthDate" : "1980-01-01",
-    "birthPlace" : "Milano",
-    "gender" : "M",
-    "email" : "mario.rossi@email.com",
-    "phoneNumber" : "+393441111111",
-    "id" : 1,
-    "fiscalCode" : "RSSMRA80A01F205X",
-    "systemRole" : "ROLE_PATIENT"
-  },
-  "medicalSpecialist" : {
-    "name" : "Elena",
-    "surname" : "Bianchi",
-    "birthDate" : "1985-07-22",
-    "birthPlace" : "Torino",
-    "gender" : "F",
-    "email" : "elena.bianchi@vixhealth.com",
-    "phoneNumber" : "+393332222222",
-    "id" : 2,
-    "firebaseUid" : "mPgpiVHtIoeDdF3ozIYfygOT94v2",
-    "hireDate" : "2017-04-15",
-    "specialty" : "Neurology",
-    "licenseNumber" : "LIC-NEUR-002",
-    "appointments" : [ ],
-    "systemRole" : "ROLE_MEDICAL_SPECIALIST",
-    "employeeType" : "MEDICAL_SPECIALIST"
-  },
-  "paymentStatus" : "UNPAID",
-  "status" : "CANCELLED",
-  "statusEnum" : "CANCELLED"
-}, {
-  "id" : 2,
-  "dateTime" : "2026-06-26T23:10:00",
-  "duration" : 30,
-  "notes" : "Booked via patient portal",
-  "patient" : {
-    "name" : "Mario",
-    "surname" : "Rossi",
-    "birthDate" : "1980-01-01",
-    "birthPlace" : "Milano",
-    "gender" : "M",
-    "email" : "mario.rossi@email.com",
-    "phoneNumber" : "+393441111111",
-    "id" : 1,
-    "fiscalCode" : "RSSMRA80A01F205X",
-    "systemRole" : "ROLE_PATIENT"
-  },
-  "medicalSpecialist" : {
-    "name" : "Luca",
-    "surname" : "Verdi",
-    "birthDate" : "1978-11-05",
-    "birthPlace" : "Roma",
-    "gender" : "M",
-    "email" : "luca.verdi@vixhealth.com",
-    "phoneNumber" : "+393333333333",
-    "id" : 3,
-    "firebaseUid" : "tj0Z1CfPzXYRCJgQ2erml1xclA92",
-    "hireDate" : "2012-01-20",
-    "specialty" : "Radiology",
-    "licenseNumber" : "LIC-RAD-003",
-    "appointments" : [ ],
-    "systemRole" : "ROLE_MEDICAL_SPECIALIST",
-    "employeeType" : "MEDICAL_SPECIALIST"
-  },
-  "paymentStatus" : "PAID",
-  "status" : "RESCHEDULED",
-  "statusEnum" : "RESCHEDULED"
-}, {
-  "id" : 3,
-  "dateTime" : "2026-06-30T16:10:00",
+  "dateTime" : "2026-06-22T10:00:00",
   "duration" : 30,
   "notes" : "Booked via patient portal",
   "patient" : {
@@ -104,9 +30,10 @@
     "licenseNumber" : "LIC-ORTH-012",
     "appointments" : [ ],
     "systemRole" : "ROLE_MEDICAL_SPECIALIST",
-    "employeeType" : "MEDICAL_SPECIALIST"
+    "employeeType" : "MEDICAL_SPECIALIST",
+    "facilityName" : null
   },
-  "paymentStatus" : "PAID",
   "status" : "CONFIRMED",
-  "statusEnum" : "CONFIRMED"
+  "statusEnum" : "CONFIRMED",
+  "paymentStatus" : "PAID"
 } ]

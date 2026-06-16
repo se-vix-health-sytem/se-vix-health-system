@@ -129,7 +129,7 @@ document.addEventListener('DOMContentLoaded',() => { initNavTree('classvixhealth
 </div><!--header-->
 <div class="contents">
 
-<p>Manages hospital resource inventory — stock levels across all storage facilities, low-stock detection, and resource intake/consumption flows.  
+<p>Manages hospital resource inventory : stock levels across all storage facilities, low-stock detection, and resource intake/consumption flows.  
  <a href="#details">More...</a></p>
 <div class="dynheader">
 Collaboration diagram for InventoryService:</div>
@@ -163,7 +163,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a644a95f8e05030611ddb641d39ca86cc" id="r_a644a95f8e05030611ddb641d39ca86cc"><td class="memItemLeft">Map&lt; <a class="el" href="classvixhealthsystem_1_1model_1_1resource_1_1_resource.html">Resource</a>, Integer &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a644a95f8e05030611ddb641d39ca86cc">getTotalInventory</a> ()</td></tr>
 <tr class="memdesc:a644a95f8e05030611ddb641d39ca86cc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Aggregates stock quantities across all storage facilities (FR7.2).  <br /></td></tr>
 <tr class="memitem:a992d667d28db6036ccc5b19e1c4c1a54" id="r_a992d667d28db6036ccc5b19e1c4c1a54"><td class="memItemLeft">List&lt; <a class="el" href="classvixhealthsystem_1_1service_1_1resources_1_1_inventory_service_1_1_resource_with_quantity.html">ResourceWithQuantity</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a992d667d28db6036ccc5b19e1c4c1a54">getLowStockResources</a> ()</td></tr>
-<tr class="memdesc:a992d667d28db6036ccc5b19e1c4c1a54"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns all resources whose total stock across all facilities falls below <code><a class="el" href="">DEFAULT_LOW_STOCK_THRESHOLD</a></code> (FR5.5 — inventory alerts).  <br /></td></tr>
+<tr class="memdesc:a992d667d28db6036ccc5b19e1c4c1a54"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns all resources whose total stock across all facilities falls below <code><a class="el" href="">DEFAULT_LOW_STOCK_THRESHOLD</a></code> (FR5.5 : inventory alerts).  <br /></td></tr>
 <tr class="memitem:ab0eb907e1f58298e6942b27c5fbd7898" id="r_ab0eb907e1f58298e6942b27c5fbd7898"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#ab0eb907e1f58298e6942b27c5fbd7898">addResourceToStorage</a> (<a class="el" href="classvixhealthsystem_1_1model_1_1person_1_1employee_1_1_buyer.html">Buyer</a> buyer, Long resourceId, int quantity)</td></tr>
 <tr class="memdesc:ab0eb907e1f58298e6942b27c5fbd7898"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add quantity to a resource in storage via a buyer (UC27).  <br /></td></tr>
 <tr class="memitem:a646941c0d92aaa874f0038969889f08e" id="r_a646941c0d92aaa874f0038969889f08e"><td class="memItemLeft"><a id="a646941c0d92aaa874f0038969889f08e" name="a646941c0d92aaa874f0038969889f08e"></a>
@@ -180,7 +180,7 @@ void&#160;</td><td class="memItemRight"><b>removeResourceFromStorage</b> (Long s
 <tr class="memdesc:af4c2378e822df999f47ed5134afde9d9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the total quantity of a resource summed across all storage facilities.  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Manages hospital resource inventory — stock levels across all storage facilities, low-stock detection, and resource intake/consumption flows. </p>
+<div class="textblock"><p>Manages hospital resource inventory : stock levels across all storage facilities, low-stock detection, and resource intake/consumption flows. </p>
 <p>Covers FR5.5 (inventory visibility) and UC25 (employee resource consumption) and UC27 (buyer restocking).</p>
 <p>Annotated <code class="JavaDocCode">@Transactional(readOnly=true)</code> at the class level; write methods override with <code class="JavaDocCode">@Transactional</code>.</p>
 <p>Two actor-aware overloads exist for stock mutations: the domain-method path (accepts an <code><a class="el" href="classvixhealthsystem_1_1model_1_1person_1_1employee_1_1_employee.html">Employee</a></code> or <code><a class="el" href="classvixhealthsystem_1_1model_1_1person_1_1employee_1_1_buyer.html">Buyer</a></code> actor) enforces business rules inside the model, while the ID-only overloads are provided for internal/system use when no actor is in scope.</p>
@@ -255,7 +255,7 @@ void&#160;</td><td class="memItemRight"><b>removeResourceFromStorage</b> (Long s
 <p>Returns all resource catalogue entries in the system. </p>
 <dl class="section return"><dt>Returns</dt><dd>Non-null list; empty when no resources have been defined. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_inventory_service_8java_source.html#l00084">84</a> of file <a class="el" href="_inventory_service_8java_source.html">InventoryService.java</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_inventory_service_8java_source.html#l00082">82</a> of file <a class="el" href="_inventory_service_8java_source.html">InventoryService.java</a>.</p>
 
 </div>
 </div>
@@ -289,9 +289,9 @@ void&#160;</td><td class="memItemRight"><b>removeResourceFromStorage</b> (Long s
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_inventory_service_8java_source.html#l00095">95</a> of file <a class="el" href="_inventory_service_8java_source.html">InventoryService.java</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_inventory_service_8java_source.html#l00093">93</a> of file <a class="el" href="_inventory_service_8java_source.html">InventoryService.java</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_inventory_service_8java_source.html#l00259">addResourceToStorage()</a>, <a class="el" href="_inventory_service_8java_source.html#l00281">addResourceToStorage()</a>, <a class="el" href="_inventory_service_8java_source.html#l00169">deleteResource()</a>, <a class="el" href="_inventory_service_8java_source.html#l00299">removeResourceFromStorage()</a>, <a class="el" href="_inventory_service_8java_source.html#l00330">removeResourceFromStorage()</a>, and <a class="el" href="_inventory_service_8java_source.html#l00144">updateResource()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_inventory_service_8java_source.html#l00261">addResourceToStorage()</a>, <a class="el" href="_inventory_service_8java_source.html#l00283">addResourceToStorage()</a>, <a class="el" href="_inventory_service_8java_source.html#l00167">deleteResource()</a>, <a class="el" href="_inventory_service_8java_source.html#l00301">removeResourceFromStorage()</a>, <a class="el" href="_inventory_service_8java_source.html#l00332">removeResourceFromStorage()</a>, and <a class="el" href="_inventory_service_8java_source.html#l00142">updateResource()</a>.</p>
 
 </div>
 </div>
@@ -319,7 +319,7 @@ void&#160;</td><td class="memItemRight"><b>removeResourceFromStorage</b> (Long s
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Non-null list of matching resources. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_inventory_service_8java_source.html#l00106">106</a> of file <a class="el" href="_inventory_service_8java_source.html">InventoryService.java</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_inventory_service_8java_source.html#l00104">104</a> of file <a class="el" href="_inventory_service_8java_source.html">InventoryService.java</a>.</p>
 
 </div>
 </div>
@@ -358,7 +358,7 @@ void&#160;</td><td class="memItemRight"><b>removeResourceFromStorage</b> (Long s
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The persisted <code><a class="el" href="classvixhealthsystem_1_1model_1_1resource_1_1_resource.html">Resource</a></code> with a generated ID. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_inventory_service_8java_source.html#l00123">123</a> of file <a class="el" href="_inventory_service_8java_source.html">InventoryService.java</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_inventory_service_8java_source.html#l00121">121</a> of file <a class="el" href="_inventory_service_8java_source.html">InventoryService.java</a>.</p>
 
 </div>
 </div>
@@ -409,9 +409,9 @@ void&#160;</td><td class="memItemRight"><b>removeResourceFromStorage</b> (Long s
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_inventory_service_8java_source.html#l00144">144</a> of file <a class="el" href="_inventory_service_8java_source.html">InventoryService.java</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_inventory_service_8java_source.html#l00142">142</a> of file <a class="el" href="_inventory_service_8java_source.html">InventoryService.java</a>.</p>
 
-<p class="reference">References <a class="el" href="_inventory_service_8java_source.html#l00095">getResourceById()</a>.</p>
+<p class="reference">References <a class="el" href="_inventory_service_8java_source.html#l00093">getResourceById()</a>.</p>
 
 </div>
 </div>
@@ -445,9 +445,9 @@ void&#160;</td><td class="memItemRight"><b>removeResourceFromStorage</b> (Long s
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_inventory_service_8java_source.html#l00169">169</a> of file <a class="el" href="_inventory_service_8java_source.html">InventoryService.java</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_inventory_service_8java_source.html#l00167">167</a> of file <a class="el" href="_inventory_service_8java_source.html">InventoryService.java</a>.</p>
 
-<p class="reference">References <a class="el" href="_inventory_service_8java_source.html#l00095">getResourceById()</a>.</p>
+<p class="reference">References <a class="el" href="_inventory_service_8java_source.html#l00093">getResourceById()</a>.</p>
 
 </div>
 </div>
@@ -482,7 +482,7 @@ void&#160;</td><td class="memItemRight"><b>removeResourceFromStorage</b> (Long s
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_inventory_service_8java_source.html#l00197">197</a> of file <a class="el" href="_inventory_service_8java_source.html">InventoryService.java</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_inventory_service_8java_source.html#l00199">199</a> of file <a class="el" href="_inventory_service_8java_source.html">InventoryService.java</a>.</p>
 
 </div>
 </div>
@@ -505,9 +505,9 @@ void&#160;</td><td class="memItemRight"><b>removeResourceFromStorage</b> (Long s
 <p>Iterates all <code><a class="el" href="classvixhealthsystem_1_1model_1_1resource_1_1_storage.html">Storage</a></code> entities and merges their resource maps by summing quantities for the same resource. <code class="JavaDocCode">@ElementCollection(EAGER)</code> means each storage's map is loaded in one additional query.</p>
 <dl class="section return"><dt>Returns</dt><dd>Map of <code><a class="el" href="classvixhealthsystem_1_1model_1_1resource_1_1_resource.html">Resource</a></code> to total quantity across all storages; never <code class="JavaDocCode">null</code>. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_inventory_service_8java_source.html#l00223">223</a> of file <a class="el" href="_inventory_service_8java_source.html">InventoryService.java</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_inventory_service_8java_source.html#l00225">225</a> of file <a class="el" href="_inventory_service_8java_source.html">InventoryService.java</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_inventory_service_8java_source.html#l00240">getLowStockResources()</a>, <a class="el" href="_inventory_service_8java_source.html#l00368">getTotalResourceQuantity()</a>, and <a class="el" href="_inventory_service_8java_source.html#l00354">isResourceLowStock()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_inventory_service_8java_source.html#l00242">getLowStockResources()</a>, <a class="el" href="_inventory_service_8java_source.html#l00370">getTotalResourceQuantity()</a>, and <a class="el" href="_inventory_service_8java_source.html#l00356">isResourceLowStock()</a>.</p>
 
 </div>
 </div>
@@ -526,12 +526,12 @@ void&#160;</td><td class="memItemRight"><b>removeResourceFromStorage</b> (Long s
       </table>
 </div><div class="memdoc">
 
-<p>Returns all resources whose total stock across all facilities falls below <code><a class="el" href="">DEFAULT_LOW_STOCK_THRESHOLD</a></code> (FR5.5 — inventory alerts). </p>
+<p>Returns all resources whose total stock across all facilities falls below <code><a class="el" href="">DEFAULT_LOW_STOCK_THRESHOLD</a></code> (FR5.5 : inventory alerts). </p>
 <dl class="section return"><dt>Returns</dt><dd>Non-null list of <code><a class="el" href="classvixhealthsystem_1_1service_1_1resources_1_1_inventory_service_1_1_resource_with_quantity.html">ResourceWithQuantity</a></code> wrappers; empty when all resources are adequately stocked. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_inventory_service_8java_source.html#l00240">240</a> of file <a class="el" href="_inventory_service_8java_source.html">InventoryService.java</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_inventory_service_8java_source.html#l00242">242</a> of file <a class="el" href="_inventory_service_8java_source.html">InventoryService.java</a>.</p>
 
-<p class="reference">References <a class="el" href="_inventory_service_8java_source.html#l00223">getTotalInventory()</a>.</p>
+<p class="reference">References <a class="el" href="_inventory_service_8java_source.html#l00225">getTotalInventory()</a>.</p>
 
 </div>
 </div>
@@ -562,9 +562,9 @@ void&#160;</td><td class="memItemRight"><b>removeResourceFromStorage</b> (Long s
 <p>Add quantity to a resource in storage via a buyer (UC27). </p>
 <p>Uses the <a class="el" href="classvixhealthsystem_1_1model_1_1person_1_1employee_1_1_buyer.html" title="Part of the purchasing department.">Buyer</a> domain method, which delegates to <a class="el" href="classvixhealthsystem_1_1model_1_1resource_1_1_storage.html" title="Represents the storage of a medical facility.">Storage</a> domain logic. </p>
 
-<p class="definition">Definition at line <a class="el" href="_inventory_service_8java_source.html#l00259">259</a> of file <a class="el" href="_inventory_service_8java_source.html">InventoryService.java</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_inventory_service_8java_source.html#l00261">261</a> of file <a class="el" href="_inventory_service_8java_source.html">InventoryService.java</a>.</p>
 
-<p class="reference">References <a class="el" href="_buyer_8java_source.html#l00043">Buyer.addResource()</a>, and <a class="el" href="_inventory_service_8java_source.html#l00095">getResourceById()</a>.</p>
+<p class="reference">References <a class="el" href="_buyer_8java_source.html#l00043">Buyer.addResource()</a>, and <a class="el" href="_inventory_service_8java_source.html#l00093">getResourceById()</a>.</p>
 
 </div>
 </div>
@@ -595,9 +595,9 @@ void&#160;</td><td class="memItemRight"><b>removeResourceFromStorage</b> (Long s
 <p>Remove quantity from a resource in storage via an employee (UC25). </p>
 <p>Uses the <a class="el" href="classvixhealthsystem_1_1model_1_1person_1_1employee_1_1_employee.html" title="Represents a generic employee in the system.">Employee</a> domain method, which delegates to <a class="el" href="classvixhealthsystem_1_1model_1_1resource_1_1_storage.html" title="Represents the storage of a medical facility.">Storage</a> domain logic. </p>
 
-<p class="definition">Definition at line <a class="el" href="_inventory_service_8java_source.html#l00299">299</a> of file <a class="el" href="_inventory_service_8java_source.html">InventoryService.java</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_inventory_service_8java_source.html#l00301">301</a> of file <a class="el" href="_inventory_service_8java_source.html">InventoryService.java</a>.</p>
 
-<p class="reference">References <a class="el" href="_inventory_service_8java_source.html#l00095">getResourceById()</a>, and <a class="el" href="_employee_8java_source.html#l00184">Employee.takeResource()</a>.</p>
+<p class="reference">References <a class="el" href="_inventory_service_8java_source.html#l00093">getResourceById()</a>, and <a class="el" href="_employee_8java_source.html#l00229">Employee.takeResource()</a>.</p>
 
 </div>
 </div>
@@ -625,9 +625,9 @@ void&#160;</td><td class="memItemRight"><b>removeResourceFromStorage</b> (Long s
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><code class="JavaDocCode">true</code> when the aggregated quantity is below <code><a class="el" href="">DEFAULT_LOW_STOCK_THRESHOLD</a></code>. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_inventory_service_8java_source.html#l00354">354</a> of file <a class="el" href="_inventory_service_8java_source.html">InventoryService.java</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_inventory_service_8java_source.html#l00356">356</a> of file <a class="el" href="_inventory_service_8java_source.html">InventoryService.java</a>.</p>
 
-<p class="reference">References <a class="el" href="_inventory_service_8java_source.html#l00223">getTotalInventory()</a>.</p>
+<p class="reference">References <a class="el" href="_inventory_service_8java_source.html#l00225">getTotalInventory()</a>.</p>
 
 </div>
 </div>
@@ -655,9 +655,9 @@ void&#160;</td><td class="memItemRight"><b>removeResourceFromStorage</b> (Long s
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Total stock; <code class="JavaDocCode">0</code> when the resource is not stocked anywhere. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_inventory_service_8java_source.html#l00368">368</a> of file <a class="el" href="_inventory_service_8java_source.html">InventoryService.java</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_inventory_service_8java_source.html#l00370">370</a> of file <a class="el" href="_inventory_service_8java_source.html">InventoryService.java</a>.</p>
 
-<p class="reference">References <a class="el" href="_inventory_service_8java_source.html#l00223">getTotalInventory()</a>.</p>
+<p class="reference">References <a class="el" href="_inventory_service_8java_source.html#l00225">getTotalInventory()</a>.</p>
 
 </div>
 </div>

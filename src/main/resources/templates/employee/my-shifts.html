@@ -1,16 +1,16 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <!--
 ==============================================================================
   FILE:    employee/my-shifts.html
   ACCESS:  Any authenticated employee (ROLE_MEDICALSPECIALIST, SECRETARY,
-           TECHNICIAN, BUYER — session.user required)
+           TECHNICIAN, BUYER: session.user required)
   PURPOSE: Shows the employee's assigned shifts and approved vacations.
            dashboardLink points back to the role-specific dashboard.
 
   Model attributes:
-    - shifts (List<Shift>) — the employee's assigned shifts
-    - vacations (List<Vacation>) — the employee's approved vacations
-    - dashboardLink (String) — URL of the role dashboard (e.g. /secretary/dashboard)
+    - shifts (List<Shift>): the employee's assigned shifts
+    - vacations (List<Vacation>): the employee's approved vacations
+    - dashboardLink (String): URL of the role dashboard (e.g. /secretary/dashboard)
 
   Dependencies:
     - fragments/head, fragments/dashboard-nav, fragments/footer

@@ -1,11 +1,11 @@
 /**
- * Data access layer — Spring Data JPA repositories and JSON-backed stores.
+ * Data access layer: JPA repositories and JSON-backed stores.
  *
- * Most repositories here are standard Spring Data interfaces that extend
- * {@code JpaRepository}. The JSON-backed ones (prefixed {@code Json…}) manage
- * entities that are stored in flat files rather than the SQL database — this
- * was a design choice for data that changes frequently and doesn't need
- * relational integrity (appointments, shifts, vacation requests, audit logs).
+ * The split here is intentional. Entities with relational structure and
+ * foreign-key constraints use standard Spring Data {@code JpaRepository} interfaces.
+ * Entities that change frequently and don't need relational integrity
+ * (appointments, shifts, vacations, audit logs) are stored as flat JSON files
+ * and accessed through custom {@code Json...} store classes.
  *
  * JPA repositories:
  * {@code DepartmentRepository}, {@code EmployeeRepository},

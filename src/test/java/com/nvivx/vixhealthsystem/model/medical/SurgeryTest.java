@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.*;
  *
  * Verifies setter/getter correctness and the parameterized constructor that
  * initialises a surgery with a date-time, name, description, and room while
- * leaving medical record and specialist null. Plain JUnit — no Spring context
+ * leaving medical record and specialist null. Plain JUnit : no Spring context
  * loaded.
  *
  * @see Surgery

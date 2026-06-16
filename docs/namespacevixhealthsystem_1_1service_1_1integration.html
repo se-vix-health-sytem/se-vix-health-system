@@ -129,7 +129,7 @@ document.addEventListener('DOMContentLoaded',() => { initNavTree('namespacevixhe
 </div><!--header-->
 <div class="contents">
 
-<p>External integration services — Firebase, payments, notifications, questionnaire.  
+<p>Adapters for external systems: Firebase, payments, notifications, and triage.  
 <a href="#details">More...</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-nested-classes" class="groupheader"><a id="nested-classes" name="nested-classes"></a>
@@ -137,29 +137,26 @@ Classes</h2></td></tr>
 <tr class="memitem:FirebaseAuthService" id="r_FirebaseAuthService"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classvixhealthsystem_1_1service_1_1integration_1_1_firebase_auth_service.html">FirebaseAuthService</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Thin wrapper around the Firebase Admin SDK and the Identity Toolkit REST API.  <a href="classvixhealthsystem_1_1service_1_1integration_1_1_firebase_auth_service.html#details">More...</a><br /></td></tr>
 <tr class="memitem:NotificationService" id="r_NotificationService"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classvixhealthsystem_1_1service_1_1integration_1_1_notification_service.html">NotificationService</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Simulates outbound patient notifications — appointment confirmations, reminders, exam result alerts, and cancellations.  <a href="classvixhealthsystem_1_1service_1_1integration_1_1_notification_service.html#details">More...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Simulates outbound patient notifications : appointment confirmations, reminders, exam result alerts, and cancellations.  <a href="classvixhealthsystem_1_1service_1_1integration_1_1_notification_service.html#details">More...</a><br /></td></tr>
 <tr class="memitem:NotificationServiceTest" id="r_NotificationServiceTest"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><b>NotificationServiceTest</b></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unit tests for <a class="el" href="classvixhealthsystem_1_1service_1_1integration_1_1_notification_service.html" title="Simulates outbound patient notifications — appointment confirmations, reminders, exam result alerts,...">NotificationService</a> using plain JUnit (no mocks needed). <br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unit tests for <a class="el" href="classvixhealthsystem_1_1service_1_1integration_1_1_notification_service.html" title="Simulates outbound patient notifications : appointment confirmations, reminders, exam result alerts,...">NotificationService</a> using plain JUnit (no mocks needed). <br /></td></tr>
 <tr class="memitem:PaymentService" id="r_PaymentService"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classvixhealthsystem_1_1service_1_1integration_1_1_payment_service.html">PaymentService</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Simulates payment processing for appointment fees (UC-Payment flow).  <a href="classvixhealthsystem_1_1service_1_1integration_1_1_payment_service.html#details">More...</a><br /></td></tr>
 <tr class="memitem:PaymentServiceTest" id="r_PaymentServiceTest"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><b>PaymentServiceTest</b></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unit tests for <a class="el" href="classvixhealthsystem_1_1service_1_1integration_1_1_payment_service.html" title="Simulates payment processing for appointment fees (UC-Payment flow).">PaymentService</a> using a Mockito mock of <a class="el" href="classvixhealthsystem_1_1service_1_1_audit_service.html" title="Writes immutable audit log entries for every significant action in the system (NFR02).">AuditService</a>. <br /></td></tr>
-<tr class="memitem:QuestionaireServiceTest" id="r_QuestionaireServiceTest"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classvixhealthsystem_1_1service_1_1integration_1_1_questionaire_service_test.html">QuestionaireServiceTest</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unit tests for <a class="el" href="classvixhealthsystem_1_1service_1_1integration_1_1_questionnaire_service.html" title="Implements the public symptom-triage questionnaire (UC15).">QuestionnaireService</a> using plain JUnit (no mocks or Spring context).  <a href="classvixhealthsystem_1_1service_1_1integration_1_1_questionaire_service_test.html#details">More...</a><br /></td></tr>
-<tr class="memitem:QuestionnaireService" id="r_QuestionnaireService"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classvixhealthsystem_1_1service_1_1integration_1_1_questionnaire_service.html">QuestionnaireService</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Implements the public symptom-triage questionnaire (UC15).  <a href="classvixhealthsystem_1_1service_1_1integration_1_1_questionnaire_service.html#details">More...</a><br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>External integration services — Firebase, payments, notifications, questionnaire. </p>
-<p>Everything here talks to something outside the core domain: </p><ul>
+<div class="textblock"><p>Adapters for external systems: Firebase, payments, notifications, and triage. </p>
+<p>All four services here interact with something outside the core domain. In the current demo setup none of the side-effecting ones (payment, notifications) do anything real; they log to console and return simulated results. That boundary is intentional so the system runs without live credentials.</p>
+<ul>
 <li>
-<code class="JavaDocCode">FirebaseAuthService</code> — creates, deletes, and authenticates Firebase Authentication accounts for employees and patients </li>
+<code class="JavaDocCode">FirebaseAuthService</code> - creates, deletes, and authenticates Firebase accounts for staff and patients </li>
 <li>
-<code class="JavaDocCode">PaymentService</code> — simulates a payment gateway (demo/prototype only; no real charges are made) </li>
+<code class="JavaDocCode">PaymentService</code> - simulates a payment gateway; no charges made </li>
 <li>
-<code class="JavaDocCode">NotificationService</code> — logs simulated email notifications (demo mode; no actual mail is sent) </li>
+<code class="JavaDocCode">NotificationService</code> - logs simulated email notifications; no mail sent </li>
 <li>
-<code class="JavaDocCode">QuestionnaireService</code> — processes patient intake questionnaires and returns a triage recommendation </li>
+<code class="JavaDocCode">QuestionnaireService</code> - processes symptom input and returns a department and urgency recommendation </li>
 </ul>
 <p>Main curator: Lorena Valentina Buitrón Zambrano</p>
 <p>Note: All team members may contribute to files in this package. </p>

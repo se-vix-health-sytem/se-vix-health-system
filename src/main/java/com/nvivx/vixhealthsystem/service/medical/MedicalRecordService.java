@@ -18,7 +18,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 /**
- * @brief Manages patient medical records — creation and appending of diagnoses,
+ * @brief Manages patient medical records : creation and appending of diagnoses,
  *        prescriptions, and exam results.
  *
  * Annotated {@code @Transactional(readOnly=true)} at the class level; write methods
@@ -259,9 +259,7 @@ public class MedicalRecordService {
 
     }
 
-    // =========================================================
-    // READ OPERATIONS — CLINICAL COLLECTIONS
-    // =========================================================
+    // clinical data accessors
 
     /**
      * Returns all medical conditions on record for the given patient.

@@ -19,7 +19,7 @@ import java.util.Map;
  *
  * The Admin SDK is used for privileged server-side operations (create/delete/reset).
  * Sign-in uses the public REST endpoint because the Admin SDK does not expose
- * password verification — it is intended for server-side management, not auth.
+ * password verification : it is intended for server-side management, not auth.
  *
  * @see com.nvivx.vixhealthsystem.service.core.EmployeeService
  * @see com.nvivx.vixhealthsystem.config.FirebaseConfig
@@ -66,7 +66,7 @@ public class FirebaseAuthService {
         } catch (com.google.firebase.auth.FirebaseAuthException e) {
             if ("EMAIL_EXISTS".equals(e.getAuthErrorCode() != null
                     ? e.getAuthErrorCode().name() : "")) {
-                // Account already exists from a previous attempt — reuse the existing UID
+                // Account already exists from a previous attempt : reuse the existing UID
                 return FirebaseAuth.getInstance().getUserByEmail(email).getUid();
             }
             // Check error message as fallback (some SDK versions use message instead of code)
@@ -112,7 +112,7 @@ public class FirebaseAuthService {
      * Verifies an email/password pair against Firebase and returns the user's Firebase UID.
      *
      * Uses the Identity Toolkit REST endpoint rather than the Admin SDK because the Admin
-     * SDK does not provide password verification — that is intentional by design.
+     * SDK does not provide password verification : that is intentional by design.
      * The returned UID is used to look up the matching {@link com.nvivx.vixhealthsystem.model.person.employee.Employee}
      * row in the database.
      *

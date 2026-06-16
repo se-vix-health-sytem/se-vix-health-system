@@ -1,19 +1,19 @@
 /**
- * MVC controllers — one sub-package per user role.
+ * MVC controllers, organised by user role.
  *
- * All controllers return Thymeleaf template names or redirects; there are no
- * REST-only endpoints except inside {@code controllers.services} (payment status
- * polling) and {@code controllers.services.AppointmentController}.
+ * There are no REST-only endpoints outside {@code controllers.services};
+ * everything else returns a Thymeleaf template name or a redirect.
+ * Role-specific routes are protected by Spring Security before the controller
+ * is ever reached, so controllers don't re-check permissions themselves.
  *
  * Sub-packages:
  * <ul>
- *   <li>{@code patient}  — patient authentication (SPID/CIE mock), appointment booking,
+ *   <li>{@code patient}  - patient auth (SPID/CIE mock), appointment booking,
  *                          profile, and medical records</li>
- *   <li>{@code services} — appointment management API and payment processing</li>
- *   <li>{@code site}     — public-facing pages (home, about, departments, map, contact,
- *                          specialists, questionnaire, legal)</li>
- *   <li>{@code staff}    — all staff dashboards: specialist, secretary, buyer, technician,
- *                          staff manager; plus the shared auth and resource-take flow</li>
+ *   <li>{@code services} - appointment management API and payment</li>
+ *   <li>{@code site}     - public-facing pages, no authentication required</li>
+ *   <li>{@code staff}    - one controller per staff role, plus shared auth
+ *                          and the resource-take flow</li>
  * </ul>
  *
  * Main curator: Lorena Valentina Buitrón Zambrano

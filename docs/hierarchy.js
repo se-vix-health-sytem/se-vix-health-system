@@ -14,7 +14,6 @@ var hierarchy =
     [ "BuyerController", "classvixhealthsystem_1_1controllers_1_1staff_1_1_buyer_controller.html", null ],
     [ "ContactController", "classvixhealthsystem_1_1controllers_1_1site_1_1_contact_controller.html", null ],
     [ "CreateAppointmentRequest", "classvixhealthsystem_1_1dto_1_1_create_appointment_request.html", null ],
-    [ "DBManager", "classvixhealthsystem_1_1database_1_1_d_b_manager.html", null ],
     [ "Department", "classvixhealthsystem_1_1model_1_1facility_1_1_department.html", null ],
     [ "DepartmentController", "classvixhealthsystem_1_1controllers_1_1site_1_1_department_controller.html", null ],
     [ "DepartmentService", "classvixhealthsystem_1_1service_1_1core_1_1_department_service.html", null ],
@@ -84,9 +83,7 @@ var hierarchy =
       ] ]
     ] ],
     [ "Prescription", "classvixhealthsystem_1_1model_1_1medical_1_1_prescription.html", null ],
-    [ "QuestionaireServiceTest", "classvixhealthsystem_1_1service_1_1integration_1_1_questionaire_service_test.html", null ],
     [ "QuestionnaireController", "classvixhealthsystem_1_1controllers_1_1site_1_1_questionnaire_controller.html", null ],
-    [ "QuestionnaireService", "classvixhealthsystem_1_1service_1_1integration_1_1_questionnaire_service.html", null ],
     [ "Resource", "classvixhealthsystem_1_1model_1_1resource_1_1_resource.html", null ],
     [ "ResourceTakeLogStore", "classvixhealthsystem_1_1service_1_1resources_1_1_resource_take_log_store.html", null ],
     [ "InventoryService.ResourceWithQuantity", "classvixhealthsystem_1_1service_1_1resources_1_1_inventory_service_1_1_resource_with_quantity.html", null ],

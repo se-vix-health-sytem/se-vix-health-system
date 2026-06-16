@@ -11,7 +11,7 @@ var searchData=
   ['iscancellable_8',['isCancellable',['../classvixhealthsystem_1_1model_1_1medical_1_1_appointment.html#a371d1c7e31d6ff7e5e9a6954d4cde7d8',1,'vixhealthsystem::model::medical::Appointment']]],
   ['isemployeeonshift_9',['isEmployeeOnShift',['../classvixhealthsystem_1_1service_1_1scheduling_1_1_shift_service.html#aa3de19322818772698d07aa57763d16c',1,'vixhealthsystem::service::scheduling::ShiftService']]],
   ['isfaulty_10',['isFaulty',['../classvixhealthsystem_1_1model_1_1resource_1_1_machinery.html#ae7e24767063862853f433276f24e7054',1,'vixhealthsystem::model::resource::Machinery']]],
-  ['ispatientadmitted_11',['isPatientAdmitted',['../classvixhealthsystem_1_1service_1_1resources_1_1_room_service.html#a900625c651d59d22c27549aa914d6816',1,'vixhealthsystem::service::resources::RoomService']]],
-  ['ispaymentstatus_12',['isPaymentStatus',['../classvixhealthsystem_1_1model_1_1medical_1_1_appointment.html#a17d41320dafbc0720df432addc4c82e0',1,'vixhealthsystem::model::medical::Appointment']]],
+  ['ispaid_11',['isPaid',['../classvixhealthsystem_1_1model_1_1medical_1_1_appointment.html#a0b2482e148cae64a137fceae15b71a33',1,'vixhealthsystem::model::medical::Appointment']]],
+  ['ispatientadmitted_12',['isPatientAdmitted',['../classvixhealthsystem_1_1service_1_1resources_1_1_room_service.html#a900625c651d59d22c27549aa914d6816',1,'vixhealthsystem::service::resources::RoomService']]],
   ['isresourcelowstock_13',['isResourceLowStock',['../classvixhealthsystem_1_1service_1_1resources_1_1_inventory_service.html#af12f89fe5a99971828ef2fe348718315',1,'vixhealthsystem::service::resources::InventoryService']]]
 ];

@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.*;
  *
  * Verifies system role, employee type, specialty/license fields, and the two
  * domain operations that attach a prescription or a surgery to a patient's
- * medical record. Plain JUnit — no Spring context loaded.
+ * medical record. Plain JUnit : no Spring context loaded.
  *
  * @see MedicalSpecialist
  */

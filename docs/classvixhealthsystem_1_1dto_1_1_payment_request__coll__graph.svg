@@ -11,7 +11,7 @@
 <!-- Node1 -->
 <g id="Node000001" class="node">
 <title>Node1</title>
-<g id="a_Node000001"><a xlink:title="Request body for initiating a payment for an appointment (UC11 — Pay for Service).">
+<g id="a_Node000001"><a xlink:title="Request body for initiating a payment for an appointment (UC11 : Pay for Service).">
 <polygon fill="#999999" stroke="none" points="83.75,-52 0,-52 0,0 83.75,0 83.75,-52"/>
 <text xml:space="preserve" text-anchor="start" x="4" y="-38.25" font-family="Helvetica,sans-Serif" font-size="10.00">PaymentRequest</text>
 <text xml:space="preserve" text-anchor="start" x="40.38" y="-22.25" font-family="Helvetica,sans-Serif" font-size="10.00"> </text>

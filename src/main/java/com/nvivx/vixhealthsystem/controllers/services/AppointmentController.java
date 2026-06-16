@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /**
- * @brief REST controller for the appointment resource — base URL {@code /appointments}.
+ * @brief REST controller for the appointment resource : base URL {@code /appointments}.
  *
  * Provides a minimal JSON API for creating and retrieving appointments
  * programmatically (e.g., from integration tests or future front-end clients).
@@ -37,7 +37,7 @@ public class AppointmentController {
     // =========================================================
 
     /**
-     * POST /appointments — book a new appointment and return the saved entity.
+     * POST /appointments : book a new appointment and return the saved entity.
      *
      * @param req  JSON body deserialised into a {@link CreateAppointmentRequest};
      *             must contain a valid patient ID, specialist ID, and date/time.
@@ -54,7 +54,7 @@ public class AppointmentController {
     // =========================================================
 
     /**
-     * GET /appointments — retrieve all appointments in the system.
+     * GET /appointments : retrieve all appointments in the system.
      *
      * @return List of every {@link Appointment} currently stored, unsorted.
      */

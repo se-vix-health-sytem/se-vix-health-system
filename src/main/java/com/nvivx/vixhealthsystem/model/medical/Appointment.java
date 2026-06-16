@@ -265,7 +265,7 @@ public class Appointment {
 
     /**
      * Returns whether the appointment has been paid (boolean convenience getter).
-     * Excluded from JSON serialization — paymentStatus field is the canonical form.
+     * Excluded from JSON serialization : paymentStatus field is the canonical form.
      */
     @JsonIgnore
     public boolean isPaid() {
@@ -273,9 +273,11 @@ public class Appointment {
     }
 
     /**
-     * Sets the payment status using the enum.
+     * Jackson-only deserializer for the {@code paymentStatus} JSON field.
+     * Domain code should use {@link #pay()} or {@link #awaitPayment()} instead.
      */
-    public void setPaymentStatus(PaymentStatus paymentStatus) {
+    @com.fasterxml.jackson.annotation.JsonSetter("paymentStatus")
+    void setPaymentStatus(PaymentStatus paymentStatus) {
         this.paymentStatus = paymentStatus;
     }
 

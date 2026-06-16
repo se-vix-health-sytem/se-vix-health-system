@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * @brief Marker base class for Room hierarchy tests.
  *
  * Room is abstract; concrete subclasses InternationRoomTest, OfficeTest, and
- * SpecializedRoomTest cover its concrete implementations. Plain JUnit — no
+ * SpecializedRoomTest cover its concrete implementations. Plain JUnit : no
  * Spring context loaded.
  *
  * @see Room
@@ -26,7 +26,7 @@ abstract class RoomTest {
  * @brief Unit tests for InternationRoom.
  *
  * Covers bed counting, patient admission and removal, capacity enforcement,
- * bed-status transitions, and list replacement. Plain JUnit — no Spring
+ * bed-status transitions, and list replacement. Plain JUnit : no Spring
  * context loaded.
  *
  * @see InternationRoom
@@ -193,7 +193,7 @@ class InternationRoomTest {
  *
  * Verifies that an office can be constructed with an assigned specialist, that
  * the employee can be set via the assignEmployee helper, and that the setter
- * replaces the previous occupant. Plain JUnit — no Spring context loaded.
+ * replaces the previous occupant. Plain JUnit : no Spring context loaded.
  *
  * @see Office
  */
@@ -264,7 +264,7 @@ class OfficeTest {
  *
  * Verifies that the room number and specialization are stored at construction
  * and that the specialization can be updated to reflect room repurposing.
- * Plain JUnit — no Spring context loaded.
+ * Plain JUnit : no Spring context loaded.
  *
  * @see SpecializedRoom
  */

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <!--
 ==============================================================================
   FILE:    staff-manager/audit-logs.html
@@ -7,9 +7,9 @@
            timestamp, action type, entity, and the user who performed it.
 
   Model attributes:
-    - logs (List<AuditLog>) — log entries (filtered or all)
-    - entityTypes (List<String>) — distinct entity types for the filter
-    - selectedEntityType (String) — currently active filter value
+    - logs (List<AuditLog>): log entries (filtered or all)
+    - entityTypes (List<String>): distinct entity types for the filter
+    - selectedEntityType (String): currently active filter value
 
   Dependencies:
     - fragments/head, fragments/dashboard-nav, fragments/footer
@@ -37,7 +37,7 @@
                 <form th:action="@{/staff-manager/audit-logs}" method="get" class="d-flex gap-2 align-items-center flex-wrap">
                     <label class="form-label mb-0 small fw-semibold">Filter by entity:</label>
                     <select name="entityType" class="form-select form-select-sm" style="max-width: 220px;">
-                        <option value="">— All entities —</option>
+                        <option value="">-- All entities --</option>
                         <option th:each="et : ${entityTypes}"
                                 th:value="${et}"
                                 th:text="${et}"

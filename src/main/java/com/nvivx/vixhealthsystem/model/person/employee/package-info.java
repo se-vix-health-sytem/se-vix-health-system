@@ -1,23 +1,15 @@
 /**
- * Staff hierarchy — all employee types in the hospital.
+ * The employee type hierarchy, implemented with JPA Single Table Inheritance.
  *
- * Uses JPA Single Table Inheritance (discriminator column: {@code type}).
- * {@link com.nvivx.vixhealthsystem.model.person.employee.Employee} is the
- * abstract parent; concrete subtypes are:
+ * All subtypes share one database table (discriminator column: {@code type}).
+ * {@link com.nvivx.vixhealthsystem.model.person.employee.Employee} is the abstract
+ * base; the concrete types are {@code MedicalSpecialist}, {@code Secretary},
+ * {@code Buyer}, {@code Technician}, and {@code StaffManager}.
  *
- * <ul>
- *   <li>{@code MedicalSpecialist} — doctors and surgeons; can issue prescriptions
- *                                    and schedule surgeries</li>
- *   <li>{@code Secretary}         — manages appointments and patient search</li>
- *   <li>{@code Buyer}             — handles inventory purchasing</li>
- *   <li>{@code Technician}        — monitors and maintains medical machinery</li>
- *   <li>{@code StaffManager}      — oversees employees, shifts, and vacation requests</li>
- * </ul>
- *
- * Domain methods like {@code takeResource()} and {@code addResource()} are on
- * {@code Employee} and {@code Buyer} respectively — they navigate their own
- * associations to reach storage, rather than accepting injected objects. This
- * keeps domain logic inside the model where it belongs.
+ * Domain methods such as {@code takeResource()} and {@code addResource()} live
+ * on {@code Employee} and {@code Buyer} respectively. They navigate the object
+ * graph to reach storage rather than accepting injected repositories, keeping
+ * business rules inside the model where they belong.
  *
  * Main curator: Lorena Valentina Buitrón Zambrano
  *

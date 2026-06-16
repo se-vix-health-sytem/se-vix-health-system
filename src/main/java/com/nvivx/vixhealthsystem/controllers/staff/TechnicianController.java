@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /**
- * @brief Controller for Technician staff members — base URL {@code /technician}.
+ * @brief Controller for Technician staff members : base URL {@code /technician}.
  *
  * Technicians maintain the hospital's machinery fleet.  This controller covers
  * viewing all machines, filtering by faulty or maintenance status, updating
@@ -56,7 +56,7 @@ public class TechnicianController {
     // =========================================================
 
     /**
-     * GET /technician/dashboard — render the technician's overview dashboard.
+     * GET /technician/dashboard : render the technician's overview dashboard.
      *
      * @param model  Receives {@code totalMachines}, {@code faultyCount},
      *               {@code maintenanceCount}, {@code alertCount}, and {@code activeAlerts}.
@@ -79,7 +79,7 @@ public class TechnicianController {
     // =========================================================
 
     /**
-     * GET /technician/machines — list all machines in the hospital fleet.
+     * GET /technician/machines : list all machines in the hospital fleet.
      *
      * @param model  Receives {@code machines} and {@code isFaultyView=false}.
      * @return       Thymeleaf template {@code technician/machines}.
@@ -95,7 +95,7 @@ public class TechnicianController {
     }
 
     /**
-     * GET /technician/machines/faulty — list only machines with FAULTY status.
+     * GET /technician/machines/faulty : list only machines with FAULTY status.
      *
      * Delegates to the domain method via {@link MachineryService#getFaultyMachinesForTechnician},
      * which applies technician-specific filtering logic.  The technician domain
@@ -118,7 +118,7 @@ public class TechnicianController {
     }
 
     /**
-     * GET /technician/machines/maintenance — list machines currently under maintenance.
+     * GET /technician/machines/maintenance : list machines currently under maintenance.
      *
      * @param model  Receives {@code machines}.
      * @return       Thymeleaf template {@code technician/machines}.
@@ -133,7 +133,7 @@ public class TechnicianController {
     }
 
     /**
-     * POST /technician/machines/update-status — change the operational status of a machine.
+     * POST /technician/machines/update-status : change the operational status of a machine.
      *
      * @param machineId  Database ID of the machine to update.
      * @param status     String representation of a {@link MachineStatus} enum value
@@ -172,7 +172,7 @@ public class TechnicianController {
     // =========================================================
 
     /**
-     * GET /technician/alerts — display all active machine fault alerts.
+     * GET /technician/alerts : display all active machine fault alerts.
      *
      * @param model  Receives {@code alerts} and {@code alertCount}.
      * @return       Thymeleaf template {@code technician/alerts}.
@@ -192,7 +192,7 @@ public class TechnicianController {
     // =========================================================
 
     /**
-     * GET /technician/my-shifts — display the technician's assigned shifts and approved vacations.
+     * GET /technician/my-shifts : display the technician's assigned shifts and approved vacations.
      *
      * @param session  HTTP session carrying the {@code "user"} Employee attribute.
      * @param model    Receives {@code shifts}, {@code vacations}, and {@code dashboardLink}.
@@ -213,7 +213,7 @@ public class TechnicianController {
     }
 
     /**
-     * GET /technician/profile — display the technician's personal profile page.
+     * GET /technician/profile : display the technician's personal profile page.
      *
      * @param session  HTTP session carrying the {@code "user"} Employee attribute.
      * @param model    Receives {@code employee}, {@code roleLabel}, and {@code dashboardLink}.
@@ -272,7 +272,7 @@ public class TechnicianController {
     // =========================================================
 
     /**
-     * GET /technician/machines/maintenance-history — show the full maintenance history for all machines.
+     * GET /technician/machines/maintenance-history : show the full maintenance history for all machines.
      *
      * @param model  Receives {@code machines} (all machines with their historical status records).
      * @return       Thymeleaf template {@code technician/maintenance-history}.
@@ -286,7 +286,7 @@ public class TechnicianController {
     }
 
     /**
-     * GET /technician/machines/{machineId} — display the details of a single machine.
+     * GET /technician/machines/{machineId} : display the details of a single machine.
      *
      * @param machineId  Database ID of the machine to display.
      * @param model      Receives {@code machine} attribute.
@@ -310,7 +310,7 @@ public class TechnicianController {
     }
 
     /**
-     * POST /technician/repair/{machineId} — mark a machine as repaired and set it to WORKING.
+     * POST /technician/repair/{machineId} : mark a machine as repaired and set it to WORKING.
      *
      * @param machineId  Database ID of the machine that has been repaired.
      * @param notes      Optional free-text repair notes; ignored when blank.

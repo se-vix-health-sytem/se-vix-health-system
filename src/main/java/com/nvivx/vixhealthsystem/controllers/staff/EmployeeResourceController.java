@@ -12,7 +12,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
 /**
- * @brief Resource self-service controller for any authenticated employee — base URL {@code /employee/resources}.
+ * @brief Resource self-service controller for any authenticated employee : base URL {@code /employee/resources}.
  *
  * Any staff member (regardless of role) can view available stock and withdraw
  * resources for their own use.  Every take is recorded in {@link ResourceTakeLogStore}
@@ -44,7 +44,7 @@ public class EmployeeResourceController {
     // =========================================================
 
     /**
-     * GET /employee/resources — show all resources available in storage with a take form.
+     * GET /employee/resources : show all resources available in storage with a take form.
      *
      * @param session  HTTP session (available for future per-role filtering).
      * @param model    Receives {@code resources} (sorted by name) and {@code storages} attributes.
@@ -60,7 +60,7 @@ public class EmployeeResourceController {
             return resolveDashboard(session);
         }
 
-        var inventory = inventoryService.getInventoryForStorage(sessionUser.getFacilityStorage().getId());
+        var inventory = inventoryService.getStorageInventory(sessionUser.getFacilityStorage().getId());
         String facilityName = sessionUser.getFacilityName();
 
         var resourceList = inventory.entrySet().stream()
@@ -81,7 +81,7 @@ public class EmployeeResourceController {
     // =========================================================
 
     /**
-     * POST /employee/resources/take — withdraw a quantity of a resource from storage.
+     * POST /employee/resources/take : withdraw a quantity of a resource from storage.
      *
      * Resolves the acting employee from the session (the {@code "user"} attribute is
      * used because the full Employee domain object is required by the inventory
@@ -125,7 +125,7 @@ public class EmployeeResourceController {
     // =========================================================
 
     /**
-     * GET /employee/resources/history — display the current employee's personal take history.
+     * GET /employee/resources/history : display the current employee's personal take history.
      *
      * @param session  HTTP session carrying the {@code "user"} Employee attribute.
      * @param model    Receives {@code logs} filtered to the authenticated employee's ID.

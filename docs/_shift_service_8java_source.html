@@ -154,7 +154,7 @@ document.addEventListener('DOMContentLoaded',() => { initNavTree('_shift_service
 <div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span><span class="comment"> * immediately (no caching) so the file always reflects the current state.</span></div>
 <div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span><span class="comment"> *</span></div>
 <div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span><span class="comment"> * The ID sequence is rebuilt from the existing JSON on startup, which means IDs</span></div>
-<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span><span class="comment"> * continue incrementing even after a server restart — they are never reused.</span></div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span><span class="comment"> * continue incrementing even after a server restart : they are never reused.</span></div>
 <div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span><span class="comment"> *</span></div>
 <div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span><span class="comment"> * All mutating operations are audit-logged via {@link AuditService}.</span></div>
 <div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span><span class="comment"> *</span></div>
@@ -313,7 +313,7 @@ document.addEventListener('DOMContentLoaded',() => { initNavTree('_shift_service
 <div class="line"><a id="l00172" name="l00172"></a><span class="lineno">  172</span><span class="comment">    /**</span></div>
 <div class="line"><a id="l00173" name="l00173"></a><span class="lineno">  173</span><span class="comment">     * Assigns a shift to an employee on a given date, replacing any existing shift for that day.</span></div>
 <div class="line"><a id="l00174" name="l00174"></a><span class="lineno">  174</span><span class="comment">     *</span></div>
-<div class="line"><a id="l00175" name="l00175"></a><span class="lineno">  175</span><span class="comment">     * Only one shift per employee per day is allowed — if one already exists, it is silently</span></div>
+<div class="line"><a id="l00175" name="l00175"></a><span class="lineno">  175</span><span class="comment">     * Only one shift per employee per day is allowed : if one already exists, it is silently</span></div>
 <div class="line"><a id="l00176" name="l00176"></a><span class="lineno">  176</span><span class="comment">     * removed before the new one is inserted.</span></div>
 <div class="line"><a id="l00177" name="l00177"></a><span class="lineno">  177</span><span class="comment">     *</span></div>
 <div class="line"><a id="l00178" name="l00178"></a><span class="lineno">  178</span><span class="comment">     * @param employeeId  The employee&#39;s primary key.</span></div>

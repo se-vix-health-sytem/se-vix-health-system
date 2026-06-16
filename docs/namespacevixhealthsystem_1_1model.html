@@ -129,23 +129,23 @@ document.addEventListener('DOMContentLoaded',() => { initNavTree('namespacevixhe
 </div><!--header-->
 <div class="contents">
 
-<p>Domain model — the core of the application.  
+<p>Domain model: JPA entities and enums that form the core of VIX.  
 <a href="#details">More...</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-namespaces" class="groupheader"><a id="namespaces" name="namespaces"></a>
 Packages</h2></td></tr>
 <tr class="memitem:enums" id="r_enums"><td class="memItemLeft">package &#160;</td><td class="memItemRight"><a class="el" href="namespacevixhealthsystem_1_1model_1_1enums.html">enums</a></td></tr>
-<tr class="memdesc:namespacevixhealthsystem_1_1model_1_1enums"><td class="mdescLeft">&#160;</td><td class="mdescRight">Shared enumerations used across the domain model. <br /></td></tr>
+<tr class="memdesc:namespacevixhealthsystem_1_1model_1_1enums"><td class="mdescLeft">&#160;</td><td class="mdescRight">Shared enumerations across the domain model. <br /></td></tr>
 <tr class="memitem:facility" id="r_facility"><td class="memItemLeft">package &#160;</td><td class="memItemRight"><a class="el" href="namespacevixhealthsystem_1_1model_1_1facility.html">facility</a></td></tr>
 <tr class="memdesc:namespacevixhealthsystem_1_1model_1_1facility"><td class="mdescLeft">&#160;</td><td class="mdescRight">Physical structure of the hospital system. <br /></td></tr>
 <tr class="memitem:medical" id="r_medical"><td class="memItemLeft">package &#160;</td><td class="memItemRight"><a class="el" href="namespacevixhealthsystem_1_1model_1_1medical.html">medical</a></td></tr>
-<tr class="memdesc:namespacevixhealthsystem_1_1model_1_1medical"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clinical domain — everything that happens to a patient medically. <br /></td></tr>
+<tr class="memdesc:namespacevixhealthsystem_1_1model_1_1medical"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clinical domain: everything that happens to a patient medically. <br /></td></tr>
 <tr class="memitem:person" id="r_person"><td class="memItemLeft">package &#160;</td><td class="memItemRight"><a class="el" href="namespacevixhealthsystem_1_1model_1_1person.html">person</a></td></tr>
-<tr class="memdesc:namespacevixhealthsystem_1_1model_1_1person"><td class="mdescLeft">&#160;</td><td class="mdescRight">People in the system — the base class and the patient type. <br /></td></tr>
+<tr class="memdesc:namespacevixhealthsystem_1_1model_1_1person"><td class="mdescLeft">&#160;</td><td class="mdescRight">People in the system : the base class and the patient type. <br /></td></tr>
 <tr class="memitem:resource" id="r_resource"><td class="memItemLeft">package &#160;</td><td class="memItemRight"><a class="el" href="namespacevixhealthsystem_1_1model_1_1resource.html">resource</a></td></tr>
-<tr class="memdesc:namespacevixhealthsystem_1_1model_1_1resource"><td class="mdescLeft">&#160;</td><td class="mdescRight">Hospital resources — consumables and medical machinery. <br /></td></tr>
+<tr class="memdesc:namespacevixhealthsystem_1_1model_1_1resource"><td class="mdescLeft">&#160;</td><td class="mdescRight">Consumable resources and medical machinery. <br /></td></tr>
 <tr class="memitem:staff" id="r_staff"><td class="memItemLeft">package &#160;</td><td class="memItemRight"><a class="el" href="namespacevixhealthsystem_1_1model_1_1staff.html">staff</a></td></tr>
-<tr class="memdesc:namespacevixhealthsystem_1_1model_1_1staff"><td class="mdescLeft">&#160;</td><td class="mdescRight">Staff scheduling data — shifts and vacation requests. <br /></td></tr>
+<tr class="memdesc:namespacevixhealthsystem_1_1model_1_1staff"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classvixhealthsystem_1_1model_1_1staff_1_1_shift.html" title="Represents a work shift assigned to an employee.">Shift</a> and vacation data for hospital staff. <br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-nested-classes" class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
@@ -155,25 +155,25 @@ Classes</h2></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unit tests for <a class="el" href="classvixhealthsystem_1_1model_1_1_audit_log.html" title="Represents an audit log entry for tracking system changes (NFR02).">AuditLog</a>. <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Domain model — the core of the application. </p>
-<p>All JPA entities live here, organised by area: </p><ul>
+<div class="textblock"><p>Domain model: JPA entities and enums that form the core of VIX. </p>
+<p>The model follows a Rich Domain approach, meaning business rules live on the entity classes themselves rather than in the service layer. Before moving logic out of a model class, check whether it belongs there by design.</p>
+<p>Entities are organised into sub-packages by area: </p><ul>
 <li>
-<code class="JavaDocCode">enums</code> — shared status and type enumerations </li>
+<code class="JavaDocCode">enums</code> - shared status and type enumerations </li>
 <li>
-<code class="JavaDocCode">facility</code> — hospitals, departments, rooms, and storage </li>
+<code class="JavaDocCode">facility</code> - hospitals, departments, rooms, and storage </li>
 <li>
-<code class="JavaDocCode">medical</code> — appointments, prescriptions, surgeries, medical records </li>
+<code class="JavaDocCode">medical</code> - appointments, prescriptions, surgeries, records </li>
 <li>
-<code class="JavaDocCode">person</code> — patients and the base <code class="JavaDocCode">Person</code> class </li>
+<code class="JavaDocCode">person</code> - patients and the base <code class="JavaDocCode">Person</code> class </li>
 <li>
-<code class="JavaDocCode">person.employee</code> — all staff subtypes (specialist, secretary, buyer, etc.) </li>
+<code class="JavaDocCode">person.employee</code> - all staff subtypes </li>
 <li>
-<code class="JavaDocCode">resource</code> — consumable resources and machinery </li>
+<code class="JavaDocCode">resource</code> - consumable resources and machinery </li>
 <li>
-<code class="JavaDocCode">staff</code> — shifts and vacation requests </li>
+<code class="JavaDocCode">staff</code> - shifts and vacation requests </li>
 </ul>
-<p>The project follows a Rich Domain Model approach — business rules and state-changing operations are methods on the entity classes, not in the service layer. Keep that in mind before moving logic out of the model.</p>
-<p><code><a class="el" href="classvixhealthsystem_1_1model_1_1_audit_log.html">vixhealthsystem.model.AuditLog</a></code> also lives here (root level) since it is used system-wide. </p>
+<p><code><a class="el" href="classvixhealthsystem_1_1model_1_1_audit_log.html">vixhealthsystem.model.AuditLog</a></code> lives at the root level since it is used system-wide rather than belonging to any one subdomain. </p>
 </div></div><!-- contents -->
 </div><!-- doc-content -->
 <div id="page-nav" class="page-nav-panel">

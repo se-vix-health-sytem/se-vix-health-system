@@ -26,10 +26,10 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-// HTML datetime-local sends "yyyy-MM-ddTHH:mm" (no seconds) — handle both
+// HTML datetime-local sends "yyyy-MM-ddTHH:mm" (no seconds) : handle both
 
 /**
- * @brief Controller for Secretary staff members — base URL {@code /secretary}.
+ * @brief Controller for Secretary staff members : base URL {@code /secretary}.
  *
  * Secretaries handle the administrative side of patient flow and appointment
  * management.  This controller covers room management (UC21), patient admission
@@ -82,7 +82,7 @@ public class SecretaryController {
     // =========================================================
 
     /**
-     * GET /secretary/dashboard — render the secretary's overview dashboard.
+     * GET /secretary/dashboard : render the secretary's overview dashboard.
      *
      * Resolves the secretary's department name by reloading a fresh entity from
      * the database (avoiding lazy-loading failures on the detached session entity).
@@ -129,7 +129,7 @@ public class SecretaryController {
     // =========================================================
 
     /**
-     * GET /secretary/rooms — list all inpatient rooms with their current occupancy.
+     * GET /secretary/rooms : list all inpatient rooms with their current occupancy.
      *
      * @param model  Receives {@code rooms} and {@code patients} (for the admission form selects).
      * @return       Thymeleaf template {@code secretary/rooms}.
@@ -147,7 +147,7 @@ public class SecretaryController {
     }
 
     /**
-     * GET /secretary/rooms/available — list only rooms with free beds.
+     * GET /secretary/rooms/available : list only rooms with free beds.
      *
      * @param model  Receives {@code rooms} (available InternationRooms only),
      *               {@code patients}, and {@code isAvailableView=true}.
@@ -171,7 +171,7 @@ public class SecretaryController {
     // =========================================================
 
     /**
-     * POST /secretary/patients/admit — admit a patient to a specific room.
+     * POST /secretary/patients/admit : admit a patient to a specific room.
      *
      * Delegates to {@link RoomService#admitPatient} via the Secretary domain object
      * (resolved from session) and writes an audit entry.
@@ -209,7 +209,7 @@ public class SecretaryController {
                     redirectAttributes.addFlashAttribute("pendingRoomId", roomId);
                     return "redirect:/secretary/rooms";
                 }
-                // Confirmed — dismiss from current room first, then admit to new room
+                // Confirmed : dismiss from current room first, then admit to new room
                 roomService.dismissPatient(secretary, patientId, currentRoom.getId());
                 auditService.log("TRANSFER_PATIENT", "Patient", String.valueOf(patientId),
                     "Patient #" + patientId + " transferred from room #" + currentRoom.getId() + " to room #" + roomId);
@@ -227,7 +227,7 @@ public class SecretaryController {
     }
 
     /**
-     * POST /secretary/patients/dismiss — discharge a patient from their room.
+     * POST /secretary/patients/dismiss : discharge a patient from their room.
      *
      * @param patientId           Database ID of the patient to discharge.
      * @param roomId              Database ID of the room the patient is currently in.
@@ -258,7 +258,7 @@ public class SecretaryController {
     // =========================================================
 
     /**
-     * GET /secretary/appointments — display all appointments with management controls.
+     * GET /secretary/appointments : display all appointments with management controls.
      *
      * @param model  Receives {@code appointments}, {@code patients}, and {@code specialists}
      *               for the booking form dropdowns.
@@ -279,7 +279,7 @@ public class SecretaryController {
     }
 
     /**
-     * POST /secretary/appointments/book-for-patient — book an appointment on behalf of a patient.
+     * POST /secretary/appointments/book-for-patient : book an appointment on behalf of a patient.
      *
      * @param patientId           Database ID of the patient.
      * @param specialistId        Database ID of the target MedicalSpecialist.
@@ -324,7 +324,7 @@ public class SecretaryController {
     }
 
     /**
-     * POST /secretary/appointments/{appointmentId}/cancel — cancel an appointment via the domain method.
+     * POST /secretary/appointments/{appointmentId}/cancel : cancel an appointment via the domain method.
      *
      * @param appointmentId       Numeric ID of the appointment to cancel.
      * @param redirectAttributes  Flash attributes for the redirect.
@@ -347,7 +347,7 @@ public class SecretaryController {
     }
 
     /**
-     * POST /secretary/appointments/{appointmentId}/reschedule — move an appointment to a new date/time.
+     * POST /secretary/appointments/{appointmentId}/reschedule : move an appointment to a new date/time.
      *
      * @param appointmentId       Numeric ID of the appointment to reschedule.
      * @param newDateTime         New datetime string ({@code yyyy-MM-ddTHH:mm}).
@@ -380,7 +380,7 @@ public class SecretaryController {
     // =========================================================
 
     /**
-     * GET /secretary/my-shifts — display the secretary's assigned shifts and approved vacations.
+     * GET /secretary/my-shifts : display the secretary's assigned shifts and approved vacations.
      *
      * @param session  HTTP session carrying the {@code "user"} Employee attribute.
      * @param model    Receives {@code shifts}, {@code vacations}, and {@code dashboardLink}.
@@ -401,7 +401,7 @@ public class SecretaryController {
     }
 
     /**
-     * GET /secretary/profile — display the secretary's personal profile page.
+     * GET /secretary/profile : display the secretary's personal profile page.
      *
      * @param session  HTTP session carrying the {@code "user"} Employee attribute.
      * @param model    Receives {@code employee}, {@code roleLabel}, and {@code dashboardLink}.
@@ -434,7 +434,7 @@ public class SecretaryController {
     // =========================================================
 
     /**
-     * GET /secretary/patients/search — render the patient search form.
+     * GET /secretary/patients/search : render the patient search form.
      *
      * @param model  Receives {@code pageTitle} and {@code currentPage} attributes.
      * @return       Thymeleaf template {@code secretary/patient-search}.
@@ -447,7 +447,7 @@ public class SecretaryController {
     }
 
     /**
-     * GET /secretary/patients/{id} — display a patient's basic profile.
+     * GET /secretary/patients/{id} : display a patient's basic profile.
      *
      * @param id     Database ID of the patient.
      * @param model  Receives {@code patient} attributes.
@@ -468,7 +468,7 @@ public class SecretaryController {
     }
 
     /**
-     * POST /secretary/patients/search — execute a patient search and display results.
+     * POST /secretary/patients/search : execute a patient search and display results.
      *
      * @param query  Free-text search term (name, fiscal code, etc.).
      * @param model  Receives {@code patients} list and echoes {@code query}.

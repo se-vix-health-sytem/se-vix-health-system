@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
  *
  * Verifies setter/getter correctness and the parameterized constructor that
  * creates a prescription with medication and timestamp but no associations.
- * Plain JUnit — no Spring context loaded.
+ * Plain JUnit : no Spring context loaded.
  *
  * @see Prescription
  */

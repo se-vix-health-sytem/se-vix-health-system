@@ -129,7 +129,7 @@ document.addEventListener('DOMContentLoaded',() => { initNavTree('namespacevixhe
 </div><!--header-->
 <div class="contents">
 
-<p>Core entity services — employees, patients, and departments.  
+<p>Core entity services: employees, patients, and departments.  
 <a href="#details">More...</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-nested-classes" class="groupheader"><a id="nested-classes" name="nested-classes"></a>
@@ -139,24 +139,17 @@ Classes</h2></td></tr>
 <tr class="memitem:DepartmentServiceTest" id="r_DepartmentServiceTest"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><b>DepartmentServiceTest</b></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unit tests for <a class="el" href="classvixhealthsystem_1_1service_1_1core_1_1_department_service.html" title="Manages hospital departments and their associated specialists.">DepartmentService</a> using Mockito mocks for <a class="el" href="interfacevixhealthsystem_1_1repository_1_1_department_repository.html" title="JPA repository for Department entities.">DepartmentRepository</a> and <a class="el" href="interfacevixhealthsystem_1_1repository_1_1_employee_repository.html" title="JPA repository for Employee entities.">EmployeeRepository</a>. <br /></td></tr>
 <tr class="memitem:EmployeeService" id="r_EmployeeService"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classvixhealthsystem_1_1service_1_1core_1_1_employee_service.html">EmployeeService</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Central service for employee lifecycle management — creation, lookup, update, deletion, and Firebase account synchronisation.  <a href="classvixhealthsystem_1_1service_1_1core_1_1_employee_service.html#details">More...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Central service for employee lifecycle management : creation, lookup, update, deletion, and Firebase account synchronisation.  <a href="classvixhealthsystem_1_1service_1_1core_1_1_employee_service.html#details">More...</a><br /></td></tr>
 <tr class="memitem:EmployeeServiceTest" id="r_EmployeeServiceTest"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><b>EmployeeServiceTest</b></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unit tests for <a class="el" href="classvixhealthsystem_1_1service_1_1core_1_1_employee_service.html" title="Central service for employee lifecycle management — creation, lookup, update, deletion,...">EmployeeService</a> using Mockito mocks for all repositories and <a class="el" href="classvixhealthsystem_1_1service_1_1integration_1_1_firebase_auth_service.html" title="Thin wrapper around the Firebase Admin SDK and the Identity Toolkit REST API.">FirebaseAuthService</a>. <br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unit tests for <a class="el" href="classvixhealthsystem_1_1service_1_1core_1_1_employee_service.html" title="Central service for employee lifecycle management : creation, lookup, update, deletion,...">EmployeeService</a> using Mockito mocks for all repositories and <a class="el" href="classvixhealthsystem_1_1service_1_1integration_1_1_firebase_auth_service.html" title="Thin wrapper around the Firebase Admin SDK and the Identity Toolkit REST API.">FirebaseAuthService</a>. <br /></td></tr>
 <tr class="memitem:PatientService" id="r_PatientService"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classvixhealthsystem_1_1service_1_1core_1_1_patient_service.html">PatientService</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Manages the patient lifecycle — registration, lookup, partial updates, and GDPR-compliant account deletion.  <a href="classvixhealthsystem_1_1service_1_1core_1_1_patient_service.html#details">More...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Manages the patient lifecycle : registration, lookup, partial updates, and GDPR-compliant account deletion.  <a href="classvixhealthsystem_1_1service_1_1core_1_1_patient_service.html#details">More...</a><br /></td></tr>
 <tr class="memitem:PatientServiceTest" id="r_PatientServiceTest"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><b>PatientServiceTest</b></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unit tests for <a class="el" href="classvixhealthsystem_1_1service_1_1core_1_1_patient_service.html" title="Manages the patient lifecycle — registration, lookup, partial updates, and GDPR-compliant account del...">PatientService</a> using Mockito mocks for <a class="el" href="interfacevixhealthsystem_1_1repository_1_1_patient_repository.html" title="JPA repository for Patient entities.">PatientRepository</a> and <a class="el" href="classvixhealthsystem_1_1service_1_1_audit_service.html" title="Writes immutable audit log entries for every significant action in the system (NFR02).">AuditService</a>. <br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unit tests for <a class="el" href="classvixhealthsystem_1_1service_1_1core_1_1_patient_service.html" title="Manages the patient lifecycle : registration, lookup, partial updates, and GDPR-compliant account del...">PatientService</a> using Mockito mocks for <a class="el" href="interfacevixhealthsystem_1_1repository_1_1_patient_repository.html" title="JPA repository for Patient entities.">PatientRepository</a> and <a class="el" href="classvixhealthsystem_1_1service_1_1_audit_service.html" title="Writes immutable audit log entries for every significant action in the system (NFR02).">AuditService</a>. <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Core entity services — employees, patients, and departments. </p>
-<ul>
-<li>
-<code class="JavaDocCode">EmployeeService</code> — full employee lifecycle: create, update, delete, plus Firebase account provisioning and password resets </li>
-<li>
-<code class="JavaDocCode">PatientService</code> — patient registration, lookup, and profile updates </li>
-<li>
-<code class="JavaDocCode">DepartmentService</code> — department queries used by public site pages (specialist listings, department detail views) </li>
-</ul>
+<div class="textblock"><p>Core entity services: employees, patients, and departments. </p>
+<p><code class="JavaDocCode">EmployeeService</code> covers the full employee lifecycle including Firebase account provisioning and password resets. <code class="JavaDocCode">PatientService</code> handles registration, profile lookup, and updates. <code class="JavaDocCode">DepartmentService</code> is primarily read-only and serves the public site pages (specialist listings, department detail views, and the service catalogue).</p>
 <p>Main curator: Lorena Valentina Buitrón Zambrano</p>
 <p>Note: All team members may contribute to files in this package. </p>
 </div></div><!-- contents -->

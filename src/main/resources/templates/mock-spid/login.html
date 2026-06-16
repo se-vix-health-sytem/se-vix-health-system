@@ -1,11 +1,11 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <!--
   ============================================================
   Template : mock-spid/login.html
   Role     : Patient (unauthenticated)
-  Access   : Public — SPID simulation for development/testing
+  Access   : Public: SPID simulation for development/testing
   Purpose  : Simulates the SPID national digital identity login flow; patients enter fiscal code and PIN to authenticate.
-  Model    : error (String) — authentication failure message
+  Model    : error (String): authentication failure message
   Controller: MockSpidController (POST /mock-spid/authenticate)
   ============================================================
 -->
@@ -54,7 +54,7 @@
 
             <!-- SIM NOTICE -->
             <div class="text-center mb-3">
-                <span class="sim-badge"><i class="bi bi-cone-striped me-1"></i> SIMULAZIONE — Solo per sviluppo</span>
+                <span class="sim-badge"><i class="bi bi-cone-striped me-1"></i> SIMULAZIONE: Solo per sviluppo</span>
             </div>
 
             <div class="card shadow-sm" style="border-radius: 1rem; border: none;">
@@ -139,7 +139,7 @@
         <div style="background:#fff3cd; border-bottom:2px solid #ffc107;
                     padding:0.85rem 1.25rem; display:flex; align-items:center; justify-content:space-between;">
             <span style="font-weight:700; color:#856404; font-size:0.9rem;">
-                🔧 DEV — Patient Test Credentials
+                🔧 DEV: Patient Test Credentials
             </span>
             <button onclick="document.getElementById('devModalSpid').style.display='none'"
                     style="background:none; border:none; font-size:1.3rem; color:#856404; cursor:pointer;">✕</button>

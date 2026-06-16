@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <!--
 ==============================================================================
   FILE:    secretary/patient-search-results.html
@@ -7,8 +7,8 @@
            links to the secretary's read-only patient-profile view.
 
   Model attributes:
-    - patients (List<Patient>) — patients matching the search term
-    - query (String) — the submitted search string
+    - patients (List<Patient>): patients matching the search term
+    - query (String): the submitted search string
 
   Dependencies:
     - fragments/head, fragments/dashboard-nav, fragments/footer
@@ -42,7 +42,7 @@
                 <p class="text-muted small mb-3">
                     Results for: <strong th:text="${query}">-</strong>
                     <span th:if="${patients != null}">
-                        — <span th:text="${patients.size()}">0</span> found
+                       : <span th:text="${patients.size()}">0</span> found
                     </span>
                 </p>
 

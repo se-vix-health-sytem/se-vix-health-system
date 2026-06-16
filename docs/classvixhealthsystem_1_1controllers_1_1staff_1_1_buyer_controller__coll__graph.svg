@@ -11,7 +11,7 @@
 <!-- Node1 -->
 <g id="Node000001" class="node">
 <title>Node1</title>
-<g id="a_Node000001"><a xlink:title="Controller for Buyer staff members — base URL /buyer.">
+<g id="a_Node000001"><a xlink:title="Controller for Buyer staff members : base URL /buyer.">
 <polygon fill="#999999" stroke="none" points="198,-460 0,-460 0,0 198,0 198,-460"/>
 <text xml:space="preserve" text-anchor="start" x="65.25" y="-446.25" font-family="Helvetica,sans-Serif" font-size="10.00">BuyerController</text>
 <text xml:space="preserve" text-anchor="start" x="97.5" y="-430.25" font-family="Helvetica,sans-Serif" font-size="10.00"> </text>

@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * @brief Unit tests for all domain enums used in the VIX Health System.
  *
  * Guards against accidental enum renames or deletions by asserting both the
- * string names and the total cardinality of every enum type. Plain JUnit —
+ * string names and the total cardinality of every enum type. Plain JUnit :
  * no Spring context loaded.
  *
  * @see AppointmentStatus

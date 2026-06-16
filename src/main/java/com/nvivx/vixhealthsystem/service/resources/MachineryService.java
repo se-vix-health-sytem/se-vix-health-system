@@ -221,9 +221,7 @@ public class MachineryService {
         return machine;
     }
 
-    // =========================================================
-    // READ OPERATIONS — COUNTS AND ALERTS
-    // =========================================================
+    // dashboard counts and alert helpers
 
     /** @brief Returns the number of machines currently in FAULTY status (for dashboard badges). */
     public long getFaultyMachineCount() {

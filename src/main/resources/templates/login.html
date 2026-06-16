@@ -1,11 +1,11 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <!--
   ============================================================
   Template : login.html
   Role     : Staff (all roles: Secretary, Buyer, Technician, Medical Specialist, Staff Manager)
-  Access   : Public — unauthenticated entry point for staff
+  Access   : Public: unauthenticated entry point for staff
   Purpose  : Staff portal login form; also shows a dev-only floating modal with credential shortcuts.
-  Model    : error (String) — login error message; devCredentials (List) — dev-only staff accounts for testing
+  Model    : error (String): login error message; devCredentials (List): dev-only staff accounts for testing
   Controller: AuthController (POST /authenticate)
   ============================================================
 -->
@@ -78,7 +78,7 @@
         <div style="background:#fff3cd; border-bottom:2px solid #ffc107;
                     padding:0.85rem 1.25rem; display:flex; align-items:center; justify-content:space-between;">
             <span style="font-weight:700; color:#856404; font-size:0.9rem;">
-                🔧 DEV ONLY — Staff Credential Board
+                🔧 DEV ONLY: Staff Credential Board
             </span>
             <button onclick="document.getElementById('devModal').style.display='none'"
                     style="background:none; border:none; font-size:1.3rem; color:#856404; cursor:pointer; line-height:1;">✕</button>
@@ -117,8 +117,8 @@
                             <td><code style="font-size:0.78rem;" th:text="${cred.email}">-</code></td>
                             <td colspan="2">
                                 <span class="badge bg-warning text-dark"
-                                      title="Reset link was sent — update dev-credentials.json manually."
-                                      style="font-size:0.7rem;">⚠ reset — unknown password</span>
+                                      title="Reset link was sent: update dev-credentials.json manually."
+                                      style="font-size:0.7rem;">⚠ reset: unknown password</span>
                             </td>
                         </tr>
                     </tbody>

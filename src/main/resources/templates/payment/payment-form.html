@@ -1,14 +1,14 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <!--
 ==============================================================================
   FILE:    payment/payment-form.html
   ACCESS:  ROLE_PATIENT (session.patient required)
   PURPOSE: Simulated card-payment form for settling an appointment fee.
-           No real charge is made — this is a dev/demo payment flow.
+           No real charge is made: this is a dev/demo payment flow.
 
   Model attributes:
-    - appointmentId (Long) — the appointment being paid
-    - amount (BigDecimal) — amount due in euros
+    - appointmentId (Long): the appointment being paid
+    - amount (BigDecimal): amount due in euros
 
   Dependencies:
     - fragments/head, fragments/navbar, fragments/footer
@@ -72,7 +72,7 @@
                         Pay <span th:text="${amount != null ? '€' + #numbers.formatDecimal(amount, 1, 2) : ''}"></span>
                     </button>
                     <p class="text-center text-muted small mt-2">
-                        <i class="bi bi-shield-lock me-1"></i>Simulated payment — no real charges apply.
+                        <i class="bi bi-shield-lock me-1"></i>Simulated payment: no real charges apply.
                     </p>
                 </div>
             </form>

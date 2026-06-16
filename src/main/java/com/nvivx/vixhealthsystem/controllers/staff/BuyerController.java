@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * @brief Controller for Buyer staff members — base URL {@code /buyer}.
+ * @brief Controller for Buyer staff members : base URL {@code /buyer}.
  *
  * Buyers are responsible for procurement and inventory management.
  * This controller covers the full purchasing workflow:
@@ -63,7 +63,7 @@ public class BuyerController {
     // =========================================================
 
     /**
-     * GET /buyer/dashboard — render the buyer's overview dashboard.
+     * GET /buyer/dashboard : render the buyer's overview dashboard.
      *
      * Populates low-stock count, total resource count, and the buyer's display
      * name (resolved from the first buyer in the database as a temporary measure
@@ -96,7 +96,7 @@ public class BuyerController {
     // =========================================================
 
     /**
-     * GET /buyer/inventory — list all resources currently in storage.
+     * GET /buyer/inventory : list all resources currently in storage.
      *
      * Aggregates stock quantities across all storage locations and wraps each
      * entry in an {@link InventoryItem} for the view.  Resources with fewer than
@@ -138,7 +138,7 @@ public class BuyerController {
     }
 
     /**
-     * GET /buyer/inventory/low-stock — list only resources below the stock threshold.
+     * GET /buyer/inventory/low-stock : list only resources below the stock threshold.
      *
      * @param model  Receives {@code resources} (all items flagged as low-stock),
      *               {@code pageTitle}, and {@code isLowStockView=true}.
@@ -168,7 +168,7 @@ public class BuyerController {
     }
 
     /**
-     * GET /buyer/inventory/add — render the add-resource form.
+     * GET /buyer/inventory/add : render the add-resource form.
      *
      * @param model  Receives {@code pageTitle}.
      * @return       Thymeleaf template {@code buyer/add-resource}.
@@ -180,7 +180,7 @@ public class BuyerController {
     }
 
     /**
-     * POST /buyer/inventory/add — create a new resource and add initial stock.
+     * POST /buyer/inventory/add : create a new resource and add initial stock.
      *
      * Creates the resource entity via {@link InventoryService}, then calls the
      * domain method {@code Buyer.addResourceToStorage} to record the initial
@@ -192,7 +192,7 @@ public class BuyerController {
      * @param price       Unit price in euros.
      * @param unit        Unit of measure label (e.g., "units", "boxes").
      * @param session     HTTP session; used to resolve the authenticated Buyer via
-     *                    {@code "user"} — needed because the Buyer domain object
+     *                    {@code "user"} : needed because the Buyer domain object
      *                    contains the business logic for adding stock.
      * @param model       Receives a success or error {@code message} attribute.
      * @return            Thymeleaf template {@code buyer/result}.
@@ -228,7 +228,7 @@ public class BuyerController {
     }
 
     /**
-     * GET /buyer/inventory/{resourceId} — display details for a single resource.
+     * GET /buyer/inventory/{resourceId} : display details for a single resource.
      *
      * @param resourceId  Database ID of the resource to display.
      * @param model       Receives {@code resource}, {@code totalQuantity},
@@ -259,7 +259,7 @@ public class BuyerController {
     }
 
     /**
-     * POST /buyer/inventory/update-quantity — add or remove units for an existing resource.
+     * POST /buyer/inventory/update-quantity : add or remove units for an existing resource.
      *
      * @param resourceId  ID of the resource whose stock level is being changed.
      * @param quantity    Number of units to add or remove; must be positive.
@@ -297,7 +297,7 @@ public class BuyerController {
     // =========================================================
 
     /**
-     * GET /buyer/my-shifts — display the buyer's assigned shifts and approved vacations.
+     * GET /buyer/my-shifts : display the buyer's assigned shifts and approved vacations.
      *
      * The session attribute {@code "user"} is read directly (rather than using the
      * Spring Security principal) to obtain the Buyer's database ID, which is then
@@ -323,7 +323,7 @@ public class BuyerController {
     }
 
     /**
-     * GET /buyer/profile — display the buyer's personal profile page.
+     * GET /buyer/profile : display the buyer's personal profile page.
      *
      * Reloads a fresh Employee entity from the database to avoid using a
      * potentially stale session object.  Falls back to the session entity
@@ -361,7 +361,7 @@ public class BuyerController {
     // =========================================================
 
     /**
-     * GET /buyer/resource-log — show the full resource-take audit log.
+     * GET /buyer/resource-log : show the full resource-take audit log.
      *
      * Displays every recorded instance of an employee taking a resource from
      * storage, giving the buyer visibility over consumption patterns.

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <!--
 ==============================================================================
   FILE:    secretary/manage-appointments.html
@@ -7,11 +7,11 @@
            (collapsible), full appointments table, and reschedule modal.
 
   Model attributes:
-    - patients (List<Patient>) — all patients for the booking dropdown
-    - specialists (List<MedicalSpecialist>) — all specialists
-    - appointments (List<Appointment>) — all appointments to display
-    - message (String) — success flash
-    - error (String) — error flash
+    - patients (List<Patient>): all patients for the booking dropdown
+    - specialists (List<MedicalSpecialist>): all specialists
+    - appointments (List<Appointment>): all appointments to display
+    - message (String): success flash
+    - error (String): error flash
 
   Dependencies:
     - fragments/head, fragments/dashboard-nav, fragments/footer
@@ -44,7 +44,7 @@
                             <select name="patientId" class="form-select" required>
                                 <option value="">Select patient…</option>
                                 <option th:each="p : ${patients}" th:value="${p.id}"
-                                        th:text="${p.name + ' ' + p.surname + ' — ' + p.fiscalCode}">-</option>
+                                        th:text="${p.name + ' ' + p.surname + ': ' + p.fiscalCode}">-</option>
                             </select>
                         </div>
                         <div class="col-md-4">
@@ -52,7 +52,7 @@
                             <select name="specialistId" class="form-select" required>
                                 <option value="">Select specialist…</option>
                                 <option th:each="s : ${specialists}" th:value="${s.id}"
-                                        th:text="'Dr. ' + ${s.name} + ' ' + ${s.surname} + ' — ' + ${s.specialty}">-</option>
+                                        th:text="'Dr. ' + ${s.name} + ' ' + ${s.surname} + ': ' + ${s.specialty}">-</option>
                             </select>
                         </div>
                         <div class="col-md-3">

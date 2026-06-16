@@ -140,13 +140,13 @@ Collaboration diagram for AuthController:</div>
 <tr class="heading"><td colspan="2"><h2 id="header-pub-methods" class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:accd774e74b263c3d02e4a2602be5bc13" id="r_accd774e74b263c3d02e4a2602be5bc13"><td class="memItemLeft">String&#160;</td><td class="memItemRight"><a class="el" href="#accd774e74b263c3d02e4a2602be5bc13">loginPage</a> (@RequestParam(required=false) String error, Model model)</td></tr>
-<tr class="memdesc:accd774e74b263c3d02e4a2602be5bc13"><td class="mdescLeft">&#160;</td><td class="mdescRight">GET /login — render the staff login form.  <br /></td></tr>
+<tr class="memdesc:accd774e74b263c3d02e4a2602be5bc13"><td class="mdescLeft">&#160;</td><td class="mdescRight">GET /login : render the staff login form.  <br /></td></tr>
 <tr class="memitem:af298ee1a664696fa7e99d727a6d4cdfc" id="r_af298ee1a664696fa7e99d727a6d4cdfc"><td class="memItemLeft">String&#160;</td><td class="memItemRight"><a class="el" href="#af298ee1a664696fa7e99d727a6d4cdfc">authenticate</a> (@RequestParam String username, @RequestParam String password, HttpSession session, HttpServletRequest request, HttpServletResponse response, Model model)</td></tr>
-<tr class="memdesc:af298ee1a664696fa7e99d727a6d4cdfc"><td class="mdescLeft">&#160;</td><td class="mdescRight">POST /authenticate — verify Firebase credentials and open a staff session.  <br /></td></tr>
+<tr class="memdesc:af298ee1a664696fa7e99d727a6d4cdfc"><td class="mdescLeft">&#160;</td><td class="mdescRight">POST /authenticate : verify Firebase credentials and open a staff session.  <br /></td></tr>
 <tr class="memitem:a6b8684efcb9d465ae3cac3c5fa68a500" id="r_a6b8684efcb9d465ae3cac3c5fa68a500"><td class="memItemLeft">String&#160;</td><td class="memItemRight"><a class="el" href="#a6b8684efcb9d465ae3cac3c5fa68a500">logout</a> (HttpSession session)</td></tr>
-<tr class="memdesc:a6b8684efcb9d465ae3cac3c5fa68a500"><td class="mdescLeft">&#160;</td><td class="mdescRight">GET /logout — invalidate the staff session and clear the security context.  <br /></td></tr>
+<tr class="memdesc:a6b8684efcb9d465ae3cac3c5fa68a500"><td class="mdescLeft">&#160;</td><td class="mdescRight">GET /logout : invalidate the staff session and clear the security context.  <br /></td></tr>
 <tr class="memitem:a620ecaecc3683782968d26caf2ad5e07" id="r_a620ecaecc3683782968d26caf2ad5e07"><td class="memItemLeft">String&#160;</td><td class="memItemRight"><a class="el" href="#a620ecaecc3683782968d26caf2ad5e07">processLogin</a> (@RequestParam String role, HttpSession session)</td></tr>
-<tr class="memdesc:a620ecaecc3683782968d26caf2ad5e07"><td class="mdescLeft">&#160;</td><td class="mdescRight">POST /select-role — dev-only role selector that bypasses Firebase.  <br /></td></tr>
+<tr class="memdesc:a620ecaecc3683782968d26caf2ad5e07"><td class="mdescLeft">&#160;</td><td class="mdescRight">POST /select-role : dev-only role selector that bypasses Firebase.  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Authentication controller for staff (employees) of VIX Health System. </p>
@@ -158,7 +158,7 @@ Public Member Functions</h2></td></tr>
 </ul>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="classvixhealthsystem_1_1service_1_1integration_1_1_firebase_auth_service.html" title="Thin wrapper around the Firebase Admin SDK and the Identity Toolkit REST API.">FirebaseAuthService</a> </dd>
 <dd>
-<a class="el" href="classvixhealthsystem_1_1service_1_1core_1_1_employee_service.html" title="Central service for employee lifecycle management — creation, lookup, update, deletion,...">EmployeeService</a> </dd>
+<a class="el" href="classvixhealthsystem_1_1service_1_1core_1_1_employee_service.html" title="Central service for employee lifecycle management : creation, lookup, update, deletion,...">EmployeeService</a> </dd>
 <dd>
 <a class="el" href="classvixhealthsystem_1_1service_1_1_dev_credential_store.html" title="DEV-ONLY store that keeps plaintext employee credentials visible on the demo login board.">DevCredentialStore</a> </dd></dl>
 
@@ -183,11 +183,11 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>GET /login — render the staff login form. </p>
+<p>GET /login : render the staff login form. </p>
 <p>Populates the model with pre-seeded dev credentials so testers can one-click into any role from the login page.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">error</td><td>Non-null when Spring Security or a previous <a class="el" href="#af298ee1a664696fa7e99d727a6d4cdfc" title="POST /authenticate — verify Firebase credentials and open a staff session.">authenticate()</a> call redirected here with <code class="JavaDocCode">?error</code>; triggers an "Invalid credentials" banner. </td></tr>
+    <tr><td class="paramname">error</td><td>Non-null when Spring Security or a previous <a class="el" href="#af298ee1a664696fa7e99d727a6d4cdfc" title="POST /authenticate : verify Firebase credentials and open a staff session.">authenticate()</a> call redirected here with <code class="JavaDocCode">?error</code>; triggers an "Invalid credentials" banner. </td></tr>
     <tr><td class="paramname">model</td><td>Spring MVC model; receives <code class="JavaDocCode">error</code> and <code class="JavaDocCode">devCredentials</code> attributes. </td></tr>
   </table>
   </dd>
@@ -241,7 +241,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>POST /authenticate — verify Firebase credentials and open a staff session. </p>
+<p>POST /authenticate : verify Firebase credentials and open a staff session. </p>
 <p>Calls Firebase to exchange email/password for a UID, looks up the matching <a class="el" href="classvixhealthsystem_1_1model_1_1person_1_1employee_1_1_employee.html" title="Represents a generic employee in the system.">Employee</a>, registers a Spring Security context in the HTTP session, then redirects to the role-specific dashboard. Returns to the login page with an error attribute on any failure.</p>
 <p>The session attribute <code class="JavaDocCode">"user"</code> stores the <a class="el" href="classvixhealthsystem_1_1model_1_1person_1_1employee_1_1_employee.html" title="Represents a generic employee in the system.">Employee</a> entity instead of using the Spring Security principal because employee domain objects carry additional context (department, specialty, etc.) that the principal does not.</p>
 <dl class="params"><dt>Parameters</dt><dd>
@@ -259,7 +259,7 @@ Public Member Functions</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="_auth_controller_8java_source.html#l00105">105</a> of file <a class="el" href="_auth_controller_8java_source.html">AuthController.java</a>.</p>
 
-<p class="reference">References <a class="el" href="_auth_controller_8java_source.html#l00105">authenticate()</a>.</p>
+<p class="reference">References <a class="el" href="_auth_controller_8java_source.html#l00105">authenticate()</a>, and <a class="el" href="_employee_8java_source.html#l00191">Employee.hasFacilityStorage()</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="_auth_controller_8java_source.html#l00105">authenticate()</a>.</p>
 
@@ -280,7 +280,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>GET /logout — invalidate the staff session and clear the security context. </p>
+<p>GET /logout : invalidate the staff session and clear the security context. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">session</td><td>HTTP session to invalidate. </td></tr>
@@ -289,11 +289,11 @@ Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Redirect to the public home page <code class="JavaDocCode">/</code>. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_auth_controller_8java_source.html#l00166">166</a> of file <a class="el" href="_auth_controller_8java_source.html">AuthController.java</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_auth_controller_8java_source.html#l00170">170</a> of file <a class="el" href="_auth_controller_8java_source.html">AuthController.java</a>.</p>
 
-<p class="reference">References <a class="el" href="_auth_controller_8java_source.html#l00166">logout()</a>.</p>
+<p class="reference">References <a class="el" href="_auth_controller_8java_source.html#l00170">logout()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_auth_controller_8java_source.html#l00166">logout()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_auth_controller_8java_source.html#l00170">logout()</a>.</p>
 
 </div>
 </div>
@@ -316,7 +316,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>POST /select-role — dev-only role selector that bypasses Firebase. </p>
+<p>POST /select-role : dev-only role selector that bypasses Firebase. </p>
 <p>Looks up the first employee of the requested type from the database, seeds the HTTP session, registers a Spring Security context, then redirects to the matching dashboard. Not intended for production use.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -327,11 +327,11 @@ Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Redirect to the role-specific dashboard, or <code class="JavaDocCode">redirect:/login</code> when the role string is unrecognized. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_auth_controller_8java_source.html#l00191">191</a> of file <a class="el" href="_auth_controller_8java_source.html">AuthController.java</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_auth_controller_8java_source.html#l00195">195</a> of file <a class="el" href="_auth_controller_8java_source.html">AuthController.java</a>.</p>
 
-<p class="reference">References <a class="el" href="_auth_controller_8java_source.html#l00191">processLogin()</a>.</p>
+<p class="reference">References <a class="el" href="_employee_8java_source.html#l00191">Employee.hasFacilityStorage()</a>, and <a class="el" href="_auth_controller_8java_source.html#l00195">processLogin()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_auth_controller_8java_source.html#l00191">processLogin()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_auth_controller_8java_source.html#l00195">processLogin()</a>.</p>
 
 </div>
 </div>

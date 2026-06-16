@@ -129,7 +129,7 @@ document.addEventListener('DOMContentLoaded',() => { initNavTree('classvixhealth
 </div><!--header-->
 <div class="contents">
 
-<p>Controller for the payment workflow — base URL <code class="JavaDocCode">/payment</code>.  
+<p>Controller for the payment workflow : base URL <code class="JavaDocCode">/payment</code>.  
  <a href="#details">More...</a></p>
 <div class="dynheader">
 Collaboration diagram for PaymentController:</div>
@@ -140,18 +140,18 @@ Collaboration diagram for PaymentController:</div>
 <tr class="heading"><td colspan="2"><h2 id="header-pub-methods" class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:ab11935348d6dbf551377b4aabd532f48" id="r_ab11935348d6dbf551377b4aabd532f48"><td class="memItemLeft">String&#160;</td><td class="memItemRight"><a class="el" href="#ab11935348d6dbf551377b4aabd532f48">showPaymentPage</a> (@PathVariable int appointmentId, Model model)</td></tr>
-<tr class="memdesc:ab11935348d6dbf551377b4aabd532f48"><td class="mdescLeft">&#160;</td><td class="mdescRight">GET /payment/appointment/{appointmentId} — render the payment form for an appointment.  <br /></td></tr>
+<tr class="memdesc:ab11935348d6dbf551377b4aabd532f48"><td class="mdescLeft">&#160;</td><td class="mdescRight">GET /payment/appointment/{appointmentId} : render the payment form for an appointment.  <br /></td></tr>
 <tr class="memitem:a860573e8c6b5e1bcbffd62b2e902e65f" id="r_a860573e8c6b5e1bcbffd62b2e902e65f"><td class="memItemLeft"><a class="el" href="classvixhealthsystem_1_1dto_1_1_payment_status.html">PaymentStatus</a>&#160;</td><td class="memItemRight"><a class="el" href="#a860573e8c6b5e1bcbffd62b2e902e65f">getPaymentStatus</a> (@PathVariable String paymentId)</td></tr>
-<tr class="memdesc:a860573e8c6b5e1bcbffd62b2e902e65f"><td class="mdescLeft">&#160;</td><td class="mdescRight">GET /payment/status/{paymentId} — fetch the current status of a payment transaction.  <br /></td></tr>
+<tr class="memdesc:a860573e8c6b5e1bcbffd62b2e902e65f"><td class="mdescLeft">&#160;</td><td class="mdescRight">GET /payment/status/{paymentId} : fetch the current status of a payment transaction.  <br /></td></tr>
 <tr class="memitem:a59efe4d9e6486f6f15e9eb55955d8e0d" id="r_a59efe4d9e6486f6f15e9eb55955d8e0d"><td class="memItemLeft">String&#160;</td><td class="memItemRight"><a class="el" href="#a59efe4d9e6486f6f15e9eb55955d8e0d">paymentConfirmation</a> (@PathVariable int appointmentId, Model model)</td></tr>
-<tr class="memdesc:a59efe4d9e6486f6f15e9eb55955d8e0d"><td class="mdescLeft">&#160;</td><td class="mdescRight">GET /payment/confirmation/{appointmentId} — render the post-payment confirmation page.  <br /></td></tr>
+<tr class="memdesc:a59efe4d9e6486f6f15e9eb55955d8e0d"><td class="mdescLeft">&#160;</td><td class="mdescRight">GET /payment/confirmation/{appointmentId} : render the post-payment confirmation page.  <br /></td></tr>
 <tr class="memitem:a8a39341189aabc618d42a1e49a8ad149" id="r_a8a39341189aabc618d42a1e49a8ad149"><td class="memItemLeft"><a class="el" href="classvixhealthsystem_1_1dto_1_1_payment_response.html">PaymentResponse</a>&#160;</td><td class="memItemRight"><a class="el" href="#a8a39341189aabc618d42a1e49a8ad149">processPayment</a> (@RequestBody <a class="el" href="classvixhealthsystem_1_1dto_1_1_payment_request.html">PaymentRequest</a> request)</td></tr>
-<tr class="memdesc:a8a39341189aabc618d42a1e49a8ad149"><td class="mdescLeft">&#160;</td><td class="mdescRight">POST /payment/process — process a card payment via the payment service.  <br /></td></tr>
+<tr class="memdesc:a8a39341189aabc618d42a1e49a8ad149"><td class="mdescLeft">&#160;</td><td class="mdescRight">POST /payment/process : process a card payment via the payment service.  <br /></td></tr>
 <tr class="memitem:a404dc50026f953de75615b7f6e981aed" id="r_a404dc50026f953de75615b7f6e981aed"><td class="memItemLeft">String&#160;</td><td class="memItemRight"><a class="el" href="#a404dc50026f953de75615b7f6e981aed">fakePayment</a> (@RequestParam int appointmentId, @RequestParam float amount, RedirectAttributes redirectAttributes)</td></tr>
-<tr class="memdesc:a404dc50026f953de75615b7f6e981aed"><td class="mdescLeft">&#160;</td><td class="mdescRight">POST /payment/fake-pay — simulate a successful payment for demo purposes.  <br /></td></tr>
+<tr class="memdesc:a404dc50026f953de75615b7f6e981aed"><td class="mdescLeft">&#160;</td><td class="mdescRight">POST /payment/fake-pay : simulate a successful payment for demo purposes.  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Controller for the payment workflow — base URL <code class="JavaDocCode">/payment</code>. </p>
+<div class="textblock"><p>Controller for the payment workflow : base URL <code class="JavaDocCode">/payment</code>. </p>
 <p>Manages the end-to-end payment flow for appointment fees: showing the payment form, processing a real card payment via <code><a class="el" href="classvixhealthsystem_1_1service_1_1integration_1_1_payment_service.html">PaymentService</a></code>, querying transaction status, and a fake-pay shortcut for demo/test purposes that simulates a successful transaction without real card data. After a successful payment the appointment status is set to CONFIRMED.</p>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="classvixhealthsystem_1_1service_1_1integration_1_1_payment_service.html" title="Simulates payment processing for appointment fees (UC-Payment flow).">PaymentService</a> </dd>
 <dd>
@@ -178,7 +178,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>GET /payment/appointment/{appointmentId} — render the payment form for an appointment. </p>
+<p>GET /payment/appointment/{appointmentId} : render the payment form for an appointment. </p>
 <p>Looks up the appointment to confirm it exists before presenting the payment form; redirects back to the appointments list if it does not.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -212,7 +212,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>GET /payment/status/{paymentId} — fetch the current status of a payment transaction. </p>
+<p>GET /payment/status/{paymentId} : fetch the current status of a payment transaction. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">paymentId</td><td>Transaction identifier returned by the payment gateway. </td></tr>
@@ -244,7 +244,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>GET /payment/confirmation/{appointmentId} — render the post-payment confirmation page. </p>
+<p>GET /payment/confirmation/{appointmentId} : render the post-payment confirmation page. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">appointmentId</td><td>Numeric ID of the appointment that was just paid. </td></tr>
@@ -277,7 +277,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>POST /payment/process — process a card payment via the payment service. </p>
+<p>POST /payment/process : process a card payment via the payment service. </p>
 <p>Accepts a full <code><a class="el" href="classvixhealthsystem_1_1dto_1_1_payment_request.html">PaymentRequest</a></code> (card number, CVV, expiry, amount) and delegates to <code><a class="el" href="classvixhealthsystem_1_1service_1_1integration_1_1_payment_service.html#a6581f414f433de40af6f3480a5b93bfd">PaymentService#processPayment</a></code>. Returns the gateway response as JSON; the caller is responsible for acting on the status field.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -315,7 +315,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>POST /payment/fake-pay — simulate a successful payment for demo purposes. </p>
+<p>POST /payment/fake-pay : simulate a successful payment for demo purposes. </p>
 <p>Builds a hard-coded <code><a class="el" href="classvixhealthsystem_1_1dto_1_1_payment_request.html">PaymentRequest</a></code> with a test card number and calls the real payment service path so that the same confirmation and status-update logic runs as in a live transaction. On success the appointment is marked as paid and CONFIRMED before redirecting.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">

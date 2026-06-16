@@ -7,7 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 /**
- * Simulates outbound patient notifications — appointment confirmations, reminders,
+ * Simulates outbound patient notifications : appointment confirmations, reminders,
  * exam result alerts, and cancellations.
  *
  * No real email is sent; each method logs a {@code [DEMO EMAIL]} line so the
@@ -36,7 +36,7 @@ public class NotificationService {
      */
     public void sendAppointmentConfirmation(Patient patient, Appointment appointment) {
         if (patient == null || appointment == null) {
-            log.warn("sendAppointmentConfirmation skipped — missing patient or appointment");
+            log.warn("sendAppointmentConfirmation skipped : missing patient or appointment");
             return;
         }
         String email = patient.getEmail() != null ? patient.getEmail() : "no-email";
@@ -55,7 +55,7 @@ public class NotificationService {
      */
     public void sendAppointmentReminder(Patient patient, Appointment appointment) {
         if (patient == null || appointment == null) {
-            log.warn("sendAppointmentReminder skipped — missing patient or appointment");
+            log.warn("sendAppointmentReminder skipped : missing patient or appointment");
             return;
         }
         String email = patient.getEmail() != null ? patient.getEmail() : "no-email";
@@ -74,7 +74,7 @@ public class NotificationService {
      */
     public void sendExamResultsAvailable(Patient patient, String examType) {
         if (patient == null) {
-            log.warn("sendExamResultsAvailable skipped — missing patient");
+            log.warn("sendExamResultsAvailable skipped : missing patient");
             return;
         }
         String email = patient.getEmail() != null ? patient.getEmail() : "no-email";
@@ -89,7 +89,7 @@ public class NotificationService {
      */
     public void sendAppointmentCancellation(Patient patient, Appointment appointment) {
         if (patient == null || appointment == null) {
-            log.warn("sendAppointmentCancellation skipped — missing patient or appointment");
+            log.warn("sendAppointmentCancellation skipped : missing patient or appointment");
             return;
         }
         String email = patient.getEmail() != null ? patient.getEmail() : "no-email";

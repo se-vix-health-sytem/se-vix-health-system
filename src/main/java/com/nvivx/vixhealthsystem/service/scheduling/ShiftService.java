@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
  * immediately (no caching) so the file always reflects the current state.
  *
  * The ID sequence is rebuilt from the existing JSON on startup, which means IDs
- * continue incrementing even after a server restart — they are never reused.
+ * continue incrementing even after a server restart : they are never reused.
  *
  * All mutating operations are audit-logged via {@link AuditService}.
  *
@@ -172,7 +172,7 @@ public class ShiftService {
     /**
      * Assigns a shift to an employee on a given date, replacing any existing shift for that day.
      *
-     * Only one shift per employee per day is allowed — if one already exists, it is silently
+     * Only one shift per employee per day is allowed : if one already exists, it is silently
      * removed before the new one is inserted.
      *
      * @param employeeId  The employee's primary key.

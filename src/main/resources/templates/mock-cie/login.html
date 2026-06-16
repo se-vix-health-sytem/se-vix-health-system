@@ -1,11 +1,11 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <!--
   ============================================================
   Template : mock-cie/login.html
   Role     : Patient (unauthenticated)
-  Access   : Public — CIE simulation for development/testing
+  Access   : Public: CIE simulation for development/testing
   Purpose  : Simulates the CIE (Electronic Identity Card) login flow via NFC tap or manual fiscal code entry.
-  Model    : error (String) — authentication failure message
+  Model    : error (String): authentication failure message
   Controller: MockCieController (POST /mock-cie/authenticate)
   ============================================================
 -->
@@ -60,7 +60,7 @@
         <div class="col-md-5">
 
             <div class="text-center mb-3">
-                <span class="sim-badge"><i class="bi bi-cone-striped me-1"></i> SIMULAZIONE — Solo per sviluppo</span>
+                <span class="sim-badge"><i class="bi bi-cone-striped me-1"></i> SIMULAZIONE: Solo per sviluppo</span>
             </div>
 
             <div class="card cie-card">
@@ -93,7 +93,7 @@
                                 Avvicina la tua CIE al lettore NFC del dispositivo.
                             </p>
                         </div>
-                        <!-- Simulated "tap" — fills fiscal code and submits -->
+                        <!-- Simulated "tap": fills fiscal code and submits -->
                         <div class="mb-3">
                             <label class="form-label small text-muted">Seleziona identità (simulazione lettore):</label>
                             <div class="d-grid gap-2">
@@ -222,7 +222,7 @@
                     <span class="float-end" style="font-size:0.7rem;">▶ Login</span>
                 </button>
             </div>
-            <div class="mt-2" style="font-size:0.72rem;color:#aaa;">Submits automatically — no PIN needed.</div>
+            <div class="mt-2" style="font-size:0.72rem;color:#aaa;">Submits automatically: no PIN needed.</div>
         </div>
     </div>
 </div>

@@ -1,18 +1,15 @@
 /**
- * Data Transfer Objects that move data across layer boundaries.
+ * Data Transfer Objects for crossing layer boundaries.
  *
- * DTOs in this package are kept intentionally thin — they carry only what
- * the controller or service needs to send or receive, without leaking JPA
- * entity details to the outside world.
+ * These are intentionally thin. They carry only what a controller or service
+ * needs to send or receive, without leaking JPA entity internals to the outside
+ * world. If you find yourself adding JPA relationships or business methods to a
+ * DTO, that logic belongs in the model or service layer instead.
  *
- * Classes:
- * <ul>
- *   <li>{@code AppointmentResponse}     — appointment data returned to the patient portal</li>
- *   <li>{@code CreateAppointmentRequest}— fields submitted when booking a new appointment</li>
- *   <li>{@code PaymentRequest}          — card details and amount for the payment flow</li>
- *   <li>{@code PaymentResponse}         — outcome of a payment attempt (transaction ID, status)</li>
- *   <li>{@code PaymentStatus}           — point-in-time status snapshot for polling</li>
- * </ul>
+ * The payment DTOs ({@code PaymentRequest}, {@code PaymentResponse},
+ * {@code PaymentStatus}) support the simulated payment flow and should never
+ * reference real card-processing APIs. {@code CreateAppointmentRequest} and
+ * {@code AppointmentResponse} handle the booking lifecycle on the patient side.
  *
  * Main curator: Navjot Kaur
  *

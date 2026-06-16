@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
- * @brief Controller for the payment workflow — base URL {@code /payment}.
+ * @brief Controller for the payment workflow : base URL {@code /payment}.
  *
  * Manages the end-to-end payment flow for appointment fees: showing the
  * payment form, processing a real card payment via {@link PaymentService},
@@ -40,7 +40,7 @@ public class PaymentController {
     // =========================================================
 
     /**
-     * GET /payment/appointment/{appointmentId} — render the payment form for an appointment.
+     * GET /payment/appointment/{appointmentId} : render the payment form for an appointment.
      *
      * Looks up the appointment to confirm it exists before presenting the
      * payment form; redirects back to the appointments list if it does not.
@@ -66,7 +66,7 @@ public class PaymentController {
     }
 
     /**
-     * GET /payment/status/{paymentId} — fetch the current status of a payment transaction.
+     * GET /payment/status/{paymentId} : fetch the current status of a payment transaction.
      *
      * @param paymentId  Transaction identifier returned by the payment gateway.
      * @return           {@link PaymentStatus} JSON body with status and any message.
@@ -78,7 +78,7 @@ public class PaymentController {
     }
 
     /**
-     * GET /payment/confirmation/{appointmentId} — render the post-payment confirmation page.
+     * GET /payment/confirmation/{appointmentId} : render the post-payment confirmation page.
      *
      * @param appointmentId  Numeric ID of the appointment that was just paid.
      * @param model          Receives {@code appointmentId}, {@code appointment}, and {@code pageTitle}.
@@ -98,7 +98,7 @@ public class PaymentController {
     // =========================================================
 
     /**
-     * POST /payment/process — process a card payment via the payment service.
+     * POST /payment/process : process a card payment via the payment service.
      *
      * Accepts a full {@link PaymentRequest} (card number, CVV, expiry, amount)
      * and delegates to {@link PaymentService#processPayment}.  Returns the
@@ -116,7 +116,7 @@ public class PaymentController {
     }
 
     /**
-     * POST /payment/fake-pay — simulate a successful payment for demo purposes.
+     * POST /payment/fake-pay : simulate a successful payment for demo purposes.
      *
      * Builds a hard-coded {@link PaymentRequest} with a test card number and
      * calls the real payment service path so that the same confirmation and

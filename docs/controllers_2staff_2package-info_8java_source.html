@@ -129,25 +129,25 @@ document.addEventListener('DOMContentLoaded',() => { initNavTree('controllers_2s
 </div><!--header-->
 <div class="contents">
 <div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="comment">/**</span></div>
-<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="comment"> * Controllers for hospital staff — one controller per role, plus shared utilities.</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="comment"> * Staff-side controllers, one per role plus two shared classes.</span></div>
 <div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="comment"> *</span></div>
-<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="comment"> * Each staff role has its own controller and dashboard template. The</span></div>
-<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="comment"> * {@code AuthController} handles the shared staff login/logout flow (Firebase-backed).</span></div>
-<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="comment"> * {@code EmployeeResourceController} is shared across all roles — any employee</span></div>
-<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="comment"> * can take consumable resources from storage.</span></div>
-<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="comment"> *</span></div>
-<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="comment"> * &lt;ul&gt;</span></div>
-<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="comment"> *   &lt;li&gt;{@code AuthController}              — staff login/logout ({@code /login})&lt;/li&gt;</span></div>
-<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="comment"> *   &lt;li&gt;{@code MedicalSpecialistController} — calendar, schedule, appointments, surgeries,</span></div>
-<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="comment"> *                                              prescriptions ({@code /medical-specialist})&lt;/li&gt;</span></div>
-<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="comment"> *   &lt;li&gt;{@code SecretaryController}         — patient search, appointment management,</span></div>
-<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="comment"> *                                              room overview ({@code /secretary})&lt;/li&gt;</span></div>
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="comment"> *   &lt;li&gt;{@code BuyerController}             — inventory management, purchasing ({@code /buyer})&lt;/li&gt;</span></div>
-<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="comment"> *   &lt;li&gt;{@code TechnicianController}        — machinery monitoring and maintenance ({@code /technician})&lt;/li&gt;</span></div>
-<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="comment"> *   &lt;li&gt;{@code StaffManagerController}      — employee management, shifts, vacations,</span></div>
-<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span><span class="comment"> *                                              audit logs ({@code /staff-manager})&lt;/li&gt;</span></div>
-<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span><span class="comment"> *   &lt;li&gt;{@code EmployeeResourceController}  — resource-take flow shared by all staff</span></div>
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span><span class="comment"> *                                              ({@code /employee/resources})&lt;/li&gt;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="comment"> * All routes here sit behind role-specific Spring Security rules.</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="comment"> * {@code AuthController} is the entry point for staff login (Firebase-backed)</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="comment"> * and is the only controller in this package that doesn&#39;t require an</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="comment"> * already-authenticated session. {@code EmployeeResourceController} is shared</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="comment"> * across all roles since any employee can take consumables from storage.</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="comment"> *</span></div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="comment"> * &lt;ul&gt;</span></div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="comment"> *   &lt;li&gt;{@code AuthController}              - staff login/logout ({@code /login})&lt;/li&gt;</span></div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="comment"> *   &lt;li&gt;{@code MedicalSpecialistController} - calendar, schedule, appointments,</span></div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="comment"> *                                             surgeries, prescriptions&lt;/li&gt;</span></div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="comment"> *   &lt;li&gt;{@code SecretaryController}         - patient search, appointment management,</span></div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="comment"> *                                             room overview&lt;/li&gt;</span></div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="comment"> *   &lt;li&gt;{@code BuyerController}             - inventory management and purchasing&lt;/li&gt;</span></div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="comment"> *   &lt;li&gt;{@code TechnicianController}        - machinery monitoring and maintenance&lt;/li&gt;</span></div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span><span class="comment"> *   &lt;li&gt;{@code StaffManagerController}      - employee management, shifts, vacations,</span></div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span><span class="comment"> *                                             and audit logs&lt;/li&gt;</span></div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span><span class="comment"> *   &lt;li&gt;{@code EmployeeResourceController}  - resource-take flow, shared by all staff&lt;/li&gt;</span></div>
 <div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span><span class="comment"> * &lt;/ul&gt;</span></div>
 <div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span><span class="comment"> *</span></div>
 <div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span><span class="comment"> * Main curator: Lorena Valentina Buitrón Zambrano</span></div>

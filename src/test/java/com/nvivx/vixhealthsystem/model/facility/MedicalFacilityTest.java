@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.*;
  *
  * MedicalFacilityTest covers the base entity's constructor and collection
  * management. HospitalTest covers the domain logic for inpatient room queries,
- * patient admission, and dismissal. Plain JUnit — no Spring context loaded.
+ * patient admission, and dismissal. Plain JUnit : no Spring context loaded.
  *
  * @see MedicalFacility
  * @see Hospital
@@ -100,7 +100,7 @@ class MedicalFacilityTest {
  * @brief Unit tests for Hospital domain logic.
  *
  * Focuses on inpatient room filtering, bed availability queries, patient
- * admission, and patient dismissal. Plain JUnit — no Spring context loaded.
+ * admission, and patient dismissal. Plain JUnit : no Spring context loaded.
  *
  * @see Hospital
  */
