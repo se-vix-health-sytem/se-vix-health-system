@@ -4,7 +4,9 @@ Running the Project
   git clone <repository-url>
   
   Open the project in IntelliJ IDEA.
+  
   Reload Maven dependencies.
+  
   Add the Firebase service account file at:
   src/main/resources/firebase/firebase-service-account.json
   
